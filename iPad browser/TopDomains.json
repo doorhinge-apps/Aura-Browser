@@ -1,0 +1,2135 @@
+[
+  {
+    "domain": "www.google.com",
+    "siteName": "Google"
+  },
+  {
+    "domain": "www.blogger.com",
+    "siteName": "Blogger"
+  },
+  {
+    "domain": "youtube.com",
+    "siteName": "YouTube"
+  },
+  {
+    "domain": "linkedin.com",
+    "siteName": "LinkedIn"
+  },
+  {
+    "domain": "wordpress.org",
+    "siteName": "WordPress"
+  },
+  {
+    "domain": "support.google.com",
+    "siteName": "Google Support"
+  },
+  {
+    "domain": "play.google.com",
+    "siteName": "Google Play"
+  },
+  {
+    "domain": "apple.com",
+    "siteName": "Apple"
+  },
+  {
+    "domain": "microsoft.com",
+    "siteName": "Microsoft"
+  },
+  {
+    "domain": "docs.google.com",
+    "siteName": "Google Docs"
+  },
+  {
+    "domain": "maps.google.com",
+    "siteName": "Google Maps"
+  },
+  {
+    "domain": "en.wikipedia.org",
+    "siteName": "Wikipedia"
+  },
+  {
+    "domain": "wikipedia.org",
+    "siteName": "Wikipedia"
+  },
+  {
+    "domain": "cloudflare.com",
+    "siteName": "Cloudflare"
+  },
+  {
+    "domain": "whatsapp.com",
+    "siteName": "WhatsApp"
+  },
+  {
+    "domain": "youtu.be",
+    "siteName": "YouTube"
+  },
+  {
+    "domain": "plus.google.com",
+    "siteName": "Google+"
+  },
+  {
+    "domain": "accounts.google.com",
+    "siteName": "Google Accounts"
+  },
+  {
+    "domain": "bp.blogspot.com",
+    "siteName": "Blogger"
+  },
+  {
+    "domain": "blogspot.com",
+    "siteName": "Blogger"
+  },
+  {
+    "domain": "mozilla.org",
+    "siteName": "Mozilla"
+  },
+  {
+    "domain": "drive.google.com",
+    "siteName": "Google Drive"
+  },
+  {
+    "domain": "europa.eu",
+    "siteName": "European Union"
+  },
+  {
+    "domain": "sites.google.com",
+    "siteName": "Google Sites"
+  },
+  {
+    "domain": "adobe.com",
+    "siteName": "Adobe"
+  },
+  {
+    "domain": "googleusercontent.com",
+    "siteName": "Googleusercontent"
+  },
+  {
+    "domain": "facebook.com",
+    "siteName": "Facebook"
+  },
+
+  {
+    "domain": "amazon.com",
+    "siteName": "Amazon"
+  },
+  {
+    "domain": "istockphoto.com",
+    "siteName": "iStockphoto"
+  },
+  {
+    "domain": "t.me",
+    "siteName": "Telegram"
+  },
+  {
+    "domain": "uol.com.br",
+    "siteName": "UOL"
+  },
+  {
+    "domain": "github.com",
+    "siteName": "GitHub"
+  },
+  {
+    "domain": "policies.google.com",
+    "siteName": "Google Policies"
+  },
+  {
+    "domain": "vimeo.com",
+    "siteName": "Vimeo"
+  },
+  {
+    "domain": "gravatar.com",
+    "siteName": "Gravatar"
+  },
+  {
+    "domain": "search.google.com",
+    "siteName": "Google Search"
+  },
+  {
+    "domain": "forbes.com",
+    "siteName": "Forbes"
+  },
+  {
+    "domain": "dropbox.com",
+    "siteName": "Dropbox"
+  },
+  {
+    "domain": "myspace.com",
+    "siteName": "MySpace"
+  },
+  {
+    "domain": "cnn.com",
+    "siteName": "CNN"
+  },
+  {
+    "domain": "medium.com",
+    "siteName": "Medium"
+  },
+  {
+    "domain": "gstatic.com",
+    "siteName": "Google Static Content"
+  },
+  {
+    "domain": "google.com.br",
+    "siteName": "Google Brasil"
+  },
+  {
+    "domain": "slideshare.net",
+    "siteName": "SlideShare"
+  },
+  {
+    "domain": "sheets.google.com",
+    "siteName": "Google Sheets"
+  },
+  {
+    "domain": "etsy.com",
+    "siteName": "Etsy"
+  },
+  {
+    "domain": "dailymotion.com",
+    "siteName": "Dailymotion"
+  },
+  {
+    "domain": "google.es",
+    "siteName": "Google España"
+  },
+  {
+    "domain": "tiktok.com",
+    "siteName": "TikTok"
+  },
+  {
+    "domain": "opera.com",
+    "siteName": "Opera"
+  },
+  {
+    "domain": "msn.com",
+    "siteName": "MSN"
+  },
+  {
+    "domain": "nytimes.com",
+    "siteName": "The New York Times"
+  },
+  {
+    "domain": "tools.google.com",
+    "siteName": "Google Tools"
+  },
+  {
+    "domain": "wa.me",
+    "siteName": "WhatsApp"
+  },
+  {
+    "domain": "draft.blogger.com",
+    "siteName": "Blogger"
+  },
+  {
+    "domain": "fr.wikipedia.org",
+    "siteName": "Wikipédia (French)"
+  },
+  {
+    "domain": "pt.wikipedia.org",
+    "siteName": "Wikipédia (Portuguese)"
+  },
+  {
+    "domain": "developers.google.com",
+    "siteName": "Google Developers"
+  },
+  {
+    "domain": "nih.gov",
+    "siteName": "National Institutes of Health (NIH)"
+  },
+  {
+    "domain": "bbc.co.uk",
+    "siteName": "BBC"
+  },
+  {
+    "domain": "healthline.com",
+    "siteName": "Healthline"
+  },
+  {
+    "domain": "brandbucket.com",
+    "siteName": "BrandBucket"
+  },
+  {
+    "domain": "macys.com",
+    "siteName": "Macys"
+  },
+  {
+    "domain": "realtor.com",
+    "siteName": "Realtor"
+  },
+  {
+    "domain": "news.google.com",
+    "siteName": "Google News"
+  },
+  {
+    "domain": "creativecommons.org",
+    "siteName": "Creative Commons"
+  },
+  {
+    "domain": "wikimedia.org",
+    "siteName": "Wikimedia"
+  },
+  {
+    "domain": "files.wordpress.com",
+    "siteName": "WordPress.com"
+  },
+  {
+    "domain": "google.de",
+    "siteName": "Google Deutschland"
+  },
+  {
+    "domain": "live.com",
+    "siteName": "Outlook"
+  },
+  {
+    "domain": "craigslist.org",
+    "siteName": "craigslist"
+  },
+  {
+    "domain": "imdb.com",
+    "siteName": "IMDb"
+  },
+  {
+    "domain": "shopify.com",
+    "siteName": "Shopify"
+  },
+  {
+    "domain": "line.me",
+    "siteName": "LINE"
+  },
+  {
+    "domain": "www.yahoo.com",
+    "siteName": "Yahoo"
+  },
+  {
+    "domain": "enable-javascript.com",
+    "siteName": "Enable JavaScript"
+  },
+  {
+    "domain": "es.wikipedia.org",
+    "siteName": "Wikipedia (Spanish)"
+  },
+  {
+    "domain": "feedburner.com",
+    "siteName": "FeedBurner"
+  },
+  {
+    "domain": "globo.com",
+    "siteName": "Globo"
+  },
+  {
+    "domain": "paypal.com",
+    "siteName": "PayPal"
+  },
+  {
+    "domain": "netvibes.com",
+    "siteName": "Netvibes"
+  },
+  {
+    "domain": "bestbuy.com",
+    "siteName": "Best Buy"
+  },
+  {
+    "domain": "who.int",
+    "siteName": "World Health Organization (WHO)"
+  },
+  {
+    "domain": "theguardian.com",
+    "siteName": "The Guardian"
+  },
+  {
+    "domain": "www.weebly.com",
+    "siteName": "Weebly"
+  },
+  {
+    "domain": "mail.google.com",
+    "siteName": "Gmail"
+  },
+  {
+    "domain": "jimdofree.com",
+    "siteName": "Jimdo"
+  },
+  {
+    "domain": "google.co.jp",
+    "siteName": "Google"
+  },
+  {
+    "domain": "afternic.com",
+    "siteName": "Afternic"
+  },
+  {
+    "domain": "youronlinechoices.com",
+    "siteName": "Your Online Choices"
+  },
+  {
+    "domain": "google.fr",
+    "siteName": "Google"
+  },
+  {
+    "domain": "elpais.com",
+    "siteName": "El País"
+  },
+  {
+    "domain": "picasaweb.google.com",
+    "siteName": "Google Photos"
+  },
+  {
+    "domain": "fb.com",
+    "siteName": "Facebook"
+  },
+  {
+    "domain": "t.co",
+    "siteName": "Twitter"
+  },
+  {
+    "domain": "archive.org",
+    "siteName": "Internet Archive"
+  },
+  {
+    "domain": "de.wikipedia.org",
+    "siteName": "Wikipedia (German)"
+  },
+  {
+    "domain": "archiveofourown.org",
+    "siteName": "Archive of Our Own"
+  },
+  {
+    "domain": "ru.wikipedia.org",
+    "siteName": "Wikipedia (Russian)"
+  },
+  {
+    "domain": "usps.com",
+    "siteName": "USPS"
+  },
+  {
+    "domain": "telegraph.co.uk",
+    "siteName": "The Telegraph"
+  },
+  {
+    "domain": "pinterest.com",
+    "siteName": "Pinterest"
+  },
+  {
+    "domain": "mail.ru",
+    "siteName": "Mail.ru"
+  },
+  {
+    "domain": "thesun.co.uk",
+    "siteName": "The Sun"
+  },
+  {
+    "domain": "google.co.uk",
+    "siteName": "Google"
+  },
+  {
+    "domain": "same.energy",
+    "siteName": "Same Energy"
+  },
+  {
+    "domain": "samsung.com",
+    "siteName": "Samsung"
+  },
+  {
+    "domain": "webmd.com",
+    "siteName": "WebMD"
+  },
+  {
+    "domain": "weather.com",
+    "siteName": "The Weather Channel"
+  },
+  {
+    "domain": "weather.gov",
+    "siteName": "National Weather Service"
+  },
+  {
+    "domain": "chase.com",
+    "siteName": "Chase"
+  },
+  {
+    "domain": "allrecipes.com",
+    "siteName": "Allrecipes"
+  },
+  {
+    "domain": "amazon.co.jp",
+    "siteName": "Amazon.co.jp"
+  },
+  {
+    "domain": "cpanel.net",
+    "siteName": "cPanel"
+  },
+  {
+    "domain": "wsj.com",
+    "siteName": "The Wall Street Journal"
+  },
+  {
+    "domain": "cvs.com",
+    "siteName": "CVS"
+  },
+  {
+    "domain": "get.google.com",
+    "siteName": "Google"
+  },
+  {
+    "domain": "walgreens.com",
+    "siteName": "Walgreens"
+  },
+  {
+    "domain": "independent.co.uk",
+    "siteName": "The Independent"
+  },
+  {
+    "domain": "indeed.com",
+    "siteName": "Indeed"
+  },
+  {
+    "domain": "www.gov.uk",
+    "siteName": "GOV.UK"
+  },
+  {
+    "domain": "domainmarket.com",
+    "siteName": "DomainMarket.com"
+  },
+  {
+    "domain": "networkadvertising.org",
+    "siteName": "Network Advertising Initiative"
+  },
+  {
+    "domain": "cdc.gov",
+    "siteName": "Centers for Disease Control and Prevention"
+  },
+  {
+    "domain": "hugedomains.com",
+    "siteName": "HugeDomains.com"
+  },
+  {
+    "domain": "pixabay.com",
+    "siteName": "Pixabay"
+  },
+  {
+    "domain": "twitter.com",
+    "siteName": "Twitter"
+  },
+  {
+    "domain": "cbsnews.com",
+    "siteName": "CBS News"
+  },
+  {
+    "domain": "terra.com.br",
+    "siteName": "Terra"
+  },
+  {
+    "domain": "abril.com.br",
+    "siteName": "Editora Abril"
+  },
+  {
+    "domain": "buydomains.com",
+    "siteName": "BuyDomains.com"
+  },
+  {
+    "domain": "huffingtonpost.com",
+    "siteName": "HuffPost"
+  },
+  {
+    "domain": "nature.com",
+    "siteName": "Nature"
+  },
+  {
+    "domain": "booking.com",
+    "siteName": "Booking.com"
+  },
+  {
+    "domain": "w3.org",
+    "siteName": "World Wide Web Consortium (W3C)"
+  },
+  {
+    "domain": "reuters.com",
+    "siteName": "Reuters"
+  },
+  {
+    "domain": "godaddy.com",
+    "siteName": "GoDaddy"
+  },
+  {
+    "domain": "ebay.com",
+    "siteName": "eBay"
+  },
+  {
+    "domain": "wp.com",
+    "siteName": "WordPress.com"
+  },
+  {
+    "domain": "adssettings.google.com",
+    "siteName": "Google Ads Settings"
+  },
+  {
+    "domain": "marketingplatform.google.com",
+    "siteName": "Google Marketing Platform"
+  },
+  {
+    "domain": "change.org",
+    "siteName": "Change.org"
+  },
+  {
+    "domain": "mirror.co.uk",
+    "siteName": "Mirror Online"
+  },
+  {
+    "domain": "plesk.com",
+    "siteName": "Plesk"
+  },
+  {
+    "domain": "namecheap.com",
+    "siteName": "Namecheap"
+  },
+  {
+    "domain": "forms.gle",
+    "siteName": "Google Forms"
+  },
+  {
+    "domain": "dan.com",
+    "siteName": "Dan.com"
+  },
+  {
+    "domain": "bbc.com",
+    "siteName": "BBC"
+  },
+  {
+    "domain": "storage.googleapis.com",
+    "siteName": "Google Cloud Storage"
+  },
+  {
+    "domain": "scribd.com",
+    "siteName": "Scribd"
+  },
+  {
+    "domain": "time.com",
+    "siteName": "TIME"
+  },
+  {
+    "domain": "usatoday.com",
+    "siteName": "USA TODAY"
+  },
+  {
+    "domain": "ig.com.br",
+    "siteName": "iG"
+  },
+  {
+    "domain": "aboutads.info",
+    "siteName": "AboutAds.info"
+  },
+  {
+    "domain": "issuu.com",
+    "siteName": "Issuu"
+  },
+  {
+    "domain": "businessinsider.com",
+    "siteName": "Business Insider"
+  },
+  {
+    "domain": "nasa.gov",
+    "siteName": "NASA"
+  },
+  {
+    "domain": "4shared.com",
+    "siteName": "4shared"
+  },
+  {
+    "domain": "amazon.co.uk",
+    "siteName": "Amazon.co.uk"
+  },
+  {
+    "domain": "cnet.com",
+    "siteName": "CNET"
+  },
+  {
+    "domain": "office.com",
+    "siteName": "Microsoft Office"
+  },
+  {
+    "domain": "foxnews.com",
+    "siteName": "Fox News"
+  },
+  {
+    "domain": "tinyurl.com",
+    "siteName": "TinyURL"
+  },
+  {
+    "domain": "aliexpress.com",
+    "siteName": "AliExpress"
+  },
+  {
+    "domain": "photos.google.com",
+    "siteName": "Google Photos"
+  },
+  {
+    "domain": "amazon.de",
+    "siteName": "Amazon.de"
+  },
+  {
+    "domain": "bloomberg.com",
+    "siteName": "Bloomberg"
+  },
+  {
+    "domain": "bing.com",
+    "siteName": "Bing"
+  },
+  {
+    "domain": "indiatimes.com",
+    "siteName": "India Times"
+  },
+  {
+    "domain": "huffpost.com",
+    "siteName": "HuffPost"
+  },
+  {
+    "domain": "telegram.me",
+    "siteName": "Telegram"
+  },
+  {
+    "domain": "myaccount.google.com",
+    "siteName": "Google Account"
+  },
+  {
+    "domain": "goo.gl",
+    "siteName": "Google URL Shortener"
+  },
+  {
+    "domain": "bit.ly",
+    "siteName": "Bitly"
+  },
+  {
+    "domain": "planalto.gov.br",
+    "siteName": "Planalto"
+  },
+  {
+    "domain": "estadao.com.br",
+    "siteName": "Estadão"
+  },
+  {
+    "domain": "mediafire.com",
+    "siteName": "MediaFire"
+  },
+  {
+    "domain": "washingtonpost.com",
+    "siteName": "The Washington Post"
+  },
+  {
+    "domain": "ytimg.com",
+    "siteName": "YouTube"
+  },
+  {
+    "domain": "soundcloud.com",
+    "siteName": "SoundCloud"
+  },
+  {
+    "domain": "shutterstock.com",
+    "siteName": "Shutterstock"
+  },
+  {
+    "domain": "news.yahoo.com",
+    "siteName": "Yahoo News"
+  },
+  {
+    "domain": "dailymail.co.uk",
+    "siteName": "Daily Mail"
+  },
+  {
+    "domain": "instagram.com",
+    "siteName": "Instagram"
+  },
+  {
+    "domain": "researchgate.net",
+    "siteName": "ResearchGate"
+  },
+  {
+    "domain": "google.it",
+    "siteName": "Google"
+  },
+  {
+    "domain": "fandom.com",
+    "siteName": "Fandom"
+  },
+  {
+    "domain": "list-manage.com",
+    "siteName": "Mailchimp"
+  },
+  {
+    "domain": "t-mobile.com",
+    "siteName": "T-Mobile"
+  },
+  {
+    "domain": "un.org",
+    "siteName": "United Nations"
+  },
+  {
+    "domain": "www.livejournal.com",
+    "siteName": "LiveJournal"
+  },
+  {
+    "domain": "calendar.google.com",
+    "siteName": "Google Calendar"
+  },
+  {
+    "domain": "deezer.com",
+    "siteName": "Deezer"
+  },
+  {
+    "domain": "playstation.com",
+    "siteName": "PlayStation"
+  },
+  {
+    "domain": "google.ca",
+    "siteName": "Google"
+  },
+  {
+    "domain": "berkeley.edu",
+    "siteName": "UC Berkeley"
+  },
+  {
+    "domain": "duckduckgo.com",
+    "siteName": "DuckDuckGo"
+  },
+  {
+    "domain": "ted.com",
+    "siteName": "TED"
+  },
+  {
+    "domain": "it.wikipedia.org",
+    "siteName": "Wikipedia"
+  },
+  {
+    "domain": "abcnews.go.com",
+    "siteName": "ABC News"
+  },
+  {
+    "domain": "smh.com.au",
+    "siteName": "The Sydney Morning Herald"
+  },
+  {
+    "domain": "offset.com",
+    "siteName": "Offset"
+  },
+  {
+    "domain": "aol.com",
+    "siteName": "AOL"
+  },
+  {
+    "domain": "linktr.ee",
+    "siteName": "Linktree"
+  },
+  {
+    "domain": "canada.ca",
+    "siteName": "Government of Canada"
+  },
+  {
+    "domain": "lemonde.fr",
+    "siteName": "Le Monde"
+  },
+  {
+    "domain": "yadi.sk",
+    "siteName": "Yandex.Disk"
+  },
+  {
+    "domain": "ovh.com",
+    "siteName": "OVHcloud"
+  },
+  {
+    "domain": "engadget.com",
+    "siteName": "Engadget"
+  },
+  {
+    "domain": "psychologytoday.com",
+    "siteName": "Psychology Today"
+  },
+  {
+    "domain": "sciencedirect.com",
+    "siteName": "ScienceDirect"
+  },
+  {
+    "domain": "apache.org",
+    "siteName": "The Apache Software Foundation"
+  },
+  {
+    "domain": "imageshack.us",
+    "siteName": "ImageShack"
+  },
+  {
+    "domain": "mit.edu",
+    "siteName": "MIT"
+  },
+  {
+    "domain": "groups.google.com",
+    "siteName": "Google Groups"
+  },
+  {
+    "domain": "ups.com",
+    "siteName": "UPS"
+  },
+  {
+    "domain": "akamaihd.net",
+    "siteName": "Akamai Technologies"
+  },
+  {
+    "domain": "wired.com",
+    "siteName": "WIRED"
+  },
+  {
+    "domain": "clarin.com",
+    "siteName": "Clarin"
+  },
+  {
+    "domain": "sky.com",
+    "siteName": "Sky"
+  },
+  {
+    "domain": "pbs.org",
+    "siteName": "PBS"
+  },
+  {
+    "domain": "yandex.com",
+    "siteName": "Yandex"
+  },
+  {
+    "domain": "naver.com",
+    "siteName": "Naver"
+  },
+  {
+    "domain": "zippyshare.com",
+    "siteName": "Zippyshare"
+  },
+  {
+    "domain": "freepik.com",
+    "siteName": "Freepik"
+  },
+  {
+    "domain": "doubleclick.net",
+    "siteName": "DoubleClick"
+  },
+  {
+    "domain": "statista.com",
+    "siteName": "Statista"
+  },
+  {
+    "domain": "espn.com",
+    "siteName": "ESPN"
+  },
+  {
+    "domain": "alicdn.com",
+    "siteName": "AliExpress"
+  },
+  {
+    "domain": "20minutos.es",
+    "siteName": "20minutos"
+  },
+  {
+    "domain": "ouest-france.fr",
+    "siteName": "Ouest-France"
+  },
+  {
+    "domain": "usablenet.com",
+    "siteName": "UsableNet"
+  },
+  {
+    "domain": "whitehouse.gov",
+    "siteName": "The White House"
+  },
+  {
+    "domain": "instructables.com",
+    "siteName": "Instructables"
+  },
+  {
+    "domain": "gooyaabitemplates.com",
+    "siteName": "Gooyaabi Templates"
+  },
+  {
+    "domain": "translate.google.com",
+    "siteName": "Google Translate"
+  },
+  {
+    "domain": "abc.es",
+    "siteName": "ABC"
+  },
+  {
+    "domain": "express.co.uk",
+    "siteName": "Express"
+  },
+  {
+    "domain": "alexa.com",
+    "siteName": "Alexa"
+  },
+  {
+    "domain": "ft.com",
+    "siteName": "Financial Times"
+  },
+  {
+    "domain": "elmundo.es",
+    "siteName": "El Mundo"
+  },
+  {
+    "domain": "marca.com",
+    "siteName": "Marca"
+  },
+  {
+    "domain": "cpanel.com",
+    "siteName": "cPanel"
+  },
+  {
+    "domain": "gofundme.com",
+    "siteName": "GoFundMe"
+  },
+  {
+    "domain": "cornell.edu",
+    "siteName": "Cornell University"
+  },
+  {
+    "domain": "pinterest.fr",
+    "siteName": "Pinterest"
+  },
+  {
+    "domain": "google.pl",
+    "siteName": "Google"
+  },
+  {
+    "domain": "discord.gg",
+    "siteName": "Discord"
+  },
+  {
+    "domain": "timeweb.ru",
+    "siteName": "TimeWeb"
+  },
+  {
+    "domain": "finance.yahoo.com",
+    "siteName": "Yahoo Finance"
+  },
+  {
+    "domain": "e-monsite.com",
+    "siteName": "e-monsite"
+  },
+  {
+    "domain": "akamaized.net",
+    "siteName": "Akamai"
+  },
+  {
+    "domain": "vice.com",
+    "siteName": "VICE"
+  },
+  {
+    "domain": "redbull.com",
+    "siteName": "Red Bull"
+  },
+  {
+    "domain": "unesco.org",
+    "siteName": "UNESCO"
+  },
+  {
+    "domain": "rapidshare.com",
+    "siteName": "RapidShare"
+  },
+  {
+    "domain": "prezi.com",
+    "siteName": "Prezi"
+  },
+  {
+    "domain": "000webhost.com",
+    "siteName": "000webhost"
+  },
+  {
+    "domain": "sapo.pt",
+    "siteName": "SAPO"
+  },
+  {
+    "domain": "nikkei.com",
+    "siteName": "Nikkei"
+  },
+  {
+    "domain": "springer.com",
+    "siteName": "Springer"
+  },
+  {
+    "domain": "netlify.app",
+    "siteName": "Netlify"
+  },
+  {
+    "domain": "search.yahoo.com",
+    "siteName": "Yahoo Search"
+  },
+  {
+    "domain": "cambridge.org",
+    "siteName": "Cambridge University Press"
+  },
+  {
+    "domain": "bp2.blogger.com",
+    "siteName": "Blogger"
+  },
+  {
+    "domain": "ea.com",
+    "siteName": "Electronic Arts"
+  },
+  {
+    "domain": "taringa.net",
+    "siteName": "Taringa!"
+  },
+  {
+    "domain": "lavanguardia.com",
+    "siteName": "La Vanguardia"
+  },
+  {
+    "domain": "ikea.com",
+    "siteName": "IKEA"
+  },
+  {
+    "domain": "qq.com",
+    "siteName": "QQ"
+  },
+  {
+    "domain": "id.wikipedia.org",
+    "siteName": "Wikipedia Bahasa Indonesia"
+  },
+  {
+    "domain": "zillow.com",
+    "siteName": "Zillow"
+  },
+  {
+    "domain": "mozilla.com",
+    "siteName": "Mozilla"
+  },
+  {
+    "domain": "amazon.fr",
+    "siteName": "Amazon.fr"
+  },
+  {
+    "domain": "nypost.com",
+    "siteName": "New York Post"
+  },
+  {
+    "domain": "weibo.com",
+    "siteName": "Weibo"
+  },
+  {
+    "domain": "www.canalblog.com",
+    "siteName": "CanalBlog"
+  },
+  {
+    "domain": "photobucket.com",
+    "siteName": "Photobucket"
+  },
+  {
+    "domain": "yelp.com",
+    "siteName": "Yelp"
+  },
+  {
+    "domain": "gizmodo.com",
+    "siteName": "Gizmodo"
+  },
+  {
+    "domain": "quora.com",
+    "siteName": "Quora"
+  },
+  {
+    "domain": "sakura.ne.jp",
+    "siteName": "SAKURA Internet"
+  },
+  {
+    "domain": "unsplash.com",
+    "siteName": "Unsplash"
+  },
+  {
+    "domain": "detik.com",
+    "siteName": "detikcom"
+  },
+  {
+    "domain": "android.com",
+    "siteName": "Android"
+  },
+  {
+    "domain": "code.google.com",
+    "siteName": "Google Developers"
+  },
+  {
+    "domain": "addtoany.com",
+    "siteName": "AddToAny"
+  },
+  {
+    "domain": "pexels.com",
+    "siteName": "Pexels"
+  },
+  {
+    "domain": "hindustantimes.com",
+    "siteName": "Hindustan Times"
+  },
+  {
+    "domain": "nbcnews.com",
+    "siteName": "NBC News"
+  },
+  {
+    "domain": "goodreads.com",
+    "siteName": "Goodreads"
+  },
+  {
+    "domain": "wellsfargo.com",
+    "siteName": "Wells Fargo"
+  },
+  {
+    "domain": "wikia.com",
+    "siteName": "Fandom"
+  },
+  {
+    "domain": "dw.com",
+    "siteName": "Deutsche Welle"
+  },
+  {
+    "domain": "yandex.ru",
+    "siteName": "Yandex"
+  },
+  {
+    "domain": "theatlantic.com",
+    "siteName": "The Atlantic"
+  },
+  {
+    "domain": "windows.net",
+    "siteName": "Windows Azure"
+  },
+  {
+    "domain": "ggpht.com",
+    "siteName": "Google Photos"
+  },
+  {
+    "domain": "privacyshield.gov",
+    "siteName": "Privacy Shield"
+  },
+  {
+    "domain": "discord.com",
+    "siteName": "Discord"
+  },
+  {
+    "domain": "doi.org",
+    "siteName": "DOI"
+  },
+  {
+    "domain": "www.wix.com",
+    "siteName": "Wix"
+  },
+  {
+    "domain": "www.gov.br",
+    "siteName": "Governo do Brasil"
+  },
+  {
+    "domain": "leparisien.fr",
+    "siteName": "Le Parisien"
+  },
+  {
+    "domain": "books.google.com",
+    "siteName": "Google Books"
+  },
+  {
+    "domain": "nydailynews.com",
+    "siteName": "New York Daily News"
+  },
+  {
+    "domain": "ipv4.google.com",
+    "siteName": "Google"
+  },
+  {
+    "domain": "mashable.com",
+    "siteName": "Mashable"
+  },
+  {
+    "domain": "rtve.es",
+    "siteName": "RTVE"
+  },
+  {
+    "domain": "insider.com",
+    "siteName": "Insider"
+  },
+  {
+    "domain": "sciencedaily.com",
+    "siteName": "ScienceDaily"
+  },
+  {
+    "domain": "bloglovin.com",
+    "siteName": "Bloglovin'"
+  },
+  {
+    "domain": "urbandictionary.com",
+    "siteName": "Urban Dictionary"
+  },
+  {
+    "domain": "rakuten.co.jp",
+    "siteName": "Rakuten"
+  },
+  {
+    "domain": "hulu.com",
+    "siteName": "Hulu"
+  },
+  {
+    "domain": "gnu.org",
+    "siteName": "GNU Project"
+  },
+  {
+    "domain": "plos.org",
+    "siteName": "PLOS"
+  },
+  {
+    "domain": "hubspot.com",
+    "siteName": "HubSpot"
+  },
+  {
+    "domain": "spiegel.de",
+    "siteName": "Der Spiegel"
+  },
+  {
+    "domain": "google.nl",
+    "siteName": "Google"
+  },
+  {
+    "domain": "cnil.fr",
+    "siteName": "CNIL"
+  },
+  {
+    "domain": "sedo.com",
+    "siteName": "Sedo"
+  },
+  {
+    "domain": "ziddu.com",
+    "siteName": "Ziddu"
+  },
+  {
+    "domain": "steampowered.com",
+    "siteName": "Steam"
+  },
+  {
+    "domain": "capitalone.com",
+    "siteName": "Capital One"
+  },
+  {
+    "domain": "costco.com",
+    "siteName": "Costco"
+  },
+  {
+    "domain": "rt.com",
+    "siteName": "RT"
+  },
+  {
+    "domain": "icann.org",
+    "siteName": "ICANN"
+  },
+  {
+    "domain": "kickstarter.com",
+    "siteName": "Kickstarter"
+  },
+  {
+    "domain": "francetvinfo.fr",
+    "siteName": "Franceinfo"
+  },
+  {
+    "domain": "npr.org",
+    "siteName": "NPR"
+  },
+  {
+    "domain": "cointernet.com.co",
+    "siteName": ".CO Internet"
+  },
+  {
+    "domain": "nationalgeographic.com",
+    "siteName": "National Geographic"
+  },
+  {
+    "domain": "latimes.com",
+    "siteName": "Los Angeles Times"
+  },
+  {
+    "domain": "outlook.com",
+    "siteName": "Outlook"
+  },
+  {
+    "domain": "spotify.com",
+    "siteName": "Spotify"
+  },
+  {
+    "domain": "ria.ru",
+    "siteName": "RIA Novosti"
+  },
+  {
+    "domain": "cbc.ca",
+    "siteName": "CBC"
+  },
+  {
+    "domain": "guardian.co.uk",
+    "siteName": "The Guardian"
+  },
+  {
+    "domain": "cnbc.com",
+    "siteName": "CNBC"
+  },
+  {
+    "domain": "ovhcloud.com",
+    "siteName": "OVHcloud"
+  },
+  {
+    "domain": "tripadvisor.com",
+    "siteName": "Tripadvisor"
+  },
+  {
+    "domain": "nginx.com",
+    "siteName": "NGINX"
+  },
+  {
+    "domain": "oracle.com",
+    "siteName": "Oracle"
+  },
+  {
+    "domain": "yahoo.co.jp",
+    "siteName": "Yahoo! JAPAN"
+  },
+  {
+    "domain": "britannica.com",
+    "siteName": "Encyclopedia Britannica"
+  },
+  {
+    "domain": "huawei.com",
+    "siteName": "Huawei"
+  },
+  {
+    "domain": "buzzfeed.com",
+    "siteName": "BuzzFeed"
+  },
+  {
+    "domain": "techcrunch.com",
+    "siteName": "TechCrunch"
+  },
+  {
+    "domain": "zoom.us",
+    "siteName": "Zoom"
+  },
+  {
+    "domain": "wiley.com",
+    "siteName": "Wiley Online Library"
+  },
+  {
+    "domain": "home.pl",
+    "siteName": "home.pl"
+  },
+  {
+    "domain": "homedepot.com",
+    "siteName": "Home Depot"
+  },
+  {
+    "domain": "standard.co.uk",
+    "siteName": "Evening Standard"
+  },
+  {
+    "domain": "photos1.blogger.com",
+    "siteName": "Blogger"
+  },
+  {
+    "domain": "newyorker.com",
+    "siteName": "The New Yorker"
+  },
+  {
+    "domain": "secureserver.net",
+    "siteName": "GoDaddy"
+  },
+  {
+    "domain": "hp.com",
+    "siteName": "HP"
+  },
+  {
+    "domain": "ietf.org",
+    "siteName": "IETF"
+  },
+  {
+    "domain": "sendspace.com",
+    "siteName": "SendSpace"
+  },
+  {
+    "domain": "amazon.es",
+    "siteName": "Amazon.es"
+  },
+  {
+    "domain": "oup.com",
+    "siteName": "Oxford University Press"
+  },
+  {
+    "domain": "tmz.com",
+    "siteName": "TMZ"
+  },
+  {
+    "domain": "m.wikipedia.org",
+    "siteName": "Wikipedia"
+  },
+  {
+    "domain": "bandcamp.com",
+    "siteName": "Bandcamp"
+  },
+  {
+    "domain": "economist.com",
+    "siteName": "The Economist"
+  },
+  {
+    "domain": "ssl-images-amazon.com",
+    "siteName": "Amazon"
+  },
+  {
+    "domain": "target.com",
+    "siteName": "Target"
+  },
+  {
+    "domain": "webnode.page",
+    "siteName": "Webnode"
+  },
+  {
+    "domain": "walmart.com",
+    "siteName": "Walmart"
+  },
+  {
+    "domain": "surveymonkey.com",
+    "siteName": "SurveyMonkey"
+  },
+  {
+    "domain": "ovh.net",
+    "siteName": "OVH"
+  },
+  {
+    "domain": "abc.net.au",
+    "siteName": "ABC News (Australia)"
+  },
+  {
+    "domain": "newsweek.com",
+    "siteName": "Newsweek"
+  },
+  {
+    "domain": "zendesk.com",
+    "siteName": "Zendesk"
+  },
+  {
+    "domain": "nginx.org",
+    "siteName": "NGINX"
+  },
+  {
+    "domain": "dreamstime.com",
+    "siteName": "Dreamstime"
+  },
+  {
+    "domain": "ca.gov",
+    "siteName": "State of California"
+  },
+  {
+    "domain": "ja.wikipedia.org",
+    "siteName": "Wikipedia (Japanese)"
+  },
+  {
+    "domain": "clickbank.net",
+    "siteName": "ClickBank"
+  },
+  {
+    "domain": "nextdoor.com",
+    "siteName": "Nextdoor"
+  },
+  {
+    "domain": "bankofamerica.com",
+    "siteName": "Bank of America"
+  },
+  {
+    "domain": "hollywoodreporter.com",
+    "siteName": "The Hollywood Reporter"
+  },
+  {
+    "domain": "academia.edu",
+    "siteName": "Academia.edu"
+  },
+  {
+    "domain": "biglobe.ne.jp",
+    "siteName": "BIGLOBE"
+  },
+  {
+    "domain": "liveinternet.ru",
+    "siteName": "LiveInternet"
+  },
+  {
+    "domain": "sfgate.com",
+    "siteName": "San Francisco Chronicle"
+  },
+  {
+    "domain": "roblox.com",
+    "siteName": "Roblox"
+  },
+  {
+    "domain": "google.ru",
+    "siteName": "Google"
+  },
+  {
+    "domain": "gmail.com",
+    "siteName": "Gmail"
+  },
+  {
+    "domain": "ftc.gov",
+    "siteName": "Federal Trade Commission"
+  },
+  {
+    "domain": "microsoft.com",
+    "siteName": "Microsoft"
+  },
+  {
+    "domain": "fedex.com",
+    "siteName": "Fedex"
+  },
+  {
+    "domain": "thenai.org",
+    "siteName": "The NAI"
+  },
+  {
+    "domain": "twitch.tv",
+    "siteName": "Twitch"
+  },
+  {
+    "domain": "www.wikipedia.org",
+    "siteName": "Wikipedia"
+  },
+  {
+    "domain": "harvard.edu",
+    "siteName": "Harvard University"
+  },
+  {
+    "domain": "rambler.ru",
+    "siteName": "Rambler"
+  },
+  {
+    "domain": "radiofrance.fr",
+    "siteName": "Radio France"
+  },
+  {
+    "domain": "stanford.edu",
+    "siteName": "Stanford University"
+  },
+  {
+    "domain": "wikihow.com",
+    "siteName": "wikiHow"
+  },
+  {
+    "domain": "googleblog.com",
+    "siteName": "Google Blog"
+  },
+  {
+    "domain": "ibm.com",
+    "siteName": "IBM"
+  },
+  {
+    "domain": "eventbrite.com",
+    "siteName": "Eventbrite"
+  },
+  {
+    "domain": "disney.com",
+    "siteName": "Disney"
+  },
+  {
+    "domain": "addthis.com",
+    "siteName": "AddThis"
+  },
+  {
+    "domain": "nicovideo.jp",
+    "siteName": "Nico Nico Douga"
+  },
+  {
+    "domain": "welt.de",
+    "siteName": "Die Welt"
+  },
+  {
+    "domain": "vkontakte.ru",
+    "siteName": "VKontakte"
+  },
+  {
+    "domain": "kohls.com",
+    "siteName": "Kohl's"
+  },
+  {
+    "domain": "skype.com",
+    "siteName": "Skype"
+  },
+  {
+    "domain": "disqus.com",
+    "siteName": "Disqus"
+  },
+  {
+    "domain": "loc.gov",
+    "siteName": "Library of Congress"
+  },
+  {
+    "domain": "variety.com",
+    "siteName": "Variety"
+  },
+  {
+    "domain": "thetimes.co.uk",
+    "siteName": "The Times"
+  },
+  {
+    "domain": "php.net",
+    "siteName": "PHP"
+  },
+  {
+    "domain": "pl.wikipedia.org",
+    "siteName": "Wikipedia (Polish)"
+  },
+  {
+    "domain": "amzn.to",
+    "siteName": "Amazon"
+  },
+  {
+    "domain": "amazonaws.com",
+    "siteName": "Amazon Web Services (AWS)"
+  },
+  {
+    "domain": "netflix.com",
+    "siteName": "Netflix"
+  },
+  {
+    "domain": "theverge.com",
+    "siteName": "The Verge"
+  },
+  {
+    "domain": "about.com",
+    "siteName": "About.com"
+  },
+  {
+    "domain": "themeforest.net",
+    "siteName": "ThemeForest"
+  },
+  {
+    "domain": "picasa.google.com",
+    "siteName": "Picasa"
+  },
+  {
+    "domain": "zdf.de",
+    "siteName": "ZDF"
+  },
+  {
+    "domain": "lefigaro.fr",
+    "siteName": "Le Figaro"
+  },
+  {
+    "domain": "usnews.com",
+    "siteName": "U.S. News & World Report"
+  },
+  {
+    "domain": "mega.nz",
+    "siteName": "MEGA"
+  },
+  {
+    "domain": "arxiv.org",
+    "siteName": "arXiv"
+  },
+  {
+    "domain": "fb.me",
+    "siteName": "Facebook"
+  },
+  {
+    "domain": "reg.ru",
+    "siteName": "REG.RU"
+  },
+  {
+    "domain": "alibaba.com",
+    "siteName": "Alibaba"
+  },
+  {
+    "domain": "namesilo.com",
+    "siteName": "NameSilo"
+  },
+  {
+    "domain": "abc.com",
+    "siteName": "ABC"
+  },
+  {
+    "domain": "thoughtco.com",
+    "siteName": "ThoughtCo"
+  },
+  {
+    "domain": "billboard.com",
+    "siteName": "Billboard"
+  },
+  {
+    "domain": "iso.org",
+    "siteName": "ISO"
+  },
+  {
+    "domain": "canva.com",
+    "siteName": "Canva"
+  },
+  {
+    "domain": "hbr.org",
+    "siteName": "Harvard Business Review"
+  },
+  {
+    "domain": "ucoz.ru",
+    "siteName": "uCoz"
+  },
+  {
+    "domain": "channel4.com",
+    "siteName": "Channel 4"
+  },
+  {
+    "domain": "woocommerce.com",
+    "siteName": "WooCommerce"
+  },
+  {
+    "domain": "imageshack.com",
+    "siteName": "ImageShack"
+  },
+  {
+    "domain": "state.gov",
+    "siteName": "U.S. Department of State"
+  },
+  {
+    "domain": "hm.com",
+    "siteName": "H&M"
+  },
+  {
+    "domain": "pinterest.co.uk",
+    "siteName": "Pinterest UK"
+  },
+  {
+    "domain": "example.com",
+    "siteName": "Example Domain"
+  },
+  {
+    "domain": "digg.com",
+    "siteName": "Digg"
+  },
+  {
+    "domain": "lg.com",
+    "siteName": "LG"
+  },
+  {
+    "domain": "inc.com",
+    "siteName": "Inc."
+  },
+  {
+    "domain": "podcasts.google.com",
+    "siteName": "Google Podcasts"
+  },
+  {
+    "domain": "namebright.com",
+    "siteName": "NameBright"
+  },
+  {
+    "domain": "soratemplates.com",
+    "siteName": "SoraTemplates"
+  },
+  {
+    "domain": "business.google.com",
+    "siteName": "Google My Business"
+  },
+  {
+    "domain": "evernote.com",
+    "siteName": "Evernote"
+  },
+  {
+    "domain": "fda.gov",
+    "siteName": "U.S. Food and Drug Administration"
+  },
+  {
+    "domain": "ehow.com",
+    "siteName": "eHow"
+  },
+  {
+    "domain": "ap.org",
+    "siteName": "Associated Press"
+  },
+  {
+    "domain": "groups.yahoo.com",
+    "siteName": "Yahoo Groups"
+  },
+  {
+    "domain": "repubblica.it",
+    "siteName": "La Repubblica"
+  },
+  {
+    "domain": "bmj.com",
+    "siteName": "BMJ"
+  },
+  {
+    "domain": "usgs.gov",
+    "siteName": "U.S. Geological Survey"
+  },
+  {
+    "domain": "biblegateway.com",
+    "siteName": "BibleGateway"
+  },
+  {
+    "domain": "uefa.com",
+    "siteName": "UEFA"
+  },
+  {
+    "domain": "fedoraproject.org",
+    "siteName": "Fedora Project"
+  },
+  {
+    "domain": "unicef.org",
+    "siteName": "UNICEF"
+  },
+  {
+    "domain": "m.me",
+    "siteName": "Facebook Messenger"
+  },
+  {
+    "domain": "amazon.ca",
+    "siteName": "Amazon.ca"
+  },
+  {
+    "domain": "rollingstone.com",
+    "siteName": "Rolling Stone"
+  },
+  {
+    "domain": "foursquare.com",
+    "siteName": "Foursquare"
+  },
+  {
+    "domain": "last.fm",
+    "siteName": "Last.fm"
+  },
+  {
+    "domain": "aftermarket.pl",
+    "siteName": "AfterMarket.pl"
+  },
+  {
+    "domain": "imgur.com",
+    "siteName": "Imgur"
+  },
+  {
+    "domain": "investopedia.com",
+    "siteName": "Investopedia"
+  },
+  {
+    "domain": "fifa.com",
+    "siteName": "FIFA"
+  },
+  {
+    "domain": "ebay.de",
+    "siteName": "eBay Germany"
+  },
+  {
+    "domain": "trustpilot.com",
+    "siteName": "Trustpilot"
+  },
+  {
+    "domain": "euronews.com",
+    "siteName": "Euronews"
+  },
+  {
+    "domain": "eonline.com",
+    "siteName": "E! Online"
+  },
+  {
+    "domain": "goal.com",
+    "siteName": "Goal.com"
+  },
+  {
+    "domain": "apnews.com",
+    "siteName": "AP News"
+  },
+  {
+    "domain": "sina.com.cn",
+    "siteName": "Sina"
+  },
+  {
+    "domain": "ameba.jp",
+    "siteName": "Ameba"
+  },
+  {
+    "domain": "upenn.edu",
+    "siteName": "University of Pennsylvania"
+  },
+  {
+    "domain": "indiegogo.com",
+    "siteName": "Indiegogo"
+  },
+  {
+    "domain": "utexas.edu",
+    "siteName": "University of Texas at Austin"
+  },
+  {
+    "domain": "impress.co.jp",
+    "siteName": "Impress Corporation"
+  },
+  {
+    "domain": "wordreference.com",
+    "siteName": "WordReference"
+  },
+  {
+    "domain": "ign.com",
+    "siteName": "IGN"
+  },
+  {
+    "domain": "answers.com",
+    "siteName": "Answers.com"
+  },
+  {
+    "domain": "tabelog.com",
+    "siteName": "Tabelog"
+  },
+  {
+    "domain": "boston.com",
+    "siteName": "Boston.com"
+  },
+  {
+    "domain": "rbc.ru",
+    "siteName": "RBC"
+  },
+  {
+    "domain": "zdnet.com",
+    "siteName": "ZDNet"
+  },
+  {
+    "domain": "nba.com",
+    "siteName": "NBA"
+  },
+  {
+    "domain": "scmp.com",
+    "siteName": "South China Morning Post"
+  },
+  {
+    "domain": "mdpi.com",
+    "siteName": "MDPI"
+  },
+  {
+    "domain": "digitaltrends.com",
+    "siteName": "Digital Trends"
+  },
+  {
+    "domain": "depositfiles.com",
+    "siteName": "DepositFiles"
+  },
+  {
+    "domain": "video.google.com",
+    "siteName": "Google Video"
+  },
+  {
+    "domain": "scoop.it",
+    "siteName": "Scoop.it"
+  },
+  {
+    "domain": "reddit.com",
+    "siteName": "Reddit"
+  },
+  {
+    "domain": "stackoverflow.com",
+    "siteName": "Stack Overflow"
+  },
+  {
+    "domain": "sec.gov",
+    "siteName": "U.S. Securities and Exchange Commission"
+  },
+  {
+    "domain": "ucla.edu",
+    "siteName": "University of California, Los Angeles"
+  },
+  {
+    "domain": "box.com",
+    "siteName": "Box"
+  },
+  {
+    "domain": "flickr.com",
+    "siteName": "Flickr"
+  },
+  {
+    "domain": "lenta.ru",
+    "siteName": "Lenta.ru"
+  },
+  {
+    "domain": "xing.com",
+    "siteName": "XING"
+  },
+  {
+    "domain": "usda.gov",
+    "siteName": "U.S. Department of Agriculture"
+  },
+  {
+    "domain": "python.org",
+    "siteName": "Python"
+  },
+  {
+    "domain": "blog.google",
+    "siteName": "Google Blog"
+  },
+  {
+    "domain": "ox.ac.uk",
+    "siteName": "University of Oxford"
+  },
+  {
+    "domain": "thedailybeast.com",
+    "siteName": "The Daily Beast"
+  },
+  {
+    "domain": "amebaownd.com",
+    "siteName": "Ameba Ownd"
+  },
+  {
+    "domain": "automattic.com",
+    "siteName": "Automattic"
+  },
+  {
+    "domain": "att.com",
+    "siteName": "AT&T"
+  },
+  {
+    "domain": "nps.gov",
+    "siteName": "National Park Service"
+  },
+  {
+    "domain": "wiktionary.org",
+    "siteName": "Wiktionary"
+  },
+  {
+    "domain": "joomla.org",
+    "siteName": "Joomla!"
+  },
+  {
+    "domain": "people.com",
+    "siteName": "People"
+  },
+  {
+    "domain": "stores.jp",
+    "siteName": "Stores.jp"
+  },
+  {
+    "domain": "dribbble.com",
+    "siteName": "Dribbble"
+  },
+  {
+    "domain": "go.co",
+    "siteName": "Go.co"
+  },
+  {
+    "domain": "nifty.com",
+    "siteName": "Nifty"
+  },
+  {
+    "domain": "bp0.blogger.com",
+    "siteName": "Blogger"
+  },
+  {
+    "domain": "vox.com",
+    "siteName": "Vox"
+  },
+  {
+    "domain": "nhk.or.jp",
+    "siteName": "NHK"
+  },
+  {
+    "domain": "esa.int",
+    "siteName": "European Space Agency"
+  },
+  {
+    "domain": "lego.com",
+    "siteName": "LEGO"
+  },
+  {
+    "domain": "gutenberg.org",
+    "siteName": "Project Gutenberg"
+  },
+  {
+    "domain": "linear.app",
+    "siteName": "Linear"
+  },
+  {
+    "domain": "notion.so",
+    "siteName": "Notion"
+  }
+]
