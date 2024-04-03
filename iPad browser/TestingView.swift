@@ -1281,68 +1281,6 @@ struct TestingView: View {
 }
 
 
-/*
-extension Notification.Name {
-    static let detectArrowUp = Notification.Name("detectArrowUp")
-    static let detectArrowDown = Notification.Name("detectArrowDown")
-}
-
-
-
-class ArrowDetectingTextField: UITextField {
-    override var keyCommands: [UIKeyCommand]? {
-        [
-            UIKeyCommand(input: UIKeyCommand.inputUpArrow, modifierFlags: [], action: #selector(upArrowPressed)),
-            UIKeyCommand(input: UIKeyCommand.inputDownArrow, modifierFlags: [], action: #selector(downArrowPressed))
-        ]
-    }
-
-    @objc func upArrowPressed() {
-        NotificationCenter.default.post(name: .detectArrowUp, object: nil)
-    }
-
-    @objc func downArrowPressed() {
-        NotificationCenter.default.post(name: .detectArrowDown, object: nil)
-    }
-}
-
-
-struct ArrowDetectingTextFieldView: UIViewRepresentable {
-    var placeholder: String = ""
-    @Binding var text: String
-
-    func makeUIView(context: Context) -> ArrowDetectingTextField {
-        let textField = ArrowDetectingTextField()
-        textField.delegate = context.coordinator
-        return textField
-    }
-
-    func updateUIView(_ uiView: ArrowDetectingTextField, context: Context) {
-        uiView.text = text
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, UITextFieldDelegate {
-        var parent: ArrowDetectingTextFieldView
-
-        init(_ parent: ArrowDetectingTextFieldView) {
-            self.parent = parent
-        }
-
-        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            if let currentText = textField.text,
-               let stringRange = Range(range, in: currentText) {
-                parent.text = currentText.replacingCharacters(in: stringRange, with: string)
-            }
-            return false
-        }
-    }
-}*/
-
-
 
 public extension TimeInterval {
     var nanoseconds: UInt64 {
