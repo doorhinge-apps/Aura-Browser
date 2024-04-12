@@ -196,6 +196,8 @@ struct TestingWebView : UIViewRepresentable {
 struct TestingView: View {
     @ObservedObject var navigationState = NavigationState()
     
+    @ObservedObject var pinnedNavigationState = NavigationState()
+    
     @StateObject private var searchSuggestions = SuggestionsViewModel()
     
     @State var hideSidebar = false
@@ -245,8 +247,18 @@ struct TestingView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+//    @State var filteredWebsites: [Website] {
+//        filterWebsites(input: searchInSidebar, websites: loadWebsites())
+//    }
+    
+//    @State var webSuggestions: [WebsiteSuggestion] = loadWebsites()
+    
     
     @State private var selectedIndex: Int? = 0
+    
+    //@State var offsets = [:] as? [WKWebView: CGSize]
+    //@State var offsets = [:] as? [String: CGFloat]
+    //@State var offsets: [String: CGFloat]? = [:]
     
     var body: some View {
         GeometryReader { geo in
@@ -463,7 +475,6 @@ struct TestingView: View {
                             
                             
                             Button(action: {
-                                //MARK: - Working Here
                                 navigationState.selectedWebView?.reload()
                                 navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                 
@@ -573,85 +584,10 @@ struct TestingView: View {
                          
                          }*/
                         //MARK: - Tabs
+                        //TabBar(navigationState: $navigationState)
+                        //TabBar(navigationState: $navigationState, timer: $timer, reloadTitles: $reloadTitles, hoverTab: $hoverTab, searchInSidebar: $searchInSidebar)
                         ScrollView {
                             ForEach(navigationState.webViews, id: \.self) { tab in
-                                
-                                // Code to remove tab
-                                //navigationState.webViews.remove(at: navigationState.webViews.firstIndex(of: tab)!)
-                                /*Button(action: {
-                                    navigationState.selectedWebView = tab
-                                    navigationState.currentURL = tab.url
-                                    
-                                    if let unwrappedURL = tab.url {
-                                        searchInSidebar = unwrappedURL.absoluteString
-                                    }
-                                    
-                                }) {
-                                    ZStack {
-                                        if reloadTitles {
-                                            Color.white.opacity(0.0)
-                                        }
-                                        
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .foregroundStyle(Color(.white).opacity(tab == navigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.2: 0.0))
-                                        //.foregroundStyle(navigationState.currentURL?.absoluteString ?? "(none)" == tab.url ? Color(.white).opacity(0.4): hoverTab == tab ? Color(.white).opacity(0.2): Color.clear)
-                                            .frame(height: 50)
-                                        
-                                        HStack {
-                                            Text(tab.title ?? "Tab not found.")
-                                                .lineLimit(1)
-                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                                .padding(.leading, 5)
-                                                .onReceive(timer) { _ in
-                                                    reloadTitles.toggle()
-                                                }
-                                            
-                                            Spacer() // Pushes the delete button to the edge
-                                            
-                                            Button(action: {
-                                                if let index = navigationState.webViews.firstIndex(of: tab) {
-                                                    removeTab(at: index)
-                                                }
-                                            }) {
-                                                if hoverTab == tab || navigationState.selectedWebView == tab {
-                                                    ZStack {
-                                                        Color(.white)
-                                                            .opacity(hoverCloseTab == tab ? 0.3: 0.0)
-                                                        
-                                                        Image(systemName: "xmark")
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 15, height: 15)
-                                                            .foregroundStyle(Color.white)
-                                                            .opacity(hoverCloseTab == tab ? 1.0: 0.8)
-                                                        
-                                                    }.frame(width: 35, height: 35).cornerRadius(7).padding(.trailing, 10)
-                                                        .hoverEffect(.lift)
-                                                        .onHover(perform: { hovering in
-                                                            if hovering {
-                                                                hoverCloseTab = tab
-                                                            }
-                                                            else {
-                                                                hoverCloseTab = WKWebView()
-                                                            }
-                                                        })
-                                                    
-                                                }
-                                            }.keyboardShortcut("w", modifiers: .command)
-                                        }
-                                        
-                                        
-                                    }//.hoverEffect(.lift)
-                                    .onHover(perform: { hovering in
-                                        if hovering {
-                                            hoverTab = tab
-                                        }
-                                        else {
-                                            hoverTab = WKWebView()
-                                        }
-                                    })
-                                }*/
-                                
                                 ZStack {
                                     if reloadTitles {
                                         Color.white.opacity(0.0)
@@ -661,6 +597,7 @@ struct TestingView: View {
                                         .foregroundStyle(Color(.white).opacity(tab == navigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.2: 0.0))
                                     //.foregroundStyle(navigationState.currentURL?.absoluteString ?? "(none)" == tab.url ? Color(.white).opacity(0.4): hoverTab == tab ? Color(.white).opacity(0.2): Color.clear)
                                         .frame(height: 50)
+                                    
                                     
                                     HStack {
                                         Text(tab.title ?? "Tab not found.")
@@ -703,6 +640,13 @@ struct TestingView: View {
                                                 
                                             }
                                         }.keyboardShortcut("w", modifiers: .option)
+                                    }.contextMenu {
+                                        Button {
+                                            //
+                                        } label: {
+                                            Text("Close Tab")
+                                        }
+
                                     }
                                     
                                     
@@ -714,7 +658,8 @@ struct TestingView: View {
                                     else {
                                         hoverTab = WKWebView()
                                     }
-                                }).onTapGesture {
+                                })
+                                .onTapGesture {
                                     navigationState.selectedWebView = tab
                                     navigationState.currentURL = tab.url
                                     
@@ -722,6 +667,16 @@ struct TestingView: View {
                                         searchInSidebar = unwrappedURL.absoluteString
                                     }
                                 }
+                //                .offset(y: offsets[tab.url?.description] ?? 0)
+                //                .gesture(
+                //                    DragGesture()
+                //                        .onChanged { gesture in
+                //                            offsets[tab.url?.description] = gesture.translation.height
+                //                        }
+                //                        .onEnded { _ in
+                //                            self.offsets[tab.url?.description] = 0
+                //                        }
+                //                )
                                 
                             }
                         }
@@ -734,7 +689,7 @@ struct TestingView: View {
                             .cornerRadius(10)
                         //MARK: - WebView
                         TestingWebView(navigationState: navigationState)
-                            //.frame(width: hideSidebar ? geo.size.width - 40 : geo.size.width - 350)
+                        //.frame(width: hideSidebar ? geo.size.width - 40 : geo.size.width - 350)
                             .cornerRadius(10)
                             .onAppear() {
                                 //navigationState.selectedWebView.frame = CGRect(origin: .zero, size: geo.size)
@@ -937,139 +892,23 @@ struct TestingView: View {
                                 Color.white
                                 
                                 VStack {
-                                    ScrollView {
-                                        ScrollViewReader { scrollSpot in
-                                            var filteredSuggestions = searchSuggestions.suggestions.filter { suggestion in
-                                                suggestion.id.starts(with: defaults.string(forKey: "email") ?? "Email not found") &&
-                                                suggestion.url.starts(with: newTabSearch)
-                                            }
-                                            
+                                    HStack {
+                                        Image(systemName: "magnifyingglass")
+                                            .foregroundStyle(Color.black.opacity(0.3))
+                                            //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                        
+                                        TextField(text: $newTabSearch) {
                                             HStack {
-                                                Image(systemName: "magnifyingglass")
-                                                    .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                                
-                                                //TextField("⌘+T - Search or Enter URL...", text: $newTabSearch)
-                                                CustomTextField(text: $newTabSearch, onSubmitTab: /*selectedIndex == 0 ? */{
-                                                    filteredSuggestions = searchSuggestions.suggestions.filter { suggestion in
-                                                        suggestion.id.starts(with: defaults.string(forKey: "email") ?? "Email not found") &&
-                                                        suggestion.url.starts(with: newTabSearch)
-                                                    }
-                                                    
-                                                    searchSuggestions.addSuggestion(url: newTabSearch)
-                                                    
-                                                    navigationState.addTabToFirestore(url: URL(string: formatURL(from: newTabSearch))!, title: "")
-                                                    
-                                                    navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                                    navigationState.currentURL = URL(string: formatURL(from: newTabSearch))
-                                                    
-                                                    tabBarShown = false
-                                                    newTabSearch = ""
-                                                }/*: {
-                                                    newTabSearch = searchSuggestions.suggestions[selectedIndex ?? 0].url
-                                                    
-                                                    searchSuggestions.addSuggestion(url: newTabSearch)
-                                                    
-                                                    navigationState.addTabToFirestore(url: URL(string: formatURL(from: newTabSearch))!, title: "")
-                                                    
-                                                    navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                                    navigationState.currentURL = URL(string: formatURL(from: newTabSearch))
-                                                    
-                                                    tabBarShown = false
-                                                    newTabSearch = ""
-                                                }*/, selectNext: {
-                                                    selectNext()
-                                                    withAnimation {
-                                                        scrollSpot.scrollTo(selectedIndex, anchor: .bottom)
-                                                    }
-                                                    newTabSearch = searchSuggestions.suggestions[selectedIndex ?? 0].url
-                                                }, selectPrevious: {
-                                                    selectPrevious()
-                                                    withAnimation {
-                                                        scrollSpot.scrollTo(selectedIndex, anchor: .bottom)
-                                                    }
-                                                }, placeholder: "⌘+T - Search or Enter URL...")
-                                                .textInputAutocapitalization(.never)
-                                                .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                                .autocorrectionDisabled(true)
-                                                .frame(height: 0)
-                                                .focused($focusedField, equals: .tabBar)
-                                                .onAppear() {
-                                                    searchSuggestions.fetchData()
-                                                    
-                                                    focusedField = .tabBar
-                                                }
-                                                .onDisappear() {
-                                                    focusedField = .none
-                                                }
-                                                
-                                            }.padding(20)
-                                                .id("searchbar")
-                                            
-                                            
-                                            /*HStack {
-                                                Button {
-                                                    selectNext()
-                                                    withAnimation {
-                                                        scrollSpot.scrollTo(selectedIndex, anchor: .bottom)
-                                                    }
-                                                } label: {
-                                                    Text("Select Next")
-                                                }.keyboardShortcut(KeyEquivalent.downArrow)
-                                                
-                                                
-                                                Button {
-                                                    selectPrevious()
-                                                    withAnimation {
-                                                        scrollSpot.scrollTo(selectedIndex, anchor: .bottom)
-                                                    }
-                                                } label: {
-                                                    Text("Select Previous")
-                                                }.keyboardShortcut(KeyEquivalent.upArrow)
-                                            }
-                                            */
-                                            
-                                            ForEach(Array(filteredSuggestions.enumerated()), id: \.element.id) { index, suggestion in
-                                                if suggestion.url != "" {
-                                                    Button {
-                                                        newTabSearch = suggestion.url
-                                                        
-                                                        searchSuggestions.addSuggestion(url: newTabSearch)
-                                                        
-                                                        navigationState.addTabToFirestore(url: URL(string: formatURL(from: newTabSearch))!, title: "")
-                                                        
-                                                        navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                                        navigationState.currentURL = URL(string: formatURL(from: newTabSearch))
-                                                        
-                                                        tabBarShown = false
-                                                        newTabSearch = ""
-                                                    } label: {
-                                                        ZStack {
-                                                            RoundedRectangle(cornerRadius: 20)
-                                                                .foregroundStyle(startColor)
-                                                                .opacity(selectedIndex == index ? 1.0: 0.0)
-                                                                .frame(height: 50)
-                                                            
-                                                            HStack {
-                                                                Text(suggestion.url)
-                                                                    .foregroundStyle(selectedIndex == index ? Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"): Color(.black))
-                                                                
-                                                                Spacer()
-                                                                    .frame(width: 30, height: 10)
-                                                                
-                                                                Image(systemName: "arrow.right")
-                                                                    .foregroundStyle(selectedIndex == index ? Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"): Color(.black))
-                                                                    .hoverEffect(.highlight)
-                                                            }.padding(.horizontal, 15)
-                                                            
-                                                        }.padding(.horizontal, 20).hoverEffect(.lift)
-                                                            .id(index)
-                                                    }
-                                                }
+                                                Text("Search or Enter URL...")
+                                                    .foregroundStyle(Color.black.opacity(0.3))
+                                                    //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
                                             }
                                         }
+                                        .textInputAutocapitalization(.never)
                                     }
                                     
-                                }
+                                    SuggestionsView(newTabSearch: $newTabSearch, suggestionUrls: suggestionUrls)
+                                }.padding(15)
                             }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
                         }
                         
@@ -1146,6 +985,8 @@ struct TestingView: View {
                                                 }
                                             }
                                         }
+                                        
+                                        
                                     }
                                     
                                 }
@@ -1153,66 +994,77 @@ struct TestingView: View {
                         }
                         
                         
-                        /*if !((navigationState.selectedWebView?.isLoading) != nil) {
-                         LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                         .opacity(0.4)
-                         
-                         ProgressView()
-                         }*/
-                        /*if !(navigationState.selectedWebView?.isLoading ?? false) {
-                         LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                         .opacity(0.4)
-                         .frame(width: hideSidebar ? (screenWidth - 30) * (navigationState.selectedWebView?.estimatedProgress ?? 0.0): (screenWidth - 300) * (navigationState.selectedWebView?.estimatedProgress ?? 0.0))
-                         .animation(.default)
-                         }*/
-                        
+                        Spacer()
+                            .frame(width: 20)
                     }
                     
                     
-                    Spacer()
-                        .frame(width: 20)
+                }.onAppear {
+                    if let savedStartColor = getColor(forKey: "startColorHex") {
+                        startColor = savedStartColor
+                    }
+                    if let savedEndColor = getColor(forKey: "endColorHex") {
+                        endColor = savedEndColor
+                    }
+                    
+                    searchSuggestions.fetchData()
+                }
+            }/*.onAppear() {
+              if let savedTabs = UserDefaults.standard.data(forKey: "userTabs"),
+              let decodedTabs = try? JSONDecoder().decode([Tab].self, from: savedTabs) {
+              navigationState.webViews = decodedTabs
+              }
+              }*/
+            .onAppear {
+                if let urlsData = UserDefaults.standard.data(forKey: "userTabs"),
+                   let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
+                    let urls = urlStringArray.compactMap { URL(string: $0) }
+                    for url in urls {
+                        let request = URLRequest(url: url)
+                        
+                        navigationState.createNewWebView(withRequest: request)
+                        
+                    }
                 }
                 
-            }.onAppear {
-                if let savedStartColor = getColor(forKey: "startColorHex") {
-                    startColor = savedStartColor
+                if let urlsData = UserDefaults.standard.data(forKey: "pinnedTabs"),
+                   let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
+                    let urls = urlStringArray.compactMap { URL(string: $0) }
+                    for url in urls {
+                        let request = URLRequest(url: url)
+                        
+                        pinnedNavigationState.createNewWebView(withRequest: request)
+                        
+                    }
                 }
-                if let savedEndColor = getColor(forKey: "endColorHex") {
-                    endColor = savedEndColor
-                }
-                
-                searchSuggestions.fetchData()
             }
-        }/*.onAppear() {
-            if let savedTabs = UserDefaults.standard.data(forKey: "userTabs"),
-               let decodedTabs = try? JSONDecoder().decode([Tab].self, from: savedTabs) {
-                navigationState.webViews = decodedTabs
+            .onChange(of: navigationState.webViews) { newValue in
+                saveToLocalStorage()
             }
-        }*/
-        .onAppear {
-            if let urlsData = UserDefaults.standard.data(forKey: "userTabs"),
-               let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
-                let urls = urlStringArray.compactMap { URL(string: $0) }
-                for url in urls {
-                    let request = URLRequest(url: url)
-                    
-                    navigationState.createNewWebView(withRequest: request)
-                    
-                }
+            .onChange(of: pinnedNavigationState.webViews) { newValue in
+                saveToLocalStorage()
             }
         }
-        .onChange(of: navigationState.webViews) { newValue in
-            saveToLocalStorage()
-        }
-    }
+    } // maybe in the wrong spot
     
     
     func saveToLocalStorage() {
         let urlStringArray = navigationState.webViews.compactMap { $0.url?.absoluteString }
             if let urlsData = try? JSONEncoder().encode(urlStringArray){
             UserDefaults.standard.set(urlsData, forKey: "userTabs")
+                
+        }
+        
+        let urlStringArray2 = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
+            if let urlsData = try? JSONEncoder().encode(urlStringArray2){
+            UserDefaults.standard.set(urlsData, forKey: "pinnedTabs")
+                
         }
     }
+    
+    
+    
+
     
     //MARK: - Functions
     func selectNext() {
@@ -1280,37 +1132,9 @@ struct TestingView: View {
     
 }
 
+    
+    
 
-
-public extension TimeInterval {
-    var nanoseconds: UInt64 {
-        return UInt64((self * 1_000_000_000).rounded())
-    }
-}
-
-
-public extension Task where Success == Never, Failure == Never {
-    static func sleep(_ duration: TimeInterval) async throws {
-        try await Task.sleep(nanoseconds: duration.nanoseconds)
-    }
-}
-
-
-public extension View {
-    func onAppear(delay: TimeInterval, action: @escaping () -> Void) -> some View {
-        task {
-            do {
-                try await Task.sleep(delay)
-            } catch { // Task canceled
-                return
-            }
-            
-            await MainActor.run {
-                action()
-            }
-        }
-    }
-}
 
 
 
@@ -1339,64 +1163,74 @@ class CustomUITextField: UITextField {
     }
 }
 
-struct CustomTextField: UIViewRepresentable {
-    @Binding var text: String
-    var onSubmitTab: (() -> Void)?
+//struct CustomTextField: UIViewRepresentable {
+//    @Binding var text: String
+//    var onSubmitTab: (() -> Void)?
+//
+//    // Add closures for next and previous actions
+//    var selectNext: (() -> Void)?
+//    var selectPrevious: (() -> Void)?
+//    
+//    var placeholder: String?
+//
+//    func makeUIView(context: Context) -> CustomUITextField {
+//        let textField = CustomUITextField()
+//        
+//        // Set up the closures for arrow key actions
+//        textField.onUpArrow = {
+//            context.coordinator.parent.selectPrevious?()
+//        }
+//        textField.onDownArrow = {
+//            context.coordinator.parent.selectNext?()
+//        }
+//        
+//        textField.autocapitalizationType = .none
+//        
+//        textField.placeholder = placeholder
+//        
+//        textField.delegate = context.coordinator
+//        context.coordinator.onSubmit = onSubmitTab // Pass the action to the coordinator
+//        return textField
+//    }
+//
+//    func updateUIView(_ uiView: CustomUITextField, context: Context) {
+//        uiView.text = text
+//    }
+//
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, UITextFieldDelegate {
+//        var parent: CustomTextField
+//        var onSubmit: (() -> Void)?
+//
+//        init(_ parent: CustomTextField) {
+//            self.parent = parent
+//        }
+//        
+//        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//            if let currentValue = textField.text as NSString? {
+//                parent.text = currentValue.replacingCharacters(in: range, with: string)
+//            }
+//            return true
+//        }
+//        
+//        // Implement the textFieldShouldReturn method
+//        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//            textField.resignFirstResponder()  // Resign first responder status
+//            onSubmit?() // Call the action when the Return key is pressed
+//            return true
+//        }
+//    }
+//}
 
-    // Add closures for next and previous actions
-    var selectNext: (() -> Void)?
-    var selectPrevious: (() -> Void)?
-    
-    var placeholder: String?
 
-    func makeUIView(context: Context) -> CustomUITextField {
-        let textField = CustomUITextField()
-        
-        // Set up the closures for arrow key actions
-        textField.onUpArrow = {
-            context.coordinator.parent.selectPrevious?()
-        }
-        textField.onDownArrow = {
-            context.coordinator.parent.selectNext?()
-        }
-        
-        textField.autocapitalizationType = .none
-        
-        textField.placeholder = placeholder
-        
-        textField.delegate = context.coordinator
-        context.coordinator.onSubmit = onSubmitTab // Pass the action to the coordinator
-        return textField
-    }
 
-    func updateUIView(_ uiView: CustomUITextField, context: Context) {
-        uiView.text = text
-    }
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, UITextFieldDelegate {
-        var parent: CustomTextField
-        var onSubmit: (() -> Void)?
-
-        init(_ parent: CustomTextField) {
-            self.parent = parent
-        }
-        
-        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            if let currentValue = textField.text as NSString? {
-                parent.text = currentValue.replacingCharacters(in: range, with: string)
-            }
-            return true
-        }
-        
-        // Implement the textFieldShouldReturn method
-        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            textField.resignFirstResponder()  // Resign first responder status
-            onSubmit?() // Call the action when the Return key is pressed
-            return true
-        }
-    }
+struct WebsiteSuggestion: Codable {
+    var url: String
+    var title: String
 }
+
+

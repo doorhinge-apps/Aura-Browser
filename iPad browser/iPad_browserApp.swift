@@ -12,6 +12,7 @@ import Firebase
 struct iPad_browserApp: App {
     
     //@StateObject var dataManager = DataManager()
+    @State var newTabSearch = ""
     
     init() {
         FirebaseApp.configure()
@@ -20,6 +21,15 @@ struct iPad_browserApp: App {
         WindowGroup {
             //ContentView()
             LoginView()
+            
+//            VStack {
+//                TextField(text: $newTabSearch) {
+//                    Label("Search or Enter URL...", systemImage: "magnifyingglass")
+//                }
+//                .textInputAutocapitalization(.never)
+//                
+//                SuggestionsView(newTabSearch: $newTabSearch, suggestionUrls: suggestionUrls)
+//            }
         }
     }
 }

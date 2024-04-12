@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90213722AAFDEE200AB708D /* Button Styles.swift */; };
 		B90213752AB0174F00AB708D /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90213742AB0174F00AB708D /* Functions.swift */; };
+		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
 		B9230FFF2BBDC06A0032C950 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B9230FFE2BBDC06A0032C950 /* FirebaseAnalytics */; };
@@ -46,11 +47,14 @@
 		B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A52AABE3CB00EE3B42 /* Hex.swift */; };
 		B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A72AAC1F4B00EE3B42 /* TestingView.swift */; };
 		B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A92AAD686100EE3B42 /* LoginView.swift */; };
+		B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */; };
+		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B90213722AAFDEE200AB708D /* Button Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button Styles.swift"; sourceTree = "<group>"; };
 		B90213742AB0174F00AB708D /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		B91FBF942BC8EB0C001C317C /* Tab Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab Bar.swift"; sourceTree = "<group>"; };
 		B9230FF92BBD36740032C950 /* TopDomains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TopDomains.json; sourceTree = "<group>"; };
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
 		B95B19E12AABBEE00013AC79 /* iPad browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iPad browser.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +67,8 @@
 		B98953A52AABE3CB00EE3B42 /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
 		B98953A72AAC1F4B00EE3B42 /* TestingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingView.swift; sourceTree = "<group>"; };
 		B98953A92AAD686100EE3B42 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsData.swift; sourceTree = "<group>"; };
+		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,8 +140,11 @@
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
 				B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */,
 				B95B19E62AABBEE00013AC79 /* ContentView.swift */,
+				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
 				B98953A72AAC1F4B00EE3B42 /* TestingView.swift */,
+				B91FBF942BC8EB0C001C317C /* Tab Bar.swift */,
 				B9230FF92BBD36740032C950 /* TopDomains.json */,
+				B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */,
 				B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */,
 				B98953A92AAD686100EE3B42 /* LoginView.swift */,
 				B90213742AB0174F00AB708D /* Functions.swift */,
@@ -245,6 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */,
 				B98953A32AABCF7200EE3B42 /* GoogleService-Info.plist in Resources */,
 				B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */,
 				B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */,
@@ -262,9 +272,11 @@
 			files = (
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */,
+				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */,
+				B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */,
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */,
 			);
@@ -409,6 +421,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -440,6 +453,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
