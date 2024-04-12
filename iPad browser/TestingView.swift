@@ -317,6 +317,9 @@ struct TestingView: View {
                                 if let unwrappedURL = navigationState.currentURL {
                                     searchInSidebar = unwrappedURL.absoluteString
                                 }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                }
                             }, label: {
                                 ZStack {
                                     Color(.white)
@@ -713,6 +716,7 @@ struct TestingView: View {
                                 HStack {
                                     VStack {
                                         Button(action: {
+                                            
                                             Task {
                                                 await hideSidebar.toggle()
                                             }
@@ -726,8 +730,17 @@ struct TestingView: View {
                                             if let unwrappedURL = navigationState.currentURL {
                                                 searchInSidebar = unwrappedURL.absoluteString
                                             }
-                                            
-                                            hoverTinySpace = false
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                                navigationState.selectedWebView?.reload()
+                                                navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                
+                                                navigationState.selectedWebView = navigationState.selectedWebView
+                                                //navigationState.currentURL = navigationState.currentURL
+                                                
+                                                if let unwrappedURL = navigationState.currentURL {
+                                                    searchInSidebar = unwrappedURL.absoluteString
+                                                }
+                                            }
                                         }, label: {
                                             ZStack {
                                                 //Color(.white)
@@ -1008,7 +1021,8 @@ struct TestingView: View {
                         
                         Spacer()
                             .frame(width: 20)
-                    }
+                    }.padding(.trailing, 12)
+                        .animation(.default)
                     
                     
                 }.onAppear {
