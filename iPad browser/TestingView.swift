@@ -259,6 +259,8 @@ struct TestingView: View {
     
     @State var draggedTab: WKWebView?
     
+    @State var reloadRotation = 0
+    
     //@State var offsets = [:] as? [WKWebView: CGSize]
     //@State var offsets = [:] as? [String: CGFloat]
     //@State var offsets: [String: CGFloat]? = [:]
@@ -481,6 +483,7 @@ struct TestingView: View {
                             
                             
                             Button(action: {
+                                reloadRotation += 360
                                 navigationState.selectedWebView?.reload()
                                 navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                 
@@ -501,6 +504,8 @@ struct TestingView: View {
                                         .frame(width: 20, height: 20)
                                         .foregroundStyle(Color.white)
                                         .opacity(hoverReloadButton ? 1.0: 0.5)
+                                        .rotationEffect(Angle(degrees: Double(reloadRotation)))
+                                        .animation(.bouncy, value: reloadRotation)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
                                     .hoverEffect(.lift)
@@ -769,6 +774,8 @@ struct TestingView: View {
                                         
                                         
                                         Button(action: {
+                                            reloadRotation += 360
+                                            
                                             navigationState.selectedWebView?.reload()
                                             navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                             
@@ -794,6 +801,8 @@ struct TestingView: View {
                                                     .frame(width: 25, height: 25)
                                                     .foregroundStyle(Color.white)
                                                     .opacity(hoverReloadButton ? 1.0: 0.5)
+                                                    .rotationEffect(Angle(degrees: Double(reloadRotation)))
+                                                    .animation(.bouncy, value: reloadRotation)
                                                 
                                             }.animation(.smooth).frame(width: 50, height: 50).cornerRadius(75).hoverEffect(.lift)
                                         })

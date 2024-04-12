@@ -1,5 +1,5 @@
 {
-  "originHash" : "6aa5a9e53cf6634115c315c7ef3dae0575a069f9b1c45e530c341c8d4d9f7b83",
+  "originHash" : "a1569f9895aa2be8e24832f98525d5da4eb90b5d158a82691c15b47eb72a13d7",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -116,15 +116,6 @@
       "state" : {
         "revision" : "cf62cdaea48b77f1a631e5cb3aeda6047c2cba1d",
         "version" : "1.23.0"
-      }
-    },
-    {
-      "identity" : "swiftui-reorderable-foreach",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/globulus/swiftui-reorderable-foreach",
-      "state" : {
-        "revision" : "47f6ca1ad906ef2ae1f872ed34a10cc615ad99ca",
-        "version" : "1.0.0"
       }
     }
   ],
