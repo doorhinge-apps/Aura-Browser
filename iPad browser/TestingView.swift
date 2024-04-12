@@ -346,7 +346,7 @@ struct TestingView: View {
                             
                             
                             Button(action: {
-                                changeColorSheet = true
+                                changeColorSheet.toggle()
                             }, label: {
                                 ZStack {
                                     Color(.white)
@@ -370,11 +370,13 @@ struct TestingView: View {
                                         }
                                     })
                             }).keyboardShortcut("e", modifiers: .command)
-                                .sheet(isPresented: $changeColorSheet, content: {
+                                .popover(isPresented: $changeColorSheet, content: {
                                     VStack(spacing: 20) {
                                         LinearGradient(gradient: Gradient(colors: [startColor, endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                            .frame(height: 200)
+                                            .frame(width: 200, height: 200)
                                             .cornerRadius(10)
+                                            .ignoresSafeArea()
+                                            .offset(y: -10)
                                         
                                         VStack {
                                             ColorPicker("Start Color", selection: $startColor)
@@ -391,6 +393,7 @@ struct TestingView: View {
                                         
                                         Spacer()
                                     }
+                                    
                                 })
                             
                             
