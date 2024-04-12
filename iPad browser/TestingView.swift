@@ -11,6 +11,7 @@ import WebKit
 import Combine
 import Firebase
 import FirebaseFirestore
+import SwiftUIReorderableForEach
 
 
 struct Suggestion: Identifiable, Codable {
@@ -255,6 +256,8 @@ struct TestingView: View {
     
     
     @State private var selectedIndex: Int? = 0
+    
+    @State var draggedTab: WKWebView?
     
     //@State var offsets = [:] as? [WKWebView: CGSize]
     //@State var offsets = [:] as? [String: CGFloat]
@@ -588,6 +591,8 @@ struct TestingView: View {
                         //TabBar(navigationState: $navigationState, timer: $timer, reloadTitles: $reloadTitles, hoverTab: $hoverTab, searchInSidebar: $searchInSidebar)
                         ScrollView {
                             ForEach(navigationState.webViews, id: \.self) { tab in
+                            //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
+                            //ReorderableForEach(navigationState.webViews) {tab, isDragged in
                                 ZStack {
                                     if reloadTitles {
                                         Color.white.opacity(0.0)
@@ -667,6 +672,13 @@ struct TestingView: View {
                                         searchInSidebar = unwrappedURL.absoluteString
                                     }
                                 }
+                                .onDrag {
+                                    self.draggedTab = tab
+                                    return NSItemProvider()
+                                }
+                                .onDrop(of: [.text],
+                                        delegate: DropViewDelegate(destinationItem: tab, allTabs: $navigationState.webViews, draggedItem: $draggedTab)
+                                    )
                 //                .offset(y: offsets[tab.url?.description] ?? 0)
                 //                .gesture(
                 //                    DragGesture()

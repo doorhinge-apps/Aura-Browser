@@ -10,6 +10,7 @@
 		B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90213722AAFDEE200AB708D /* Button Styles.swift */; };
 		B90213752AB0174F00AB708D /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90213742AB0174F00AB708D /* Functions.swift */; };
 		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
+		B91FBF982BC8EE7E001C317C /* SwiftUIReorderableForEach in Frameworks */ = {isa = PBXBuildFile; productRef = B91FBF972BC8EE7E001C317C /* SwiftUIReorderableForEach */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
 		B9230FFF2BBDC06A0032C950 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B9230FFE2BBDC06A0032C950 /* FirebaseAnalytics */; };
@@ -103,6 +104,7 @@
 				B92310152BBDC06A0032C950 /* FirebaseDynamicLinks in Frameworks */,
 				B92310192BBDC06B0032C950 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				B92310252BBDC06B0032C950 /* FirebaseInstallations in Frameworks */,
+				B91FBF982BC8EE7E001C317C /* SwiftUIReorderableForEach in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +210,7 @@
 				B923102E2BBDC06B0032C950 /* FirebaseRemoteConfigSwift */,
 				B92310302BBDC06B0032C950 /* FirebaseStorage */,
 				B92310322BBDC06B0032C950 /* FirebaseStorageCombine-Community */,
+				B91FBF972BC8EE7E001C317C /* SwiftUIReorderableForEach */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* iPad browser.app */;
@@ -239,6 +242,7 @@
 			mainGroup = B95B19D82AABBEE00013AC79;
 			packageReferences = (
 				B95B19F22AABC40D0013AC79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				B91FBF962BC8EE7E001C317C /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -492,6 +496,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B91FBF962BC8EE7E001C317C /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/globulus/swiftui-reorderable-foreach";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		B95B19F22AABC40D0013AC79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -503,6 +515,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B91FBF972BC8EE7E001C317C /* SwiftUIReorderableForEach */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B91FBF962BC8EE7E001C317C /* XCRemoteSwiftPackageReference "swiftui-reorderable-foreach" */;
+			productName = SwiftUIReorderableForEach;
+		};
 		B9230FFE2BBDC06A0032C950 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B95B19F22AABC40D0013AC79 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
