@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Firebase
+
 
 @main
 struct iPad_browserApp: App {
@@ -14,9 +14,9 @@ struct iPad_browserApp: App {
     //@StateObject var dataManager = DataManager()
     @State var newTabSearch = ""
     
-    init() {
-        FirebaseApp.configure()
-    }
+//    init() {
+//        FirebaseApp.configure()
+//    }
     var body: some Scene {
         WindowGroup {
             //ContentView()

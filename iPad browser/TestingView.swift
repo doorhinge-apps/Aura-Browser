@@ -9,9 +9,6 @@ import SwiftUI
 import UIKit
 import WebKit
 import Combine
-import Firebase
-import FirebaseFirestore
-import SwiftUIReorderableForEach
 
 
 struct Suggestion: Identifiable, Codable {
@@ -19,52 +16,52 @@ struct Suggestion: Identifiable, Codable {
     var url: String
 }
 
-class SuggestionsViewModel: ObservableObject {
-    @Published var suggestions = [Suggestion]()
-    private var db = Firestore.firestore()
-    
-    func randomString(length: Int) -> String {
-      let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-      return String((0..<length).map{ _ in letters.randomElement()! })
-    }
-    
-
-    func fetchData() {
-        db.collection("Suggestions").addSnapshotListener { (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-                print("No documents")
-                return
-            }
-
-            self.suggestions = documents.map { (queryDocumentSnapshot) -> Suggestion in
-                let data = queryDocumentSnapshot.data()
-                let id = data["uid"] as? String ?? ""
-                let url = data["url"] as? String ?? ""
-                return Suggestion(id: id, url: url)
-            }
-        }
-    }
-    
-    
-    func addSuggestion(url: String) {
-        // Create a new Suggestion
-        
-        //UIPasteboard.general.string = self.BLEinfo.sendRcvLog
-        var newSuggestion = "\(defaults.string(forKey: "email") ?? "Email not found") - \(url))"
-        
-        var docID = "\(defaults.string(forKey: "email") ?? "Email not found") - \(url.replacingOccurrences(of: "/", with: "-+|slash|+-"))"
-        
-        // Add the new Suggestion to Firestore
-        
-        let ref = db.collection("Suggestions").document(docID)
-        ref.setData(["uid": newSuggestion, "url": url]) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
-    }
-
-}
+//class SuggestionsViewModel: ObservableObject {
+//    @Published var suggestions = [Suggestion]()
+//    private var db = Firestore.firestore()
+//    
+//    func randomString(length: Int) -> String {
+//      let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+//      return String((0..<length).map{ _ in letters.randomElement()! })
+//    }
+//    
+//
+//    func fetchData() {
+//        db.collection("Suggestions").addSnapshotListener { (querySnapshot, error) in
+//            guard let documents = querySnapshot?.documents else {
+//                print("No documents")
+//                return
+//            }
+//
+//            self.suggestions = documents.map { (queryDocumentSnapshot) -> Suggestion in
+//                let data = queryDocumentSnapshot.data()
+//                let id = data["uid"] as? String ?? ""
+//                let url = data["url"] as? String ?? ""
+//                return Suggestion(id: id, url: url)
+//            }
+//        }
+//    }
+//    
+//    
+//    func addSuggestion(url: String) {
+//        // Create a new Suggestion
+//        
+//        //UIPasteboard.general.string = self.BLEinfo.sendRcvLog
+//        var newSuggestion = "\(defaults.string(forKey: "email") ?? "Email not found") - \(url))"
+//        
+//        var docID = "\(defaults.string(forKey: "email") ?? "Email not found") - \(url.replacingOccurrences(of: "/", with: "-+|slash|+-"))"
+//        
+//        // Add the new Suggestion to Firestore
+//        
+//        let ref = db.collection("Suggestions").document(docID)
+//        ref.setData(["uid": newSuggestion, "url": url]) { error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
+//
+//}
 
 
 class NavigationState : NSObject, ObservableObject {
@@ -82,77 +79,77 @@ class NavigationState : NSObject, ObservableObject {
         wv.load(request)
         
         // Only add the new WebView to Firestore if it's not being recreated from Firestore
-        if !fromFirestore, let url = request.url {
-            addTabToFirestore(url: url, title: wv.title ?? "Loading...")
-        }
+//        if !fromFirestore, let url = request.url {
+//            addTabToFirestore(url: url, title: wv.title ?? "Loading...")
+//        }
 
         return wv
     }
 
     
-    private var db = Firestore.firestore()
+    //private var db = Firestore.firestore()
     
-    func randomString(length: Int) -> String {
-      let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-      return String((0..<length).map{ _ in letters.randomElement()! })
-    }
-
-    func addTabToFirestore(url: URL, title: String) {
-        
-        // Check if the tab is already in Firestore
-        let tabsRef = Firestore.firestore().collection("Tabs")
-        tabsRef.whereField("url", isEqualTo: url.absoluteString).getDocuments() { (querySnapshot, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                if querySnapshot!.documents.isEmpty {
-                    // The tab is not in Firestore, so add it
-                    let documentID = "\(defaults.string(forKey: "email")) - \(self.randomString(length: 6))"
-                    
-                    let db = Firestore.firestore()
-                    let ref = db.collection("TabsDontExist").document(documentID)
-                    ref.setData([
-                        "uid": documentID,
-                        "title": title,
-                        "url": url.absoluteString
-                    ]) { error in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    // Remove a tab from Firestore
-    func removeTabFromFirestore(id: String) {
-        db.collection("Tabs").document(id).delete() { error in
-            if let error = error {
-                print("Error removing document: \(error)")
-            } else {
-                print("Document successfully removed!")
-            }
-        }
-    }
-    
-    // Fetch all tabs from Firestore
-    func fetchTabsFromFirestore() {
-        db.collection("Tabs").getDocuments() { (querySnapshot, error) in
-            if let error = error {
-                print("Error fetching documents: \(error)")
-            } else {
-                self.webViews.removeAll()
-                for document in querySnapshot!.documents {
-                    let data = document.data()
-                    if let urlString = data["url"] as? String, let url = URL(string: urlString) {
-                        let request = URLRequest(url: url)
-                        self.createNewWebView(withRequest: request, fromFirestore: true) // Marking the WebView as one being recreated from Firestore
-                    }
-                }
-            }
-        }
-    }
+//    func randomString(length: Int) -> String {
+//      let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+//      return String((0..<length).map{ _ in letters.randomElement()! })
+//    }
+//
+//    func addTabToFirestore(url: URL, title: String) {
+//        
+//        // Check if the tab is already in Firestore
+//        let tabsRef = Firestore.firestore().collection("Tabs")
+//        tabsRef.whereField("url", isEqualTo: url.absoluteString).getDocuments() { (querySnapshot, error) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            } else {
+//                if querySnapshot!.documents.isEmpty {
+//                    // The tab is not in Firestore, so add it
+//                    let documentID = "\(defaults.string(forKey: "email")) - \(self.randomString(length: 6))"
+//                    
+//                    let db = Firestore.firestore()
+//                    let ref = db.collection("TabsDontExist").document(documentID)
+//                    ref.setData([
+//                        "uid": documentID,
+//                        "title": title,
+//                        "url": url.absoluteString
+//                    ]) { error in
+//                        if let error = error {
+//                            print(error.localizedDescription)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    
+//    // Remove a tab from Firestore
+//    func removeTabFromFirestore(id: String) {
+//        db.collection("Tabs").document(id).delete() { error in
+//            if let error = error {
+//                print("Error removing document: \(error)")
+//            } else {
+//                print("Document successfully removed!")
+//            }
+//        }
+//    }
+//    
+//    // Fetch all tabs from Firestore
+//    func fetchTabsFromFirestore() {
+//        db.collection("Tabs").getDocuments() { (querySnapshot, error) in
+//            if let error = error {
+//                print("Error fetching documents: \(error)")
+//            } else {
+//                self.webViews.removeAll()
+//                for document in querySnapshot!.documents {
+//                    let data = document.data()
+//                    if let urlString = data["url"] as? String, let url = URL(string: urlString) {
+//                        let request = URLRequest(url: url)
+//                        self.createNewWebView(withRequest: request, fromFirestore: true) // Marking the WebView as one being recreated from Firestore
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
 
 extension NavigationState : WKNavigationDelegate {
@@ -199,7 +196,7 @@ struct TestingView: View {
     
     @ObservedObject var pinnedNavigationState = NavigationState()
     
-    @StateObject private var searchSuggestions = SuggestionsViewModel()
+    //@StateObject private var searchSuggestions = SuggestionsViewModel()
     
     @State var hideSidebar = false
     
@@ -968,7 +965,7 @@ struct TestingView: View {
                                                 focusedField = .none
                                             }
                                             .onSubmit {
-                                                searchSuggestions.addSuggestion(url: newTabSearch)
+                                                //searchSuggestions.addSuggestion(url: newTabSearch)
                                                 //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: searchInSidebar))!))
                                                 navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
                                                 
@@ -981,7 +978,7 @@ struct TestingView: View {
                                     }
                                     .padding(20)
                                     
-                                    ScrollView {
+                                    /*ScrollView {
                                         let filteredSuggestions = searchSuggestions.suggestions.filter { suggestion in
                                             suggestion.id.starts(with: defaults.string(forKey: "email") ?? "Email not found") &&
                                             suggestion.url.starts(with: searchInSidebar)
@@ -1021,7 +1018,7 @@ struct TestingView: View {
                                         }
                                         
                                         
-                                    }
+                                    }*/
                                     
                                 }
                             }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
@@ -1042,7 +1039,7 @@ struct TestingView: View {
                         endColor = savedEndColor
                     }
                     
-                    searchSuggestions.fetchData()
+                    //searchSuggestions.fetchData()
                 }
             }/*.onAppear() {
               if let savedTabs = UserDefaults.standard.data(forKey: "userTabs"),
@@ -1102,20 +1099,6 @@ struct TestingView: View {
 
     
     //MARK: - Functions
-    func selectNext() {
-        if let index = selectedIndex, index < searchSuggestions.suggestions.count - 2 {
-            selectedIndex = index + 1
-        }
-    }
-
-    func selectPrevious() {
-        if let index = selectedIndex, index > 0 {
-            selectedIndex = index - 1
-        }
-    }
-    
-    
-    
     
     func saveColor(color: Color, key: String) {
         let uiColor = UIColor(color)
