@@ -258,6 +258,8 @@ struct TestingView: View {
     
     @State var reloadRotation = 0
     
+    @State var showSettings = false
+    
     //@State var offsets = [:] as? [WKWebView: CGSize]
     //@State var offsets = [:] as? [String: CGFloat]
     //@State var offsets: [String: CGFloat]? = [:]
@@ -700,6 +702,17 @@ struct TestingView: View {
                                 
                             }
                         }
+                        
+                        Button {
+                            showSettings.toggle()
+                        } label: {
+                            Image(systemName: "gearshape")
+                                .foregroundStyle(Color.white)
+                        }
+                        .sheet(isPresented: $showSettings) {
+                            Settings()
+                        }
+
                     }.animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
                     
                     
@@ -939,6 +952,24 @@ struct TestingView: View {
                                             }
                                         }
                                         .textInputAutocapitalization(.never)
+                                        .onSubmit {
+                                            navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
+                                            
+                                            //navigationState.currentURL = URL(string: formatURL(from: newTabSearch))
+                                            
+                                            
+                                            //navigationState.selectedWebView?.load(URLRequest(url: URL(string: newTabSearch)!))
+                                            
+                                            tabBarShown = false
+                                        }
+                                        .focused($focusedField, equals: .tabBar)
+                                        .onAppear() {
+                                            focusedField = .tabBar
+                                        }
+                                        .onDisappear() {
+                                            focusedField = .none
+                                            newTabSearch = ""
+                                        }
                                     }
                                     
                                     SuggestionsView(newTabSearch: $newTabSearch, suggestionUrls: suggestionUrls)

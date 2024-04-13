@@ -36,6 +36,7 @@
 		B90933152BC8FF03005292D6 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B90933142BC8FF03005292D6 /* FirebaseRemoteConfigSwift */; };
 		B90933172BC8FF03005292D6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B90933162BC8FF03005292D6 /* FirebaseStorage */; };
 		B90933192BC8FF03005292D6 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = B90933182BC8FF03005292D6 /* FirebaseStorageCombine-Community */; };
+		B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B918673B2BCB0AFD00C159AB /* Settings.swift */; };
 		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		B90213722AAFDEE200AB708D /* Button Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button Styles.swift"; sourceTree = "<group>"; };
 		B90213742AB0174F00AB708D /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		B918673B2BCB0AFD00C159AB /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B91FBF942BC8EB0C001C317C /* Tab Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab Bar.swift"; sourceTree = "<group>"; };
 		B9230FF92BBD36740032C950 /* TopDomains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TopDomains.json; sourceTree = "<group>"; };
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				B95B19E62AABBEE00013AC79 /* ContentView.swift */,
 				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
 				B98953A72AAC1F4B00EE3B42 /* TestingView.swift */,
+				B918673B2BCB0AFD00C159AB /* Settings.swift */,
 				B91FBF942BC8EB0C001C317C /* Tab Bar.swift */,
 				B9230FF92BBD36740032C950 /* TopDomains.json */,
 				B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */,
@@ -274,6 +277,7 @@
 				B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
+				B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */,
 				B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */,
@@ -410,7 +414,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -444,7 +448,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
