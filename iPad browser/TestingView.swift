@@ -193,8 +193,8 @@ struct TestingWebView : UIViewRepresentable {
 
 struct TestingView: View {
     @ObservedObject var navigationState = NavigationState()
-    
     @ObservedObject var pinnedNavigationState = NavigationState()
+    @ObservedObject var favoritesNavigationState = NavigationState()
     
     //@StateObject private var searchSuggestions = SuggestionsViewModel()
     
@@ -600,9 +600,153 @@ struct TestingView: View {
                         //TabBar(navigationState: $navigationState)
                         //TabBar(navigationState: $navigationState, timer: $timer, reloadTitles: $reloadTitles, hoverTab: $hoverTab, searchInSidebar: $searchInSidebar)
                         ScrollView {
+                            ForEach(pinnedNavigationState.webViews, id: \.self) { tab in
+                                //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
+                                //ReorderableForEach(navigationState.webViews) {tab, isDragged in
+                                ZStack {
+                                    if reloadTitles {
+                                        Color.white.opacity(0.0)
+                                    }
+                                    
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .foregroundStyle(Color(.white).opacity(tab == pinnedNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.2: 0.0))
+                                    //.foregroundStyle(navigationState.currentURL?.absoluteString ?? "(none)" == tab.url ? Color(.white).opacity(0.4): hoverTab == tab ? Color(.white).opacity(0.2): Color.clear)
+                                        .frame(height: 50)
+                                    
+                                    
+                                    HStack {
+                                        Text(tab.title ?? "Tab not found.")
+                                            .lineLimit(1)
+                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                            .padding(.leading, 5)
+                                            .onReceive(timer) { _ in
+                                                reloadTitles.toggle()
+                                            }
+                                        
+                                        Spacer()
+                                        
+                                        Button(action: {
+                                            if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
+                                                removeTab(at: index)
+                                            }
+                                        }) {
+                                            if hoverTab == tab || pinnedNavigationState.selectedWebView == tab {
+                                                ZStack {
+                                                    Color(.white)
+                                                        .opacity(hoverCloseTab == tab ? 0.3: 0.0)
+                                                    
+                                                    Image(systemName: "xmark")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 15, height: 15)
+                                                        .foregroundStyle(Color.white)
+                                                        .opacity(hoverCloseTab == tab ? 1.0: 0.8)
+                                                    
+                                                }.frame(width: 35, height: 35).cornerRadius(7).padding(.trailing, 10)
+                                                    .hoverEffect(.lift)
+                                                    .onHover(perform: { hovering in
+                                                        if hovering {
+                                                            hoverCloseTab = tab
+                                                        }
+                                                        else {
+                                                            hoverCloseTab = WKWebView()
+                                                        }
+                                                    })
+                                                
+                                            }
+                                        }.keyboardShortcut("w", modifiers: .option)
+                                    }
+                                    
+                                    
+                                }
+                                .contextMenu {
+                                    Button {
+                                        if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
+                                            pinnedNavigationState.webViews.insert(tab, at: index + 1)
+                                        }
+                                    } label: {
+                                        Label("Duplicate", systemImage: "plus.square.on.square")
+                                    }
+                                    
+                                    Button {
+                                        pinnedNavigationState.webViews.append(tab)
+                                        
+                                        if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
+                                            removeTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Pin Tab", systemImage: "pin")
+                                    }
+                                    
+                                    Button {
+                                        pinnedNavigationState.webViews.append(tab)
+                                        
+                                        if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
+                                            removeTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Favorite", systemImage: "star")
+                                    }
+                                    
+                                    Button {
+                                        if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
+                                            removeTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Close Tab", systemImage: "xmark")
+                                    }
+                                    
+                                }
+                                .onHover(perform: { hovering in
+                                    if hovering {
+                                        hoverTab = tab
+                                    }
+                                    else {
+                                        hoverTab = WKWebView()
+                                    }
+                                })
+                                .onTapGesture {
+                                    navigationState.selectedWebView = nil
+                                    pinnedNavigationState.selectedWebView = tab
+                                    pinnedNavigationState.currentURL = tab.url
+                                    
+                                    if let unwrappedURL = tab.url {
+                                        searchInSidebar = unwrappedURL.absoluteString
+                                    }
+                                }
+                                .onDrag {
+                                    self.draggedTab = tab
+                                    return NSItemProvider()
+                                }
+                                .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $pinnedNavigationState.webViews, draggedItem: $draggedTab))
+                            }
+                            
+                            Button {
+                                tabBarShown.toggle()
+                                
+                                hoverTinySpace.toggle()
+                            } label: {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .foregroundStyle(Color(.white).opacity(0.2))
+                                        .frame(height: 50)
+                                    HStack {
+                                        Label("New Tab", systemImage: "plus")
+                                            .foregroundStyle(Color.white)
+                                            .font(.system(.headline, design: .rounded, weight: .bold))
+                                            .padding(.leading, 10)
+                                        
+                                        Spacer()
+                                    }
+                                }
+                            }
+                            
+                            
+                            
+                            
                             ForEach(navigationState.webViews, id: \.self) { tab in
-                            //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
-                            //ReorderableForEach(navigationState.webViews) {tab, isDragged in
+                                //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
+                                //ReorderableForEach(navigationState.webViews) {tab, isDragged in
                                 ZStack {
                                     if reloadTitles {
                                         Color.white.opacity(0.0)
@@ -657,11 +801,31 @@ struct TestingView: View {
                                         }.keyboardShortcut("w", modifiers: .option)
                                     }.contextMenu {
                                         Button {
-                                            //
+                                            if let index = navigationState.webViews.firstIndex(of: tab) {
+                                                removeTab(at: index)
+                                            }
+                                        } label: {
+                                            Text("Duplicate")
+                                        }
+                                        
+                                        Button {
+                                            pinnedNavigationState.webViews.append(tab)
+                                            
+                                            if let index = navigationState.webViews.firstIndex(of: tab) {
+                                                removeTab(at: index)
+                                            }
+                                        } label: {
+                                            Text("Pin Tab")
+                                        }
+                                        
+                                        Button {
+                                            if let index = navigationState.webViews.firstIndex(of: tab) {
+                                                removeTab(at: index)
+                                            }
                                         } label: {
                                             Text("Close Tab")
                                         }
-
+                                        
                                     }
                                     
                                     
@@ -686,20 +850,7 @@ struct TestingView: View {
                                     self.draggedTab = tab
                                     return NSItemProvider()
                                 }
-                                .onDrop(of: [.text],
-                                        delegate: DropViewDelegate(destinationItem: tab, allTabs: $navigationState.webViews, draggedItem: $draggedTab)
-                                    )
-                //                .offset(y: offsets[tab.url?.description] ?? 0)
-                //                .gesture(
-                //                    DragGesture()
-                //                        .onChanged { gesture in
-                //                            offsets[tab.url?.description] = gesture.translation.height
-                //                        }
-                //                        .onEnded { _ in
-                //                            self.offsets[tab.url?.description] = 0
-                //                        }
-                //                )
-                                
+                                .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $navigationState.webViews, draggedItem: $draggedTab))
                             }
                         }
                         
@@ -712,7 +863,7 @@ struct TestingView: View {
                         .sheet(isPresented: $showSettings) {
                             Settings()
                         }
-
+                        
                     }.animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
                     
                     
@@ -722,11 +873,7 @@ struct TestingView: View {
                             .cornerRadius(10)
                         //MARK: - WebView
                         TestingWebView(navigationState: navigationState)
-                        //.frame(width: hideSidebar ? geo.size.width - 40 : geo.size.width - 350)
                             .cornerRadius(10)
-                            .onAppear() {
-                                //navigationState.selectedWebView.frame = CGRect(origin: .zero, size: geo.size)
-                            }
                         
                         //MARK: - Hidden Sidebar Actions
                         if hideSidebar && hoverTinySpace {
@@ -942,13 +1089,13 @@ struct TestingView: View {
                                     HStack {
                                         Image(systemName: "magnifyingglass")
                                             .foregroundStyle(Color.black.opacity(0.3))
-                                            //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                        //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
                                         
                                         TextField(text: $newTabSearch) {
                                             HStack {
                                                 Text("Search or Enter URL...")
                                                     .foregroundStyle(Color.black.opacity(0.3))
-                                                    //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
+                                                //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
                                             }
                                         }
                                         .textInputAutocapitalization(.never)
@@ -975,6 +1122,7 @@ struct TestingView: View {
                                     SuggestionsView(newTabSearch: $newTabSearch, suggestionUrls: suggestionUrls)
                                 }.padding(15)
                             }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
+                                .ignoresSafeArea()
                         }
                         
                         //MARK: - Command Bar
@@ -1013,49 +1161,50 @@ struct TestingView: View {
                                     .padding(20)
                                     
                                     /*ScrollView {
-                                        let filteredSuggestions = searchSuggestions.suggestions.filter { suggestion in
-                                            suggestion.id.starts(with: defaults.string(forKey: "email") ?? "Email not found") &&
-                                            suggestion.url.starts(with: searchInSidebar)
-                                        }
-                                        
-                                        ForEach(Array(filteredSuggestions.enumerated()), id: \.element.id) { index, suggestion in
-                                            if suggestion.url != "" {
-                                                Button {
-                                                    searchInSidebar = suggestion.url
-                                                    
-                                                    navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
-                                                    
-                                                    navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
-                                                    
-                                                    commandBarShown = false
-                                                } label: {
-                                                    ZStack {
-                                                        RoundedRectangle(cornerRadius: 20)
-                                                            .foregroundStyle(startColor)
-                                                            .frame(height: 50)
-                                                        
-                                                        HStack {
-                                                            Text(suggestion.url)
-                                                                .foregroundStyle(Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"))
-                                                            
-                                                            Spacer()
-                                                                .frame(width: 30, height: 10)
-                                                            
-                                                            Image(systemName: "arrow.right")
-                                                                .foregroundStyle(Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"))
-                                                                .hoverEffect(.highlight)
-                                                        }.padding(.horizontal, 15)
-                                                        
-                                                    }.padding(.horizontal, 20).hoverEffect(.lift)
-                                                }
-                                            }
-                                        }
-                                        
-                                        
-                                    }*/
+                                     let filteredSuggestions = searchSuggestions.suggestions.filter { suggestion in
+                                     suggestion.id.starts(with: defaults.string(forKey: "email") ?? "Email not found") &&
+                                     suggestion.url.starts(with: searchInSidebar)
+                                     }
+                                     
+                                     ForEach(Array(filteredSuggestions.enumerated()), id: \.element.id) { index, suggestion in
+                                     if suggestion.url != "" {
+                                     Button {
+                                     searchInSidebar = suggestion.url
+                                     
+                                     navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                     
+                                     navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                     
+                                     commandBarShown = false
+                                     } label: {
+                                     ZStack {
+                                     RoundedRectangle(cornerRadius: 20)
+                                     .foregroundStyle(startColor)
+                                     .frame(height: 50)
+                                     
+                                     HStack {
+                                     Text(suggestion.url)
+                                     .foregroundStyle(Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"))
+                                     
+                                     Spacer()
+                                     .frame(width: 30, height: 10)
+                                     
+                                     Image(systemName: "arrow.right")
+                                     .foregroundStyle(Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"))
+                                     .hoverEffect(.highlight)
+                                     }.padding(.horizontal, 15)
+                                     
+                                     }.padding(.horizontal, 20).hoverEffect(.lift)
+                                     }
+                                     }
+                                     }
+                                     
+                                     
+                                     }*/
                                     
                                 }
                             }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
+                                .ignoresSafeArea()
                         }
                         
                         
@@ -1065,7 +1214,9 @@ struct TestingView: View {
                         .animation(.default)
                     
                     
-                }.onAppear {
+                }
+                .padding(10)
+                .onAppear {
                     if let savedStartColor = getColor(forKey: "startColorHex") {
                         startColor = savedStartColor
                     }
@@ -1075,12 +1226,7 @@ struct TestingView: View {
                     
                     //searchSuggestions.fetchData()
                 }
-            }/*.onAppear() {
-              if let savedTabs = UserDefaults.standard.data(forKey: "userTabs"),
-              let decodedTabs = try? JSONDecoder().decode([Tab].self, from: savedTabs) {
-              navigationState.webViews = decodedTabs
-              }
-              }*/
+            }
             .onAppear {
                 if let urlsData = UserDefaults.standard.data(forKey: "userTabs"),
                    let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
@@ -1103,6 +1249,17 @@ struct TestingView: View {
                         
                     }
                 }
+                
+                if let urlsData = UserDefaults.standard.data(forKey: "favoriteTabs"),
+                   let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
+                    let urls = urlStringArray.compactMap { URL(string: $0) }
+                    for url in urls {
+                        let request = URLRequest(url: url)
+                        
+                        favoritesNavigationState.createNewWebView(withRequest: request)
+                        
+                    }
+                }
             }
             .onChange(of: navigationState.webViews) { newValue in
                 saveToLocalStorage()
@@ -1110,6 +1267,10 @@ struct TestingView: View {
             .onChange(of: pinnedNavigationState.webViews) { newValue in
                 saveToLocalStorage()
             }
+            .onChange(of: favoritesNavigationState.webViews) { newValue in
+                saveToLocalStorage()
+            }
+            .ignoresSafeArea()
         }
     } // maybe in the wrong spot
     
@@ -1124,6 +1285,12 @@ struct TestingView: View {
         let urlStringArray2 = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
             if let urlsData = try? JSONEncoder().encode(urlStringArray2){
             UserDefaults.standard.set(urlsData, forKey: "pinnedTabs")
+                
+        }
+        
+        let urlStringArray3 = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
+            if let urlsData = try? JSONEncoder().encode(urlStringArray2){
+            UserDefaults.standard.set(urlsData, forKey: "favoriteTabs")
                 
         }
     }

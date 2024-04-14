@@ -430,5 +430,6 @@ let suggestionUrls = [
   "roblox.com",
   "google.ru",
   "gmail.com",
-  "ftc.gov"
+  "ftc.gov",
+  "netflix.com"
 ]

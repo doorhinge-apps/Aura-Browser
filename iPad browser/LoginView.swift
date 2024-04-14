@@ -100,67 +100,71 @@ struct LoginView: View {
     
     
     var page2: some View {
-        ZStack {
-            LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-            
-            VStack {
-                HStack {
-                    Button {
-                        onboarding -= 1
-                    } label: {
-                        ZStack {
-                            Text("")
-                        }.hoverEffect(.lift)
-                    }.buttonStyle(GrowingButton(buttonText: "< Back", buttonWidth: 75, buttonHeight: 20))
-                        .padding(50)
-                }
+        GeometryReader { geo in
+            ZStack {
+                LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                 
-                Spacer()
-            }
-            
-            VStack(spacing: 20) {
-                HStack {
-                    Text("First,")
-                        .foregroundColor(Color(.white))
-                        .font(.system(size: 100, weight: .bold, design: .rounded))
-                        .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
+                VStack {
+                    HStack {
+                        Button {
+                            onboarding -= 1
+                        } label: {
+                            ZStack {
+                                Text("")
+                            }
+                        }.buttonStyle(GrowingButton(buttonText: "< Back", buttonWidth: 75, buttonHeight: 20))
+                            .hoverEffect(.lift)
+                            .padding(50)
+                        
+                        Spacer()
+                    }
                     
                     Spacer()
-                }.frame(width: 500)
+                }
                 
-                SizedSpacer(height: 20)
-                
-                
-                Text("Do you already have an account?")
-                    .foregroundColor(Color(.white))
-                    .multilineTextAlignment(.center)
-                    .frame(width: 500)
-                    .font(.system(size: 50, weight: .bold, design: .rounded))
-                    .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
-                
-                
-                SizedSpacer(height: 75)
-                
-                
-                Button {
-                    onboarding += 1
-                } label: {
-                    ZStack {
-                        Text("")
-                    }
-                }.buttonStyle(GrowingButton(buttonText: "Yes :)", buttonWidth: 400, buttonHeight: 30)).hoverEffect(.lift)
-                
-                
-                Button {
-                    onboarding += 2
-                } label: {
-                    ZStack {
-                        Text("")
-                    }
-                }.buttonStyle(GrowingButton(buttonText: "Nope :(", buttonWidth: 400, buttonHeight: 30)).hoverEffect(.lift)
-                
-                
-            }//.frame(width: 350)
+                VStack(spacing: 20) {
+                    HStack {
+                        Text("First,")
+                            .foregroundColor(Color(.white))
+                            .font(.system(size: 100, weight: .bold, design: .rounded))
+                            .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
+                    }.frame(width: 500)
+                    
+                    SizedSpacer(height: 20)
+                    
+                    
+                    Text("Do you already have an account?")
+                        .foregroundColor(Color(.white))
+                        .multilineTextAlignment(.center)
+                        .frame(width: 500)
+                        //.font(.system(size: 50, weight: .bold, design: .rounded))
+                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                        .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
+                    
+                    
+                    SizedSpacer(height: 75)
+                    
+                    
+                    Button {
+                        onboarding += 1
+                    } label: {
+                        Text("Yes :)")
+                            .frame(width: geo.size.width/2, height: 30)
+                    }.buttonStyle(MainButtonStyle())
+                        .hoverEffect(.lift)
+                    
+                    
+                    Button {
+                        onboarding += 2
+                    } label: {
+                        Text("Nope :(")
+                            .frame(width: geo.size.width/2, height: 30)
+                    }.buttonStyle(MainButtonStyle())
+                        .hoverEffect(.lift)
+                    
+                    
+                }//.frame(width: 350)
+            }
         }
     }
     
@@ -173,10 +177,9 @@ struct LoginView: View {
                     Button {
                         onboarding -= 1
                     } label: {
-                        ZStack {
-                            Text("")
-                        }.hoverEffect(.lift)
-                    }.buttonStyle(GrowingButton(buttonText: "< Back", buttonWidth: 75, buttonHeight: 20))
+                        Label("Back", systemImage: "chevron.left")
+                    }.buttonStyle(MainButtonStyle())
+                        .hoverEffect(.lift)
                         .padding(50)
                     
                     Spacer()
