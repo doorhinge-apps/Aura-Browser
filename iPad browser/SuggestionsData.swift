@@ -10,6 +10,11 @@ import SwiftUI
 struct SuggestionsView: View {
     @Binding var newTabSearch: String
     @State var suggestionUrls2: [String] // Declaring suggestionUrls2 as a state variable
+    
+    @AppStorage("startColorHex") var startHex = "ffffff"
+    @AppStorage("endColorHex") var endHex = "000000"
+    
+    @State var selectedIndex = 0
 
     init(newTabSearch: Binding<String>, suggestionUrls: [String]) {
         self._newTabSearch = newTabSearch
@@ -17,18 +22,85 @@ struct SuggestionsView: View {
     }
 
     var body: some View {
-        ScrollView {
-            ForEach(suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
-                .replacingOccurrences(of: "https://", with: "")
-                .replacingOccurrences(of: "http://", with: "")
-                .lowercased()
-                .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
-                    .replacingOccurrences(of: "https://", with: "")
-                    .replacingOccurrences(of: "http://", with: "")
-                    .lowercased()
-                )
-            }.prefix(10), id: \.self) { suggestion in
-                Text(suggestion)
+        ScrollViewReader { proxy in
+            ScrollView {
+                ForEach(suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                        .replacingOccurrences(of: "https://", with: "")
+                        .replacingOccurrences(of: "http://", with: "")
+                        .lowercased()
+                        .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+                            .replacingOccurrences(of: "https://", with: "")
+                            .replacingOccurrences(of: "http://", with: "")
+                            .lowercased()
+                        )
+                }.prefix(10), id: \.self) { suggestion in
+                    ZStack {
+                        if suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                                .replacingOccurrences(of: "https://", with: "")
+                                .replacingOccurrences(of: "http://", with: "")
+                                .lowercased()
+                                .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+                                    .replacingOccurrences(of: "https://", with: "")
+                                    .replacingOccurrences(of: "http://", with: "")
+                                    .lowercased()
+                                )
+                        }.prefix(10)[selectedIndex] == suggestion && selectedIndex != 11 {
+                            Color(hex: startHex)
+                                .cornerRadius(15)
+                        }
+                        
+                        Text(suggestion)
+                            .opacity(0.8)
+                    }.frame(width: 500, height: 50)
+                        .id(suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                                .replacingOccurrences(of: "https://", with: "")
+                                .replacingOccurrences(of: "http://", with: "")
+                                .lowercased()
+                                .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+                                    .replacingOccurrences(of: "https://", with: "")
+                                    .replacingOccurrences(of: "http://", with: "")
+                                    .lowercased()
+                                )
+                        }.prefix(10).firstIndex(of: suggestion))
+                }
+                Button(action: {
+                    if selectedIndex < 9 {
+                        selectedIndex += 1
+                    } else {
+                        selectedIndex = 0
+                    }
+                    
+                    withAnimation {
+                        proxy.scrollTo(selectedIndex)
+                    }
+                }, label: {
+                }).opacity(0.0)
+                    .keyboardShortcut(.downArrow, modifiers: [.command, .option])
+                    .keyboardShortcut(.downArrow)
+                
+                Button(action: {
+                    if selectedIndex > 0 {
+                        selectedIndex -= 1
+                    } else {
+                        selectedIndex = suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                                .replacingOccurrences(of: "https://", with: "")
+                                .replacingOccurrences(of: "http://", with: "")
+                                .lowercased()
+                                .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+                                    .replacingOccurrences(of: "https://", with: "")
+                                    .replacingOccurrences(of: "http://", with: "")
+                                    .lowercased()
+                                )
+                        }.prefix(10).count - 1
+                    }
+                    
+                    withAnimation {
+                        proxy.scrollTo(selectedIndex)
+                    }
+                }, label: {
+                }).opacity(0.0)
+                    .keyboardShortcut(.upArrow, modifiers: [.command, .option])
+                    .keyboardShortcut(.upArrow)
             }
         }
     }
@@ -39,20 +111,22 @@ struct SuggestionsView: View {
 
 
 let suggestionUrls = [
-  "www.google.com",
   "google.com",
-  "www.blogger.com",
+  "apple.com",
   "youtube.com",
+  "wikipedia.org",
+  "amazon.com",
+  "github.com",
+  "nytimes.com",
+  "notion.so",
   "linkedin.com",
   "wordpress.org",
   "support.google.com",
   "play.google.com",
-  "apple.com",
   "microsoft.com",
   "docs.google.com",
   "maps.google.com",
   "en.wikipedia.org",
-  "wikipedia.org",
   "cloudflare.com",
   "whatsapp.com",
   "youtu.be",
@@ -67,11 +141,10 @@ let suggestionUrls = [
   "adobe.com",
   "googleusercontent.com",
   "facebook.com",
-  "amazon.com",
+  "www.blogger.com",
   "istockphoto.com",
   "t.me",
   "uol.com.br",
-  "github.com",
   "policies.google.com",
   "vimeo.com",
   "gravatar.com",
@@ -91,7 +164,6 @@ let suggestionUrls = [
   "tiktok.com",
   "opera.com",
   "msn.com",
-  "nytimes.com",
   "tools.google.com",
   "wa.me",
   "draft.blogger.com",

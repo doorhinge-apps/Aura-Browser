@@ -545,17 +545,32 @@ struct TestingView: View {
                                     .frame(height: 50)
                                 
                                 HStack {
-                                    Text(navigationState.currentURL?.absoluteString ?? "")
-                                        .padding(.leading, 5)
-                                        .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                        .lineLimit(1)
-                                        .onReceive(timer) { _ in
-                                            if !commandBarShown {
-                                                if let unwrappedURL = navigationState.selectedWebView?.url {
-                                                    searchInSidebar = unwrappedURL.absoluteString
+                                    if navigationState.currentURL != nil {
+                                        Text(navigationState.currentURL?.absoluteString ?? "")
+                                            .padding(.leading, 5)
+                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                            .lineLimit(1)
+                                            .onReceive(timer) { _ in
+                                                if !commandBarShown {
+                                                    if let unwrappedURL = navigationState.selectedWebView?.url {
+                                                        searchInSidebar = unwrappedURL.absoluteString
+                                                    }
                                                 }
                                             }
-                                        }
+                                    }
+                                    else if pinnedNavigationState.currentURL != nil {
+                                        Text(pinnedNavigationState.currentURL?.absoluteString ?? "")
+                                            .padding(.leading, 5)
+                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                            .lineLimit(1)
+                                            .onReceive(timer) { _ in
+                                                if !commandBarShown {
+                                                    if let unwrappedURL = pinnedNavigationState.selectedWebView?.url {
+                                                        searchInSidebar = unwrappedURL.absoluteString
+                                                    }
+                                                }
+                                            }
+                                    }
                                     
                                     Spacer() // Pushes the delete button to the edge
                                 }
@@ -707,6 +722,8 @@ struct TestingView: View {
                                 })
                                 .onTapGesture {
                                     navigationState.selectedWebView = nil
+                                    navigationState.currentURL = nil
+                                    
                                     pinnedNavigationState.selectedWebView = tab
                                     pinnedNavigationState.currentURL = tab.url
                                     
@@ -839,6 +856,9 @@ struct TestingView: View {
                                     }
                                 })
                                 .onTapGesture {
+                                    pinnedNavigationState.selectedWebView = nil
+                                    pinnedNavigationState.currentURL = nil
+                                    
                                     navigationState.selectedWebView = tab
                                     navigationState.currentURL = tab.url
                                     
@@ -872,8 +892,15 @@ struct TestingView: View {
                             .opacity(0.4)
                             .cornerRadius(10)
                         //MARK: - WebView
-                        TestingWebView(navigationState: navigationState)
-                            .cornerRadius(10)
+                        if navigationState.selectedWebView != nil {
+                            TestingWebView(navigationState: navigationState)
+                                .cornerRadius(10)
+                        }
+                        
+                        if pinnedNavigationState.selectedWebView != nil {
+                            TestingWebView(navigationState: pinnedNavigationState)
+                                .cornerRadius(10)
+                        }
                         
                         //MARK: - Hidden Sidebar Actions
                         if hideSidebar && hoverTinySpace {
@@ -1083,7 +1110,8 @@ struct TestingView: View {
                         //MARK: - Tabbar
                         if tabBarShown {
                             ZStack {
-                                Color.white
+                                Color.white.opacity(0.001)
+                                    .background(.thinMaterial)
                                 
                                 VStack {
                                     HStack {
@@ -1094,7 +1122,8 @@ struct TestingView: View {
                                         TextField(text: $newTabSearch) {
                                             HStack {
                                                 Text("Search or Enter URL...")
-                                                    .foregroundStyle(Color.black.opacity(0.3))
+                                                    .opacity(0.8)
+                                                    //.foregroundStyle(Color.black.opacity(0.3))
                                                 //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
                                             }
                                         }
@@ -1159,49 +1188,6 @@ struct TestingView: View {
                                             }
                                     }
                                     .padding(20)
-                                    
-                                    /*ScrollView {
-                                     let filteredSuggestions = searchSuggestions.suggestions.filter { suggestion in
-                                     suggestion.id.starts(with: defaults.string(forKey: "email") ?? "Email not found") &&
-                                     suggestion.url.starts(with: searchInSidebar)
-                                     }
-                                     
-                                     ForEach(Array(filteredSuggestions.enumerated()), id: \.element.id) { index, suggestion in
-                                     if suggestion.url != "" {
-                                     Button {
-                                     searchInSidebar = suggestion.url
-                                     
-                                     navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
-                                     
-                                     navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
-                                     
-                                     commandBarShown = false
-                                     } label: {
-                                     ZStack {
-                                     RoundedRectangle(cornerRadius: 20)
-                                     .foregroundStyle(startColor)
-                                     .frame(height: 50)
-                                     
-                                     HStack {
-                                     Text(suggestion.url)
-                                     .foregroundStyle(Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"))
-                                     
-                                     Spacer()
-                                     .frame(width: 30, height: 10)
-                                     
-                                     Image(systemName: "arrow.right")
-                                     .foregroundStyle(Color.foregroundColor(forHex: defaults.string(forKey: "startColorHex") ?? "ffffff"))
-                                     .hoverEffect(.highlight)
-                                     }.padding(.horizontal, 15)
-                                     
-                                     }.padding(.horizontal, 20).hoverEffect(.lift)
-                                     }
-                                     }
-                                     }
-                                     
-                                     
-                                     }*/
-                                    
                                 }
                             }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
                                 .ignoresSafeArea()
@@ -1212,7 +1198,6 @@ struct TestingView: View {
                             .frame(width: 20)
                     }.padding(.trailing, 12)
                         .animation(.default)
-                    
                     
                 }
                 .padding(10)
