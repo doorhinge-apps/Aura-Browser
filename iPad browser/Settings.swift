@@ -13,11 +13,30 @@ struct Settings: View {
     @AppStorage("startColorHex") var startHex = "ffffff"
     @AppStorage("endColorHex") var endHex = "000000"
     @AppStorage("email") var email = ""
+    
+    @AppStorage("searchEngine") var searchEngine = "https://www.google.com/search?q="
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
             
             VStack {
+                Menu {
+                    Button(action: {
+                        searchEngine = "https://www.google.com/search?q="
+                    }, label: {
+                        Text("Google")
+                    })
+                    
+                    Button(action: {
+                        searchEngine = "https://www.bing.com/search?q="
+                    }, label: {
+                        Text("Bing")
+                    })
+                } label: {
+                    Text("Search Engine: \(searchEngine)")
+                }
+
+                
                 Button {
                     email = ""
                     do {

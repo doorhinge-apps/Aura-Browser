@@ -45,7 +45,7 @@ struct SuggestionsView: View {
                                     .lowercased()
                                 )
                         }.prefix(10)[selectedIndex] == suggestion && selectedIndex != 11 {
-                            Color(hex: startHex)
+                            LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .leading, endPoint: .trailing)
                                 .cornerRadius(15)
                         }
                         
@@ -64,7 +64,16 @@ struct SuggestionsView: View {
                         }.prefix(10).firstIndex(of: suggestion))
                 }
                 Button(action: {
-                    if selectedIndex < 9 {
+                    if selectedIndex < suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                            .replacingOccurrences(of: "https://", with: "")
+                            .replacingOccurrences(of: "http://", with: "")
+                            .lowercased()
+                            .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+                                .replacingOccurrences(of: "https://", with: "")
+                                .replacingOccurrences(of: "http://", with: "")
+                                .lowercased()
+                            )
+                    }.prefix(10).count - 1 {
                         selectedIndex += 1
                     } else {
                         selectedIndex = 0
@@ -101,6 +110,26 @@ struct SuggestionsView: View {
                 }).opacity(0.0)
                     .keyboardShortcut(.upArrow, modifiers: [.command, .option])
                     .keyboardShortcut(.upArrow)
+            }
+            .onChange(of: newTabSearch) { oldValue, newValue in
+                if suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                        .replacingOccurrences(of: "https://", with: "")
+                        .replacingOccurrences(of: "http://", with: "")
+                        .lowercased()
+                        .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+                            .replacingOccurrences(of: "https://", with: "")
+                            .replacingOccurrences(of: "http://", with: "")
+                            .lowercased()
+                        )
+                }.prefix(10).count > 10 {
+                    
+                }
+                
+                selectedIndex = 0
+                
+                withAnimation {
+                    proxy.scrollTo(selectedIndex)
+                }
             }
         }
     }

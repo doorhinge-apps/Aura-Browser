@@ -211,6 +211,7 @@ struct TestingView: View {
     @State var hoverForwardButton = false
     @State var hoverBackwardButton = false
     @State var hoverNewTab = false
+    @State var settingsButtonHover = false
     
     @State var commandBarShown = false
     
@@ -245,13 +246,6 @@ struct TestingView: View {
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-//    @State var filteredWebsites: [Website] {
-//        filterWebsites(input: searchInSidebar, websites: loadWebsites())
-//    }
-    
-//    @State var webSuggestions: [WebsiteSuggestion] = loadWebsites()
-    
-    
     @State private var selectedIndex: Int? = 0
     
     @State var draggedTab: WKWebView?
@@ -260,9 +254,14 @@ struct TestingView: View {
     
     @State var showSettings = false
     
-    //@State var offsets = [:] as? [WKWebView: CGSize]
-    //@State var offsets = [:] as? [String: CGFloat]
-    //@State var offsets: [String: CGFloat]? = [:]
+    @AppStorage("currentSpace") var currentSpace = "Untitled"
+    
+    @State var spaces = ["Untitled", "Space 2"]
+    
+    @State var spaceIcons = [:] as? [String: String]
+    
+    @State var hoverSpaceIndex = 1000
+    @State var hoverSpace = ""
     
     var body: some View {
         GeometryReader { geo in
@@ -615,7 +614,7 @@ struct TestingView: View {
                         //TabBar(navigationState: $navigationState)
                         //TabBar(navigationState: $navigationState, timer: $timer, reloadTitles: $reloadTitles, hoverTab: $hoverTab, searchInSidebar: $searchInSidebar)
                         ScrollView {
-                            ForEach(pinnedNavigationState.webViews, id: \.self) { tab in
+                            ForEach(pinnedNavigationState.webViews.reversed(), id: \.self) { tab in
                                 //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
                                 //ReorderableForEach(navigationState.webViews) {tab, isDragged in
                                 ZStack {
@@ -630,19 +629,30 @@ struct TestingView: View {
                                     
                                     
                                     HStack {
-                                        Text(tab.title ?? "Tab not found.")
-                                            .lineLimit(1)
-                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                            .padding(.leading, 5)
-                                            .onReceive(timer) { _ in
-                                                reloadTitles.toggle()
-                                            }
+                                        if tab.title == "" {
+                                            Text(tab.url?.absoluteString ?? "Tab not found.")
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
+                                        else {
+                                            Text(tab.title ?? "Tab not found.")
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
                                         
                                         Spacer()
                                         
                                         Button(action: {
                                             if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
-                                                removeTab(at: index)
+                                                pinnedRemoveTab(at: index)
                                             }
                                         }) {
                                             if hoverTab == tab || pinnedNavigationState.selectedWebView == tab {
@@ -669,35 +679,37 @@ struct TestingView: View {
                                                     })
                                                 
                                             }
-                                        }.keyboardShortcut("w", modifiers: .option)
+                                        }
                                     }
                                     
                                     
                                 }
                                 .contextMenu {
                                     Button {
-                                        if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
-                                            pinnedNavigationState.webViews.insert(tab, at: index + 1)
+                                        if let index = navigationState.webViews.firstIndex(of: tab) {
+                                            //navigationState.createNewWebView(withRequest: tab.url)
+                                            //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: tab.url?.absoluteString))!))
+                                            navigationState.webViews.insert(tab, at: index + 1)
                                         }
                                     } label: {
                                         Label("Duplicate", systemImage: "plus.square.on.square")
                                     }
                                     
                                     Button {
-                                        pinnedNavigationState.webViews.append(tab)
+                                        navigationState.webViews.append(tab)
                                         
                                         if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
-                                            removeTab(at: index)
+                                            pinnedRemoveTab(at: index)
                                         }
                                     } label: {
-                                        Label("Pin Tab", systemImage: "pin")
+                                        Label("Unpin", systemImage: "pin.fill")
                                     }
                                     
                                     Button {
                                         pinnedNavigationState.webViews.append(tab)
                                         
                                         if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
-                                            removeTab(at: index)
+                                            pinnedRemoveTab(at: index)
                                         }
                                     } label: {
                                         Label("Favorite", systemImage: "star")
@@ -705,12 +717,17 @@ struct TestingView: View {
                                     
                                     Button {
                                         if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
-                                            removeTab(at: index)
+                                            pinnedRemoveTab(at: index)
                                         }
                                     } label: {
                                         Label("Close Tab", systemImage: "xmark")
                                     }
                                     
+                                }
+                                .onAppear() {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                        hoverTab = WKWebView()
+                                    }
                                 }
                                 .onHover(perform: { hovering in
                                     if hovering {
@@ -738,6 +755,19 @@ struct TestingView: View {
                                 .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $pinnedNavigationState.webViews, draggedItem: $draggedTab))
                             }
                             
+                            HStack {
+                                Text(currentSpace)
+                                    .foregroundStyle(Color.white)
+                                    .opacity(0.5)
+                                    .font(.system(.caption, design: .rounded, weight: .medium))
+                                
+                                Color.white
+                                    .opacity(0.5)
+                                    .frame(height: 1)
+                                    .cornerRadius(10)
+                                
+                            }.padding(10)
+                            
                             Button {
                                 tabBarShown.toggle()
                                 
@@ -761,7 +791,7 @@ struct TestingView: View {
                             
                             
                             
-                            ForEach(navigationState.webViews, id: \.self) { tab in
+                            ForEach(navigationState.webViews.reversed(), id: \.self) { tab in
                                 //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
                                 //ReorderableForEach(navigationState.webViews) {tab, isDragged in
                                 ZStack {
@@ -776,13 +806,24 @@ struct TestingView: View {
                                     
                                     
                                     HStack {
-                                        Text(tab.title ?? "Tab not found.")
-                                            .lineLimit(1)
-                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                            .padding(.leading, 5)
-                                            .onReceive(timer) { _ in
-                                                reloadTitles.toggle()
-                                            }
+                                        if tab.title == "" {
+                                            Text(tab.url?.absoluteString ?? "Tab not found.")
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
+                                        else {
+                                            Text(tab.title ?? "Tab not found.")
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
                                         
                                         Spacer() // Pushes the delete button to the edge
                                         
@@ -816,37 +857,47 @@ struct TestingView: View {
                                                 
                                             }
                                         }.keyboardShortcut("w", modifiers: .option)
-                                    }.contextMenu {
-                                        Button {
-                                            if let index = navigationState.webViews.firstIndex(of: tab) {
-                                                removeTab(at: index)
-                                            }
-                                        } label: {
-                                            Text("Duplicate")
-                                        }
-                                        
-                                        Button {
-                                            pinnedNavigationState.webViews.append(tab)
-                                            
-                                            if let index = navigationState.webViews.firstIndex(of: tab) {
-                                                removeTab(at: index)
-                                            }
-                                        } label: {
-                                            Text("Pin Tab")
-                                        }
-                                        
-                                        Button {
-                                            if let index = navigationState.webViews.firstIndex(of: tab) {
-                                                removeTab(at: index)
-                                            }
-                                        } label: {
-                                            Text("Close Tab")
-                                        }
-                                        
                                     }
                                     
+                                }
+                                .contextMenu {
+                                    Button {
+                                        if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
+                                            pinnedNavigationState.webViews.insert(tab, at: index + 1)
+                                        }
+                                    } label: {
+                                        Label("Duplicate", systemImage: "plus.square.on.square")
+                                    }
                                     
-                                }//.hoverEffect(.lift)
+                                    Button {
+                                        pinnedNavigationState.webViews.append(tab)
+                                        
+                                        if let index = navigationState.webViews.firstIndex(of: tab) {
+                                            removeTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Pin Tab", systemImage: "pin")
+                                    }
+                                    
+                                    Button {
+                                        favoritesNavigationState.webViews.append(tab)
+                                        
+                                        if let index = navigationState.webViews.firstIndex(of: tab) {
+                                            removeTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Favorite", systemImage: "star")
+                                    }
+                                    
+                                    Button {
+                                        if let index = navigationState.webViews.firstIndex(of: tab) {
+                                            removeTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Close Tab", systemImage: "xmark")
+                                    }
+                                    
+                                }
                                 .onHover(perform: { hovering in
                                     if hovering {
                                         hoverTab = tab
@@ -874,16 +925,120 @@ struct TestingView: View {
                             }
                         }
                         
-                        Button {
-                            showSettings.toggle()
-                        } label: {
-                            Image(systemName: "gearshape")
-                                .foregroundStyle(Color.white)
+                        HStack {
+                            Button {
+                                showSettings.toggle()
+                            } label: {
+                                ZStack {
+                                    Color(.white)
+                                        .opacity(settingsButtonHover ? 0.5: 0.0)
+                                    
+                                    Image(systemName: "gearshape")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundStyle(Color.white)
+                                        .opacity(settingsButtonHover ? 1.0: 0.5)
+                                    
+                                }.frame(width: 40, height: 40).cornerRadius(7)
+                                    .hoverEffect(.lift)
+                                    .onHover(perform: { hovering in
+                                        if hovering {
+                                            settingsButtonHover = true
+                                        }
+                                        else {
+                                            settingsButtonHover = false
+                                        }
+                                    })
+                            }
+                            .sheet(isPresented: $showSettings) {
+                                Settings()
+                            }
+                            
+                            Spacer()
+                            
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    ForEach(spaces, id:\.self) { space in
+                                        Button {
+                                            saveToLocalStorage2(spaceName: currentSpace)
+                                            
+                                            currentSpace = space
+                                            
+                                            Task {
+                                                await navigationState.webViews.removeAll()
+                                                await pinnedNavigationState.webViews.removeAll()
+                                                await favoritesNavigationState.webViews.removeAll()
+                                            }
+                                            
+                                            Task {
+                                                print("\(currentSpace)userTabs")
+                                                
+                                                if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)userTabs"),
+                                                   let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
+                                                    let urls = urlStringArray.compactMap { URL(string: $0) }
+                                                    for url in urls {
+                                                        let request = URLRequest(url: url)
+                                                        
+                                                        await navigationState.createNewWebView(withRequest: request)
+                                                        
+                                                    }
+                                                }
+                                                
+                                                if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)pinnedTabs"),
+                                                   let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
+                                                    let urls = urlStringArray.compactMap { URL(string: $0) }
+                                                    for url in urls {
+                                                        let request = URLRequest(url: url)
+                                                        
+                                                        await pinnedNavigationState.createNewWebView(withRequest: request)
+                                                        
+                                                    }
+                                                }
+                                                
+                                                if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)favoriteTabs"),
+                                                   let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
+                                                    let urls = urlStringArray.compactMap { URL(string: $0) }
+                                                    for url in urls {
+                                                        let request = URLRequest(url: url)
+                                                        
+                                                        await favoritesNavigationState.createNewWebView(withRequest: request)
+                                                        
+                                                    }
+                                                }
+                                            }
+                                        } label: {
+                                            ZStack {
+                                                Color(.white)
+                                                    .opacity(hoverSpace == space ? 0.5: 0.0)
+                                                
+                                                Image(systemName: String(spaceIcons?[space] ?? "circle.fill"))
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 20, height: 20)
+                                                    .foregroundStyle(Color.white)
+                                                    .opacity(hoverSpace == space ? 1.0: 0.5)
+                                                
+                                            }.frame(width: 40, height: 40).cornerRadius(7)
+                                                //.hoverEffect(.lift)
+                                                .onHover(perform: { hovering in
+                                                    if hovering {
+                                                        hoverSpace = space
+                                                    }
+                                                    else {
+                                                        hoverSpace = ""
+                                                    }
+                                                })
+                                            
+//                                            Text(space)
+//                                                .foregroundStyle(Color.white)
+                                        }
+                                        
+                                    }
+                                }.padding(.horizontal, 10)
+                            }.scrollIndicators(.hidden)
+                                .frame(height: 45)
                         }
-                        .sheet(isPresented: $showSettings) {
-                            Settings()
-                        }
-                        
                     }.animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
                     
                     
@@ -1119,6 +1274,7 @@ struct TestingView: View {
                                             .foregroundStyle(Color.black.opacity(0.3))
                                         //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
                                         
+                                        
                                         TextField(text: $newTabSearch) {
                                             HStack {
                                                 Text("Search or Enter URL...")
@@ -1200,7 +1356,8 @@ struct TestingView: View {
                         .animation(.default)
                     
                 }
-                .padding(10)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 25)
                 .onAppear {
                     if let savedStartColor = getColor(forKey: "startColorHex") {
                         startColor = savedStartColor
@@ -1213,7 +1370,7 @@ struct TestingView: View {
                 }
             }
             .onAppear {
-                if let urlsData = UserDefaults.standard.data(forKey: "userTabs"),
+                if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)userTabs"),
                    let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
                     let urls = urlStringArray.compactMap { URL(string: $0) }
                     for url in urls {
@@ -1224,7 +1381,7 @@ struct TestingView: View {
                     }
                 }
                 
-                if let urlsData = UserDefaults.standard.data(forKey: "pinnedTabs"),
+                if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)pinnedTabs"),
                    let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
                     let urls = urlStringArray.compactMap { URL(string: $0) }
                     for url in urls {
@@ -1235,7 +1392,7 @@ struct TestingView: View {
                     }
                 }
                 
-                if let urlsData = UserDefaults.standard.data(forKey: "favoriteTabs"),
+                if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)favoriteTabs"),
                    let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
                     let urls = urlStringArray.compactMap { URL(string: $0) }
                     for url in urls {
@@ -1245,6 +1402,11 @@ struct TestingView: View {
                         
                     }
                 }
+                
+                spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
+            }
+            .onChange(of: spaceIcons) { newValue in
+                UserDefaults.standard.setValue(spaceIcons, forKey: "spaceIcons")
             }
             .onChange(of: navigationState.webViews) { newValue in
                 saveToLocalStorage()
@@ -1263,19 +1425,39 @@ struct TestingView: View {
     func saveToLocalStorage() {
         let urlStringArray = navigationState.webViews.compactMap { $0.url?.absoluteString }
             if let urlsData = try? JSONEncoder().encode(urlStringArray){
-            UserDefaults.standard.set(urlsData, forKey: "userTabs")
+            UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)userTabs")
                 
         }
         
         let urlStringArray2 = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
             if let urlsData = try? JSONEncoder().encode(urlStringArray2){
-            UserDefaults.standard.set(urlsData, forKey: "pinnedTabs")
+            UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)pinnedTabs")
                 
         }
         
         let urlStringArray3 = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
             if let urlsData = try? JSONEncoder().encode(urlStringArray2){
-            UserDefaults.standard.set(urlsData, forKey: "favoriteTabs")
+            UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)favoriteTabs")
+                
+        }
+    }
+    
+    func saveToLocalStorage2(spaceName: String) {
+        let urlStringArray = navigationState.webViews.compactMap { $0.url?.absoluteString }
+            if let urlsData = try? JSONEncoder().encode(urlStringArray){
+            UserDefaults.standard.set(urlsData, forKey: "\(spaceName)userTabs")
+                
+        }
+        
+        let urlStringArray2 = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
+            if let urlsData = try? JSONEncoder().encode(urlStringArray2){
+            UserDefaults.standard.set(urlsData, forKey: "\(spaceName)pinnedTabs")
+                
+        }
+        
+        let urlStringArray3 = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
+            if let urlsData = try? JSONEncoder().encode(urlStringArray2){
+            UserDefaults.standard.set(urlsData, forKey: "\(spaceName)favoriteTabs")
                 
         }
     }
@@ -1316,29 +1498,23 @@ struct TestingView: View {
         navigationState.webViews.remove(at: index)
     }
     
-    func formatURL(from input: String) -> String {
-        // Check if it's already a URL with a scheme
-        if let url = URL(string: input), url.scheme != nil {
-            return url.absoluteString.hasPrefix("http") ? input : "https://\(input)"
-        }
-        
-        // Check if it's a URL without a scheme
-        if let url = URL(string: "https://\(input)"), url.host != nil {
-            if url.absoluteString.contains(".") && !url.absoluteString.contains(" ") {
-                return url.absoluteString
+    func pinnedRemoveTab(at index: Int) {
+        // If the deleted tab is the currently selected one
+        if pinnedNavigationState.selectedWebView == pinnedNavigationState.webViews[index] {
+            if pinnedNavigationState.webViews.count > 1 { // Check if there's more than one tab
+                if index == 0 { // If the first tab is being deleted, select the next one
+                    pinnedNavigationState.selectedWebView = pinnedNavigationState.webViews[1]
+                } else { // Otherwise, select the previous one
+                    pinnedNavigationState.selectedWebView = pinnedNavigationState.webViews[index - 1]
+                }
+            } else { // If it's the only tab, set the selectedWebView to nil
+                pinnedNavigationState.selectedWebView = nil
             }
         }
         
-        // Assume it's a search term and format it for Google search
-        let searchTerms = input.split(separator: " ").joined(separator: "+")
-        return "https://www.google.com/search?q=\(searchTerms)"
+        pinnedNavigationState.webViews.remove(at: index)
     }
-    
 }
-
-    
-    
-
 
 
 
@@ -1366,71 +1542,6 @@ class CustomUITextField: UITextField {
         super.pressesBegan(presses, with: event)
     }
 }
-
-//struct CustomTextField: UIViewRepresentable {
-//    @Binding var text: String
-//    var onSubmitTab: (() -> Void)?
-//
-//    // Add closures for next and previous actions
-//    var selectNext: (() -> Void)?
-//    var selectPrevious: (() -> Void)?
-//    
-//    var placeholder: String?
-//
-//    func makeUIView(context: Context) -> CustomUITextField {
-//        let textField = CustomUITextField()
-//        
-//        // Set up the closures for arrow key actions
-//        textField.onUpArrow = {
-//            context.coordinator.parent.selectPrevious?()
-//        }
-//        textField.onDownArrow = {
-//            context.coordinator.parent.selectNext?()
-//        }
-//        
-//        textField.autocapitalizationType = .none
-//        
-//        textField.placeholder = placeholder
-//        
-//        textField.delegate = context.coordinator
-//        context.coordinator.onSubmit = onSubmitTab // Pass the action to the coordinator
-//        return textField
-//    }
-//
-//    func updateUIView(_ uiView: CustomUITextField, context: Context) {
-//        uiView.text = text
-//    }
-//
-//    func makeCoordinator() -> Coordinator {
-//        Coordinator(self)
-//    }
-//
-//    class Coordinator: NSObject, UITextFieldDelegate {
-//        var parent: CustomTextField
-//        var onSubmit: (() -> Void)?
-//
-//        init(_ parent: CustomTextField) {
-//            self.parent = parent
-//        }
-//        
-//        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//            if let currentValue = textField.text as NSString? {
-//                parent.text = currentValue.replacingCharacters(in: range, with: string)
-//            }
-//            return true
-//        }
-//        
-//        // Implement the textFieldShouldReturn method
-//        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//            textField.resignFirstResponder()  // Resign first responder status
-//            onSubmit?() // Call the action when the Return key is pressed
-//            return true
-//        }
-//    }
-//}
-
-
-
 
 struct WebsiteSuggestion: Codable {
     var url: String
