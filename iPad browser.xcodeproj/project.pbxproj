@@ -51,6 +51,8 @@
 		B98A32EE2BCDA09C00555AB9 /* CircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */; };
 		B98A32F22BCDB62C00555AB9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B98A32F12BCDB62C00555AB9 /* README.md */; };
 		B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */; };
+		B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F52BD01D8A00555AB9 /* Long Variables.swift */; };
+		B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */; };
 		B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */; };
 		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
@@ -75,6 +77,8 @@
 		B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAnimation.swift; sourceTree = "<group>"; };
 		B98A32F12BCDB62C00555AB9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlFormatter.swift; sourceTree = "<group>"; };
+		B98A32F52BD01D8A00555AB9 /* Long Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Long Variables.swift"; sourceTree = "<group>"; };
+		B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPicker.swift; sourceTree = "<group>"; };
 		B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsData.swift; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +155,8 @@
 				B95B19E62AABBEE00013AC79 /* ContentView.swift */,
 				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
 				B98953A72AAC1F4B00EE3B42 /* TestingView.swift */,
+				B98A32F52BD01D8A00555AB9 /* Long Variables.swift */,
+				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
 				B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */,
 				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
 				B918673B2BCB0AFD00C159AB /* Settings.swift */,
@@ -287,12 +293,14 @@
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
+				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B98A32EE2BCDA09C00555AB9 /* CircleAnimation.swift in Sources */,
 				B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */,
 				B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */,
+				B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */,
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */,
 			);
@@ -426,7 +434,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -460,7 +468,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;

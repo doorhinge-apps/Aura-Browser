@@ -14,6 +14,8 @@ struct Settings: View {
     @AppStorage("endColorHex") var endHex = "000000"
     @AppStorage("email") var email = ""
     
+    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = false
+    
     @AppStorage("searchEngine") var searchEngine = "https://www.google.com/search?q="
     var body: some View {
         ZStack {
@@ -35,6 +37,13 @@ struct Settings: View {
                 } label: {
                     Text("Search Engine: \(searchEngine)")
                 }
+                
+                Toggle(isOn: $hoverEffectsAbsorbCursor) {
+                    Text("Hover Effects Absorb Cursor")
+                        .foregroundStyle(Color.white)
+                    
+                }.tint(Color(hex: startHex))
+                    .padding(20)
 
                 
                 Button {

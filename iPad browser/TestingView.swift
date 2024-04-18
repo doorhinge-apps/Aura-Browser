@@ -192,18 +192,37 @@ struct TestingWebView : UIViewRepresentable {
 
 
 struct TestingView: View {
+    // WebView Handling
     @ObservedObject var navigationState = NavigationState()
     @ObservedObject var pinnedNavigationState = NavigationState()
     @ObservedObject var favoritesNavigationState = NavigationState()
     
-    //@StateObject private var searchSuggestions = SuggestionsViewModel()
     
-    @State var hideSidebar = false
+    // Storage and Website Loading
+    @AppStorage("currentSpace") var currentSpace = "Untitled"
+    @State var spaces = ["Home", "Space 2"]
+//    @State var spaceIcons = [:] as? Dictionary<String, String>
+    @State var spaceIcons: [String: String]? = [:]
     
+    @State var reloadTitles = false
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    
+    // Settings and Sheets
+    @State var hoverTab = WKWebView()
+    
+    @State var showSettings = false
     @State var changeColorSheet = false
     
     @State private var startColor: Color = Color.purple
     @State private var endColor: Color = Color.pink
+    
+    @State var presentIcons = false
+    
+    
+    // Hover Effects
+    @State var hoverTinySpace = false
     
     @State var hoverSidebarButton = false
     @State var hoverPaintbrush = false
@@ -213,55 +232,43 @@ struct TestingView: View {
     @State var hoverNewTab = false
     @State var settingsButtonHover = false
     
-    @State var commandBarShown = false
+    @State var hoverSpaceIndex = 1000
+    @State var hoverSpace = ""
     
-    @State var searchInSidebar = ""
-    
-    
-    @State var tabBarShown = false
-    
-    @State var newTabSearch = ""
-    
-    @State var hoverTab = WKWebView()
-    @State var currentTabNum = 0
-    
+    @State var hoverSidebarSearchField = false
     
     @State var hoverCloseTab = WKWebView()
     
+    @State var spaceIconHover = false
     
-    @State var hoverSidebarSearchField = false
+    
+    // Animations and Gestures
+    @State var reloadRotation = 0
+    @State var draggedTab: WKWebView?
+    
+    
+    // Selection States
+    @State var tabBarShown = false
+    @State var commandBarShown = false
+    
+    @State var changingIcon = ""
+    @State var hideSidebar = false
+    
+    @State var searchInSidebar = ""
+    @State var newTabSearch = ""
+    
+    @State var currentTabNum = 0
+    
+    @State private var selectedIndex: Int? = 0
+    
+    @FocusState private var focusedField: FocusedField?
     
     enum FocusedField {
         case commandBar, tabBar, none
     }
     
-    @State var reloadTitles = false
-    
-    @FocusState private var focusedField: FocusedField?
-    
-    @State var hoverTinySpace = false
-    
-    
+    // Other Stuff
     @State var screenWidth = UIScreen.main.bounds.width
-    
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    @State private var selectedIndex: Int? = 0
-    
-    @State var draggedTab: WKWebView?
-    
-    @State var reloadRotation = 0
-    
-    @State var showSettings = false
-    
-    @AppStorage("currentSpace") var currentSpace = "Untitled"
-    
-    @State var spaces = ["Untitled", "Space 2"]
-    
-    @State var spaceIcons = [:] as? [String: String]
-    
-    @State var hoverSpaceIndex = 1000
-    @State var hoverSpace = ""
     
     var body: some View {
         GeometryReader { geo in
@@ -756,6 +763,33 @@ struct TestingView: View {
                             }
                             
                             HStack {
+                                Button {
+                                    presentIcons.toggle()
+                                } label: {
+                                    ZStack {
+                                        Color(.white)
+                                            .opacity(spaceIconHover ? 0.5: 0.0)
+                                        
+                                        Image(systemName: spaceIcons?[currentSpace] ?? "circle.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 20, height: 20)
+                                            .foregroundStyle(Color.white)
+                                            .opacity(spaceIconHover ? 1.0: 0.5)
+                                        
+                                    }.frame(width: 40, height: 40).cornerRadius(7)
+                                        .hoverEffect(.lift)
+                                        .onHover(perform: { hovering in
+                                            if hovering {
+                                                spaceIconHover = true
+                                            }
+                                            else {
+                                                spaceIconHover = false
+                                            }
+                                        })
+                                }
+
+                                
                                 Text(currentSpace)
                                     .foregroundStyle(Color.white)
                                     .opacity(0.5)
@@ -766,7 +800,22 @@ struct TestingView: View {
                                     .frame(height: 1)
                                     .cornerRadius(10)
                                 
-                            }.padding(10)
+                            }.padding(.vertical, 10)
+                                .popover(isPresented: $presentIcons) {
+                                    ZStack {
+                                        LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                            .opacity(1.0)
+                                        
+                                        
+                                        IconsPicker(currentIcon: $changingIcon)
+                                            .onChange(of: changingIcon) { thing in
+                                                
+                                            }
+                                            .onDisappear() {
+                                                changingIcon = ""
+                                            }
+                                    }
+                                }
                             
                             Button {
                                 tabBarShown.toggle()
@@ -1029,9 +1078,6 @@ struct TestingView: View {
                                                         hoverSpace = ""
                                                     }
                                                 })
-                                            
-//                                            Text(space)
-//                                                .foregroundStyle(Color.white)
                                         }
                                         
                                     }
@@ -1356,7 +1402,7 @@ struct TestingView: View {
                         .animation(.default)
                     
                 }
-                .padding(.horizontal, 10)
+                .padding(.trailing, 10)
                 .padding(.vertical, 25)
                 .onAppear {
                     if let savedStartColor = getColor(forKey: "startColorHex") {
