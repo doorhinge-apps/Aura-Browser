@@ -199,6 +199,7 @@ struct TestingView: View {
     enum FocusedField {
         case commandBar, tabBar, none
     }
+    @State var selectedTabLocation = "tabs"
     
     // Other Stuff
     @State var screenWidth = UIScreen.main.bounds.width
@@ -681,8 +682,12 @@ struct TestingView: View {
                                     navigationState.selectedWebView = nil
                                     navigationState.currentURL = nil
                                     
-                                    pinnedNavigationState.selectedWebView = tab
-                                    pinnedNavigationState.currentURL = tab.url
+                                    selectedTabLocation = "pinnedTabs"
+                                    
+                                    Task {
+                                        await pinnedNavigationState.selectedWebView = tab
+                                        await pinnedNavigationState.currentURL = tab.url
+                                    }
                                     
                                     if let unwrappedURL = tab.url {
                                         searchInSidebar = unwrappedURL.absoluteString
@@ -892,8 +897,12 @@ struct TestingView: View {
                                     pinnedNavigationState.selectedWebView = nil
                                     pinnedNavigationState.currentURL = nil
                                     
-                                    navigationState.selectedWebView = tab
-                                    navigationState.currentURL = tab.url
+                                    selectedTabLocation = "tabs"
+                                    
+                                    Task {
+                                        await navigationState.selectedWebView = tab
+                                        await navigationState.currentURL = tab.url
+                                    }
                                     
                                     if let unwrappedURL = tab.url {
                                         searchInSidebar = unwrappedURL.absoluteString
@@ -1026,12 +1035,14 @@ struct TestingView: View {
                             .opacity(0.4)
                             .cornerRadius(10)
                         //MARK: - WebView
-                        if navigationState.selectedWebView != nil {
+                        //if navigationState.selectedWebView != nil {
+                        if selectedTabLocation == "tabs" {
                             TestingWebView(navigationState: navigationState)
                                 .cornerRadius(10)
                         }
                         
-                        if pinnedNavigationState.selectedWebView != nil {
+                        //if pinnedNavigationState.selectedWebView != nil {
+                        if selectedTabLocation == "pinnedTabs" {
                             TestingWebView(navigationState: pinnedNavigationState)
                                 .cornerRadius(10)
                         }
