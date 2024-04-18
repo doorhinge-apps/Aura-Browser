@@ -64,107 +64,37 @@ struct Suggestion: Identifiable, Codable {
 //}
 
 
-class NavigationState : NSObject, ObservableObject {
+class NavigationState : NSObject, WKNavigationDelegate, WKUIDelegate, ObservableObject {
     @Published var currentURL : URL?
     @Published var webViews : [WKWebView] = []
     @Published var selectedWebView : WKWebView?
     @Published var selectedWebViewTitle: String = ""
     
-    @discardableResult func createNewWebView(withRequest request: URLRequest, fromFirestore: Bool = false) -> WKWebView {
+    override init() {
+        super.init()
+    }
+    
+    @discardableResult func createNewWebView(withRequest request: URLRequest) -> WKWebView {
         let wv = WKWebView()
         wv.customUserAgent = "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
         wv.navigationDelegate = self
+        wv.uiDelegate = self
         webViews.append(wv)
         selectedWebView = wv
         wv.load(request)
-        
-        // Only add the new WebView to Firestore if it's not being recreated from Firestore
-//        if !fromFirestore, let url = request.url {
-//            addTabToFirestore(url: url, title: wv.title ?? "Loading...")
-//        }
 
         return wv
     }
-
     
-    //private var db = Firestore.firestore()
-    
-//    func randomString(length: Int) -> String {
-//      let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-//      return String((0..<length).map{ _ in letters.randomElement()! })
-//    }
-//
-//    func addTabToFirestore(url: URL, title: String) {
-//        
-//        // Check if the tab is already in Firestore
-//        let tabsRef = Firestore.firestore().collection("Tabs")
-//        tabsRef.whereField("url", isEqualTo: url.absoluteString).getDocuments() { (querySnapshot, error) in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            } else {
-//                if querySnapshot!.documents.isEmpty {
-//                    // The tab is not in Firestore, so add it
-//                    let documentID = "\(defaults.string(forKey: "email")) - \(self.randomString(length: 6))"
-//                    
-//                    let db = Firestore.firestore()
-//                    let ref = db.collection("TabsDontExist").document(documentID)
-//                    ref.setData([
-//                        "uid": documentID,
-//                        "title": title,
-//                        "url": url.absoluteString
-//                    ]) { error in
-//                        if let error = error {
-//                            print(error.localizedDescription)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
-//    // Remove a tab from Firestore
-//    func removeTabFromFirestore(id: String) {
-//        db.collection("Tabs").document(id).delete() { error in
-//            if let error = error {
-//                print("Error removing document: \(error)")
-//            } else {
-//                print("Document successfully removed!")
-//            }
-//        }
-//    }
-//    
-//    // Fetch all tabs from Firestore
-//    func fetchTabsFromFirestore() {
-//        db.collection("Tabs").getDocuments() { (querySnapshot, error) in
-//            if let error = error {
-//                print("Error fetching documents: \(error)")
-//            } else {
-//                self.webViews.removeAll()
-//                for document in querySnapshot!.documents {
-//                    let data = document.data()
-//                    if let urlString = data["url"] as? String, let url = URL(string: urlString) {
-//                        let request = URLRequest(url: url)
-//                        self.createNewWebView(withRequest: request, fromFirestore: true) // Marking the WebView as one being recreated from Firestore
-//                    }
-//                }
-//            }
-//        }
-//    }
-}
-
-extension NavigationState : WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        // Get the URL of the link that was clicked
-        if let url = webView.url {
-            
-            // Check if the URL has the `target` attribute set to `_blank`
-            if url.absoluteString.contains("target=_blank") {
-                // Open the link in a new tab
-                createNewWebView(withRequest: URLRequest(url: url))
-            }
+    func webView(_ webView: WKWebView!, createWebViewWith configuration: WKWebViewConfiguration!, for navigationAction: WKNavigationAction!, windowFeatures: WKWindowFeatures!) -> WKWebView! {
+        if navigationAction.targetFrame == nil {
+            createNewWebView(withRequest: navigationAction.request)
         }
+        return nil
     }
 }
+
+
 
 struct TestingWebView : UIViewRepresentable {
     
@@ -174,6 +104,8 @@ struct TestingWebView : UIViewRepresentable {
         return UIView()
     }
     
+    
+    
     func updateUIView(_ uiView: UIView, context: Context) {
         guard let webView = navigationState.selectedWebView else {
             return
@@ -182,6 +114,7 @@ struct TestingWebView : UIViewRepresentable {
         
         // Set the frame again to ensure the webView resizes correctly
         webView.frame = CGRect(origin: .zero, size: uiView.bounds.size)
+        
         
         if webView != uiView.subviews.first {
             uiView.subviews.forEach { $0.removeFromSuperview() }
@@ -1450,6 +1383,9 @@ struct TestingView: View {
                 }
                 
                 spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
+            }
+            .onChange(of: spaces) { newValue in
+                UserDefaults.standard.setValue(spaces, forKey: "spaces")
             }
             .onChange(of: spaceIcons) { newValue in
                 UserDefaults.standard.setValue(spaceIcons, forKey: "spaceIcons")

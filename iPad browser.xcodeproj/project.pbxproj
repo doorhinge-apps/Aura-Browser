@@ -53,6 +53,7 @@
 		B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */; };
 		B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F52BD01D8A00555AB9 /* Long Variables.swift */; };
 		B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */; };
+		B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = B98A32FA2BD05CF000555AB9 /* FaviconFinder */; };
 		B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */; };
 		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
@@ -115,6 +116,7 @@
 				B90932FF2BC8FF03005292D6 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				B909330F2BC8FF03005292D6 /* FirebaseMessaging in Frameworks */,
 				B909330B2BC8FF03005292D6 /* FirebaseInstallations in Frameworks */,
+				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +228,7 @@
 				B90933142BC8FF03005292D6 /* FirebaseRemoteConfigSwift */,
 				B90933162BC8FF03005292D6 /* FirebaseStorage */,
 				B90933182BC8FF03005292D6 /* FirebaseStorageCombine-Community */,
+				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* iPad browser.app */;
@@ -257,6 +260,7 @@
 			mainGroup = B95B19D82AABBEE00013AC79;
 			packageReferences = (
 				B90932E32BC8FF03005292D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -528,6 +532,14 @@
 				version = 10.24.0;
 			};
 		};
+		B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/will-lumley/FaviconFinder/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -665,6 +677,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B90932E32BC8FF03005292D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		B98A32FA2BD05CF000555AB9 /* FaviconFinder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
+			productName = FaviconFinder;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

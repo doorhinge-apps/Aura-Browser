@@ -1,5 +1,5 @@
 {
-  "originHash" : "a1569f9895aa2be8e24832f98525d5da4eb90b5d158a82691c15b47eb72a13d7",
+  "originHash" : "dbc53bbc9f920e214d46879ad4d39157e5f6f20cc111aa17df4bfb4fdaeb8ebd",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "c218c2054299b15ae577e818bbba16084d3eabe6",
         "version" : "10.18.2"
+      }
+    },
+    {
+      "identity" : "faviconfinder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/will-lumley/FaviconFinder/",
+      "state" : {
+        "revision" : "c87a6d27d472a2013506c3c173a8768f8e7521ee",
+        "version" : "5.0.2"
       }
     },
     {
@@ -116,6 +125,15 @@
       "state" : {
         "revision" : "cf62cdaea48b77f1a631e5cb3aeda6047c2cba1d",
         "version" : "1.23.0"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
+        "version" : "2.7.2"
       }
     }
   ],
