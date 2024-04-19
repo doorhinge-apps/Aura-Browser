@@ -17,115 +17,6 @@ struct Suggestion: Identifiable, Codable {
     var url: String
 }
 
-//class SuggestionsViewModel: ObservableObject {
-//    @Published var suggestions = [Suggestion]()
-//    private var db = Firestore.firestore()
-//    
-//    func randomString(length: Int) -> String {
-//      let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-//      return String((0..<length).map{ _ in letters.randomElement()! })
-//    }
-//    
-//
-//    func fetchData() {
-//        db.collection("Suggestions").addSnapshotListener { (querySnapshot, error) in
-//            guard let documents = querySnapshot?.documents else {
-//                print("No documents")
-//                return
-//            }
-//
-//            self.suggestions = documents.map { (queryDocumentSnapshot) -> Suggestion in
-//                let data = queryDocumentSnapshot.data()
-//                let id = data["uid"] as? String ?? ""
-//                let url = data["url"] as? String ?? ""
-//                return Suggestion(id: id, url: url)
-//            }
-//        }
-//    }
-//    
-//    
-//    func addSuggestion(url: String) {
-//        // Create a new Suggestion
-//        
-//        //UIPasteboard.general.string = self.BLEinfo.sendRcvLog
-//        var newSuggestion = "\(defaults.string(forKey: "email") ?? "Email not found") - \(url))"
-//        
-//        var docID = "\(defaults.string(forKey: "email") ?? "Email not found") - \(url.replacingOccurrences(of: "/", with: "-+|slash|+-"))"
-//        
-//        // Add the new Suggestion to Firestore
-//        
-//        let ref = db.collection("Suggestions").document(docID)
-//        ref.setData(["uid": newSuggestion, "url": url]) { error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
-//
-//}
-
-
-class NavigationState : NSObject, WKNavigationDelegate, WKUIDelegate, ObservableObject {
-    @Published var currentURL : URL?
-    @Published var webViews : [WKWebView] = []
-    @Published var selectedWebView : WKWebView? = nil
-    @Published var selectedWebViewTitle: String = ""
-    
-    override init() {
-        super.init()
-    }
-    
-    @discardableResult func createNewWebView(withRequest request: URLRequest) -> WKWebView {
-        let wv = WKWebView()
-        wv.customUserAgent = "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-        wv.navigationDelegate = self
-        wv.uiDelegate = self
-        webViews.append(wv)
-        selectedWebView = wv
-        wv.load(request)
-
-        return wv
-    }
-    
-    func webView(_ webView: WKWebView!, createWebViewWith configuration: WKWebViewConfiguration!, for navigationAction: WKNavigationAction!, windowFeatures: WKWindowFeatures!) -> WKWebView! {
-        if navigationAction.targetFrame == nil {
-            createNewWebView(withRequest: navigationAction.request)
-        }
-        return nil
-    }
-}
-
-
-
-struct TestingWebView : UIViewRepresentable {
-    
-    @ObservedObject var navigationState : NavigationState
-    
-    func makeUIView(context: Context) -> UIView  {
-        return UIView()
-    }
-    
-    
-    
-    func updateUIView(_ uiView: UIView, context: Context) {
-        guard let webView = navigationState.selectedWebView else {
-            return
-        }
-        webView.customUserAgent = "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-        
-        // Set the frame again to ensure the webView resizes correctly
-        webView.frame = CGRect(origin: .zero, size: uiView.bounds.size)
-        
-        
-        if webView != uiView.subviews.first {
-            uiView.subviews.forEach { $0.removeFromSuperview() }
-            uiView.addSubview(webView)
-        }
-    }
-}
-
-
-
 class FaviconStore: ObservableObject {
     @Published var favicons: [String: FaviconImage] = [:]
     
@@ -243,296 +134,44 @@ struct TestingView: View {
                 LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                 
                 HStack(spacing: 0) {
-                    VStack {
-                        
-                        Spacer()
-                            .frame(width: 20, height: 20)
-                        
-                        if hideSidebar {
-                            Button {
-                                hoverTinySpace.toggle()
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                    hoverTinySpace = false
-                                }
-                            } label: {
-                                VStack(spacing: 2) {
-                                    Circle()
-                                        .frame(width: 8, height: 8)
-                                    
-                                    Circle()
-                                        .frame(width: 8, height: 8)
-                                    
-                                    Circle()
-                                        .frame(width: 8, height: 8)
-                                    
-                                }.padding(.horizontal, 6.5).foregroundStyle(Color.white).hoverEffect(.highlight)
-                            }.keyboardShortcut("e", modifiers: .command)
-                        }
-                        
-                        
-                        Spacer()
-                            .frame(width: 20)
-                    }
+                    ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
+                    
                     //MARK: - Sidebar Buttons
+                    
+                    
                     VStack {
-                        HStack {
-                            Button(action: {
-                                Task {
-                                    await hideSidebar.toggle()
-                                }
-                                
-                                navigationState.selectedWebView?.reload()
-                                navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                
-                                navigationState.selectedWebView = navigationState.selectedWebView
-                                //navigationState.currentURL = navigationState.currentURL
-                                
-                                if let unwrappedURL = navigationState.currentURL {
-                                    searchInSidebar = unwrappedURL.absoluteString
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                }
-                            }, label: {
-                                ZStack {
-                                    Color(.white)
-                                        .opacity(hoverSidebarButton ? 0.5: 0.0)
-                                    
-                                    Image(systemName: "sidebar.left")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 25, height: 25)
-                                        .foregroundStyle(Color.white)
-                                        .opacity(hoverSidebarButton ? 1.0: 0.5)
-                                    
-                                }.frame(width: 40, height: 40).cornerRadius(7)
-                                    .hoverEffect(.lift)
-                                    .onHover(perform: { hovering in
-                                        if hovering {
-                                            hoverSidebarButton = true
-                                        }
-                                        else {
-                                            hoverSidebarButton = false
-                                        }
-                                    })
-                            }).keyboardShortcut("s", modifiers: .command)
-                            
-                            
-                            
-                            Button(action: {
-                                changeColorSheet.toggle()
-                            }, label: {
-                                ZStack {
-                                    Color(.white)
-                                        .opacity(hoverPaintbrush ? 0.5: 0.0)
-                                    
-                                    Image(systemName: hoverPaintbrush ? "paintbrush.pointed.fill": "paintbrush.pointed")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 25, height: 25)
-                                        .foregroundStyle(Color.white)
-                                        .opacity(hoverPaintbrush ? 1.0: 0.5)
-                                    
-                                }.frame(width: 40, height: 40).cornerRadius(7)
-                                    .hoverEffect(.lift)
-                                    .onHover(perform: { hovering in
-                                        if hovering {
-                                            hoverPaintbrush = true
-                                        }
-                                        else {
-                                            hoverPaintbrush = false
-                                        }
-                                    })
-                            }).keyboardShortcut("e", modifiers: .command)
-                                .popover(isPresented: $changeColorSheet, content: {
-                                    VStack(spacing: 20) {
-                                        LinearGradient(gradient: Gradient(colors: [startColor, endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                            .frame(width: 200, height: 200)
-                                            .cornerRadius(10)
-                                            .ignoresSafeArea()
-                                            .offset(y: -10)
-                                        
-                                        VStack {
-                                            ColorPicker("Start Color", selection: $startColor)
-                                                .onChange(of: startColor) { newValue in
-                                                    saveColor(color: newValue, key: "startColorHex")
-                                                }
-                                            
-                                            ColorPicker("End Color", selection: $endColor)
-                                                .onChange(of: endColor) { newValue in
-                                                    saveColor(color: newValue, key: "endColorHex")
-                                                }
-                                        }
-                                        .padding()
-                                        
-                                        Spacer()
-                                    }
-                                    
-                                })
-                            
-                            
-                            
-                            Button(action: {
-                                //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https://www.google.com")!))
-                                tabBarShown.toggle()
-                                commandBarShown = false
-                            }, label: {
-                                ZStack {
-                                    Color(.white)
-                                        .opacity(hoverNewTab ? 0.5: 0.0)
-                                    
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                        .foregroundStyle(Color.white)
-                                        .opacity(hoverNewTab ? 1.0: 0.5)
-                                    
-                                }.frame(width: 40, height: 40).cornerRadius(7)
-                                    .hoverEffect(.lift)
-                                    .onHover(perform: { hovering in
-                                        if hovering {
-                                            hoverNewTab = true
-                                        }
-                                        else {
-                                            hoverNewTab = false
-                                        }
-                                    })
-                            }).keyboardShortcut("t", modifiers: .command)
-                            
-                            
-                            
-                            
-                            Button(action: {
-                                if selectedTabLocation == "tabs" {
-                                    navigationState.selectedWebView?.goBack()
-                                }
-                                else if selectedTabLocation == "pinnedTabs" {
-                                    pinnedNavigationState.selectedWebView?.goBack()
-                                }
-                                else if selectedTabLocation == "favoriteTabs" {
-                                    favoritesNavigationState.selectedWebView?.goBack()
-                                }
-                            }, label: {
-                                ZStack {
-                                    Color(.white)
-                                        .opacity(hoverBackwardButton ? 0.5: 0.0)
-                                    
-                                    Image(systemName: "arrow.left")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                        .foregroundStyle(Color.white)
-                                        .opacity(hoverBackwardButton ? 1.0: 0.5)
-                                    
-                                }.frame(width: 40, height: 40).cornerRadius(7)
-                                    .hoverEffect(.lift)
-                                    .onHover(perform: { hovering in
-                                        if hovering {
-                                            hoverBackwardButton = true
-                                        }
-                                        else {
-                                            hoverBackwardButton = false
-                                        }
-                                    })
-                            }).keyboardShortcut("[", modifiers: .command)
-                            
-                            Button(action: {
-                                if selectedTabLocation == "tabs" {
-                                    navigationState.selectedWebView?.goForward()
-                                }
-                                else if selectedTabLocation == "pinnedTabs" {
-                                    pinnedNavigationState.selectedWebView?.goForward()
-                                }
-                                else if selectedTabLocation == "favoriteTabs" {
-                                    favoritesNavigationState.selectedWebView?.goForward()
-                                }
-                            }, label: {
-                                ZStack {
-                                    Color(.white)
-                                        .opacity(hoverForwardButton ? 0.5: 0.0)
-                                    
-                                    Image(systemName: "arrow.right")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                        .foregroundStyle(Color.white)
-                                        .opacity(hoverForwardButton ? 1.0: 0.5)
-                                    
-                                }.frame(width: 40, height: 40).cornerRadius(7)
-                                    .hoverEffect(.lift)
-                                    .onHover(perform: { hovering in
-                                        if hovering {
-                                            hoverForwardButton = true
-                                        }
-                                        else {
-                                            hoverForwardButton = false
-                                        }
-                                    })
-                            }).keyboardShortcut("]", modifiers: .command)
-                            
-                            
-                            Button(action: {
-                                reloadRotation += 360
-                                
-                                if selectedTabLocation == "tabs" {
-                                    navigationState.selectedWebView?.reload()
-                                    navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                    
-                                    navigationState.selectedWebView = navigationState.selectedWebView
-                                    //navigationState.currentURL = navigationState.currentURL
-                                    
-                                    if let unwrappedURL = navigationState.currentURL {
-                                        searchInSidebar = unwrappedURL.absoluteString
-                                    }
-                                }
-                                else if selectedTabLocation == "pinnedTabs" {
-                                    pinnedNavigationState.selectedWebView?.reload()
-                                    pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                    
-                                    pinnedNavigationState.selectedWebView = pinnedNavigationState.selectedWebView
-                                    
-                                    if let unwrappedURL = pinnedNavigationState.currentURL {
-                                        searchInSidebar = unwrappedURL.absoluteString
-                                    }
-                                }
-                                else if selectedTabLocation == "favoriteTabs" {
-                                    favoritesNavigationState.selectedWebView?.reload()
-                                    favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                    
-                                    favoritesNavigationState.selectedWebView = favoritesNavigationState.selectedWebView
-                                    
-                                    if let unwrappedURL = favoritesNavigationState.currentURL {
-                                        searchInSidebar = unwrappedURL.absoluteString
-                                    }
-                                }
-                            }, label: {
-                                ZStack {
-                                    Color(.white)
-                                        .opacity(hoverReloadButton ? 0.5: 0.0)
-                                    
-                                    Image(systemName: "arrow.clockwise")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                        .foregroundStyle(Color.white)
-                                        .opacity(hoverReloadButton ? 1.0: 0.5)
-                                        .rotationEffect(Angle(degrees: Double(reloadRotation)))
-                                        .animation(.bouncy, value: reloadRotation)
-                                    
-                                }.frame(width: 40, height: 40).cornerRadius(7)
-                                    .hoverEffect(.lift)
-                                    .onHover(perform: { hovering in
-                                        if hovering {
-                                            hoverReloadButton = true
-                                        }
-                                        else {
-                                            hoverReloadButton = false
-                                        }
-                                    })
-                            }).keyboardShortcut("r", modifiers: .command)
-                        }
+                        /*
+                         @Binding var selectedTabLocation: String
+                         @Binding var navigationState: NavigationState
+                         @Binding var pinnedNavigationState: NavigationState
+                         @Binding var favoritesNavigationState: NavigationState
+                         @Binding var hideSidebar: Bool
+                         @Binding var searchInSidebar: String
+                         
+                         @State var hoverSidebarButton = false
+                         @State var hoverPaintbrush = false
+                         @State var hoverNewTab = false
+                         @State var hoverBackwardButton = false
+                         @State var hoverForwardButton = false
+                         @State var hoverReloadButton = false
+                         @State var hoverSidebarSearchField = false
+                         @State var reloadRotation = 0
+                         @State var newTabSearch = ""
+                         
+                         
+                         @State var reloadTitles = false
+                         
+                         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                         
+                         @State var changeColorSheet = false
+                         
+                         @State private var startColor: Color = Color.purple
+                         @State private var endColor: Color = Color.pink
+                         
+                         @Binding var commandBarShown: Bool
+                         @Binding var tabBarShown: Bool
+                         */
+                        ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown).frame(height: 40)
                         
                         
                         //Text(navigationState.currentURL?.absoluteString ?? "")
@@ -672,9 +311,9 @@ struct TestingView: View {
                                     
                                 }
                                 .onAppear() {
-//                                    Task {
-//                                        await favicons.fetchFavicon(for: tab)
-//                                    }
+            //                                    Task {
+            //                                        await favicons.fetchFavicon(for: tab)
+            //                                    }
                                     favicons.fetchFavicon(for: tab)
                                 }
                                 .contextMenu {
@@ -1765,19 +1404,6 @@ struct TestingView: View {
 
     
     //MARK: - Functions
-    
-    func saveColor(color: Color, key: String) {
-        let uiColor = UIColor(color)
-        let hexString = uiColor.toHex()
-        defaults.set(hexString, forKey: key)
-    }
-    
-    func getColor(forKey key: String) -> Color? {
-        guard let hexString = UserDefaults.standard.string(forKey: key) else {
-            return nil
-        }
-        return Color(hex: hexString)
-    }
     
     func removeTab(at index: Int) {
         // If the deleted tab is the currently selected one

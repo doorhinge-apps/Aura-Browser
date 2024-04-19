@@ -136,7 +136,7 @@ struct SuggestionsView: View {
                     .keyboardShortcut(.upArrow, modifiers: [.command, .option])
                     .keyboardShortcut(.upArrow)
             }
-            .onChange(of: newTabSearch) { oldValue, newValue in
+            .onChange(of: newTabSearch) { newValue in
                 if suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
                         .replacingOccurrences(of: "https://", with: "")
                         .replacingOccurrences(of: "http://", with: "")

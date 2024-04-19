@@ -44,6 +44,12 @@
 		B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E62AABBEE00013AC79 /* ContentView.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
+		B98256C92BD2E2D100F997F5 /* WebsiteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */; };
+		B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */; };
+		B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */; };
+		B98256D02BD2E3D500F997F5 /* TemplateNavigationStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */; };
+		B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */; };
+		B98256D42BD2E78100F997F5 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D32BD2E78100F997F5 /* Themes.swift */; };
 		B98953A32AABCF7200EE3B42 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */; };
 		B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A52AABE3CB00EE3B42 /* Hex.swift */; };
 		B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A72AAC1F4B00EE3B42 /* TestingView.swift */; };
@@ -71,6 +77,12 @@
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B98256C72BD2A87200F997F5 /* iPad browser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iPad browser.entitlements"; sourceTree = "<group>"; };
+		B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteHandling.swift; sourceTree = "<group>"; };
+		B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
+		B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDots.swift; sourceTree = "<group>"; };
+		B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateNavigationStates.swift; sourceTree = "<group>"; };
+		B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Toolbar Buttons.swift"; sourceTree = "<group>"; };
+		B98256D32BD2E78100F997F5 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "iPad-browser-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B98953A52AABE3CB00EE3B42 /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
@@ -156,22 +168,23 @@
 				B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */,
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
 				B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */,
-				B95B19E62AABBEE00013AC79 /* ContentView.swift */,
-				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
 				B98953A72AAC1F4B00EE3B42 /* TestingView.swift */,
+				B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */,
+				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
+				B98256D32BD2E78100F997F5 /* Themes.swift */,
+				B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */,
+				B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */,
+				B95B19E62AABBEE00013AC79 /* ContentView.swift */,
 				B98A32F52BD01D8A00555AB9 /* Long Variables.swift */,
 				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
 				B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */,
 				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
-				B918673B2BCB0AFD00C159AB /* Settings.swift */,
 				B91FBF942BC8EB0C001C317C /* Tab Bar.swift */,
-				B9230FF92BBD36740032C950 /* TopDomains.json */,
+				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
 				B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */,
-				B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */,
 				B98953A92AAD686100EE3B42 /* LoginView.swift */,
-				B90213742AB0174F00AB708D /* Functions.swift */,
-				B90213722AAFDEE200AB708D /* Button Styles.swift */,
-				B98953A52AABE3CB00EE3B42 /* Hex.swift */,
+				B918673B2BCB0AFD00C159AB /* Settings.swift */,
+				B98256CA2BD2E2F800F997F5 /* Extensions */,
 				B95B19E82AABBEE10013AC79 /* Assets.xcassets */,
 				B95B19EA2AABBEE10013AC79 /* Preview Content */,
 			);
@@ -184,6 +197,19 @@
 				B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B98256CA2BD2E2F800F997F5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
+				B9230FF92BBD36740032C950 /* TopDomains.json */,
+				B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */,
+				B90213742AB0174F00AB708D /* Functions.swift */,
+				B90213722AAFDEE200AB708D /* Button Styles.swift */,
+				B98953A52AABE3CB00EE3B42 /* Hex.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,11 +327,17 @@
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
+				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
+				B98256C92BD2E2D100F997F5 /* WebsiteHandling.swift in Sources */,
 				B98A32EE2BCDA09C00555AB9 /* CircleAnimation.swift in Sources */,
+				B98256D02BD2E3D500F997F5 /* TemplateNavigationStates.swift in Sources */,
 				B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */,
+				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
+				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
 				B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */,
 				B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */,
+				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
 				B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */,
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */,
@@ -441,7 +473,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -454,6 +486,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -477,7 +510,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -490,6 +523,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -32,7 +32,7 @@ struct GrowingButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
             if configuration.isPressed {
-                Color(.white.opacity(0.0))
+                Color.white.opacity(0.0)
                     .frame(width: 0, height: 0)
                     .onAppear() {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
@@ -78,7 +78,7 @@ struct MainButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
             if configuration.isPressed {
-                Color(.white.opacity(0.0))
+                Color.white.opacity(0.0)
                     .frame(width: 0, height: 0)
                     .onAppear() {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
