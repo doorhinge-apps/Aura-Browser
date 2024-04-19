@@ -70,6 +70,7 @@
 		B95B19E62AABBEE00013AC79 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B98256C72BD2A87200F997F5 /* iPad browser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iPad browser.entitlements"; sourceTree = "<group>"; };
 		B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "iPad-browser-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B98953A52AABE3CB00EE3B42 /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 		B95B19E32AABBEE00013AC79 /* iPad browser */ = {
 			isa = PBXGroup;
 			children = (
+				B98256C72BD2A87200F997F5 /* iPad browser.entitlements */,
 				B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */,
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
 				B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */,
@@ -437,8 +439,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -459,7 +462,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.doorhingeapps.browser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -471,8 +475,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -493,7 +498,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.doorhingeapps.browser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;

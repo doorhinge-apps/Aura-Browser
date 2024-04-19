@@ -10,6 +10,8 @@ import Firebase
 import FirebaseAuth
 
 struct Settings: View {
+    @Binding var presentSheet: Bool
+    
     @AppStorage("startColorHex") var startHex = "ffffff"
     @AppStorage("endColorHex") var endHex = "000000"
     @AppStorage("email") var email = ""
@@ -36,7 +38,7 @@ struct Settings: View {
                     })
                 } label: {
                     Text("Search Engine: \(searchEngine)")
-                }
+                }.buttonStyle(GrowingButton(buttonText: "Search Engine: \(searchEngine)", buttonWidth: 400, buttonHeight: 20))
                 
                 Toggle(isOn: $hoverEffectsAbsorbCursor) {
                     Text("Hover Effects Absorb Cursor")
@@ -58,10 +60,23 @@ struct Settings: View {
                 }.buttonStyle(GrowingButton(buttonText: "Sign Out", buttonWidth: 150, buttonHeight: 20))
 
             }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        presentSheet = false
+                    } label: {
+                        //
+                    }.buttonStyle(GrowingButton(buttonText: "Done", buttonWidth: 75, buttonHeight: 20))
+                        .padding(15)
+
+                }
+                
+                Spacer()
+            }
         }
     }
 }
 
-#Preview {
-    Settings()
-}

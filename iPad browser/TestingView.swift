@@ -1136,7 +1136,7 @@ struct TestingView: View {
                                     })
                             }
                             .sheet(isPresented: $showSettings) {
-                                Settings()
+                                Settings(presentSheet: $showSettings)
                             }
                             
                             Spacer()
