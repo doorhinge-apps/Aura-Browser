@@ -1519,6 +1519,7 @@ struct TestingView: View {
                                                 //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
                                             }
                                         }
+                                        .autocorrectionDisabled(true)
                                         .textInputAutocapitalization(.never)
                                         .onSubmit {
                                             navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
@@ -1543,41 +1544,41 @@ struct TestingView: View {
                         
                         //MARK: - Command Bar
                         else if commandBarShown {
-                            ZStack {
-                                Color.white
-                                
-                                VStack {
-                                    HStack {
-                                        Image(systemName: "magnifyingglass")
-                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                        
-                                        TextField("⌘+L - Search or Enter URL...", text: $searchInSidebar)
-                                            .textInputAutocapitalization(.never)
-                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                            .autocorrectionDisabled(true)
-                                            .focused($focusedField, equals: .commandBar)
-                                            .onAppear() {
-                                                focusedField = .commandBar
-                                            }
-                                            .onDisappear() {
-                                                focusedField = .none
-                                            }
-                                            .onSubmit {
-                                                //searchSuggestions.addSuggestion(url: newTabSearch)
-                                                //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: searchInSidebar))!))
-                                                navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
-                                                
-                                                navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
-                                                
-                                                //navigationState.selectedWebView?.reload()
-                                                
-                                                commandBarShown = false
-                                            }
-                                    }
-                                    .padding(20)
-                                }
-                            }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
-                                .ignoresSafeArea()
+//                            ZStack {
+//                                Color.white
+//                                
+//                                VStack {
+//                                    HStack {
+//                                        Image(systemName: "magnifyingglass")
+//                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+//                                        
+//                                        TextField("⌘+L - Search or Enter URL...", text: $searchInSidebar)
+//                                            .textInputAutocapitalization(.never)
+//                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+//                                            .autocorrectionDisabled(true)
+//                                            .focused($focusedField, equals: .commandBar)
+//                                            .onAppear() {
+//                                                focusedField = .commandBar
+//                                            }
+//                                            .onDisappear() {
+//                                                focusedField = .none
+//                                            }
+//                                            .onSubmit {
+//                                                //searchSuggestions.addSuggestion(url: newTabSearch)
+//                                                //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: searchInSidebar))!))
+//                                                navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+//                                                
+//                                                navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+//                                                
+//                                                //navigationState.selectedWebView?.reload()
+//                                                
+//                                                commandBarShown = false
+//                                            }
+//                                    }
+//                                    .padding(20)
+//                                }
+//                            }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
+//                                .ignoresSafeArea()
                             
                             ZStack {
                                 Color.white.opacity(0.001)
@@ -1598,6 +1599,7 @@ struct TestingView: View {
                                                 //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
                                             }
                                         }
+                                        .autocorrectionDisabled(true)
                                         .textInputAutocapitalization(.never)
                                         .onSubmit {
                                             
