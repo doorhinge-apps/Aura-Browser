@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import WebKit
 import Combine
+import FaviconFinder
 
 
 struct Suggestion: Identifiable, Codable {
@@ -67,7 +68,7 @@ struct Suggestion: Identifiable, Codable {
 class NavigationState : NSObject, WKNavigationDelegate, WKUIDelegate, ObservableObject {
     @Published var currentURL : URL?
     @Published var webViews : [WKWebView] = []
-    @Published var selectedWebView : WKWebView?
+    @Published var selectedWebView : WKWebView? = nil
     @Published var selectedWebViewTitle: String = ""
     
     override init() {
@@ -124,11 +125,43 @@ struct TestingWebView : UIViewRepresentable {
 }
 
 
+
+class FaviconStore: ObservableObject {
+    @Published var favicons: [String: FaviconImage] = [:]
+    
+    func fetchFavicon(for webView: WKWebView) {
+        guard let urlString = webView.url?.absoluteString else { return }
+        
+        // Avoid refetching if we already have the favicon.
+        if favicons[urlString] != nil { return }
+        
+        Task {
+            do {
+                let favicon = try await FaviconFinder(url: webView.url!)
+                    .fetchFaviconURLs()
+                    .download()
+                    .largest ()
+                
+                // Update the favicons dictionary. Make sure this happens on the main thread.
+                DispatchQueue.main.async {
+                    self.favicons[urlString] = favicon.image
+                }
+            } catch {
+                print("Failed to fetch favicon for \(urlString): \(error)")
+            }
+            
+        }
+    }
+}
+
+
 struct TestingView: View {
     // WebView Handling
     @ObservedObject var navigationState = NavigationState()
     @ObservedObject var pinnedNavigationState = NavigationState()
     @ObservedObject var favoritesNavigationState = NavigationState()
+    
+    @ObservedObject var favicons = FaviconStore()
     
     
     // Storage and Website Loading
@@ -372,7 +405,15 @@ struct TestingView: View {
                             
                             
                             Button(action: {
-                                navigationState.selectedWebView?.goBack()
+                                if selectedTabLocation == "tabs" {
+                                    navigationState.selectedWebView?.goBack()
+                                }
+                                else if selectedTabLocation == "pinnedTabs" {
+                                    pinnedNavigationState.selectedWebView?.goBack()
+                                }
+                                else if selectedTabLocation == "favoriteTabs" {
+                                    favoritesNavigationState.selectedWebView?.goBack()
+                                }
                             }, label: {
                                 ZStack {
                                     Color(.white)
@@ -398,7 +439,15 @@ struct TestingView: View {
                             }).keyboardShortcut("[", modifiers: .command)
                             
                             Button(action: {
-                                navigationState.selectedWebView?.goForward()
+                                if selectedTabLocation == "tabs" {
+                                    navigationState.selectedWebView?.goForward()
+                                }
+                                else if selectedTabLocation == "pinnedTabs" {
+                                    pinnedNavigationState.selectedWebView?.goForward()
+                                }
+                                else if selectedTabLocation == "favoriteTabs" {
+                                    favoritesNavigationState.selectedWebView?.goForward()
+                                }
                             }, label: {
                                 ZStack {
                                     Color(.white)
@@ -426,14 +475,37 @@ struct TestingView: View {
                             
                             Button(action: {
                                 reloadRotation += 360
-                                navigationState.selectedWebView?.reload()
-                                navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                 
-                                navigationState.selectedWebView = navigationState.selectedWebView
-                                //navigationState.currentURL = navigationState.currentURL
-                                
-                                if let unwrappedURL = navigationState.currentURL {
-                                    searchInSidebar = unwrappedURL.absoluteString
+                                if selectedTabLocation == "tabs" {
+                                    navigationState.selectedWebView?.reload()
+                                    navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                    
+                                    navigationState.selectedWebView = navigationState.selectedWebView
+                                    //navigationState.currentURL = navigationState.currentURL
+                                    
+                                    if let unwrappedURL = navigationState.currentURL {
+                                        searchInSidebar = unwrappedURL.absoluteString
+                                    }
+                                }
+                                else if selectedTabLocation == "pinnedTabs" {
+                                    pinnedNavigationState.selectedWebView?.reload()
+                                    pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                    
+                                    pinnedNavigationState.selectedWebView = pinnedNavigationState.selectedWebView
+                                    
+                                    if let unwrappedURL = pinnedNavigationState.currentURL {
+                                        searchInSidebar = unwrappedURL.absoluteString
+                                    }
+                                }
+                                else if selectedTabLocation == "favoriteTabs" {
+                                    favoritesNavigationState.selectedWebView?.reload()
+                                    favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                    
+                                    favoritesNavigationState.selectedWebView = favoritesNavigationState.selectedWebView
+                                    
+                                    if let unwrappedURL = favoritesNavigationState.currentURL {
+                                        searchInSidebar = unwrappedURL.absoluteString
+                                    }
                                 }
                             }, label: {
                                 ZStack {
@@ -468,7 +540,7 @@ struct TestingView: View {
                         
                         //MARK: - Sidebar Searchbar
                         Button {
-                            if ((navigationState.currentURL?.absoluteString.isEmpty) == nil) {
+                            if ((navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
                                 newTabSearch = ""
                                 tabBarShown.toggle()
                                 commandBarShown = false
@@ -506,6 +578,19 @@ struct TestingView: View {
                                             .onReceive(timer) { _ in
                                                 if !commandBarShown {
                                                     if let unwrappedURL = pinnedNavigationState.selectedWebView?.url {
+                                                        searchInSidebar = unwrappedURL.absoluteString
+                                                    }
+                                                }
+                                            }
+                                    }
+                                    else if favoritesNavigationState.currentURL != nil {
+                                        Text(favoritesNavigationState.currentURL?.absoluteString ?? "")
+                                            .padding(.leading, 5)
+                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                            .lineLimit(1)
+                                            .onReceive(timer) { _ in
+                                                if !commandBarShown {
+                                                    if let unwrappedURL = favoritesNavigationState.selectedWebView?.url {
                                                         searchInSidebar = unwrappedURL.absoluteString
                                                     }
                                                 }
@@ -551,11 +636,119 @@ struct TestingView: View {
                          }
                          
                          }*/
+                        
                         //MARK: - Tabs
-                        //TabBar(navigationState: $navigationState)
-                        //TabBar(navigationState: $navigationState, timer: $timer, reloadTitles: $reloadTitles, hoverTab: $hoverTab, searchInSidebar: $searchInSidebar)
+                        LazyVGrid(columns: [GridItem(), GridItem()]) {
+                            ForEach(favoritesNavigationState.webViews, id:\.self) { tab in
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.white.opacity(tab == favoritesNavigationState.selectedWebView ? 1.0 : hoverTab == tab ? 0.6: 0.2), lineWidth: 3)
+                                        .fill(Color(.white).opacity(tab == favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.15: 0.0001))
+                                        //.foregroundStyle(Color(.white).opacity(tab == favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.2: 0.0001))
+                                        .frame(height: 75)
+                                    
+                                    
+                                    HStack {
+                                        if tab.title == "" {
+                                            Text(tab.url?.absoluteString ?? "Tab not found.")
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
+                                        else {
+                                            Text(tab.title ?? "Tab not found.")
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
+                                    }
+                                    
+                                    
+                                }
+                                .onAppear() {
+//                                    Task {
+//                                        await favicons.fetchFavicon(for: tab)
+//                                    }
+                                    favicons.fetchFavicon(for: tab)
+                                }
+                                .contextMenu {
+                                    Button {
+                                        pinnedNavigationState.webViews.append(tab)
+                                        
+                                        if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                            favoriteRemoveTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Pin Tab", systemImage: "pin")
+                                    }
+                                    
+                                    Button {
+                                        navigationState.webViews.append(tab)
+                                        
+                                        if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                            favoriteRemoveTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Unfavorite", systemImage: "star.fill")
+                                    }
+                                    
+                                    Button {
+                                        if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                            favoriteRemoveTab(at: index)
+                                        }
+                                    } label: {
+                                        Label("Close Tab", systemImage: "xmark")
+                                    }
+                                    
+                                }
+                                .onAppear() {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                        hoverTab = WKWebView()
+                                    }
+                                }
+                                .onHover(perform: { hovering in
+                                    if hovering {
+                                        hoverTab = tab
+                                    }
+                                    else {
+                                        hoverTab = WKWebView()
+                                    }
+                                })
+                                .onTapGesture {
+                                    
+                                    navigationState.selectedWebView = nil
+                                    navigationState.currentURL = nil
+                                    
+                                    pinnedNavigationState.selectedWebView = nil
+                                    pinnedNavigationState.currentURL = nil
+                                    
+                                    selectedTabLocation = "favoriteTabs"
+                                    
+                                    Task {
+                                        await favoritesNavigationState.selectedWebView = tab
+                                        await favoritesNavigationState.currentURL = tab.url
+                                    }
+                                    
+                                    if let unwrappedURL = tab.url {
+                                        searchInSidebar = unwrappedURL.absoluteString
+                                    }
+                                }
+                                .onDrag {
+                                    self.draggedTab = tab
+                                    return NSItemProvider()
+                                }
+                                .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $favoritesNavigationState.webViews, draggedItem: $draggedTab))
+                            }
+                        }
+                        
                         ScrollView {
-                            ForEach(pinnedNavigationState.webViews.reversed(), id: \.self) { tab in
+                            ForEach(pinnedNavigationState.webViews, id: \.self) { tab in
                                 //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
                                 //ReorderableForEach(navigationState.webViews) {tab, isDragged in
                                 ZStack {
@@ -564,7 +757,7 @@ struct TestingView: View {
                                     }
                                     
                                     RoundedRectangle(cornerRadius: 20)
-                                        .foregroundStyle(Color(.white).opacity(tab == pinnedNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.2: 0.0))
+                                        .foregroundStyle(Color(.white).opacity(tab == pinnedNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.2: 0.0001))
                                     //.foregroundStyle(navigationState.currentURL?.absoluteString ?? "(none)" == tab.url ? Color(.white).opacity(0.4): hoverTab == tab ? Color(.white).opacity(0.2): Color.clear)
                                         .frame(height: 50)
                                     
@@ -627,11 +820,7 @@ struct TestingView: View {
                                 }
                                 .contextMenu {
                                     Button {
-                                        if let index = navigationState.webViews.firstIndex(of: tab) {
-                                            //navigationState.createNewWebView(withRequest: tab.url)
-                                            //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: tab.url?.absoluteString))!))
-                                            navigationState.webViews.insert(tab, at: index + 1)
-                                        }
+                                        pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: tab.url?.absoluteString ?? ""))!))
                                     } label: {
                                         Label("Duplicate", systemImage: "plus.square.on.square")
                                     }
@@ -647,7 +836,7 @@ struct TestingView: View {
                                     }
                                     
                                     Button {
-                                        pinnedNavigationState.webViews.append(tab)
+                                        favoritesNavigationState.webViews.append(tab)
                                         
                                         if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
                                             pinnedRemoveTab(at: index)
@@ -681,6 +870,9 @@ struct TestingView: View {
                                 .onTapGesture {
                                     navigationState.selectedWebView = nil
                                     navigationState.currentURL = nil
+                                    
+                                    favoritesNavigationState.selectedWebView = nil
+                                    favoritesNavigationState.currentURL = nil
                                     
                                     selectedTabLocation = "pinnedTabs"
                                     
@@ -849,9 +1041,7 @@ struct TestingView: View {
                                 }
                                 .contextMenu {
                                     Button {
-                                        if let index = pinnedNavigationState.webViews.firstIndex(of: tab) {
-                                            pinnedNavigationState.webViews.insert(tab, at: index + 1)
-                                        }
+                                        navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: tab.url?.absoluteString ?? ""))!))
                                     } label: {
                                         Label("Duplicate", systemImage: "plus.square.on.square")
                                     }
@@ -896,6 +1086,9 @@ struct TestingView: View {
                                 .onTapGesture {
                                     pinnedNavigationState.selectedWebView = nil
                                     pinnedNavigationState.currentURL = nil
+                                    
+                                    favoritesNavigationState.selectedWebView = nil
+                                    favoritesNavigationState.currentURL = nil
                                     
                                     selectedTabLocation = "tabs"
                                     
@@ -960,6 +1153,17 @@ struct TestingView: View {
                                                 await navigationState.webViews.removeAll()
                                                 await pinnedNavigationState.webViews.removeAll()
                                                 await favoritesNavigationState.webViews.removeAll()
+                                            }
+                                            
+                                            Task {
+                                                await navigationState.selectedWebView = nil
+                                                await navigationState.currentURL = nil
+                                                
+                                                await pinnedNavigationState.selectedWebView = nil
+                                                await pinnedNavigationState.currentURL = nil
+                                                
+                                                await favoritesNavigationState.selectedWebView = nil
+                                                await favoritesNavigationState.currentURL = nil
                                             }
                                             
                                             Task {
@@ -1035,6 +1239,10 @@ struct TestingView: View {
                             .opacity(0.4)
                             .cornerRadius(10)
                         //MARK: - WebView
+                        if selectedTabLocation == "favoriteTabs" {
+                            TestingWebView(navigationState: favoritesNavigationState)
+                                .cornerRadius(10)
+                        }
                         //if navigationState.selectedWebView != nil {
                         if selectedTabLocation == "tabs" {
                             TestingWebView(navigationState: navigationState)
@@ -1108,14 +1316,36 @@ struct TestingView: View {
                                         Button(action: {
                                             reloadRotation += 360
                                             
-                                            navigationState.selectedWebView?.reload()
-                                            navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                            
-                                            navigationState.selectedWebView = navigationState.selectedWebView
-                                            //navigationState.currentURL = navigationState.currentURL
-                                            
-                                            if let unwrappedURL = navigationState.currentURL {
-                                                searchInSidebar = unwrappedURL.absoluteString
+                                            if selectedTabLocation == "tabs" {
+                                                navigationState.selectedWebView?.reload()
+                                                navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                
+                                                navigationState.selectedWebView = navigationState.selectedWebView
+                                                //navigationState.currentURL = navigationState.currentURL
+                                                
+                                                if let unwrappedURL = navigationState.currentURL {
+                                                    searchInSidebar = unwrappedURL.absoluteString
+                                                }
+                                            }
+                                            else if selectedTabLocation == "pinnedTabs" {
+                                                pinnedNavigationState.selectedWebView?.reload()
+                                                pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                
+                                                pinnedNavigationState.selectedWebView = pinnedNavigationState.selectedWebView
+                                                
+                                                if let unwrappedURL = pinnedNavigationState.currentURL {
+                                                    searchInSidebar = unwrappedURL.absoluteString
+                                                }
+                                            }
+                                            else if selectedTabLocation == "favoriteTabs" {
+                                                favoritesNavigationState.selectedWebView?.reload()
+                                                favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                
+                                                favoritesNavigationState.selectedWebView = favoritesNavigationState.selectedWebView
+                                                
+                                                if let unwrappedURL = favoritesNavigationState.currentURL {
+                                                    searchInSidebar = unwrappedURL.absoluteString
+                                                }
                                             }
                                             
                                             hoverTinySpace = false
@@ -1150,7 +1380,15 @@ struct TestingView: View {
                                         
                                         
                                         Button(action: {
-                                            navigationState.selectedWebView?.goBack()
+                                            if selectedTabLocation == "tabs" {
+                                                navigationState.selectedWebView?.goBack()
+                                            }
+                                            else if selectedTabLocation == "pinnedTabs" {
+                                                pinnedNavigationState.selectedWebView?.goBack()
+                                            }
+                                            else if selectedTabLocation == "favoriteTabs" {
+                                                favoritesNavigationState.selectedWebView?.goBack()
+                                            }
                                             
                                             hoverTinySpace = false
                                         }, label: {
@@ -1181,7 +1419,15 @@ struct TestingView: View {
                                         
                                         
                                         Button(action: {
-                                            navigationState.selectedWebView?.goForward()
+                                            if selectedTabLocation == "tabs" {
+                                                navigationState.selectedWebView?.goForward()
+                                            }
+                                            else if selectedTabLocation == "pinnedTabs" {
+                                                pinnedNavigationState.selectedWebView?.goForward()
+                                            }
+                                            else if selectedTabLocation == "favoriteTabs" {
+                                                favoritesNavigationState.selectedWebView?.goForward()
+                                            }
                                             
                                             hoverTinySpace = false
                                         }, label: {
@@ -1277,11 +1523,6 @@ struct TestingView: View {
                                         .onSubmit {
                                             navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
                                             
-                                            //navigationState.currentURL = URL(string: formatURL(from: newTabSearch))
-                                            
-                                            
-                                            //navigationState.selectedWebView?.load(URLRequest(url: URL(string: newTabSearch)!))
-                                            
                                             tabBarShown = false
                                         }
                                         .focused($focusedField, equals: .tabBar)
@@ -1335,6 +1576,57 @@ struct TestingView: View {
                                     }
                                     .padding(20)
                                 }
+                            }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
+                                .ignoresSafeArea()
+                            
+                            ZStack {
+                                Color.white.opacity(0.001)
+                                    .background(.thinMaterial)
+                                
+                                VStack {
+                                    HStack {
+                                        Image(systemName: "magnifyingglass")
+                                            .foregroundStyle(Color.black.opacity(0.3))
+                                        //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                        
+                                        
+                                        TextField(text: $searchInSidebar) {
+                                            HStack {
+                                                Text("⌘+L - Search or Enter URL...")
+                                                    .opacity(0.8)
+                                                    //.foregroundStyle(Color.black.opacity(0.3))
+                                                //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
+                                            }
+                                        }
+                                        .textInputAutocapitalization(.never)
+                                        .onSubmit {
+                                            
+                                            if selectedTabLocation == "pinnedTabs" {
+                                                pinnedNavigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                                pinnedNavigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                            }
+                                            else if selectedTabLocation == "favoriteTabs" {
+                                                favoritesNavigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                                favoritesNavigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                            }
+                                            else {
+                                                navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                                navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                            }
+                                            
+                                            commandBarShown = false
+                                        }
+                                        .focused($focusedField, equals: .commandBar)
+                                        .onAppear() {
+                                            focusedField = .commandBar
+                                        }
+                                        .onDisappear() {
+                                            focusedField = .none
+                                        }
+                                    }
+                                    
+                                    SuggestionsView(newTabSearch: $searchInSidebar, suggestionUrls: suggestionUrls)
+                                }.padding(15)
                             }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
                                 .ignoresSafeArea()
                         }
@@ -1393,6 +1685,17 @@ struct TestingView: View {
                     }
                 }
                 
+                Task {
+                    await navigationState.selectedWebView = nil
+                    await navigationState.currentURL = nil
+                    
+                    await pinnedNavigationState.selectedWebView = nil
+                    await pinnedNavigationState.currentURL = nil
+                    
+                    await favoritesNavigationState.selectedWebView = nil
+                    await favoritesNavigationState.currentURL = nil
+                }
+                
                 spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
             }
             .onChange(of: spaces) { newValue in
@@ -1429,7 +1732,7 @@ struct TestingView: View {
         }
         
         let urlStringArray3 = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
-            if let urlsData = try? JSONEncoder().encode(urlStringArray2){
+            if let urlsData = try? JSONEncoder().encode(urlStringArray3){
             UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)favoriteTabs")
                 
         }
@@ -1449,7 +1752,7 @@ struct TestingView: View {
         }
         
         let urlStringArray3 = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
-            if let urlsData = try? JSONEncoder().encode(urlStringArray2){
+            if let urlsData = try? JSONEncoder().encode(urlStringArray3){
             UserDefaults.standard.set(urlsData, forKey: "\(spaceName)favoriteTabs")
                 
         }
@@ -1506,6 +1809,23 @@ struct TestingView: View {
         }
         
         pinnedNavigationState.webViews.remove(at: index)
+    }
+    
+    func favoriteRemoveTab(at index: Int) {
+        // If the deleted tab is the currently selected one
+        if favoritesNavigationState.selectedWebView == favoritesNavigationState.webViews[index] {
+            if favoritesNavigationState.webViews.count > 1 { // Check if there's more than one tab
+                if index == 0 { // If the first tab is being deleted, select the next one
+                    favoritesNavigationState.selectedWebView = favoritesNavigationState.webViews[1]
+                } else { // Otherwise, select the previous one
+                    favoritesNavigationState.selectedWebView = favoritesNavigationState.webViews[index - 1]
+                }
+            } else { // If it's the only tab, set the selectedWebView to nil
+                favoritesNavigationState.selectedWebView = nil
+            }
+        }
+        
+        favoritesNavigationState.webViews.remove(at: index)
     }
 }
 

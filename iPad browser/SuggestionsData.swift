@@ -35,7 +35,7 @@ struct SuggestionsView: View {
                         )
                 }.prefix(10), id: \.self) { suggestion in
                     ZStack {
-                        if suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                        if suggestionUrls2.filter({ $0.replacingOccurrences(of: "www.", with: "")
                                 .replacingOccurrences(of: "https://", with: "")
                                 .replacingOccurrences(of: "http://", with: "")
                                 .lowercased()
@@ -44,14 +44,16 @@ struct SuggestionsView: View {
                                     .replacingOccurrences(of: "http://", with: "")
                                     .lowercased()
                                 )
-                        }.prefix(10)[selectedIndex] == suggestion && selectedIndex != 11 {
+                        }).prefix(10)[selectedIndex] == suggestion && selectedIndex != 11 {
                             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .leading, endPoint: .trailing)
-                                .cornerRadius(15)
+                                .cornerRadius(7)
+                                .opacity(0.75)
                         }
                         
                         Text(suggestion)
                             .opacity(0.8)
-                    }.frame(width: 500, height: 50)
+                        
+                    }.frame(width: 525, height: 60)
                         .id(suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
                                 .replacingOccurrences(of: "https://", with: "")
                                 .replacingOccurrences(of: "http://", with: "")
@@ -64,7 +66,7 @@ struct SuggestionsView: View {
                         }.prefix(10).firstIndex(of: suggestion))
                 }
                 Button(action: {
-                    if selectedIndex < suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+                    if selectedIndex < suggestionUrls2.filter({ $0.replacingOccurrences(of: "www.", with: "")
                             .replacingOccurrences(of: "https://", with: "")
                             .replacingOccurrences(of: "http://", with: "")
                             .lowercased()
@@ -73,7 +75,7 @@ struct SuggestionsView: View {
                                 .replacingOccurrences(of: "http://", with: "")
                                 .lowercased()
                             )
-                    }.prefix(10).count - 1 {
+                    }).prefix(10).count - 1 {
                         selectedIndex += 1
                     } else {
                         selectedIndex = 0
@@ -82,6 +84,18 @@ struct SuggestionsView: View {
                     withAnimation {
                         proxy.scrollTo(selectedIndex)
                     }
+                    
+//                    newTabSearch = suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+//                            .replacingOccurrences(of: "https://", with: "")
+//                            .replacingOccurrences(of: "http://", with: "")
+//                            .lowercased()
+//                            .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+//                                .replacingOccurrences(of: "https://", with: "")
+//                                .replacingOccurrences(of: "http://", with: "")
+//                                .lowercased()
+//                            )
+//                    }.prefix(10)[1]
+                    
                 }, label: {
                 }).opacity(0.0)
                     .keyboardShortcut(.downArrow, modifiers: [.command, .option])
@@ -106,6 +120,17 @@ struct SuggestionsView: View {
                     withAnimation {
                         proxy.scrollTo(selectedIndex)
                     }
+                    
+//                    newTabSearch = suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
+//                            .replacingOccurrences(of: "https://", with: "")
+//                            .replacingOccurrences(of: "http://", with: "")
+//                            .lowercased()
+//                            .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+//                                .replacingOccurrences(of: "https://", with: "")
+//                                .replacingOccurrences(of: "http://", with: "")
+//                                .lowercased()
+//                            )
+//                    }.prefix(10)[selectedIndex]
                 }, label: {
                 }).opacity(0.0)
                     .keyboardShortcut(.upArrow, modifiers: [.command, .option])
