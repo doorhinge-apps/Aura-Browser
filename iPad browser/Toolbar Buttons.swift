@@ -33,13 +33,13 @@ struct ToolbarButtonsView: View {
     
     @State var changeColorSheet = false
     
-    @State private var startColor: Color = Color.purple
-    @State private var endColor: Color = Color.pink
-    
     @Binding var commandBarShown: Bool
     @Binding var tabBarShown: Bool
     
     @State var showColorSheet = false
+    
+    @Binding var startColor: Color
+    @Binding var endColor: Color
     var body: some View {
         GeometryReader { geo in
             HStack {

@@ -162,6 +162,14 @@ struct LoginView: View {
                     }.buttonStyle(MainButtonStyle())
                         .hoverEffect(.lift)
                     
+                    Button {
+                        appIsLoggedIn = "loginSkipped"
+                    } label: {
+                        Text("Skip :o")
+                            .frame(width: geo.size.width/2, height: 30)
+                    }.buttonStyle(MainButtonStyle())
+                        .hoverEffect(.lift)
+                    
                     
                 }//.frame(width: 350)
             }

@@ -72,8 +72,8 @@ struct TestingView: View {
     @State var showSettings = false
     @State var changeColorSheet = false
     
-    @State private var startColor: Color = Color.purple
-    @State private var endColor: Color = Color.pink
+    @State var startColor: Color = Color.purple
+    @State var endColor: Color = Color.pink
     
     @State var presentIcons = false
     
@@ -139,7 +139,7 @@ struct TestingView: View {
                     
                     VStack {
                         //MARK: - Sidebar Buttons
-                        ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown).frame(height: 40)
+                        ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor).frame(height: 40)
                         
                         
                         //Text(navigationState.currentURL?.absoluteString ?? "")
@@ -218,17 +218,12 @@ struct TestingView: View {
                             })
                         }.keyboardShortcut("l", modifiers: .command)
                         
-                        
-                        
-                        
-                        //MARK: - Tabs
                         LazyVGrid(columns: [GridItem(), GridItem()]) {
                             ForEach(favoritesNavigationState.webViews, id:\.self) { tab in
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 20)
                                         .stroke(Color.white.opacity(tab == favoritesNavigationState.selectedWebView ? 1.0 : hoverTab == tab ? 0.6: 0.2), lineWidth: 3)
                                         .fill(Color(.white).opacity(tab == favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.15: 0.0001))
-                                        //.foregroundStyle(Color(.white).opacity(tab == favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.2: 0.0001))
                                         .frame(height: 75)
                                     
                                     
@@ -254,12 +249,6 @@ struct TestingView: View {
                                     }
                                     
                                     
-                                }
-                                .onAppear() {
-            //                                    Task {
-            //                                        await favicons.fetchFavicon(for: tab)
-            //                                    }
-                                    favicons.fetchFavicon(for: tab)
                                 }
                                 .contextMenu {
                                     Button {
@@ -331,7 +320,12 @@ struct TestingView: View {
                             }
                         }
                         
+                        
+                        //MARK: - Tabs
                         ScrollView {
+                            //FavoriteTabs(navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hoverTab: hoverTab, reloadTitles: $reloadTitles, selectedTabLocation: $selectedTabLocation, searchInSidebar: $searchInSidebar, draggedTab: draggedTab)
+                            
+                            
                             ForEach(pinnedNavigationState.webViews, id: \.self) { tab in
                                 //ReorderableForEach(navigationState.webViews, id: \.self) { tab, isDragged in
                                 //ReorderableForEach(navigationState.webViews) {tab, isDragged in
@@ -1349,7 +1343,6 @@ struct TestingView: View {
 
     
     //MARK: - Functions
-    
     func removeTab(at index: Int) {
         // If the deleted tab is the currently selected one
         if navigationState.selectedWebView == navigationState.webViews[index] {

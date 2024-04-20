@@ -50,6 +50,7 @@
 		B98256D02BD2E3D500F997F5 /* TemplateNavigationStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */; };
 		B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */; };
 		B98256D42BD2E78100F997F5 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D32BD2E78100F997F5 /* Themes.swift */; };
+		B98256D62BD2F7F900F997F5 /* FavoriteTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D52BD2F7F900F997F5 /* FavoriteTabs.swift */; };
 		B98953A32AABCF7200EE3B42 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */; };
 		B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A52AABE3CB00EE3B42 /* Hex.swift */; };
 		B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A72AAC1F4B00EE3B42 /* TestingView.swift */; };
@@ -83,6 +84,7 @@
 		B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateNavigationStates.swift; sourceTree = "<group>"; };
 		B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Toolbar Buttons.swift"; sourceTree = "<group>"; };
 		B98256D32BD2E78100F997F5 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
+		B98256D52BD2F7F900F997F5 /* FavoriteTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTabs.swift; sourceTree = "<group>"; };
 		B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "iPad-browser-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B98953A52AABE3CB00EE3B42 /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
 				B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */,
 				B98953A72AAC1F4B00EE3B42 /* TestingView.swift */,
+				B98256D52BD2F7F900F997F5 /* FavoriteTabs.swift */,
 				B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
@@ -323,6 +326,7 @@
 			files = (
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
+				B98256D62BD2F7F900F997F5 /* FavoriteTabs.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
@@ -473,7 +477,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -481,6 +485,7 @@
 				INFOPLIST_FILE = "iPad-browser-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Aura;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Aura needs access to your photo library to save website photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -510,7 +515,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -518,6 +523,7 @@
 				INFOPLIST_FILE = "iPad-browser-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Aura;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Aura needs access to your photo library to save website photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
