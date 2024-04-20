@@ -116,7 +116,7 @@ struct TestingView: View {
     
     @State var currentTabNum = 0
     
-    @State private var selectedIndex: Int? = 0
+    @State var selectedIndex: Int? = 0
     
     @FocusState private var focusedField: FocusedField?
     
@@ -136,41 +136,9 @@ struct TestingView: View {
                 HStack(spacing: 0) {
                     ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
                     
-                    //MARK: - Sidebar Buttons
-                    
                     
                     VStack {
-                        /*
-                         @Binding var selectedTabLocation: String
-                         @Binding var navigationState: NavigationState
-                         @Binding var pinnedNavigationState: NavigationState
-                         @Binding var favoritesNavigationState: NavigationState
-                         @Binding var hideSidebar: Bool
-                         @Binding var searchInSidebar: String
-                         
-                         @State var hoverSidebarButton = false
-                         @State var hoverPaintbrush = false
-                         @State var hoverNewTab = false
-                         @State var hoverBackwardButton = false
-                         @State var hoverForwardButton = false
-                         @State var hoverReloadButton = false
-                         @State var hoverSidebarSearchField = false
-                         @State var reloadRotation = 0
-                         @State var newTabSearch = ""
-                         
-                         
-                         @State var reloadTitles = false
-                         
-                         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-                         
-                         @State var changeColorSheet = false
-                         
-                         @State private var startColor: Color = Color.purple
-                         @State private var endColor: Color = Color.pink
-                         
-                         @Binding var commandBarShown: Bool
-                         @Binding var tabBarShown: Bool
-                         */
+                        //MARK: - Sidebar Buttons
                         ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown).frame(height: 40)
                         
                         
@@ -251,30 +219,7 @@ struct TestingView: View {
                         }.keyboardShortcut("l", modifiers: .command)
                         
                         
-                        /*
-                         TextField("Search or Enter URL", text: $searchInSidebar)
-                         .frame(height: 40)
-                         .padding(5)
-                         .disabled(true)
-                         .overlay( /// apply a rounded border
-                         RoundedRectangle(cornerRadius: 20)
-                         .stroke(.white, lineWidth: 2)
-                         )
-                         //.onSubmit {
-                         //    navigationState.currentURL = URL(string: searchInSidebar)
-                         //}
-                         .onTapGesture {
-                         if searchInSidebar.isEmpty {
-                         newTabSearch = ""
-                         tabBarShown = true
-                         commandBarShown = false
-                         }
-                         else {
-                         tabBarShown = false
-                         commandBarShown = true
-                         }
-                         
-                         }*/
+                        
                         
                         //MARK: - Tabs
                         LazyVGrid(columns: [GridItem(), GridItem()]) {
