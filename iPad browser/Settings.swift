@@ -17,6 +17,7 @@ struct Settings: View {
     @AppStorage("email") var email = ""
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = false
+    @AppStorage("favoritesStyle") var favoritesStyle = false
     
     @AppStorage("searchEngine") var searchEngine = "https://www.google.com/search?q="
     var body: some View {
@@ -39,6 +40,13 @@ struct Settings: View {
                 } label: {
                     Text("Search Engine: \(searchEngine)")
                 }.buttonStyle(GrowingButton(buttonText: "Search Engine: \(searchEngine)", buttonWidth: 400, buttonHeight: 20))
+                
+                Toggle(isOn: $hoverEffectsAbsorbCursor) {
+                    Text("Hover Effects Absorb Cursor")
+                        .foregroundStyle(Color.white)
+                    
+                }.tint(Color(hex: startHex))
+                    .padding(20)
                 
                 Toggle(isOn: $hoverEffectsAbsorbCursor) {
                     Text("Hover Effects Absorb Cursor")

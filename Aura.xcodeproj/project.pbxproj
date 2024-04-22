@@ -72,7 +72,7 @@
 		B91FBF942BC8EB0C001C317C /* Tab Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab Bar.swift"; sourceTree = "<group>"; };
 		B9230FF92BBD36740032C950 /* TopDomains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TopDomains.json; sourceTree = "<group>"; };
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
-		B95B19E12AABBEE00013AC79 /* iPad browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iPad browser.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B95B19E12AABBEE00013AC79 /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPad_browserApp.swift; sourceTree = "<group>"; };
 		B95B19E62AABBEE00013AC79 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		B95B19E22AABBEE00013AC79 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B95B19E12AABBEE00013AC79 /* iPad browser.app */,
+				B95B19E12AABBEE00013AC79 /* Aura.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,9 +218,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B95B19E02AABBEE00013AC79 /* iPad browser */ = {
+		B95B19E02AABBEE00013AC79 /* Aura */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B95B19EF2AABBEE10013AC79 /* Build configuration list for PBXNativeTarget "iPad browser" */;
+			buildConfigurationList = B95B19EF2AABBEE10013AC79 /* Build configuration list for PBXNativeTarget "Aura" */;
 			buildPhases = (
 				B95B19DD2AABBEE00013AC79 /* Sources */,
 				B95B19DE2AABBEE00013AC79 /* Frameworks */,
@@ -230,7 +230,7 @@
 			);
 			dependencies = (
 			);
-			name = "iPad browser";
+			name = Aura;
 			packageProductDependencies = (
 				B90932E42BC8FF03005292D6 /* FirebaseAnalytics */,
 				B90932E62BC8FF03005292D6 /* FirebaseAnalyticsOnDeviceConversion */,
@@ -262,7 +262,7 @@
 				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 			);
 			productName = "iPad browser";
-			productReference = B95B19E12AABBEE00013AC79 /* iPad browser.app */;
+			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -280,7 +280,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B95B19DC2AABBEE00013AC79 /* Build configuration list for PBXProject "iPad browser" */;
+			buildConfigurationList = B95B19DC2AABBEE00013AC79 /* Build configuration list for PBXProject "Aura" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -297,7 +297,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B95B19E02AABBEE00013AC79 /* iPad browser */,
+				B95B19E02AABBEE00013AC79 /* Aura */,
 			);
 		};
 /* End PBXProject section */
@@ -477,7 +477,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -515,7 +515,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -549,7 +549,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B95B19DC2AABBEE00013AC79 /* Build configuration list for PBXProject "iPad browser" */ = {
+		B95B19DC2AABBEE00013AC79 /* Build configuration list for PBXProject "Aura" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B95B19ED2AABBEE10013AC79 /* Debug */,
@@ -558,7 +558,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B95B19EF2AABBEE10013AC79 /* Build configuration list for PBXNativeTarget "iPad browser" */ = {
+		B95B19EF2AABBEE10013AC79 /* Build configuration list for PBXNativeTarget "Aura" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B95B19F02AABBEE10013AC79 /* Debug */,

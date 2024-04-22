@@ -40,51 +40,49 @@ struct ToolbarButtonsView: View {
     
     @Binding var startColor: Color
     @Binding var endColor: Color
+    
+    @State var geo: GeometryProxy
     var body: some View {
-        GeometryReader { geo in
+        GeometryReader { geo2 in
             HStack {
                 Button(action: {
                     Task {
                         await hideSidebar.toggle()
                     }
                     
-                    if selectedTabLocation == "tabs" {
-                        navigationState.selectedWebView?.reload()
-                        navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        
-                        navigationState.selectedWebView = navigationState.selectedWebView
-                        
-                        if let unwrappedURL = navigationState.currentURL {
-                            searchInSidebar = unwrappedURL.absoluteString
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        }
-                    }
-                    else if selectedTabLocation == "pinnedTabs" {
-                        pinnedNavigationState.selectedWebView?.reload()
-                        pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        
-                        pinnedNavigationState.selectedWebView = pinnedNavigationState.selectedWebView
-                        
-                        if let unwrappedURL = pinnedNavigationState.currentURL {
-                            searchInSidebar = unwrappedURL.absoluteString
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        }
-                    }
-                    else if selectedTabLocation == "favoriteTabs" {
-                        favoritesNavigationState.selectedWebView?.reload()
-                        favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        
-                        favoritesNavigationState.selectedWebView = favoritesNavigationState.selectedWebView
-                        
-                        if let unwrappedURL = favoritesNavigationState.currentURL {
-                            searchInSidebar = unwrappedURL.absoluteString
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                    withAnimation {
+                        if !hideSidebar {
+                            if selectedTabLocation == "tabs" {
+                                Task {
+                                    await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                }
+                            }
+                            else if selectedTabLocation == "pinnedTabs" {
+                                Task {
+                                    await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                }
+                            }
+                            else if selectedTabLocation == "favoriteTabs" {
+                                Task {
+                                    await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                }
+                            }
+                        } else {
+                            if selectedTabLocation == "tabs" {
+                                Task {
+                                    await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                }
+                            }
+                            else if selectedTabLocation == "pinnedTabs" {
+                                Task {
+                                    await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                }
+                            }
+                            else if selectedTabLocation == "favoriteTabs" {
+                                Task {
+                                    await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                }
+                            }
                         }
                     }
                 }, label: {
