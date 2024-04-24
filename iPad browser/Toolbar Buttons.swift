@@ -41,6 +41,8 @@ struct ToolbarButtonsView: View {
     @Binding var startColor: Color
     @Binding var endColor: Color
     
+    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
+    
     @State var geo: GeometryProxy
     var body: some View {
         GeometryReader { geo2 in
@@ -99,6 +101,7 @@ struct ToolbarButtonsView: View {
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
                         .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverSidebarButton = true
@@ -127,6 +130,7 @@ struct ToolbarButtonsView: View {
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
                         .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverPaintbrush = true
@@ -182,6 +186,7 @@ struct ToolbarButtonsView: View {
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
                         .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverNewTab = true
@@ -219,6 +224,7 @@ struct ToolbarButtonsView: View {
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
                         .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverBackwardButton = true
@@ -253,6 +259,7 @@ struct ToolbarButtonsView: View {
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
                         .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverForwardButton = true
@@ -314,6 +321,7 @@ struct ToolbarButtonsView: View {
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
                         .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverReloadButton = true

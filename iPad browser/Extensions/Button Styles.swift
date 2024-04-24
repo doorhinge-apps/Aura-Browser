@@ -79,6 +79,8 @@ struct GrowingButton: ButtonStyle {
     }
 }
 
+
+
 extension UIColor {
     convenience init?(hexString: String) {
         var hexSanitized = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -135,6 +137,9 @@ func averageHexColor(hex1: String, hex2: String) -> String {
 
 
 struct MainButtonStyle: ButtonStyle {
+    @AppStorage("startColorHex") var startHex = "ffffff"
+    @AppStorage("endColorHex") var endHex = "000000"
+    
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
             if configuration.isPressed {
@@ -151,7 +156,7 @@ struct MainButtonStyle: ButtonStyle {
             configuration.label
                 .bold()
                 .font(.system(size: 20, weight: .bold, design: .rounded))
-                .foregroundStyle(Color(hex: "8880F5"))
+                .foregroundStyle(Color(hex: averageHexColor(hex1: startHex, hex2: endHex) ?? "8880F5"))
                 .offset(y: configuration.isPressed ? 3: 0)
                 .padding(.horizontal, 50)
                 .padding(.vertical, 15)

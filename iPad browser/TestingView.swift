@@ -10,6 +10,8 @@ import UIKit
 import WebKit
 import Combine
 import FaviconFinder
+import SDWebImage
+import SDWebImageSwiftUI
 
 
 struct Suggestion: Identifiable, Codable {
@@ -75,6 +77,9 @@ struct TestingView: View {
     @State var startColor: Color = Color.purple
     @State var endColor: Color = Color.pink
     
+    @AppStorage("startColorHex") var startHex = "ffffff"
+    @AppStorage("endColorHex") var endHex = "000000"
+    
     @State var presentIcons = false
     
     
@@ -88,6 +93,7 @@ struct TestingView: View {
     @State var hoverBackwardButton = false
     @State var hoverNewTab = false
     @State var settingsButtonHover = false
+    @State var hoverNewTabSection = false
     
     @State var hoverSpaceIndex = 1000
     @State var hoverSpace = ""
@@ -120,6 +126,10 @@ struct TestingView: View {
     
     @FocusState private var focusedField: FocusedField?
     
+    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
+    @AppStorage("favoritesStyle") var favoritesStyle = false
+    @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
+    
     enum FocusedField {
         case commandBar, tabBar, none
     }
@@ -128,6 +138,9 @@ struct TestingView: View {
     // Other Stuff
     @State var screenWidth = UIScreen.main.bounds.width
     
+    @State var hoveringSidebar = false
+    @State var tapSidebarShown = false
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -135,6 +148,7 @@ struct TestingView: View {
                 
                 HStack(spacing: 0) {
                     ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
+                        .disabled(true)
                     
                     VStack {
                         //MARK: - Sidebar Buttons
@@ -566,6 +580,82 @@ struct TestingView: View {
                     
                     //searchSuggestions.fetchData()
                 }
+                
+                if hideSidebar {
+//                    HStack {
+//                        sidebar
+//                            .animation(.default)
+//                            .frame(width: hoveringSidebar ? 300: 0)
+//                            .padding(15)
+//                            .clipped()
+//                            .cornerRadius(10)
+//                            //.offset(x: hoveringSidebar ? -350: 0)
+//                            
+//                        
+//                        Spacer()
+//                    }
+//                    
+//                    HStack {
+//                        Color.white.opacity(0.0001)
+//                            .frame(width: hoveringSidebar ? 300: 300)
+//                        
+//                        Spacer()
+//                    }
+                    
+                    HStack {
+                        ZStack {
+                            Color.white.opacity(0.00001)
+                                .frame(width: 35)
+                                .onTapGesture {
+                                    tapSidebarShown = true
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                        tapSidebarShown = false
+                                    }
+                                }
+                            
+                            HStack {
+                                VStack {
+                                    ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo).frame(height: 40)
+                                    
+                                    sidebar
+                                }.padding(15)
+                                    .background(content: {
+                                        LinearGradient(colors: [startColor, Color(hex: averageHexColor(hex1: startHex, hex2: endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                            .opacity(1.0)
+                                    })
+                                    .frame(width: 300)
+                                    .cornerRadius(10)
+                                    .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
+                                
+                                Spacer()
+                            }.padding(40)
+                                .padding(.leading, 30)
+                            .frame(width: hoveringSidebar || tapSidebarShown ? 350: 0)
+                            .offset(x: hoveringSidebar || tapSidebarShown ? 0: -350)
+                            .clipped()
+                            
+                        }.onHover(perform: { hovering in
+                            if hovering {
+                                hoveringSidebar = true
+                            }
+                            else {
+                                hoveringSidebar = false
+                            }
+                        })
+                        
+                        Spacer()
+                    }.animation(.default)
+                }
+                /*.onHover(perform: { hovering in
+                 if hovering {
+                     hoveringSidebar = true
+                 }
+                 else {
+                     hoveringSidebar = false
+                 }
+             })*/
+                
             }
             .onAppear {
                 if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)userTabs"),
@@ -632,6 +722,7 @@ struct TestingView: View {
             .ignoresSafeArea()
         }
     }
+    
     
     var sidebar: some View {
         VStack {
@@ -722,24 +813,57 @@ struct TestingView: View {
                             .frame(height: 75)
                         
                         
-                        HStack {
-                            if tab.title == "" {
-                                Text(tab.url?.absoluteString ?? "Tab not found.")
-                                    .lineLimit(1)
-                                    .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                    .padding(.leading, 5)
-                                    .onReceive(timer) { _ in
-                                        reloadTitles.toggle()
-                                    }
+                        if favoritesStyle {
+                            HStack {
+                                if tab.title == "" {
+                                    Text(tab.url?.absoluteString ?? "Tab not found.")
+                                        .lineLimit(1)
+                                        .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                        .padding(.leading, 5)
+                                        .onReceive(timer) { _ in
+                                            reloadTitles.toggle()
+                                        }
+                                }
+                                else {
+                                    Text(tab.title ?? "Tab not found.")
+                                        .lineLimit(1)
+                                        .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                        .padding(.leading, 5)
+                                        .onReceive(timer) { _ in
+                                            reloadTitles.toggle()
+                                        }
+                                }
                             }
-                            else {
-                                Text(tab.title ?? "Tab not found.")
-                                    .lineLimit(1)
-                                    .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                    .padding(.leading, 5)
-                                    .onReceive(timer) { _ in
-                                        reloadTitles.toggle()
-                                    }
+                        } else {
+                            if faviconLoadingStyle {
+                                WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 35, height: 35)
+                                        .cornerRadius(50)
+                                } placeholder: {
+                                    Rectangle().foregroundColor(.gray)
+                                }
+                                .onSuccess { image, data, cacheType in
+                                    // Success
+                                    // Note: Data exist only when queried from disk cache or network. Use `.queryMemoryData` if you really need data
+                                }
+                                .indicator(.activity) // Activity Indicator
+                                .transition(.fade(duration: 0.5)) // Fade Transition with duration
+                                .scaledToFit()
+                            } else {
+                                AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 35, height: 35)
+                                        .cornerRadius(50)
+                                    
+                                } placeholder: {
+                                    ProgressView()
+                                }
+
                             }
                         }
                         
@@ -836,6 +960,42 @@ struct TestingView: View {
                         
                         
                         HStack {
+                            if faviconLoadingStyle {
+                                WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25, height: 25)
+                                        .cornerRadius(50)
+                                        .padding(.leading, 5)
+                                    
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .onSuccess { image, data, cacheType in
+                                    // Success
+                                    // Note: Data exist only when queried from disk cache or network. Use `.queryMemoryData` if you really need data
+                                }
+                                .indicator(.activity) // Activity Indicator
+                                .transition(.fade(duration: 0.5)) // Fade Transition with duration
+                                .scaledToFit()
+                                
+                            } else {
+                                AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25, height: 25)
+                                        .cornerRadius(50)
+                                        .padding(.leading, 5)
+                                    
+                                } placeholder: {
+                                    ProgressView()
+                                }
+
+                            }
+                            
+                            
                             if tab.title == "" {
                                 Text(tab.url?.absoluteString ?? "Tab not found.")
                                     .lineLimit(1)
@@ -1027,7 +1187,7 @@ struct TestingView: View {
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundStyle(Color(.white).opacity(0.2))
+                            .foregroundStyle(Color(.white).opacity(hoverNewTabSection ? 0.5: 0.0))
                             .frame(height: 50)
                         HStack {
                             Label("New Tab", systemImage: "plus")
@@ -1038,6 +1198,14 @@ struct TestingView: View {
                             Spacer()
                         }
                     }
+                    .onHover(perform: { hovering in
+                        if hovering {
+                            hoverNewTabSection = true
+                        }
+                        else {
+                            hoverNewTabSection = false
+                        }
+                    })
                 }
                 
                 
@@ -1058,6 +1226,42 @@ struct TestingView: View {
                         
                         
                         HStack {
+                            if faviconLoadingStyle {
+                                WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25, height: 25)
+                                        .cornerRadius(50)
+                                        .padding(.leading, 5)
+                                    
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .onSuccess { image, data, cacheType in
+                                    // Success
+                                    // Note: Data exist only when queried from disk cache or network. Use `.queryMemoryData` if you really need data
+                                }
+                                .indicator(.activity) // Activity Indicator
+                                .transition(.fade(duration: 0.5)) // Fade Transition with duration
+                                .scaledToFit()
+                                
+                            } else {
+                                AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25, height: 25)
+                                        .cornerRadius(50)
+                                        .padding(.leading, 5)
+                                    
+                                } placeholder: {
+                                    ProgressView()
+                                }
+
+                            }
+
+                            
                             if tab.title == "" {
                                 Text(tab.url?.absoluteString ?? "Tab not found.")
                                     .lineLimit(1)
@@ -1081,7 +1285,7 @@ struct TestingView: View {
                             
                             Button(action: {
                                 if let index = navigationState.webViews.firstIndex(of: tab) {
-                                    removeTab(at: index)
+                                    removeTab(at: navigationState.webViews.count - 1 - index)
                                 }
                             }) {
                                 if hoverTab == tab || navigationState.selectedWebView == tab {
@@ -1199,6 +1403,7 @@ struct TestingView: View {
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
                         .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         .onHover(perform: { hovering in
                             if hovering {
                                 settingsButtonHover = true
@@ -1288,7 +1493,8 @@ struct TestingView: View {
                                         .opacity(hoverSpace == space ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
-                                    //.hoverEffect(.lift)
+                                    .hoverEffect(.lift)
+                                    .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                                     .onHover(perform: { hovering in
                                         if hovering {
                                             hoverSpace = space

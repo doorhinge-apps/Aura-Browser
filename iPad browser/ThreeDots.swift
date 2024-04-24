@@ -18,11 +18,11 @@ struct ThreeDots: View {
             
             if hideSidebar {
                 Button {
-                    hoverTinySpace.toggle()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        hoverTinySpace = false
-                    }
+//                    hoverTinySpace.toggle()
+//                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//                        hoverTinySpace = false
+//                    }
                 } label: {
                     VStack(spacing: 2) {
                         Circle()

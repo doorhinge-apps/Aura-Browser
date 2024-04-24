@@ -45,7 +45,8 @@ struct SuggestionsView: View {
                                     .lowercased()
                                 )
                         }).prefix(10)[selectedIndex] == suggestion && selectedIndex != 11 {
-                            LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .leading, endPoint: .trailing)
+                            //LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .leading, endPoint: .trailing)
+                            Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
                                 .cornerRadius(7)
                                 .opacity(0.75)
                         }
