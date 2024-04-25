@@ -12,6 +12,7 @@ import Combine
 import FaviconFinder
 import SDWebImage
 import SDWebImageSwiftUI
+import HighlightSwift
 
 
 struct Suggestion: Identifiable, Codable {
@@ -130,6 +131,12 @@ struct TestingView: View {
     @AppStorage("favoritesStyle") var favoritesStyle = false
     @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
     
+    @AppStorage("sidebarLeft") var sidebarLeft = true
+    
+    @AppStorage("showBorder") var showBorder = true
+    
+    @State var inspectCode = ""
+    
     enum FocusedField {
         case commandBar, tabBar, none
     }
@@ -147,16 +154,22 @@ struct TestingView: View {
                 LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                 
                 HStack(spacing: 0) {
-                    ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
-                        .disabled(true)
-                    
-                    VStack {
-                        //MARK: - Sidebar Buttons
-                        ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo).frame(height: 40)
+                    if sidebarLeft {
+                        if showBorder {
+                            ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
+                                .disabled(true)
+                        }
                         
-                        sidebar
-                    }
+                        VStack {
+                            //MARK: - Sidebar Buttons
+                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo).frame(height: 40)
+                            
+                            sidebar
+                        }
                         .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
+                        .padding(showBorder ? 0: 15)
+                        .padding(.top, showBorder ? 0: 10)
+                    }
                     
                     
                     ZStack {
@@ -564,12 +577,53 @@ struct TestingView: View {
                         
                         Spacer()
                             .frame(width: 20)
-                    }.padding(.trailing, 12)
+                    }.padding(sidebarLeft ? .trailing: .leading, showBorder ? 12: 0)
                         .animation(.default)
                     
+                    
+                    // Beta for inspect element
+                    /*VStack {
+                        ScrollView {
+                            ScrollView(.horizontal) {
+                                CodeText(inspectCode)
+                                    .codeTextLanguage(.html)
+                                    .font(.system(.callout, weight: .semibold))
+                                    .onChange(of: navigationState.selectedWebView) { thing in
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            Task {
+                                                await getHTMLContent(from: navigationState.selectedWebView ?? WKWebView()) { htmlContent in
+                                                    if let html = htmlContent {
+                                                        inspectCode = "\(htmlContent)"
+                                                    } else {
+                                                        inspectCode = "Error"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                    }.frame(width: 150)
+                        .clipped()*/
+                    if !sidebarLeft {
+                        if showBorder {
+                            ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
+                                .disabled(true)
+                        }
+                        
+                        VStack {
+                            //MARK: - Sidebar Buttons
+                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo).frame(height: 40)
+                            
+                            sidebar
+                        }
+                        .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
+                        .padding(showBorder ? 0: 15)
+                        .padding(.top, showBorder ? 0: 10)
+                    }
                 }
-                .padding(.trailing, 10)
-                .padding(.vertical, 25)
+                .padding(.trailing, showBorder ? 10: 0)
+                .padding(.vertical, showBorder ? 25: 0)
                 .onAppear {
                     if let savedStartColor = getColor(forKey: "startColorHex") {
                         startColor = savedStartColor
@@ -582,27 +636,11 @@ struct TestingView: View {
                 }
                 
                 if hideSidebar {
-//                    HStack {
-//                        sidebar
-//                            .animation(.default)
-//                            .frame(width: hoveringSidebar ? 300: 0)
-//                            .padding(15)
-//                            .clipped()
-//                            .cornerRadius(10)
-//                            //.offset(x: hoveringSidebar ? -350: 0)
-//                            
-//                        
-//                        Spacer()
-//                    }
-//                    
-//                    HStack {
-//                        Color.white.opacity(0.0001)
-//                            .frame(width: hoveringSidebar ? 300: 300)
-//                        
-//                        Spacer()
-//                    }
-                    
                     HStack {
+                        if !sidebarLeft {
+                            Spacer()
+                        }
+                        
                         ZStack {
                             Color.white.opacity(0.00001)
                                 .frame(width: 35)
@@ -632,7 +670,7 @@ struct TestingView: View {
                             }.padding(40)
                                 .padding(.leading, 30)
                             .frame(width: hoveringSidebar || tapSidebarShown ? 350: 0)
-                            .offset(x: hoveringSidebar || tapSidebarShown ? 0: -350)
+                            .offset(x: hoveringSidebar || tapSidebarShown ? 0: sidebarLeft ? -350: 300)
                             .clipped()
                             
                         }.onHover(perform: { hovering in
@@ -644,7 +682,9 @@ struct TestingView: View {
                             }
                         })
                         
-                        Spacer()
+                        if sidebarLeft {
+                            Spacer()
+                        }
                     }.animation(.default)
                 }
                 /*.onHover(perform: { hovering in
@@ -720,6 +760,17 @@ struct TestingView: View {
                 saveToLocalStorage()
             }
             .ignoresSafeArea()
+        }
+    }
+    
+    func getHTMLContent(from webView: WKWebView, completion: @escaping (String?) -> Void) {
+        webView.evaluateJavaScript("document.documentElement.outerHTML.toString()") { (html: Any?, error: Error?) in
+            guard let htmlString = html as? String, error == nil else {
+                print("Failed to get HTML: \(error?.localizedDescription ?? "Unknown error")")
+                completion(nil)
+                return
+            }
+            completion(htmlString)
         }
     }
     
@@ -861,7 +912,7 @@ struct TestingView: View {
                                         .cornerRadius(50)
                                     
                                 } placeholder: {
-                                    ProgressView()
+                                    LoadingAnimations(size: 35, borderWidth: 5.0)
                                 }
 
                             }
@@ -970,7 +1021,8 @@ struct TestingView: View {
                                         .padding(.leading, 5)
                                     
                                 } placeholder: {
-                                    ProgressView()
+                                    LoadingAnimations(size: 25, borderWidth: 5.0)
+                                        .padding(.leading, 5)
                                 }
                                 .onSuccess { image, data, cacheType in
                                     // Success
@@ -990,7 +1042,8 @@ struct TestingView: View {
                                         .padding(.leading, 5)
                                     
                                 } placeholder: {
-                                    ProgressView()
+                                    LoadingAnimations(size: 25, borderWidth: 5.0)
+                                        .padding(.leading, 5)
                                 }
 
                             }
@@ -1236,7 +1289,8 @@ struct TestingView: View {
                                         .padding(.leading, 5)
                                     
                                 } placeholder: {
-                                    ProgressView()
+                                    LoadingAnimations(size: 25, borderWidth: 5.0)
+                                        .padding(.leading, 5)
                                 }
                                 .onSuccess { image, data, cacheType in
                                     // Success
@@ -1256,7 +1310,8 @@ struct TestingView: View {
                                         .padding(.leading, 5)
                                     
                                 } placeholder: {
-                                    ProgressView()
+                                    LoadingAnimations(size: 25, borderWidth: 5.0)
+                                        .padding(.leading, 5)
                                 }
 
                             }

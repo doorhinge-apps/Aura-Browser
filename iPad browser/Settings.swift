@@ -20,6 +20,12 @@ struct Settings: View {
     @AppStorage("favoritesStyle") var favoritesStyle = true
     @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = true
     
+    @AppStorage("showBorder") var showBorder = true
+    
+    @AppStorage("disableSidebarHover") var disableSidebarHover = true
+    
+    @AppStorage("sidebarLeft") var sidebarLeft = true
+    
     @AppStorage("searchEngine") var searchEngine = "https://www.google.com/search?q="
     
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
@@ -69,8 +75,46 @@ struct Settings: View {
                 }.tint(Color(hex: averageHexColor(hex1: startHex, hex2: endHex) ?? "8880F5"))
                     .padding(20)
                 
-                Text("This allows for caching images more efficiently.")
-                    .foregroundStyle(Color.white)
+                
+                HStack {
+                    Text("This allows for caching images more efficiently.")
+                        .foregroundStyle(Color.white)
+                        .padding(.leading, 20)
+                    
+                    Spacer()
+                }
+                
+                Toggle(isOn: $showBorder) {
+                    Text("Show Border")
+                        .font(.system(.title3, design: .rounded, weight: .bold))
+                        .foregroundStyle(Color.white)
+                    
+                }.tint(Color(hex: averageHexColor(hex1: startHex, hex2: endHex) ?? "8880F5"))
+                    .padding(20)
+                
+                HStack {
+                    Text("Show the border around the screen.")
+                        .foregroundStyle(Color.white)
+                        .padding(.leading, 20)
+                    
+                    Spacer()
+                }
+                
+                Toggle(isOn: $sidebarLeft) {
+                    Text("Sidebar Left")
+                        .font(.system(.title3, design: .rounded, weight: .bold))
+                        .foregroundStyle(Color.white)
+                    
+                }.tint(Color(hex: averageHexColor(hex1: startHex, hex2: endHex) ?? "8880F5"))
+                    .padding(20)
+                
+                HStack {
+                    Text("Switch between left and right sidebar location")
+                        .foregroundStyle(Color.white)
+                        .padding(.leading, 20)
+                    
+                    Spacer()
+                }
                 
                 Spacer()
                     .frame(height: 75)

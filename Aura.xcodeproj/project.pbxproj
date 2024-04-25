@@ -44,6 +44,8 @@
 		B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E62AABBEE00013AC79 /* ContentView.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
+		B96DEFD42BD9723000DB5C32 /* HighlightSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B96DEFD32BD9723000DB5C32 /* HighlightSwift */; };
+		B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */; };
 		B98256C92BD2E2D100F997F5 /* WebsiteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */; };
 		B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */; };
 		B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */; };
@@ -78,6 +80,7 @@
 		B95B19E62AABBEE00013AC79 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimations.swift; sourceTree = "<group>"; };
 		B98256C72BD2A87200F997F5 /* iPad browser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iPad browser.entitlements"; sourceTree = "<group>"; };
 		B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteHandling.swift; sourceTree = "<group>"; };
 		B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 				B90932EF2BC8FF03005292D6 /* FirebaseAppDistribution-Beta in Frameworks */,
 				B90932F32BC8FF03005292D6 /* FirebaseAuthCombine-Community in Frameworks */,
 				B90933112BC8FF03005292D6 /* FirebasePerformance in Frameworks */,
+				B96DEFD42BD9723000DB5C32 /* HighlightSwift in Frameworks */,
 				B90933092BC8FF03005292D6 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				B90933172BC8FF03005292D6 /* FirebaseStorage in Frameworks */,
 				B90932FB2BC8FF03005292D6 /* FirebaseDynamicLinks in Frameworks */,
@@ -189,6 +193,7 @@
 				B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */,
 				B98953A92AAD686100EE3B42 /* LoginView.swift */,
 				B918673B2BCB0AFD00C159AB /* Settings.swift */,
+				B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */,
 				B98256CA2BD2E2F800F997F5 /* Extensions */,
 				B95B19E82AABBEE10013AC79 /* Assets.xcassets */,
 				B95B19EA2AABBEE10013AC79 /* Preview Content */,
@@ -263,6 +268,7 @@
 				B90933182BC8FF03005292D6 /* FirebaseStorageCombine-Community */,
 				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
+				B96DEFD32BD9723000DB5C32 /* HighlightSwift */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -296,6 +302,7 @@
 				B90932E32BC8FF03005292D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
 				B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				B96DEFD22BD9723000DB5C32 /* XCRemoteSwiftPackageReference "HighlightSwift" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -343,6 +350,7 @@
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
+				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
 				B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */,
 				B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
@@ -582,6 +590,14 @@
 				version = 10.24.0;
 			};
 		};
+		B96DEFD22BD9723000DB5C32 /* XCRemoteSwiftPackageReference "HighlightSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/appstefan/HighlightSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.7;
+			};
+		};
 		B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/will-lumley/FaviconFinder/";
@@ -735,6 +751,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B90932E32BC8FF03005292D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		B96DEFD32BD9723000DB5C32 /* HighlightSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B96DEFD22BD9723000DB5C32 /* XCRemoteSwiftPackageReference "HighlightSwift" */;
+			productName = HighlightSwift;
 		};
 		B98A32FA2BD05CF000555AB9 /* FaviconFinder */ = {
 			isa = XCSwiftPackageProductDependency;
