@@ -151,6 +151,7 @@ struct TestingView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
+                ZStack {
                 LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                 
                 HStack(spacing: 0) {
@@ -204,26 +205,26 @@ struct TestingView: View {
                                                 await hideSidebar.toggle()
                                             }
                                             
-//                                            navigationState.selectedWebView?.reload()
-//                                            navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-//                                            
-//                                            navigationState.selectedWebView = navigationState.selectedWebView
-//                                            //navigationState.currentURL = navigationState.currentURL
-//                                            
-//                                            if let unwrappedURL = navigationState.currentURL {
-//                                                searchInSidebar = unwrappedURL.absoluteString
-//                                            }
-//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                                                navigationState.selectedWebView?.reload()
-//                                                navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-//                                                
-//                                                navigationState.selectedWebView = navigationState.selectedWebView
-//                                                //navigationState.currentURL = navigationState.currentURL
-//                                                
-//                                                if let unwrappedURL = navigationState.currentURL {
-//                                                    searchInSidebar = unwrappedURL.absoluteString
-//                                                }
-//                                            }
+                                            //                                            navigationState.selectedWebView?.reload()
+                                            //                                            navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                            //
+                                            //                                            navigationState.selectedWebView = navigationState.selectedWebView
+                                            //                                            //navigationState.currentURL = navigationState.currentURL
+                                            //
+                                            //                                            if let unwrappedURL = navigationState.currentURL {
+                                            //                                                searchInSidebar = unwrappedURL.absoluteString
+                                            //                                            }
+                                            //                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            //                                                navigationState.selectedWebView?.reload()
+                                            //                                                navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                            //
+                                            //                                                navigationState.selectedWebView = navigationState.selectedWebView
+                                            //                                                //navigationState.currentURL = navigationState.currentURL
+                                            //
+                                            //                                                if let unwrappedURL = navigationState.currentURL {
+                                            //                                                    searchInSidebar = unwrappedURL.absoluteString
+                                            //                                                }
+                                            //                                            }
                                             Task {
                                                 await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                             }
@@ -439,142 +440,6 @@ struct TestingView: View {
                             }
                         }
                         
-                        //MARK: - Tabbar
-                        if tabBarShown {
-                            ZStack {
-                                Color.white.opacity(0.001)
-                                    .background(.thinMaterial)
-                                
-                                VStack {
-                                    HStack {
-                                        Image(systemName: "magnifyingglass")
-                                            .foregroundStyle(Color.black.opacity(0.3))
-                                        //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                        
-                                        
-                                        TextField(text: $newTabSearch) {
-                                            HStack {
-                                                Text("Search or Enter URL...")
-                                                    .opacity(0.8)
-                                                    //.foregroundStyle(Color.black.opacity(0.3))
-                                                //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
-                                            }
-                                        }
-                                        .autocorrectionDisabled(true)
-                                        .textInputAutocapitalization(.never)
-                                        .onSubmit {
-                                            navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                            
-                                            tabBarShown = false
-                                        }
-                                        .focused($focusedField, equals: .tabBar)
-                                        .onAppear() {
-                                            focusedField = .tabBar
-                                        }
-                                        .onDisappear() {
-                                            focusedField = .none
-                                            newTabSearch = ""
-                                        }
-                                    }
-                                    
-                                    SuggestionsView(newTabSearch: $newTabSearch, suggestionUrls: suggestionUrls)
-                                }.padding(15)
-                            }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
-                                .ignoresSafeArea()
-                        }
-                        
-                        //MARK: - Command Bar
-                        else if commandBarShown {
-//                            ZStack {
-//                                Color.white
-//                                
-//                                VStack {
-//                                    HStack {
-//                                        Image(systemName: "magnifyingglass")
-//                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-//                                        
-//                                        TextField("⌘+L - Search or Enter URL...", text: $searchInSidebar)
-//                                            .textInputAutocapitalization(.never)
-//                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-//                                            .autocorrectionDisabled(true)
-//                                            .focused($focusedField, equals: .commandBar)
-//                                            .onAppear() {
-//                                                focusedField = .commandBar
-//                                            }
-//                                            .onDisappear() {
-//                                                focusedField = .none
-//                                            }
-//                                            .onSubmit {
-//                                                //searchSuggestions.addSuggestion(url: newTabSearch)
-//                                                //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: searchInSidebar))!))
-//                                                navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
-//                                                
-//                                                navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
-//                                                
-//                                                //navigationState.selectedWebView?.reload()
-//                                                
-//                                                commandBarShown = false
-//                                            }
-//                                    }
-//                                    .padding(20)
-//                                }
-//                            }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
-//                                .ignoresSafeArea()
-                            
-                            ZStack {
-                                Color.white.opacity(0.001)
-                                    .background(.thinMaterial)
-                                
-                                VStack {
-                                    HStack {
-                                        Image(systemName: "magnifyingglass")
-                                            .foregroundStyle(Color.black.opacity(0.3))
-                                        //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                        
-                                        
-                                        TextField(text: $searchInSidebar) {
-                                            HStack {
-                                                Text("⌘+L - Search or Enter URL...")
-                                                    .opacity(0.8)
-                                                    //.foregroundStyle(Color.black.opacity(0.3))
-                                                //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
-                                            }
-                                        }
-                                        .autocorrectionDisabled(true)
-                                        .textInputAutocapitalization(.never)
-                                        .onSubmit {
-                                            
-                                            if selectedTabLocation == "pinnedTabs" {
-                                                pinnedNavigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
-                                                pinnedNavigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
-                                            }
-                                            else if selectedTabLocation == "favoriteTabs" {
-                                                favoritesNavigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
-                                                favoritesNavigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
-                                            }
-                                            else {
-                                                navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
-                                                navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
-                                            }
-                                            
-                                            commandBarShown = false
-                                        }
-                                        .focused($focusedField, equals: .commandBar)
-                                        .onAppear() {
-                                            focusedField = .commandBar
-                                        }
-                                        .onDisappear() {
-                                            focusedField = .none
-                                        }
-                                    }
-                                    
-                                    SuggestionsView(newTabSearch: $searchInSidebar, suggestionUrls: suggestionUrls)
-                                }.padding(15)
-                            }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
-                                .ignoresSafeArea()
-                        }
-                        
-                        
                         Spacer()
                             .frame(width: 20)
                     }.padding(sidebarLeft ? .trailing: .leading, showBorder ? 12: 0)
@@ -583,28 +448,28 @@ struct TestingView: View {
                     
                     // Beta for inspect element
                     /*VStack {
-                        ScrollView {
-                            ScrollView(.horizontal) {
-                                CodeText(inspectCode)
-                                    .codeTextLanguage(.html)
-                                    .font(.system(.callout, weight: .semibold))
-                                    .onChange(of: navigationState.selectedWebView) { thing in
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            Task {
-                                                await getHTMLContent(from: navigationState.selectedWebView ?? WKWebView()) { htmlContent in
-                                                    if let html = htmlContent {
-                                                        inspectCode = "\(htmlContent)"
-                                                    } else {
-                                                        inspectCode = "Error"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                            }
-                        }
-                    }.frame(width: 150)
-                        .clipped()*/
+                     ScrollView {
+                     ScrollView(.horizontal) {
+                     CodeText(inspectCode)
+                     .codeTextLanguage(.html)
+                     .font(.system(.callout, weight: .semibold))
+                     .onChange(of: navigationState.selectedWebView) { thing in
+                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                     Task {
+                     await getHTMLContent(from: navigationState.selectedWebView ?? WKWebView()) { htmlContent in
+                     if let html = htmlContent {
+                     inspectCode = "\(htmlContent)"
+                     } else {
+                     inspectCode = "Error"
+                     }
+                     }
+                     }
+                     }
+                     }
+                     }
+                     }
+                     }.frame(width: 150)
+                     .clipped()*/
                     if !sidebarLeft {
                         if showBorder {
                             ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
@@ -669,9 +534,9 @@ struct TestingView: View {
                                 Spacer()
                             }.padding(40)
                                 .padding(.leading, 30)
-                            .frame(width: hoveringSidebar || tapSidebarShown ? 350: 0)
-                            .offset(x: hoveringSidebar || tapSidebarShown ? 0: sidebarLeft ? -350: 300)
-                            .clipped()
+                                .frame(width: hoveringSidebar || tapSidebarShown ? 350: 0)
+                                .offset(x: hoveringSidebar || tapSidebarShown ? 0: sidebarLeft ? -350: 300)
+                                .clipped()
                             
                         }.onHover(perform: { hovering in
                             if hovering {
@@ -689,13 +554,162 @@ struct TestingView: View {
                 }
                 /*.onHover(perform: { hovering in
                  if hovering {
-                     hoveringSidebar = true
+                 hoveringSidebar = true
                  }
                  else {
-                     hoveringSidebar = false
+                 hoveringSidebar = false
                  }
-             })*/
+                 })*/
+                }.onTapGesture {
+                    if tabBarShown || commandBarShown {
+                        tabBarShown = false
+                        commandBarShown = false
+                    }
+                }
                 
+                //MARK: - Tabbar
+                if tabBarShown {
+                    ZStack {
+                        Color.white.opacity(0.001)
+                            .background(.regularMaterial)
+                        
+                        VStack {
+                            ZStack {
+                                Color.white.opacity(0.0001)
+                                    .onTapGesture {
+                                        focusedField = .tabBar
+                                    }
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundStyle(Color.black.opacity(0.3))
+                                    //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                    
+                                    
+                                    TextField(text: $newTabSearch) {
+                                        HStack {
+                                            Text("Search or Enter URL...")
+                                                .opacity(0.8)
+                                            //.foregroundStyle(Color.black.opacity(0.3))
+                                            //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
+                                        }
+                                    }
+                                    .autocorrectionDisabled(true)
+                                    .textInputAutocapitalization(.never)
+                                    .onSubmit {
+                                        navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
+                                        
+                                        tabBarShown = false
+                                    }
+                                    .focused($focusedField, equals: .tabBar)
+                                    .onAppear() {
+                                        focusedField = .tabBar
+                                    }
+                                    .onDisappear() {
+                                        focusedField = .none
+                                        newTabSearch = ""
+                                    }
+                                    
+                                }.padding([.leading, .trailing, .top], 15)
+                            }.frame(height: 50)
+                            
+                            SuggestionsView(newTabSearch: $newTabSearch, suggestionUrls: suggestionUrls)
+                                .padding([.leading, .trailing, .bottom], 15)
+                        }
+                    }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
+                        .ignoresSafeArea()
+                }
+                
+                //MARK: - Command Bar
+                else if commandBarShown {
+//                            ZStack {
+//                                Color.white
+//
+//                                VStack {
+//                                    HStack {
+//                                        Image(systemName: "magnifyingglass")
+//                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+//
+//                                        TextField("⌘+L - Search or Enter URL...", text: $searchInSidebar)
+//                                            .textInputAutocapitalization(.never)
+//                                            .foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+//                                            .autocorrectionDisabled(true)
+//                                            .focused($focusedField, equals: .commandBar)
+//                                            .onAppear() {
+//                                                focusedField = .commandBar
+//                                            }
+//                                            .onDisappear() {
+//                                                focusedField = .none
+//                                            }
+//                                            .onSubmit {
+//                                                //searchSuggestions.addSuggestion(url: newTabSearch)
+//                                                //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: searchInSidebar))!))
+//                                                navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+//
+//                                                navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+//
+//                                                //navigationState.selectedWebView?.reload()
+//
+//                                                commandBarShown = false
+//                                            }
+//                                    }
+//                                    .padding(20)
+//                                }
+//                            }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
+//                                .ignoresSafeArea()
+                    
+                    ZStack {
+                        Color.white.opacity(0.001)
+                            .background(.thinMaterial)
+                        
+                        VStack {
+                            HStack {
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundStyle(Color.black.opacity(0.3))
+                                //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                
+                                
+                                TextField(text: $searchInSidebar) {
+                                    HStack {
+                                        Text("⌘+L - Search or Enter URL...")
+                                            .opacity(0.8)
+                                            //.foregroundStyle(Color.black.opacity(0.3))
+                                        //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
+                                    }
+                                }
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.never)
+                                .onSubmit {
+                                    if selectedTabLocation == "pinnedTabs" {
+                                        pinnedNavigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                        pinnedNavigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                    }
+                                    else if selectedTabLocation == "favoriteTabs" {
+                                        favoritesNavigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                        favoritesNavigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                    }
+                                    else {
+                                        //navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                        //navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                        navigationState.currentURL = URL(string: formatURL(from: searchInSidebar))
+                                        navigationState.selectedWebView?.load(URLRequest(url: URL(string: searchInSidebar)!))
+                                    }
+                                    
+                                    commandBarShown = false
+                                }
+                                .focused($focusedField, equals: .commandBar)
+                                .onAppear() {
+                                    focusedField = .commandBar
+                                }
+                                .onDisappear() {
+                                    focusedField = .none
+                                }
+                            }
+                            
+                            SuggestionsView(newTabSearch: $searchInSidebar, suggestionUrls: suggestionUrls)
+                        }.padding(15)
+                    }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
+                        .ignoresSafeArea()
+                }
             }
             .onAppear {
                 if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)userTabs"),
