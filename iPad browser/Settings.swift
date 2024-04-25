@@ -128,7 +128,7 @@ struct Settings: View {
                     }
                 } label: {
                     Text("Sign Out")
-                }.buttonStyle(GrowingButton(buttonText: "Sign Out", buttonWidth: 150, buttonHeight: 20))
+                }.buttonStyle(MainButtonStyle())
 
             }
             
@@ -139,8 +139,8 @@ struct Settings: View {
                     Button {
                         presentSheet = false
                     } label: {
-                        //
-                    }.buttonStyle(GrowingButton(buttonText: "Done", buttonWidth: 75, buttonHeight: 20))
+                        Text("Done")
+                    }.buttonStyle(MainButtonStyle())
                         .padding(15)
 
                 }

@@ -1340,7 +1340,7 @@ struct TestingView: View {
                             
                             Button(action: {
                                 if let index = navigationState.webViews.firstIndex(of: tab) {
-                                    removeTab(at: navigationState.webViews.count - 1 - index)
+                                    removeTab(at: index)
                                 }
                             }) {
                                 if hoverTab == tab || navigationState.selectedWebView == tab {

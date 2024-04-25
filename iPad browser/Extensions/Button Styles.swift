@@ -140,6 +140,8 @@ struct MainButtonStyle: ButtonStyle {
     @AppStorage("startColorHex") var startHex = "ffffff"
     @AppStorage("endColorHex") var endHex = "000000"
     
+    @State var isHovering = false
+    
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
             if configuration.isPressed {
@@ -158,6 +160,7 @@ struct MainButtonStyle: ButtonStyle {
                 .font(.system(size: 20, weight: .bold, design: .rounded))
                 .foregroundStyle(Color(hex: averageHexColor(hex1: startHex, hex2: endHex) ?? "8880F5"))
                 .offset(y: configuration.isPressed ? 3: 0)
+                .offset(y: isHovering ? 1: 0)
                 .padding(.horizontal, 50)
                 .padding(.vertical, 15)
                 .background(
@@ -174,11 +177,16 @@ struct MainButtonStyle: ButtonStyle {
                                     .offset(y: 2)
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color(.white))
+                                    .offset(y: isHovering ? 1: 0)
+                                    .opacity(isHovering ? 0.8: 1.0)
                                     .modifier(InnerShadow())
                             }
                         }
                     }.shadow(color: Color(hex: "000").opacity(0.15), radius: 15, x: 0, y: 0)
                 )
+                .onHover(perform: { hovering in
+                    isHovering = hovering
+                })
                 .foregroundColor(.white)
         }
     }
