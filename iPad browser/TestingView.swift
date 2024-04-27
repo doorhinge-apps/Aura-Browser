@@ -512,9 +512,9 @@ struct TestingView: View {
                                 .onTapGesture {
                                     tapSidebarShown = true
                                     
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                        tapSidebarShown = false
-                                    }
+//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//                                        tapSidebarShown = false
+//                                    }
                                 }
                             
                             HStack {
@@ -565,6 +565,7 @@ struct TestingView: View {
                         tabBarShown = false
                         commandBarShown = false
                     }
+                    tapSidebarShown = false
                 }
                 
                 //MARK: - Tabbar
