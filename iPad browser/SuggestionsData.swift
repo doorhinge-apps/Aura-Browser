@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SuggestionsView: View {
     @Binding var newTabSearch: String
+    @Binding var newTabSaveSearch: String
     @State var suggestionUrls2: [String] // Declaring suggestionUrls2 as a state variable
     
     @AppStorage("startColorHex") var startHex = "ffffff"
@@ -16,8 +17,9 @@ struct SuggestionsView: View {
     
     @State var selectedIndex = 0
 
-    init(newTabSearch: Binding<String>, suggestionUrls: [String]) {
+    init(newTabSearch: Binding<String>, newTabSaveSearch: Binding<String>, suggestionUrls: [String]) {
         self._newTabSearch = newTabSearch
+        self._newTabSaveSearch = newTabSaveSearch
         self._suggestionUrls2 = State(initialValue: suggestionUrls) // Initializing suggestionUrls2
     }
 
@@ -121,6 +123,17 @@ struct SuggestionsView: View {
                     withAnimation {
                         proxy.scrollTo(selectedIndex)
                     }
+                    
+                    newTabSearch = suggestionUrls2.filter({ $0.replacingOccurrences(of: "www.", with: "")
+                            .replacingOccurrences(of: "https://", with: "")
+                            .replacingOccurrences(of: "http://", with: "")
+                            .lowercased()
+                            .hasPrefix(newTabSearch.replacingOccurrences(of: "www.", with: "")
+                                .replacingOccurrences(of: "https://", with: "")
+                                .replacingOccurrences(of: "http://", with: "")
+                                .lowercased()
+                            )
+                    }).prefix(10)[selectedIndex - 1]
                     
 //                    newTabSearch = suggestionUrls2.filter { $0.replacingOccurrences(of: "www.", with: "")
 //                            .replacingOccurrences(of: "https://", with: "")

@@ -41,7 +41,6 @@
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
 		B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */; };
-		B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E62AABBEE00013AC79 /* ContentView.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
 		B96DEFD42BD9723000DB5C32 /* HighlightSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B96DEFD32BD9723000DB5C32 /* HighlightSwift */; };
@@ -49,15 +48,12 @@
 		B98256C92BD2E2D100F997F5 /* WebsiteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */; };
 		B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */; };
 		B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */; };
-		B98256D02BD2E3D500F997F5 /* TemplateNavigationStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */; };
 		B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */; };
 		B98256D42BD2E78100F997F5 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D32BD2E78100F997F5 /* Themes.swift */; };
-		B98256D62BD2F7F900F997F5 /* FavoriteTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D52BD2F7F900F997F5 /* FavoriteTabs.swift */; };
 		B98953A32AABCF7200EE3B42 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */; };
 		B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A52AABE3CB00EE3B42 /* Hex.swift */; };
-		B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A72AAC1F4B00EE3B42 /* TestingView.swift */; };
+		B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A72AAC1F4B00EE3B42 /* ContentView.swift */; };
 		B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98953A92AAD686100EE3B42 /* LoginView.swift */; };
-		B98A32EE2BCDA09C00555AB9 /* CircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */; };
 		B98A32F22BCDB62C00555AB9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B98A32F12BCDB62C00555AB9 /* README.md */; };
 		B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */; };
 		B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F52BD01D8A00555AB9 /* Long Variables.swift */; };
@@ -66,6 +62,7 @@
 		B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; };
+		B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,7 +74,6 @@
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
 		B95B19E12AABBEE00013AC79 /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPad_browserApp.swift; sourceTree = "<group>"; };
-		B95B19E62AABBEE00013AC79 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimations.swift; sourceTree = "<group>"; };
@@ -85,14 +81,12 @@
 		B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteHandling.swift; sourceTree = "<group>"; };
 		B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDots.swift; sourceTree = "<group>"; };
-		B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateNavigationStates.swift; sourceTree = "<group>"; };
 		B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Toolbar Buttons.swift"; sourceTree = "<group>"; };
 		B98256D32BD2E78100F997F5 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
-		B98256D52BD2F7F900F997F5 /* FavoriteTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTabs.swift; sourceTree = "<group>"; };
 		B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "iPad-browser-Info.plist"; sourceTree = SOURCE_ROOT; };
 		B98953A52AABE3CB00EE3B42 /* Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hex.swift; sourceTree = "<group>"; };
-		B98953A72AAC1F4B00EE3B42 /* TestingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingView.swift; sourceTree = "<group>"; };
+		B98953A72AAC1F4B00EE3B42 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B98953A92AAD686100EE3B42 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAnimation.swift; sourceTree = "<group>"; };
 		B98A32F12BCDB62C00555AB9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -176,24 +170,20 @@
 				B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */,
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
 				B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */,
-				B98953A72AAC1F4B00EE3B42 /* TestingView.swift */,
-				B98256D52BD2F7F900F997F5 /* FavoriteTabs.swift */,
-				B98256CF2BD2E3D400F997F5 /* TemplateNavigationStates.swift */,
+				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B98953A92AAD686100EE3B42 /* LoginView.swift */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
 				B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */,
 				B98256C82BD2E2D100F997F5 /* WebsiteHandling.swift */,
-				B95B19E62AABBEE00013AC79 /* ContentView.swift */,
 				B98A32F52BD01D8A00555AB9 /* Long Variables.swift */,
 				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
-				B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */,
 				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
 				B91FBF942BC8EB0C001C317C /* Tab Bar.swift */,
 				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
 				B9E9D8202BBDDEBA00579698 /* SuggestionsData.swift */,
-				B98953A92AAD686100EE3B42 /* LoginView.swift */,
 				B918673B2BCB0AFD00C159AB /* Settings.swift */,
-				B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */,
+				B9FE8D162BDD87FA00BBF221 /* Animations */,
 				B98256CA2BD2E2F800F997F5 /* Extensions */,
 				B95B19E82AABBEE10013AC79 /* Assets.xcassets */,
 				B95B19EA2AABBEE10013AC79 /* Preview Content */,
@@ -220,6 +210,15 @@
 				B98953A52AABE3CB00EE3B42 /* Hex.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B9FE8D162BDD87FA00BBF221 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */,
+				B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,21 +336,18 @@
 			files = (
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
-				B98256D62BD2F7F900F997F5 /* FavoriteTabs.swift in Sources */,
-				B98953A82AAC1F4B00EE3B42 /* TestingView.swift in Sources */,
+				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
 				B98256C92BD2E2D100F997F5 /* WebsiteHandling.swift in Sources */,
-				B98A32EE2BCDA09C00555AB9 /* CircleAnimation.swift in Sources */,
-				B98256D02BD2E3D500F997F5 /* TemplateNavigationStates.swift in Sources */,
 				B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */,
+				B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */,
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
-				B95B19E72AABBEE00013AC79 /* ContentView.swift in Sources */,
 				B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
 				B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */,

@@ -56,8 +56,7 @@ struct LoginView: View {
                 }
             }
             else {
-                TestingView()
-                //ContentView()
+                ContentView()
             }
         }
     }

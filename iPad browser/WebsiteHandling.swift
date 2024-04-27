@@ -40,7 +40,7 @@ class NavigationState : NSObject, WKNavigationDelegate, WKUIDelegate, Observable
 
 
 
-struct TestingWebView : UIViewRepresentable {
+struct WebView: UIViewRepresentable {
     
     @ObservedObject var navigationState : NavigationState
     
