@@ -9,13 +9,7 @@ import SwiftUI
 import Firebase
 import FirebaseAuth
 
-class DefaultsStorage: ObservableObject {
-    @Published var email = "" {
-        didSet {
-            defaults.set(email, forKey: "email")
-        }
-    }
-}
+
 
 
 struct LoginView: View {
