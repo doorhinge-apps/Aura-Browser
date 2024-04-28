@@ -13,12 +13,16 @@ import FaviconFinder
 import SDWebImage
 import SDWebImageSwiftUI
 import HighlightSwift
+import SwiftData
 
 
 struct Suggestion: Identifiable, Codable {
-    var id: String    // This will hold the Firestore document ID
+    var id: String
     var url: String
 }
+
+
+
 
 class FaviconStore: ObservableObject {
     @Published var favicons: [String: FaviconImage] = [:]
@@ -36,7 +40,7 @@ class FaviconStore: ObservableObject {
                     .download()
                     .largest ()
                 
-                // Update the favicons dictionary. Make sure this happens on the main thread.
+                // Update the favicons dictionary.
                 DispatchQueue.main.async {
                     self.favicons[urlString] = favicon.image
                 }
@@ -63,6 +67,9 @@ extension UIColor {
 }
 
 struct ContentView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var tabs: [TabStorage]
+    
     // WebView Handling
     @ObservedObject var navigationState = NavigationState()
     @ObservedObject var pinnedNavigationState = NavigationState()
@@ -219,34 +226,11 @@ struct ContentView: View {
                                                 await hideSidebar.toggle()
                                             }
                                             
-                                            //                                            navigationState.selectedWebView?.reload()
-                                            //                                            navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                            //
-                                            //                                            navigationState.selectedWebView = navigationState.selectedWebView
-                                            //                                            //navigationState.currentURL = navigationState.currentURL
-                                            //
-                                            //                                            if let unwrappedURL = navigationState.currentURL {
-                                            //                                                searchInSidebar = unwrappedURL.absoluteString
-                                            //                                            }
-                                            //                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                            //                                                navigationState.selectedWebView?.reload()
-                                            //                                                navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                            //
-                                            //                                                navigationState.selectedWebView = navigationState.selectedWebView
-                                            //                                                //navigationState.currentURL = navigationState.currentURL
-                                            //
-                                            //                                                if let unwrappedURL = navigationState.currentURL {
-                                            //                                                    searchInSidebar = unwrappedURL.absoluteString
-                                            //                                                }
-                                            //                                            }
                                             Task {
                                                 await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                             }
                                         }, label: {
                                             ZStack {
-                                                //Color(.white)
-                                                //    .opacity(hoverSidebarButton ? 0.5: 0.0)
-                                                
                                                 LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                     .opacity(hoverSidebarButton ? 1.0: 0.8)
                                                 
@@ -612,6 +596,7 @@ struct ContentView: View {
                                     .textInputAutocapitalization(.never)
                                     .onSubmit {
                                         navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
+                                        modelContext.insert(TabStorage(url: formatURL(from: newTabSearch)))
                                         
                                         tabBarShown = false
                                     }
@@ -730,7 +715,7 @@ struct ContentView: View {
                 }
             }
             .onAppear {
-                if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)userTabs"),
+                /*if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)userTabs"),
                    let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
                     let urls = urlStringArray.compactMap { URL(string: $0) }
                     for url in urls {
@@ -739,7 +724,7 @@ struct ContentView: View {
                         navigationState.createNewWebView(withRequest: request)
                         
                     }
-                }
+                }*/
                 
                 if let urlsData = UserDefaults.standard.data(forKey: "\(currentSpace)pinnedTabs"),
                    let urlStringArray = try? JSONDecoder().decode([String].self, from: urlsData) {
@@ -762,6 +747,15 @@ struct ContentView: View {
                         
                     }
                 }
+                
+                Task {
+                    for tab in tabs {
+                        let request = URLRequest(url: URL(string: tab.url)!)
+                        
+                        navigationState.createNewWebView(withRequest: request)
+                    }
+                }
+                
                 
                 Task {
                     await navigationState.selectedWebView = nil

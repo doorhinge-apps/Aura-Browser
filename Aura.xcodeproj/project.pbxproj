@@ -40,6 +40,7 @@
 		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
+		B93D9D2A2BDDBAE30002D01B /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D292BDDBAE30002D01B /* DataStore.swift */; };
 		B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
@@ -72,6 +73,7 @@
 		B91FBF942BC8EB0C001C317C /* Tab Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab Bar.swift"; sourceTree = "<group>"; };
 		B9230FF92BBD36740032C950 /* TopDomains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TopDomains.json; sourceTree = "<group>"; };
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
+		B93D9D292BDDBAE30002D01B /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		B95B19E12AABBEE00013AC79 /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPad_browserApp.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
 				B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */,
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B93D9D292BDDBAE30002D01B /* DataStore.swift */,
 				B98953A92AAD686100EE3B42 /* LoginView.swift */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
@@ -347,6 +350,7 @@
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
+				B93D9D2A2BDDBAE30002D01B /* DataStore.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
 				B9E9D8212BBDDEBA00579698 /* SuggestionsData.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
