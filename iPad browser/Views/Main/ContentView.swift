@@ -32,66 +32,66 @@ struct ContentView: View {
     
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-    @State var spaces = ["Home", "Space 2"]
-    @State var spaceIcons: [String: String]? = [:]
+    @State private var spaces = ["Home", "Space 2"]
+    @State private var spaceIcons: [String: String]? = [:]
     
-    @State var reloadTitles = false
+    @State private var reloadTitles = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     // Settings and Sheets
-    @State var hoverTab = WKWebView()
+    @State private var hoverTab = WKWebView()
     
-    @State var showSettings = false
-    @State var changeColorSheet = false
+    @State private var showSettings = false
+    @State private var changeColorSheet = false
     
-    @State var startColor: Color = Color.purple
-    @State var endColor: Color = Color.pink
+    @State private var startColor: Color = Color.purple
+    @State private var endColor: Color = Color.pink
     
     @AppStorage("startColorHex") var startHex = "ffffff"
     @AppStorage("endColorHex") var endHex = "000000"
     
-    @State var presentIcons = false
+    @State private var presentIcons = false
     
     // Hover Effects
-    @State var hoverTinySpace = false
+    @State private var hoverTinySpace = false
     
-    @State var hoverSidebarButton = false
-    @State var hoverPaintbrush = false
-    @State var hoverReloadButton = false
-    @State var hoverForwardButton = false
-    @State var hoverBackwardButton = false
-    @State var hoverNewTab = false
-    @State var settingsButtonHover = false
-    @State var hoverNewTabSection = false
+    @State private var hoverSidebarButton = false
+    @State private var hoverPaintbrush = false
+    @State private var hoverReloadButton = false
+    @State private var hoverForwardButton = false
+    @State private var hoverBackwardButton = false
+    @State private var hoverNewTab = false
+    @State private var settingsButtonHover = false
+    @State private var hoverNewTabSection = false
     
-    @State var hoverSpaceIndex = 1000
-    @State var hoverSpace = ""
+    @State private var hoverSpaceIndex = 1000
+    @State private var hoverSpace = ""
     
-    @State var hoverSidebarSearchField = false
+    @State private var hoverSidebarSearchField = false
     
-    @State var hoverCloseTab = WKWebView()
+    @State private var hoverCloseTab = WKWebView()
     
-    @State var spaceIconHover = false
+    @State private var spaceIconHover = false
     
     // Animations and Gestures
-    @State var reloadRotation = 0
-    @State var draggedTab: WKWebView?
+    @State private var reloadRotation = 0
+    @State private var draggedTab: WKWebView?
     
     // Selection States
-    @State var tabBarShown = false
-    @State var commandBarShown = false
+    @State private var tabBarShown = false
+    @State private var commandBarShown = false
     
-    @State var changingIcon = ""
-    @State var hideSidebar = false
+    @State private var changingIcon = ""
+    @State private var hideSidebar = false
     
-    @State var searchInSidebar = ""
-    @State var newTabSearch = ""
-    @State var newTabSaveSearch = ""
+    @State private var searchInSidebar = ""
+    @State private var newTabSearch = ""
+    @State private var newTabSaveSearch = ""
     
-    @State var currentTabNum = 0
+    @State private var currentTabNum = 0
     
-    @State var selectedIndex: Int? = 0
+    @State private var selectedIndex: Int? = 0
     
     @FocusState private var focusedField: FocusedField?
     
@@ -103,18 +103,18 @@ struct ContentView: View {
     
     @AppStorage("showBorder") var showBorder = true
     
-    @State var inspectCode = ""
+    @State private var inspectCode = ""
     
     enum FocusedField {
         case commandBar, tabBar, none
     }
-    @State var selectedTabLocation = "tabs"
+    @State private var selectedTabLocation = "tabs"
     
     // Other Stuff
-    @State var screenWidth = UIScreen.main.bounds.width
+    @State private var screenWidth = UIScreen.main.bounds.width
     
-    @State var hoveringSidebar = false
-    @State var tapSidebarShown = false
+    @State private var hoveringSidebar = false
+    @State private var tapSidebarShown = false
     
     var body: some View {
         GeometryReader { geo in
@@ -133,7 +133,7 @@ struct ContentView: View {
                                 //MARK: - Sidebar Buttons
                                 ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo).frame(height: 40)
                                 
-                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo, hoverSpace: $hoverSpace)
+                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, hoverSpace: $hoverSpace, geo: geo)
                             }
                             .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
                             .padding(showBorder ? 0: 15)
@@ -396,7 +396,7 @@ struct ContentView: View {
                                 //MARK: - Sidebar Buttons
                                 ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo).frame(height: 40)
                                 
-                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo)
+                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, hoverSpace: $hoverSpace, geo: geo)
                             }
                             .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
                             .padding(showBorder ? 0: 15)
@@ -434,7 +434,7 @@ struct ContentView: View {
                                     VStack {
                                         ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo).frame(height: 40)
                                         
-                                        Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, geo: geo)
+                                        Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, hoverSpace: $hoverSpace, geo: geo)
                                     }.padding(15)
                                         .background(content: {
                                             LinearGradient(colors: [startColor, Color(hex: averageHexColor(hex1: startHex, hex2: endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()

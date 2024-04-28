@@ -27,41 +27,41 @@ struct Sidebar: View {
     
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-    @State var spaces = ["Home", "Space 2"]
-    @State var spaceIcons: [String: String]? = [:]
+    @State private var spaces = ["Home", "Space 2"]
+    @State private var spaceIcons: [String: String]? = [:]
     
-    @State var reloadTitles = false
+    @State private var reloadTitles = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     // Settings and Sheets
-    @State var hoverTab = WKWebView()
+    @State private var hoverTab = WKWebView()
     
-    @State var showSettings = false
-    @State var changeColorSheet = false
+    @State private var showSettings = false
+    @State private var changeColorSheet = false
     
-    @State var startHex = "ffffff"
-    @State var endHex = "000000"
+    @State private var startHex = "ffffff"
+    @State private var endHex = "000000"
     
-    @State var presentIcons = false
+    @State private var presentIcons = false
     
     // Hover Effects
-    @State var hoverSidebarSearchField = false
+    @State private var hoverSidebarSearchField = false
     
-    @State var hoverCloseTab = WKWebView()
+    @State private var hoverCloseTab = WKWebView()
     
-    @State var spaceIconHover = false
+    @State private var spaceIconHover = false
     
-    @State var settingsButtonHover = false
-    @State var hoverNewTabSection = false
+    @State private var settingsButtonHover = false
+    @State private var hoverNewTabSection = false
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
     @AppStorage("favoritesStyle") var favoritesStyle = false
     @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
     
     // Selection States
-    @State var changingIcon = ""
-    @State var draggedTab: WKWebView?
+    @State private var changingIcon = ""
+    @State private var draggedTab: WKWebView?
     
     var body: some View {
         VStack {
