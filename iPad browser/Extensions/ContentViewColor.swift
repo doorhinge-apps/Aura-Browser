@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+// Convert to hex color
 extension UIColor {
     func toHex() -> String? {
         guard let components = cgColor.components, components.count >= 3 else {
@@ -19,3 +20,6 @@ extension UIColor {
         return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
     }
 }
+
+
+

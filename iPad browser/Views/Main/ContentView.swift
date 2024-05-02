@@ -47,9 +47,11 @@ struct ContentView: View {
     
     @State private var startColor: Color = Color.purple
     @State private var endColor: Color = Color.pink
+    @State private var textColor: Color = Color.white
     
-    @AppStorage("startColorHex") var startHex = "ffffff"
-    @AppStorage("endColorHex") var endHex = "000000"
+    @AppStorage("startColorHex") var startHex = "8A3CEF"
+    @AppStorage("endColorHex") var endHex = "84F5FE"
+    @AppStorage("textColorHex") var textHex = "ffffff"
     
     @State private var presentIcons = false
     
@@ -116,6 +118,10 @@ struct ContentView: View {
     @State private var hoveringSidebar = false
     @State private var tapSidebarShown = false
     
+    @State var commandBarCollapseHeightAnimation = false
+    @State var commandBarSearchSubmitted = false
+    @State var commandBarSearchSubmitted2 = false
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -129,7 +135,7 @@ struct ContentView: View {
                                     .disabled(true)
                             }
                             
-                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, hoverSpace: $hoverSpace, geo: geo)
+                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
                                 .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
                                 .padding(showBorder ? 0: 15)
                                 .padding(.top, showBorder ? 0: 10)
@@ -155,7 +161,7 @@ struct ContentView: View {
                             }
                             
                             //MARK: - Hidden Sidebar Actions
-                            if hideSidebar && hoverTinySpace {
+                            /*if hideSidebar && hoverTinySpace {
                                 VStack {
                                     HStack {
                                         VStack {
@@ -177,7 +183,7 @@ struct ContentView: View {
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 25, height: 25)
-                                                        .foregroundStyle(Color.white)
+                                                        .foregroundStyle(Color.contrastColor(hex: averageHexColor(hex1: startHex, hex2: endHex)))
                                                         .opacity(hoverSidebarButton ? 1.0: 0.5)
                                                     
                                                 }.animation(.smooth).frame(width: 50, height: 50).cornerRadius(75).hoverEffect(.lift)
@@ -240,7 +246,7 @@ struct ContentView: View {
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 25, height: 25)
-                                                        .foregroundStyle(Color.white)
+                                                        .foregroundStyle(Color.contrastColor(hex: averageHexColor(hex1: startHex, hex2: endHex)))
                                                         .opacity(hoverReloadButton ? 1.0: 0.5)
                                                         .rotationEffect(Angle(degrees: Double(reloadRotation)))
                                                         .animation(.bouncy, value: reloadRotation)
@@ -282,7 +288,7 @@ struct ContentView: View {
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 25, height: 25)
-                                                        .foregroundStyle(Color.white)
+                                                        .foregroundStyle(Color.contrastColor(hex: averageHexColor(hex1: startHex, hex2: endHex)))
                                                         .opacity(hoverBackwardButton ? 1.0: 0.5)
                                                     
                                                 }.animation(.smooth).frame(width: 50, height: 50).cornerRadius(75).hoverEffect(.lift)
@@ -321,7 +327,7 @@ struct ContentView: View {
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 25, height: 25)
-                                                        .foregroundStyle(Color.white)
+                                                        .foregroundStyle(Color.contrastColor(hex: averageHexColor(hex1: startHex, hex2: endHex)))
                                                         .opacity(hoverForwardButton ? 1.0: 0.5)
                                                     
                                                 }.animation(.smooth).frame(width: 50, height: 50).cornerRadius(75).hoverEffect(.lift)
@@ -353,7 +359,7 @@ struct ContentView: View {
                                                         .resizable()
                                                         .scaledToFit()
                                                         .frame(width: 25, height: 25)
-                                                        .foregroundStyle(Color.white)
+                                                        .foregroundStyle(Color.contrastColor(hex: averageHexColor(hex1: startHex, hex2: endHex)))
                                                         .opacity(hoverNewTab ? 1.0 : 0.5)
                                                 }.animation(.smooth).frame(width: 50, height: 50).cornerRadius(75).hoverEffect(.lift)
                                             })
@@ -374,7 +380,7 @@ struct ContentView: View {
                                     
                                     Spacer()
                                 }
-                            }
+                            }*/
                             
                             Spacer()
                                 .frame(width: 20)
@@ -388,7 +394,7 @@ struct ContentView: View {
                             }
                             
                             
-                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, hoverSpace: $hoverSpace, geo: geo)
+                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
                             
                                 .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
                                 .padding(showBorder ? 0: 15)
@@ -403,6 +409,9 @@ struct ContentView: View {
                         }
                         if let savedEndColor = getColor(forKey: "endColorHex") {
                             endColor = savedEndColor
+                        }
+                        if let savedTextColor = getColor(forKey: "textColorHex") {
+                            textColor = savedTextColor
                         }
                         
                         spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
@@ -424,7 +433,7 @@ struct ContentView: View {
                                 
                                 HStack {
                                     
-                                    Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, hoverSpace: $hoverSpace, geo: geo)
+                                    Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
                                         .padding(15)
                                         .background(content: {
                                             if sidebarLeft {
@@ -470,62 +479,20 @@ struct ContentView: View {
                 
                 //MARK: - Tabbar
                 if tabBarShown {
-                    ZStack {
-                        Color.white.opacity(0.001)
-                            .background(.regularMaterial)
-                        
-                        VStack {
-                            ZStack {
-                                Color.white.opacity(0.0001)
-                                    .onTapGesture {
-                                        focusedField = .tabBar
-                                    }
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundStyle(Color.black.opacity(0.3))
-                                    //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing))
-                                    
-                                    
-                                    TextField(text: $newTabSearch) {
-                                        HStack {
-                                            Text("Search or Enter URL...")
-                                                .opacity(0.8)
-                                            //.foregroundStyle(Color.black.opacity(0.3))
-                                            //.foregroundStyle(LinearGradient(colors: [startColor, endColor], startPoint: .leading, endPoint: .trailing))
-                                        }
-                                    }
-                                    .autocorrectionDisabled(true)
-                                    .textInputAutocapitalization(.never)
-                                    .onSubmit {
-                                        navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                        modelContext.insert(TabStorage(url: formatURL(from: newTabSearch)))
-                                        
-                                        tabBarShown = false
-                                    }
-                                    .focused($focusedField, equals: .tabBar)
-                                    .onAppear() {
-                                        focusedField = .tabBar
-                                    }
-                                    .onDisappear() {
-                                        focusedField = .none
-                                        newTabSearch = ""
-                                    }
-                                    .onChange(of: newTabSearch) { thing in
-                                        newTabSaveSearch = newTabSearch
-                                    }
-                                    
-                                }.padding([.leading, .trailing, .top], 15)
-                            }.frame(height: 50)
+                    CommandBar(commandBarText: $newTabSearch, searchSubmitted: $commandBarSearchSubmitted, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
+                        .onChange(of: commandBarSearchSubmitted) { thing in
+                            navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
+                            modelContext.insert(TabStorage(url: formatURL(from: newTabSearch)))
                             
-                            SuggestionsView(newTabSearch: $newTabSearch, newTabSaveSearch: $newTabSaveSearch, suggestionUrls: suggestionUrls)
-                                .padding([.leading, .trailing, .bottom], 15)
+                            tabBarShown = false
+                            commandBarSearchSubmitted = false
+                            newTabSearch = ""
                         }
-                    }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
-                        .ignoresSafeArea()
                 }
                 
+                
                 //MARK: - Command Bar
-                else if commandBarShown {
+                /*if commandBarShown {
                     ZStack {
                         Color.white.opacity(0.001)
                             .background(.thinMaterial)
@@ -576,6 +543,21 @@ struct ContentView: View {
                         }.padding(15)
                     }.frame(width: 550, height: 300).cornerRadius(10).shadow(color: Color(hex: "0000").opacity(0.5), radius: 20, x: 0, y: 0)
                         .ignoresSafeArea()
+                }*/
+                
+                else if commandBarShown {
+                    CommandBar(commandBarText: $searchInSidebar, searchSubmitted: $commandBarSearchSubmitted2, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
+                        .onChange(of: commandBarSearchSubmitted) { thing in
+                            if selectedTabLocation == "tabs" {
+                                //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
+                                navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
+                                modelContext.insert(TabStorage(url: formatURL(from: newTabSearch)))
+                            }
+                            
+                            tabBarShown = false
+                            commandBarSearchSubmitted = false
+                            newTabSearch = ""
+                        }
                 }
             }
             .onChange(of: spaces) { newValue in
@@ -594,6 +576,18 @@ struct ContentView: View {
                 saveToLocalStorage()
             }
             .ignoresSafeArea()
+            .onAppear() {
+                let query = "computer pro"
+                // Test the autocomplete with user input
+                print("Enter your search query:")
+                
+                Task {
+                    await updateModel(with: query)
+                }
+                    let suggestions = predict(query, model: model)
+                    print("Autocomplete suggestions for '\(query)': \(suggestions)")
+                
+            }
         }
     }
     

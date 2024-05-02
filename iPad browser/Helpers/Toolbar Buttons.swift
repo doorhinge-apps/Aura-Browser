@@ -40,6 +40,7 @@ struct ToolbarButtonsView: View {
     
     @Binding var startColor: Color
     @Binding var endColor: Color
+    @Binding var textColor: Color
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
     
@@ -96,7 +97,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverSidebarButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -125,7 +126,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverPaintbrush ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -158,6 +159,11 @@ struct ToolbarButtonsView: View {
                                     .onChange(of: endColor) { newValue in
                                         saveColor(color: newValue, key: "endColorHex")
                                     }
+                                
+                                ColorPicker("Text Color", selection: $textColor)
+                                    .onChange(of: textColor) { newValue in
+                                        saveColor(color: newValue, key: "textColorHex")
+                                    }
                             }
                             .padding()
                             
@@ -181,7 +187,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverNewTab ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -219,7 +225,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverBackwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -254,7 +260,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverForwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -314,7 +320,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverReloadButton ? 1.0: 0.5)
                             .rotationEffect(Angle(degrees: Double(reloadRotation)))
                             .animation(.bouncy, value: reloadRotation)
