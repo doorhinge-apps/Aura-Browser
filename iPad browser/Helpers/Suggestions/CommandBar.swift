@@ -37,82 +37,37 @@ struct CommandBar: View {
         ZStack {
             //LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
             
-            ZStack {
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(.regularMaterial)
-                
-                ScrollViewReader { proxy in
-                    ZStack {
-                        ScrollView {
-                            Spacer()
-                                .frame(height: 60)
-                            if !commandBarText.isEmpty {
-                                ZStack {
-                                    if selectedSuggestion == -1 {
-                                        Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
-                                            .cornerRadius(10)
-                                            .padding(5)
-                                            .padding(.horizontal, 5)
-                                    }
-                                    
-                                    HStack {
-                                        Text(commandBarText)
-                                            .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
-                                            .padding(.vertical, 27)
-                                            .padding(.horizontal, 25)
-                                        
-                                        Spacer()
-                                        
-                                        Image(systemName: "arrow.right")
-                                            .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
-                                            .frame(width: selectedSuggestion != -1 ? 00: 40, height: 40)
-                                            .bold()
-                                            .hoverEffect(.lift)
-                                            .background(.ultraThinMaterial)
-                                            .cornerRadius(10)
-                                            .padding(.trailing, 20)
-                                            .animation(.default)
-                                        
-                                    }
-                                }.id("veryLongStringForUnlikelySearchID")
-                            }
-                            
-                            ForEach(suggestions, id:\.self) { suggestion in
-                                Button(action: {
-                                    commandBarText = suggestion
-                                    searchSubmitted = true
-                                }, label: {
+            if !searchSubmitted {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.regularMaterial)
+                    
+                    ScrollViewReader { proxy in
+                        ZStack {
+                            ScrollView {
+                                Spacer()
+                                    .frame(height: 60)
+                                if !commandBarText.isEmpty {
                                     ZStack {
-                                        if hoverSuggestion == suggestion {
-                                            Color.gray
-                                                .opacity(0.5)
+                                        if selectedSuggestion == -1 {
+                                            Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
                                                 .cornerRadius(10)
                                                 .padding(5)
                                                 .padding(.horizontal, 5)
                                         }
                                         
-                                        if selectedSuggestion != -1 {
-                                            if suggestions[selectedSuggestion] == suggestion {
-                                                Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
-                                                    .cornerRadius(10)
-                                                    .padding(5)
-                                                    .padding(.horizontal, 5)
-                                            }
-                                        }
-                                        
                                         HStack {
-                                            Text(suggestion)
-                                                .foregroundStyle(Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"))
+                                            Text(commandBarText)
+                                                .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
                                                 .padding(.vertical, 27)
                                                 .padding(.horizontal, 25)
                                             
                                             Spacer()
                                             
                                             Image(systemName: "arrow.right")
-                                                .foregroundStyle(Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"))
-                                                .frame(width: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? 40: 0): 0, height: 40)
+                                                .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
+                                                .frame(width: selectedSuggestion != -1 ? 00: 40, height: 40)
                                                 .bold()
-                                                .clipped()
                                                 .hoverEffect(.lift)
                                                 .background(.ultraThinMaterial)
                                                 .cornerRadius(10)
@@ -120,126 +75,176 @@ struct CommandBar: View {
                                                 .animation(.default)
                                             
                                         }
+                                    }.id("veryLongStringForUnlikelySearchID")
+                                }
+                                
+                                ForEach(suggestions, id:\.self) { suggestion in
+                                    Button(action: {
+                                        commandBarText = suggestion
+                                        searchSubmitted = true
+                                    }, label: {
+                                        ZStack {
+                                            if hoverSuggestion == suggestion {
+                                                Color.gray
+                                                    .opacity(0.5)
+                                                    .cornerRadius(10)
+                                                    .padding(5)
+                                                    .padding(.horizontal, 5)
+                                            }
+                                            
+                                            if selectedSuggestion != -1 {
+                                                if suggestions[selectedSuggestion] == suggestion {
+                                                    Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
+                                                        .cornerRadius(10)
+                                                        .padding(5)
+                                                        .padding(.horizontal, 5)
+                                                }
+                                            }
+                                            
+                                            HStack {
+                                                Text(suggestion)
+                                                    .foregroundStyle(Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"))
+                                                    .padding(.vertical, 27)
+                                                    .padding(.horizontal, 25)
+                                                
+                                                Spacer()
+                                                
+                                                Image(systemName: "arrow.right")
+                                                    .foregroundStyle(Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"))
+                                                    .frame(width: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? 40: 0): 0, height: 40)
+                                                    .bold()
+                                                    .clipped()
+                                                    .hoverEffect(.lift)
+                                                    .background(.ultraThinMaterial)
+                                                    .cornerRadius(10)
+                                                    .padding(.trailing, 20)
+                                                    .animation(.default)
+                                                
+                                            }
+                                            
+                                            /*Text(suggestion)
+                                             .padding(10)
+                                             .padding(.vertical, 12)
+                                             .frame(width: 500)*/
+                                        }.id(suggestion)
+                                            .onHover(perform: { hovering in
+                                                if hovering {
+                                                    hoverSuggestion = suggestion
+                                                }
+                                                else {
+                                                    hoverSuggestion = ""
+                                                }
+                                            })
+                                    })
+                                }
+                            }.frame(width: 600)
+                            
+                            VStack {
+                                ZStack {
+                                    TextField(text: selectedSuggestion == -1 ? $commandBarText: $suggestedSearch) {
+                                        Label(selectedSuggestion == -1 ? "Search or Enter URL": "", systemImage: "magnifyingglass")
+                                    }.onKeyPress(.downArrow, action: {
+                                        if selectedSuggestion <= (suggestions.count - 2) {
+                                            selectedSuggestion += 1
+                                            
+                                            suggestedSearch = suggestions[selectedSuggestion]
+                                            withAnimation {
+                                                proxy.scrollTo(suggestedSearch, anchor: .center)
+                                            }
+                                        }
+                                        else {
+                                            selectedSuggestion = -1
+                                            
+                                            withAnimation {
+                                                proxy.scrollTo("veryLongStringForUnlikelySearchID", anchor: .center)
+                                            }
+                                        }
                                         
-                                        /*Text(suggestion)
-                                            .padding(10)
-                                            .padding(.vertical, 12)
-                                            .frame(width: 500)*/
-                                    }.id(suggestion)
-                                        .onHover(perform: { hovering in
-                                            if hovering {
-                                                hoverSuggestion = suggestion
+                                        return KeyPress.Result.handled
+                                    })
+                                    .onKeyPress(.upArrow, action: {
+                                        if selectedSuggestion >= 0 {
+                                            selectedSuggestion -= 1
+                                            
+                                            if selectedSuggestion != -1 {
+                                                suggestedSearch = suggestions[selectedSuggestion]
+                                                
+                                                withAnimation {
+                                                    proxy.scrollTo(suggestedSearch, anchor: .center)
+                                                }
                                             }
                                             else {
-                                                hoverSuggestion = ""
+                                                withAnimation {
+                                                    proxy.scrollTo("veryLongStringForUnlikelySearchID", anchor: .center)
+                                                }
                                             }
-                                        })
-                                })
-                            }
-                        }.frame(width: 600)
-                        
-                        VStack {
-                            ZStack {
-                                TextField(text: selectedSuggestion == -1 ? $commandBarText: $suggestedSearch) {
-                                    Label(selectedSuggestion == -1 ? "Search or Enter URL": "", systemImage: "magnifyingglass")
-                                }.onKeyPress(.downArrow, action: {
-                                    if selectedSuggestion <= (suggestions.count - 2) {
-                                        selectedSuggestion += 1
-                                        
-                                        suggestedSearch = suggestions[selectedSuggestion]
-                                        withAnimation {
-                                            proxy.scrollTo(suggestedSearch, anchor: .center)
                                         }
-                                    }
-                                    else {
-                                        selectedSuggestion = -1
-                                        
-                                        withAnimation {
-                                            proxy.scrollTo("veryLongStringForUnlikelySearchID", anchor: .center)
-                                        }
-                                    }
-                                    
-                                    return KeyPress.Result.handled
-                                })
-                                .onKeyPress(.upArrow, action: {
-                                    if selectedSuggestion >= 0 {
-                                        selectedSuggestion -= 1
-                                        
-                                        if selectedSuggestion != -1 {
+                                        else {
+                                            selectedSuggestion = suggestions.count - 1
                                             suggestedSearch = suggestions[selectedSuggestion]
                                             
                                             withAnimation {
                                                 proxy.scrollTo(suggestedSearch, anchor: .center)
                                             }
                                         }
-                                        else {
-                                            withAnimation {
-                                                proxy.scrollTo("veryLongStringForUnlikelySearchID", anchor: .center)
+                                        
+                                        
+                                        return KeyPress.Result.handled
+                                    })
+                                    .focused($focusedField, equals: .tabBar)
+                                    .autocorrectionDisabled(true)
+                                    .textInputAutocapitalization(.never)
+                                    .padding(20)
+                                    .onChange(of: commandBarText, perform: { value in
+                                        if !searchSubmitted {
+                                            Task {
+                                                await fetchXML(searchRequest: commandBarText)
+                                            }
+                                            
+                                            Task {
+                                                await suggestions = formatXML(from: xmlString)
                                             }
                                         }
-                                    }
-                                    else {
-                                        selectedSuggestion = suggestions.count - 1
-                                        suggestedSearch = suggestions[selectedSuggestion]
                                         
-                                        withAnimation {
-                                            proxy.scrollTo(suggestedSearch, anchor: .center)
+                                    })
+                                    .onSubmit {
+                                        var newHistory = UserDefaults.standard.stringArray(forKey: "commandBarHistory") ?? ["arc.net", "thebrowser.company", "notion.so", "figma.com", "google.com", "apple.com"]
+                                        newHistory.insert((selectedSuggestion == -1 ? commandBarText: suggestedSearch), at: 0)
+                                        
+                                        if newHistory.count > 10 {
+                                            newHistory.removeLast()
                                         }
+                                        
+                                        newHistory.removeDuplicates()
+                                        newHistory = Array(newHistory.prefix(10))
+                                        
+                                        UserDefaults.standard.set(newHistory, forKey: "commandBarHistory")
+                                        
+                                        if selectedSuggestion != -1 {
+                                            commandBarText = suggestedSearch
+                                        }
+                                        
+                                        
+                                        searchSubmitted = true
+                                        
+                                        //suggestions = newHistory
                                     }
-                                    
-                                    
-                                    return KeyPress.Result.handled
-                                })
+                                    .onAppear() {
+                                        suggestions = UserDefaults.standard.stringArray(forKey: "commandBarHistory") ?? ["arc.net", "thebrowser.company", "notion.so", "figma.com", "google.com", "apple.com"]
+                                    }
+                                }
+                                .background(.thinMaterial)
                                 
-                                .focused($focusedField, equals: .tabBar)
-                                .autocorrectionDisabled(true)
-                                .textInputAutocapitalization(.never)
-                                .padding(20)
-                                .onChange(of: commandBarText, perform: { value in
-                                    
-                                    Task {
-                                        await fetchXML(searchRequest: commandBarText)
-                                    }
-                                    
-                                    Task {
-                                        await suggestions = formatXML(from: xmlString)
-                                    }
-                                    
-                                })
-                                .onSubmit {
-                                    
-                                    
-                                    var newHistory = UserDefaults.standard.stringArray(forKey: "commandBarHistory") ?? ["arc.net", "thebrowser.company", "notion.so", "figma.com", "google.com", "apple.com"]
-                                    newHistory.insert((selectedSuggestion == -1 ? commandBarText: suggestedSearch), at: 0)
-                                    newHistory.removeLast()
-                                    newHistory = Array(Set(newHistory))
-                                    
-                                    suggestions = newHistory
-                                    
-                                    UserDefaults.standard.set(newHistory, forKey: "commandBarHistory")
-                                    
-                                    if selectedSuggestion != -1 {
-                                        commandBarText = suggestedSearch
-                                    }
-                                    
-                                    
-                                    searchSubmitted = true
-                                }
-                                .onAppear() {
-                                    suggestions = UserDefaults.standard.stringArray(forKey: "commandBarHistory") ?? ["arc.net", "thebrowser.company", "notion.so", "figma.com", "google.com", "apple.com"]
-                                }
+                                
+                                Spacer()
                             }
-                            .background(.thinMaterial)
                             
-                            
-                            Spacer()
                         }
-                        
                     }
-                }
-            }.frame(width: 600, height: 300)
-                .cornerRadius(15)
-                .shadow(color: .black.opacity(0.7), radius: 75, x: 0, y: 0)
+                }.frame(width: 600, height: 300)
+                    .cornerRadius(15)
+                    .shadow(color: .black.opacity(0.7), radius: 75, x: 0, y: 0)
+            }
         }
         .onAppear() {
             withAnimation {

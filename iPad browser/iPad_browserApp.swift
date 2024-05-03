@@ -22,7 +22,8 @@ struct iPad_browserApp: App {
     var body: some Scene {
         WindowGroup {
             LoginView()
-                .modelContainer(for: TabStorage.self)
+                .modelContainer(for: SpaceStorage.self)
+            
         }
     }
 }

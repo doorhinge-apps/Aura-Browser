@@ -12,6 +12,9 @@ import WebKit
 import SDWebImageSwiftUI
 
 struct Sidebar: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var spaces: [SpaceStorage]
+    
     @Binding var selectedTabLocation: String
     @ObservedObject var navigationState: NavigationState
     @ObservedObject var pinnedNavigationState: NavigationState
@@ -28,7 +31,7 @@ struct Sidebar: View {
     
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-    @State private var spaces = ["Home", "Space 2"]
+    //@State private var spaces = ["Home", "Space 2"]
     @State private var spaceIcons: [String: String]? = [:]
     
     @State private var reloadTitles = false
@@ -60,6 +63,8 @@ struct Sidebar: View {
     @AppStorage("favoritesStyle") var favoritesStyle = false
     @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
     
+    @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
+    
     // Selection States
     @State private var changingIcon = ""
     @State private var draggedTab: WKWebView?
@@ -85,45 +90,24 @@ struct Sidebar: View {
                         .frame(height: 50)
                     
                     HStack {
-                        if navigationState.currentURL != nil {
-                            Text(navigationState.currentURL?.absoluteString ?? "")
-                                .padding(.leading, 5)
-                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                .lineLimit(1)
-                                .onReceive(timer) { _ in
-                                    if !commandBarShown {
-                                        if let unwrappedURL = navigationState.selectedWebView?.url {
-                                            searchInSidebar = unwrappedURL.absoluteString
-                                        }
+                        Text(selectedTabLocation == "tabs" ? (navigationState.currentURL?.absoluteString ?? ""): selectedTabLocation == "pinnedTabs" ? (pinnedNavigationState.currentURL?.absoluteString ?? ""): (favoritesNavigationState.currentURL?.absoluteString ?? ""))
+                            .padding(.leading, 5)
+                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                            .lineLimit(1)
+                            .onReceive(timer) { _ in
+                                if !commandBarShown {
+                                    if let unwrappedURL = navigationState.selectedWebView?.url {
+                                        searchInSidebar = unwrappedURL.absoluteString
+                                    }
+                                    if let unwrappedURL = pinnedNavigationState.selectedWebView?.url {
+                                        searchInSidebar = unwrappedURL.absoluteString
+                                    }
+                                    if let unwrappedURL = favoritesNavigationState.selectedWebView?.url {
+                                        searchInSidebar = unwrappedURL.absoluteString
                                     }
                                 }
-                        }
-                        else if pinnedNavigationState.currentURL != nil {
-                            Text(pinnedNavigationState.currentURL?.absoluteString ?? "")
-                                .padding(.leading, 5)
-                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                .lineLimit(1)
-                                .onReceive(timer) { _ in
-                                    if !commandBarShown {
-                                        if let unwrappedURL = pinnedNavigationState.selectedWebView?.url {
-                                            searchInSidebar = unwrappedURL.absoluteString
-                                        }
-                                    }
-                                }
-                        }
-                        else if favoritesNavigationState.currentURL != nil {
-                            Text(favoritesNavigationState.currentURL?.absoluteString ?? "")
-                                .padding(.leading, 5)
-                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                .lineLimit(1)
-                                .onReceive(timer) { _ in
-                                    if !commandBarShown {
-                                        if let unwrappedURL = favoritesNavigationState.selectedWebView?.url {
-                                            searchInSidebar = unwrappedURL.absoluteString
-                                        }
-                                    }
-                                }
-                        }
+                                
+                            }
                         
                         Spacer() // Pushes the delete button to the edge
                     }
@@ -397,11 +381,11 @@ struct Sidebar: View {
                 
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(spaces, id:\.self) { space in
+                        ForEach(0..<(spaces.count), id:\.self) { space in
                             Button {
-                                saveToLocalStorage2(spaceName: currentSpace)
+                                currentSpace = spaces[space].spaceName
                                 
-                                currentSpace = space
+                                selectedSpaceIndex = space
                                 
                                 Task {
                                     await navigationState.webViews.removeAll()
@@ -420,6 +404,27 @@ struct Sidebar: View {
                                     await favoritesNavigationState.currentURL = nil
                                 }
                                 
+                                Task {
+                                    for addSpace in spaces {
+                                        if addSpace.spaceName == currentSpace {
+                                            for tab in addSpace.tabUrls {
+                                                await navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
+                                            }
+                                            for tab in addSpace.pinnedUrls {
+                                                await pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
+                                            }
+                                            for tab in addSpace.favoritesUrls {
+                                                await favoritesNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                navigationState.selectedWebView = nil
+                                pinnedNavigationState.selectedWebView = nil
+                                favoritesNavigationState.selectedWebView = nil
+                                
+                                /*
                                 Task {
                                     print("\(currentSpace)userTabs")
                                     
@@ -455,25 +460,25 @@ struct Sidebar: View {
                                             
                                         }
                                     }
-                                }
+                                }*/
                             } label: {
                                 ZStack {
                                     Color(.white)
-                                        .opacity(hoverSpace == space ? 0.5: 0.0)
+                                        .opacity(selectedSpaceIndex == space ? 1.0: hoverSpace == spaces[space].spaceName ? 0.5: 0.0)
                                     
-                                    Image(systemName: String(spaceIcons?[space] ?? "circle.fill"))
+                                    Image(systemName: String(spaces[space].spaceIcon))
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 20, height: 20)
-                                        .foregroundStyle(textColor)
-                                        .opacity(hoverSpace == space ? 1.0: 0.5)
+                                        .foregroundStyle(selectedSpaceIndex == space ? Color.black: textColor)
+                                        .opacity(selectedSpaceIndex == space ? 1.0: hoverSpace == spaces[space].spaceName ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
                                     .hoverEffect(.lift)
                                     .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                                     .onHover(perform: { hovering in
                                         if hovering {
-                                            hoverSpace = space
+                                            hoverSpace = spaces[space].spaceName
                                         }
                                         else {
                                             hoverSpace = ""
@@ -482,6 +487,12 @@ struct Sidebar: View {
                             }
                             
                         }
+                        
+                        Button(action: {
+                            modelContext.insert(SpaceStorage(spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                        }, label: {
+                            Image(systemName: "plus")
+                        })
                     }.padding(.horizontal, 10)
                 }.scrollIndicators(.hidden)
                     .frame(height: 45)

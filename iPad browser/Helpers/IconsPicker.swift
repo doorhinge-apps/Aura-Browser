@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 struct IconsPicker: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var spaces: [SpaceStorage]
     @Binding var currentIcon: String
     
     @State var currentHoverIcon = ""
