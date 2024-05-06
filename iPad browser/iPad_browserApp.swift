@@ -7,13 +7,25 @@
 
 import SwiftUI
 import Firebase
+import SwiftData
+import CloudKit
 
 
 @main
 struct iPad_browserApp: App {
     
-    //@StateObject var dataManager = DataManager()
-    @State var newTabSearch = ""
+    var sharedModelContainer: ModelContainer = {
+        let schema = Schema([
+            SpaceStorage.self,
+        ])
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        do {
+            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
     
     init() {
         FirebaseApp.configure()
@@ -21,6 +33,6 @@ struct iPad_browserApp: App {
     var body: some Scene {
         WindowGroup {
             LoginView()
-        }
+        }.modelContainer(sharedModelContainer)
     }
 }

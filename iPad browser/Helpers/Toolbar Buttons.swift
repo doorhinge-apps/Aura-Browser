@@ -7,8 +7,12 @@
 
 import SwiftUI
 import WebKit
+import SwiftData
 
 struct ToolbarButtonsView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var spaces: [SpaceStorage]
+    
     @Binding var selectedTabLocation: String
     @ObservedObject var navigationState: NavigationState
     @ObservedObject var pinnedNavigationState: NavigationState
@@ -40,8 +44,11 @@ struct ToolbarButtonsView: View {
     
     @Binding var startColor: Color
     @Binding var endColor: Color
+    @Binding var textColor: Color
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
+    
+    @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
     
     @State var geo: GeometryProxy
     var body: some View {
@@ -96,7 +103,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverSidebarButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -125,7 +132,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverPaintbrush ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -151,12 +158,27 @@ struct ToolbarButtonsView: View {
                             VStack {
                                 ColorPicker("Start Color", selection: $startColor)
                                     .onChange(of: startColor) { newValue in
-                                        saveColor(color: newValue, key: "startColorHex")
+                                        //saveColor(color: newValue, key: "startColorHex")
+                                        
+                                        let uiColor1 = UIColor(newValue)
+                                        let hexString1 = uiColor1.toHex()
+                                        
+                                        spaces[selectedSpaceIndex].startHex = hexString1 ?? "858585"
                                     }
                                 
                                 ColorPicker("End Color", selection: $endColor)
                                     .onChange(of: endColor) { newValue in
-                                        saveColor(color: newValue, key: "endColorHex")
+                                        //saveColor(color: newValue, key: "endColorHex")
+                                        
+                                        let uiColor2 = UIColor(newValue)
+                                        let hexString2 = uiColor2.toHex()
+                                        
+                                        spaces[selectedSpaceIndex].endHex = hexString2 ?? "ADADAD"
+                                    }
+                                
+                                ColorPicker("Text Color", selection: $textColor)
+                                    .onChange(of: textColor) { newValue in
+                                        saveColor(color: newValue, key: "textColorHex")
                                     }
                             }
                             .padding()
@@ -181,7 +203,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverNewTab ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -219,7 +241,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverBackwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -254,7 +276,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverForwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
@@ -314,7 +336,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(textColor)
                             .opacity(hoverReloadButton ? 1.0: 0.5)
                             .rotationEffect(Angle(degrees: Double(reloadRotation)))
                             .animation(.bouncy, value: reloadRotation)
@@ -332,13 +354,18 @@ struct ToolbarButtonsView: View {
                         })
                 }).keyboardShortcut("r", modifiers: .command)
             }
-        }.onAppear {
+        }/*.onAppear {
             if let savedStartColor = getColor(forKey: "startColorHex") {
                 startColor = savedStartColor
             }
             if let savedEndColor = getColor(forKey: "endColorHex") {
                 endColor = savedEndColor
             }
+        }*/
+        .onAppear() {
+            let spaceForColor = spaces[selectedSpaceIndex]
+            startColor = Color(hex: spaceForColor.startHex)
+            endColor = Color(hex: spaceForColor.endHex)
         }
     }
 }
