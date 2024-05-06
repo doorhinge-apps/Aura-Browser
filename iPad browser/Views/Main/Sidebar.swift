@@ -29,6 +29,9 @@ struct Sidebar: View {
     @Binding var hoverSpace: String
     var geo: GeometryProxy
     
+    @State var temporaryRenamingString = ""
+    @State var isRenaming = false
+    
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
     //@State private var spaces = ["Home", "Space 2"]
@@ -268,7 +271,7 @@ struct Sidebar: View {
                             Color(.white)
                                 .opacity(spaceIconHover ? 0.5: 0.0)
                             
-                            Image(systemName: spaceIcons?[currentSpace] ?? "circle.fill")
+                            Image(systemName: spaces[selectedSpaceIndex].spaceIcon ?? "circle.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
@@ -288,7 +291,7 @@ struct Sidebar: View {
                     }
                     
                     
-                    Text(currentSpace)
+                    Text(spaces[selectedSpaceIndex].spaceName)
                         .foregroundStyle(textColor)
                         .opacity(0.5)
                         .font(.system(.caption, design: .rounded, weight: .medium))
@@ -306,9 +309,16 @@ struct Sidebar: View {
                             .opacity(1.0)
                         
                         
-                        IconsPicker(currentIcon: $changingIcon)
-                            .onChange(of: changingIcon) { thing in
-                                
+                        //IconsPicker(currentIcon: $changingIcon)
+                        IconsPicker(currentIcon: $changingIcon, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, selectedSpaceIndex: $selectedSpaceIndex)
+                            .onChange(of: changingIcon) {
+                                spaces[selectedSpaceIndex].spaceIcon = changingIcon
+                                do {
+                                    try modelContext.save()
+                                }
+                                catch {
+                                    
+                                }
                             }
                             .onDisappear() {
                                 changingIcon = ""
@@ -375,7 +385,7 @@ struct Sidebar: View {
                         })
                 }
                 .sheet(isPresented: $showSettings) {
-                    Settings(presentSheet: $showSettings)
+                    Settings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
                 }
                 Spacer()
                 
@@ -420,9 +430,11 @@ struct Sidebar: View {
                                     }
                                 }
                                 
-                                navigationState.selectedWebView = nil
-                                pinnedNavigationState.selectedWebView = nil
-                                favoritesNavigationState.selectedWebView = nil
+                                Task {
+                                    await navigationState.selectedWebView = nil
+                                    await pinnedNavigationState.selectedWebView = nil
+                                    await favoritesNavigationState.selectedWebView = nil
+                                }
                                 
                                 /*
                                 Task {
@@ -484,18 +496,48 @@ struct Sidebar: View {
                                             hoverSpace = ""
                                         }
                                     })
-                            }
+                            }.contextMenu(ContextMenu(menuItems: {
+                                Button(action: {
+                                    modelContext.delete(spaces[space])
+                                    if selectedSpaceIndex > spaces.count - 1 {
+                                        selectedSpaceIndex = spaces.count - 1
+                                    }
+                                }, label: {
+                                    Text("Delete Space")
+                                })
+                            }))
                             
                         }
-                        
-                        Button(action: {
-                            modelContext.insert(SpaceStorage(spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                        }, label: {
-                            Image(systemName: "plus")
-                        })
                     }.padding(.horizontal, 10)
                 }.scrollIndicators(.hidden)
                     .frame(height: 45)
+                
+                Button(action: {
+                    modelContext.insert(SpaceStorage(spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                }, label: {
+                    ZStack {
+                        Color(.white)
+                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                        
+                        Image(systemName: "plus")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .foregroundStyle(textColor)
+                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                        
+                    }.frame(width: 40, height: 40).cornerRadius(7)
+                        .hoverEffect(.lift)
+                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                        .onHover(perform: { hovering in
+                            if hovering {
+                                hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                            }
+                            else {
+                                hoverSpace = ""
+                            }
+                        })
+                })
             }
         }
     }
@@ -515,6 +557,8 @@ struct Sidebar: View {
         }
         
         favoritesNavigationState.webViews.remove(at: index)
+        
+        saveSpaceData()
     }
     
     func pinnedRemoveTab(at index: Int) {
@@ -532,6 +576,8 @@ struct Sidebar: View {
         }
         
         pinnedNavigationState.webViews.remove(at: index)
+        
+        saveSpaceData()
     }
     
     func removeTab(at index: Int) {
@@ -549,9 +595,30 @@ struct Sidebar: View {
         }
         
         navigationState.webViews.remove(at: index)
+        
+        saveSpaceData()
     }
     
-    func saveToLocalStorage2(spaceName: String) {
+    func saveSpaceData() {
+        let savingTodayTabs = navigationState.webViews.compactMap { $0.url?.absoluteString }
+        let savingPinnedTabs = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
+        let savingFavoriteTabs = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
+        
+        if !spaces.isEmpty {
+            spaces[selectedSpaceIndex].tabUrls = savingTodayTabs
+        }
+        else {
+            modelContext.insert(SpaceStorage(spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
+        }
+        
+        do {
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    /*func saveToLocalStorage2(spaceName: String) {
         let urlStringArray = navigationState.webViews.compactMap { $0.url?.absoluteString }
         if let urlsData = try? JSONEncoder().encode(urlStringArray){
             UserDefaults.standard.set(urlsData, forKey: "\(spaceName)userTabs")
@@ -569,5 +636,5 @@ struct Sidebar: View {
             UserDefaults.standard.set(urlsData, forKey: "\(spaceName)favoriteTabs")
             
         }
-    }
+    }*/
 }

@@ -15,6 +15,14 @@ struct IconsPicker: View {
     @Binding var currentIcon: String
     
     @State var currentHoverIcon = ""
+    
+    @ObservedObject var navigationState: NavigationState
+    @ObservedObject var pinnedNavigationState: NavigationState
+    @ObservedObject var favoritesNavigationState: NavigationState
+    
+    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
+    
+    @Binding var selectedSpaceIndex: Int
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem()]) {
@@ -37,6 +45,7 @@ struct IconsPicker: View {
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
                             .hoverEffect(.lift)
+                            .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                             .onHover(perform: { hovering in
                                 if hovering {
                                     currentHoverIcon = icon
@@ -51,5 +60,24 @@ struct IconsPicker: View {
             }
         }.scrollIndicators(.hidden)
     }
+    
+    func saveSpaceData() {
+            let savingTodayTabs = navigationState.webViews.compactMap { $0.url?.absoluteString }
+            let savingPinnedTabs = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
+            let savingFavoriteTabs = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
+            
+            if !spaces.isEmpty {
+                spaces[selectedSpaceIndex].tabUrls = savingTodayTabs
+            }
+            else {
+                modelContext.insert(SpaceStorage(spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
+            }
+            
+            do {
+                try modelContext.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
 }
 

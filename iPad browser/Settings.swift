@@ -12,8 +12,10 @@ import FirebaseAuth
 struct Settings: View {
     @Binding var presentSheet: Bool
     
-    @AppStorage("startColorHex") var startHex = "ffffff"
-    @AppStorage("endColorHex") var endHex = "000000"
+    //@AppStorage("startColorHex") var startHex = "ffffff"
+    //@AppStorage("endColorHex") var endHex = "000000"
+    @State var startHex: String
+    @State var endHex: String
     @AppStorage("email") var email = ""
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true

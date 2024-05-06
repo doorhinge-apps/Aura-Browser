@@ -132,6 +132,10 @@ struct ContentView: View {
                     ZStack {
                         LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                         
+                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                        }
+                        
                         HStack(spacing: 0) {
                             if sidebarLeft {
                                 if showBorder {
@@ -406,7 +410,7 @@ struct ContentView: View {
         }
     }
     
-    func saveToLocalStorage() {
+    /*func saveToLocalStorage() {
         let urlStringArray = navigationState.webViews.compactMap { $0.url?.absoluteString }
         if let urlsData = try? JSONEncoder().encode(urlStringArray){
             UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)userTabs")
@@ -424,5 +428,5 @@ struct ContentView: View {
             UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)favoriteTabs")
             
         }
-    }
+    }*/
 }

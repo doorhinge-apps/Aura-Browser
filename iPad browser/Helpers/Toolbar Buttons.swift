@@ -7,8 +7,12 @@
 
 import SwiftUI
 import WebKit
+import SwiftData
 
 struct ToolbarButtonsView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var spaces: [SpaceStorage]
+    
     @Binding var selectedTabLocation: String
     @ObservedObject var navigationState: NavigationState
     @ObservedObject var pinnedNavigationState: NavigationState
@@ -43,6 +47,8 @@ struct ToolbarButtonsView: View {
     @Binding var textColor: Color
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
+    
+    @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
     
     @State var geo: GeometryProxy
     var body: some View {
@@ -152,12 +158,22 @@ struct ToolbarButtonsView: View {
                             VStack {
                                 ColorPicker("Start Color", selection: $startColor)
                                     .onChange(of: startColor) { newValue in
-                                        saveColor(color: newValue, key: "startColorHex")
+                                        //saveColor(color: newValue, key: "startColorHex")
+                                        
+                                        let uiColor1 = UIColor(newValue)
+                                        let hexString1 = uiColor1.toHex()
+                                        
+                                        spaces[selectedSpaceIndex].startHex = hexString1 ?? "858585"
                                     }
                                 
                                 ColorPicker("End Color", selection: $endColor)
                                     .onChange(of: endColor) { newValue in
-                                        saveColor(color: newValue, key: "endColorHex")
+                                        //saveColor(color: newValue, key: "endColorHex")
+                                        
+                                        let uiColor2 = UIColor(newValue)
+                                        let hexString2 = uiColor2.toHex()
+                                        
+                                        spaces[selectedSpaceIndex].endHex = hexString2 ?? "ADADAD"
                                     }
                                 
                                 ColorPicker("Text Color", selection: $textColor)
@@ -338,13 +354,18 @@ struct ToolbarButtonsView: View {
                         })
                 }).keyboardShortcut("r", modifiers: .command)
             }
-        }.onAppear {
+        }/*.onAppear {
             if let savedStartColor = getColor(forKey: "startColorHex") {
                 startColor = savedStartColor
             }
             if let savedEndColor = getColor(forKey: "endColorHex") {
                 endColor = savedEndColor
             }
+        }*/
+        .onAppear() {
+            let spaceForColor = spaces[selectedSpaceIndex]
+            startColor = Color(hex: spaceForColor.startHex)
+            endColor = Color(hex: spaceForColor.endHex)
         }
     }
 }

@@ -172,6 +172,7 @@
 		B93D9D2F2BDF35DA0002D01B /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -298,7 +299,6 @@
 				C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */,
 				B93D9D2B2BDF31A80002D01B /* Today Tab.swift */,
 				B93D9D2F2BDF35DA0002D01B /* Tabs */,
-				B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
