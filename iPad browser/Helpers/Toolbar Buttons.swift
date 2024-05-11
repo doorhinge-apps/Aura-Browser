@@ -11,7 +11,7 @@ import SwiftData
 
 struct ToolbarButtonsView: View {
     @Environment(\.modelContext) var modelContext
-    @Query var spaces: [SpaceStorage]
+    @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
     @Binding var selectedTabLocation: String
     @ObservedObject var navigationState: NavigationState
@@ -54,70 +54,73 @@ struct ToolbarButtonsView: View {
     var body: some View {
         GeometryReader { geo2 in
             HStack {
-                Button(action: {
-                    Task {
-                        await hideSidebar.toggle()
-                    }
-                    
-                    withAnimation {
-                        if !hideSidebar {
-                            if selectedTabLocation == "tabs" {
-                                Task {
-                                    await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                if UIDevice.current.userInterfaceIdiom != .phone {
+                    Button(action: {
+                        Task {
+                            await hideSidebar.toggle()
+                        }
+                        
+                        withAnimation {
+                            if !hideSidebar {
+                                if selectedTabLocation == "tabs" {
+                                    Task {
+                                        await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                    }
                                 }
-                            }
-                            else if selectedTabLocation == "pinnedTabs" {
-                                Task {
-                                    await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                else if selectedTabLocation == "pinnedTabs" {
+                                    Task {
+                                        await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                    }
                                 }
-                            }
-                            else if selectedTabLocation == "favoriteTabs" {
-                                Task {
-                                    await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                else if selectedTabLocation == "favoriteTabs" {
+                                    Task {
+                                        await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                    }
                                 }
-                            }
-                        } else {
-                            if selectedTabLocation == "tabs" {
-                                Task {
-                                    await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                            } else {
+                                if selectedTabLocation == "tabs" {
+                                    Task {
+                                        await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                    }
                                 }
-                            }
-                            else if selectedTabLocation == "pinnedTabs" {
-                                Task {
-                                    await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                else if selectedTabLocation == "pinnedTabs" {
+                                    Task {
+                                        await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                    }
                                 }
-                            }
-                            else if selectedTabLocation == "favoriteTabs" {
-                                Task {
-                                    await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                else if selectedTabLocation == "favoriteTabs" {
+                                    Task {
+                                        await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                    }
                                 }
                             }
                         }
-                    }
-                }, label: {
-                    ZStack {
-                        Color(.white)
-                            .opacity(hoverSidebarButton ? 0.5: 0.0)
-                        
-                        Image(systemName: "sidebar.left")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                            .foregroundStyle(textColor)
-                            .opacity(hoverSidebarButton ? 1.0: 0.5)
-                        
-                    }.frame(width: 40, height: 40).cornerRadius(7)
-                        .hoverEffect(.lift)
-                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
-                        .onHover(perform: { hovering in
-                            if hovering {
-                                hoverSidebarButton = true
-                            }
-                            else {
-                                hoverSidebarButton = false
-                            }
-                        })
-                }).keyboardShortcut("s", modifiers: .command)
+                    }, label: {
+                        ZStack {
+                            Color(.white)
+                                .opacity(hoverSidebarButton ? 0.5: 0.0)
+                            
+                            Image(systemName: "sidebar.left")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                                .foregroundStyle(textColor)
+                                .opacity(hoverSidebarButton ? 1.0: 0.5)
+                            
+                        }.frame(width: 40, height: 40).cornerRadius(7)
+                            .hoverEffect(.lift)
+                            .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                            .onHover(perform: { hovering in
+                                if hovering {
+                                    hoverSidebarButton = true
+                                }
+                                else {
+                                    hoverSidebarButton = false
+                                }
+                            })
+                    }).keyboardShortcut("s", modifiers: .command)
+                }
+                    
                 
                 
                 
@@ -353,6 +356,11 @@ struct ToolbarButtonsView: View {
                             }
                         })
                 }).keyboardShortcut("r", modifiers: .command)
+            }
+            .onAppear() {
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    hideSidebar = true
+                }
             }
         }/*.onAppear {
             if let savedStartColor = getColor(forKey: "startColorHex") {

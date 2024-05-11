@@ -1,15 +1,14 @@
 //
-//  IconsPicker.swift
-//  iPad browser
+//  NewIconsPicker.swift
+//  Aura
 //
-//  Created by Caedmon Myers on 17/4/24.
+//  Created by Caedmon Myers on 9/5/24.
 //
 
 import SwiftUI
 import SwiftData
-import SFSymbolsPicker
 
-struct IconsPicker: View {
+struct NewIconsPicker: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     @Binding var currentIcon: String
@@ -22,17 +21,11 @@ struct IconsPicker: View {
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
     
-    @State var allIcons = false
-    
     @Binding var selectedSpaceIndex: Int
     var body: some View {
         ScrollView {
-            if allIcons {
-                SymbolsPicker(selection: $currentIcon, title: "Pick an Icon", autoDismiss: false)
-            }
-            else {
                 LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem()]) {
-                    ForEach(sfNewIconOptions, id:\.self) { icon in
+                    ForEach(sfIconOptions, id:\.self) { icon in
                         Button {
                             currentIcon = icon
                             print("Icon: \(icon)")
@@ -64,7 +57,7 @@ struct IconsPicker: View {
                         
                     }
                 }
-            }
+            
         }.scrollIndicators(.hidden)
     }
     
@@ -87,4 +80,7 @@ struct IconsPicker: View {
             }
         }
 }
+
+
+
 

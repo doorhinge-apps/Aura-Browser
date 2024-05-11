@@ -13,7 +13,7 @@ import SDWebImageSwiftUI
 
 struct Sidebar: View {
     @Environment(\.modelContext) var modelContext
-    @Query var spaces: [SpaceStorage]
+    @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
     @Binding var selectedTabLocation: String
     @ObservedObject var navigationState: NavigationState
@@ -61,6 +61,8 @@ struct Sidebar: View {
     
     @State private var settingsButtonHover = false
     @State private var hoverNewTabSection = false
+    
+    @State var temporaryRenameSpace = ""
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
     @AppStorage("favoritesStyle") var favoritesStyle = false
@@ -271,7 +273,7 @@ struct Sidebar: View {
                             Color(.white)
                                 .opacity(spaceIconHover ? 0.5: 0.0)
                             
-                            Image(systemName: spaces[selectedSpaceIndex].spaceIcon ?? "circle.fill")
+                            Image(systemName: spaces[selectedSpaceIndex].spaceIcon)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
@@ -290,11 +292,43 @@ struct Sidebar: View {
                             })
                     }
                     
-                    
-                    Text(spaces[selectedSpaceIndex].spaceName)
-                        .foregroundStyle(textColor)
-                        .opacity(0.5)
-                        .font(.system(.caption, design: .rounded, weight: .medium))
+                    ZStack {
+                        if temporaryRenameSpace.isEmpty {
+                            HStack {
+                                Text(spaces[selectedSpaceIndex].spaceName/*.dropLast(5)*/)
+                                    .foregroundStyle(textColor)
+                                    .opacity(0.5)
+                                    .font(.system(.caption, design: .rounded, weight: .medium))
+                                
+                                Spacer()
+                            }
+                        }
+                        
+                        TextField("", text: $temporaryRenameSpace)
+                            .foregroundStyle(textColor)
+                            .opacity(0.75)
+                            .tint(Color.white)
+                            .font(.system(.caption, design: .rounded, weight: .medium))
+                            .onTapGesture {
+                                temporaryRenameSpace = spaces[selectedSpaceIndex].spaceName
+                                temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
+                            }
+                            .onSubmit {
+                                spaces[selectedSpaceIndex].spaceName = temporaryRenameSpace//"\(temporaryRenameSpace)\(UUID().description.prefix(5))"
+                                
+                                Task {
+                                    do {
+                                        try await modelContext.save()
+                                    }
+                                    catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                                
+                                temporaryRenameSpace = ""
+                            }
+                        
+                    }
                     
                     textColor
                         .opacity(0.5)
@@ -307,6 +341,12 @@ struct Sidebar: View {
                     ZStack {
                         LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                             .opacity(1.0)
+                        
+                        if selectedSpaceIndex < spaces.count {
+                            if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                            }
+                        }
                         
                         
                         //IconsPicker(currentIcon: $changingIcon)
@@ -393,7 +433,7 @@ struct Sidebar: View {
                     HStack {
                         ForEach(0..<(spaces.count), id:\.self) { space in
                             Button {
-                                currentSpace = spaces[space].spaceName
+                                currentSpace = String(spaces[space].spaceName/*.dropLast(5)*/)
                                 
                                 selectedSpaceIndex = space
                                 
@@ -488,9 +528,15 @@ struct Sidebar: View {
                                 }.frame(width: 40, height: 40).cornerRadius(7)
                                     .hoverEffect(.lift)
                                     .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                    .help(spaces[space].spaceName/*.dropLast(5)*/)
                                     .onHover(perform: { hovering in
                                         if hovering {
-                                            hoverSpace = spaces[space].spaceName
+                                            if space <= spaces.count - 1 {
+                                                hoverSpace = spaces[space].spaceName
+                                            }
+                                            print("Space: \(space)")
+                                            print("Spaces Count: \(spaces.count)")
+                                            print("Selected Space Index: \(selectedSpaceIndex)")
                                         }
                                         else {
                                             hoverSpace = ""
@@ -498,10 +544,48 @@ struct Sidebar: View {
                                     })
                             }.contextMenu(ContextMenu(menuItems: {
                                 Button(action: {
-                                    modelContext.delete(spaces[space])
-                                    if selectedSpaceIndex > spaces.count - 1 {
-                                        selectedSpaceIndex = spaces.count - 1
+                                    if selectedSpaceIndex > spaces.count - 2 {
+                                        selectedSpaceIndex = spaces.count - 2
+                                        if selectedSpaceIndex < 0 {
+                                            selectedSpaceIndex = 0
+                                        }
                                     }
+                                    
+                                    //spaces.remove(at: space)
+                                    if spaces.count > 1 {
+                                        modelContext.delete(spaces[space])
+                                    }
+                                    
+                                    Task {
+                                        do {
+                                            try await modelContext.save()
+                                        }
+                                        catch {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
+                                    
+//                                    Task {
+//                                        await modelContext.delete(spaces[space])
+//                                        
+//                                        if spaces.count <= 1 {
+//                                            await modelContext.insert(SpaceStorage(spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+//                                            
+//                                            //modelContext.delete(spaces[0])
+//                                            
+//                                            do {
+//                                                try await modelContext.save()
+//                                            }
+//                                            catch {
+//                                                print(error.localizedDescription)
+//                                            }
+//                                        }
+//                                        else {
+//                                            //modelContext.delete(spaces[space])
+//                                        }
+//                                    }
+                                    
+                                    
                                 }, label: {
                                     Text("Delete Space")
                                 })
@@ -513,7 +597,7 @@ struct Sidebar: View {
                     .frame(height: 45)
                 
                 Button(action: {
-                    modelContext.insert(SpaceStorage(spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                    modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                 }, label: {
                     ZStack {
                         Color(.white)
@@ -608,7 +692,7 @@ struct Sidebar: View {
             spaces[selectedSpaceIndex].tabUrls = savingTodayTabs
         }
         else {
-            modelContext.insert(SpaceStorage(spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
+            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
         }
         
         do {

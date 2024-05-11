@@ -11,6 +11,7 @@ import SwiftData
 
 @Model
 class SpaceStorage {
+    var spaceIndex: Int = 0
     var spaceName: String = ""
     var spaceIcon: String = ""
     var favoritesUrls: [String] = []
@@ -19,7 +20,8 @@ class SpaceStorage {
     var startHex: String = ""
     var endHex: String = ""
     
-    init(spaceName: String =  "", spaceIcon: String =  "", favoritesUrls: [String] =  [""], pinnedUrls: [String] =  [""], tabUrls: [String] =  [""], startHex: String =  "8A3CEF", endHex: String =  "84F5FE") {
+    init(spaceIndex: Int = 0, spaceName: String =  "", spaceIcon: String =  "", favoritesUrls: [String] =  [""], pinnedUrls: [String] =  [""], tabUrls: [String] =  [""], startHex: String =  "8A3CEF", endHex: String =  "84F5FE") {
+        self.spaceIndex = spaceIndex
         self.spaceName = spaceName
         self.spaceIcon = spaceIcon
         self.favoritesUrls = favoritesUrls

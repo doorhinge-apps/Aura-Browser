@@ -61,6 +61,9 @@
 		B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F52BD01D8A00555AB9 /* Long Variables.swift */; };
 		B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */; };
 		B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = B98A32FA2BD05CF000555AB9 /* FaviconFinder */; };
+		B9C537F62BEC174B00C7DB2B /* SFSymbolsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = B9C537F52BEC174B00C7DB2B /* SFSymbolsPicker */; };
+		B9C537F82BED1FF800C7DB2B /* NewIconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F72BED1FF800C7DB2B /* NewIconsPicker.swift */; };
+		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */; };
 		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
@@ -107,6 +110,8 @@
 		B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlFormatter.swift; sourceTree = "<group>"; };
 		B98A32F52BD01D8A00555AB9 /* Long Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Long Variables.swift"; sourceTree = "<group>"; };
 		B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPicker.swift; sourceTree = "<group>"; };
+		B9C537F72BED1FF800C7DB2B /* NewIconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIconsPicker.swift; sourceTree = "<group>"; };
+		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -137,6 +142,7 @@
 				B90932ED2BC8FF03005292D6 /* FirebaseAppCheck in Frameworks */,
 				B90932EB2BC8FF03005292D6 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B90932F12BC8FF03005292D6 /* FirebaseAuth in Frameworks */,
+				B9C537F62BEC174B00C7DB2B /* SFSymbolsPicker in Frameworks */,
 				B90932F52BC8FF03005292D6 /* FirebaseCrashlytics in Frameworks */,
 				B90933152BC8FF03005292D6 /* FirebaseRemoteConfigSwift in Frameworks */,
 				B90933072BC8FF03005292D6 /* FirebaseInAppMessaging-Beta in Frameworks */,
@@ -267,6 +273,8 @@
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
 				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
 				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
+				B9C537F72BED1FF800C7DB2B /* NewIconsPicker.swift */,
+				B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B98A32F52BD01D8A00555AB9 /* Long Variables.swift */,
 			);
@@ -368,6 +376,7 @@
 				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
 				B96DEFD32BD9723000DB5C32 /* HighlightSwift */,
+				B9C537F52BEC174B00C7DB2B /* SFSymbolsPicker */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -402,6 +411,7 @@
 				B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
 				B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				B96DEFD22BD9723000DB5C32 /* XCRemoteSwiftPackageReference "HighlightSwift" */,
+				B9C537F42BEC174B00C7DB2B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -442,6 +452,7 @@
 				C1BD7D332BDE05690078D7B3 /* DefaultsStorage.swift in Sources */,
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
 				C1BD7D232BDDF9C80078D7B3 /* ContentViewColor.swift in Sources */,
+				B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
 				B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */,
@@ -453,6 +464,7 @@
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
+				B9C537F82BED1FF800C7DB2B /* NewIconsPicker.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
 				B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */,
 				C1BD7D302BDE052F0078D7B3 /* WebView.swift in Sources */,
@@ -597,7 +609,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -624,7 +636,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -635,7 +647,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -662,7 +674,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -712,6 +724,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.2;
+			};
+		};
+		B9C537F42BEC174B00C7DB2B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.6;
 			};
 		};
 		B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
@@ -869,6 +889,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
 			productName = FaviconFinder;
+		};
+		B9C537F52BEC174B00C7DB2B /* SFSymbolsPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9C537F42BEC174B00C7DB2B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */;
+			productName = SFSymbolsPicker;
 		};
 		B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

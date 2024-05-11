@@ -23,7 +23,7 @@ let defaults = UserDefaults.standard
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
-    @Query var spaces: [SpaceStorage]
+    @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
     // WebView Handling
     @ObservedObject var navigationState = NavigationState()
@@ -38,6 +38,7 @@ struct ContentView: View {
     @State private var reloadTitles = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let rotationTimer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
     
     // Settings and Sheets
     @State private var hoverTab = WKWebView()
@@ -85,7 +86,8 @@ struct ContentView: View {
     @State private var commandBarShown = false
     
     @State private var changingIcon = ""
-    @State private var hideSidebar = false
+    //@State private var hideSidebar = false
+    @AppStorage("hideSidebar") var hideSidebar = false
     
     @State private var searchInSidebar = ""
     @State private var newTabSearch = ""
@@ -98,6 +100,11 @@ struct ContentView: View {
     @FocusState private var focusedField: FocusedField?
     
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
+    //@State var selectedSpaceIndex = 0
+    
+    @State var loadingAnimationToggle = false
+    @State var offset = 0.0
+    @State var loadingRotation = 0
     
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
@@ -132,8 +139,10 @@ struct ContentView: View {
                     ZStack {
                         LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                         
-                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                        if selectedSpaceIndex < spaces.count {
+                            if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                            }
                         }
                         
                         HStack(spacing: 0) {
@@ -159,8 +168,59 @@ struct ContentView: View {
                                         .cornerRadius(10)
                                 }
                                 if selectedTabLocation == "tabs" {
+                                    //if navigationState.selectedWebView?.estimatedProgress != 1.0 {
+                                    
+
+                                    //}
+                                    
                                     WebView(navigationState: navigationState)
                                         .cornerRadius(10)
+                                        
+                                    
+                                    
+                                    
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .trim(from: 0.25 + offset, to: 0.5 + offset)
+                                        .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                                        //.foregroundStyle(Color.white)
+                                        .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                                        .opacity(navigationState.selectedWebView?.isLoading ?? false ? 1.0: 0.0)
+                                        .animation(.default, value: navigationState.selectedWebView?.isLoading ?? false)
+                                        .blur(radius: 5)
+                                    
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .trim(from: 0.25 + offset, to: 0.5 + offset)
+                                        .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                                        .rotation(Angle(degrees: 180))
+                                        //.foregroundStyle(Color.white)
+                                        .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                                        .opacity(navigationState.selectedWebView?.isLoading ?? false ? 1.0: 0.0)
+                                        .animation(.default, value: navigationState.selectedWebView?.isLoading ?? false)
+                                        .blur(radius: 5)
+                                        
+                                    
+                                    
+//                                    .onAppear {
+//                                        withAnimation(.linear(duration: 0.75).repeatForever()) {
+//                                            offset = 0.5
+//                                        }
+//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+//                                            offset = 0.0
+//                                        }
+//                                    }
+                                    .onReceive(rotationTimer) { thing in
+                                        if offset == 0.5 {
+                                            offset = 0.0
+                                            withAnimation(.linear(duration: 1.5)) {
+                                                offset = 0.5
+                                            }
+                                        }
+                                        else {
+                                            withAnimation(.linear(duration: 1.5)) {
+                                                offset = 0.5
+                                            }
+                                        }
+                                    }
                                 }
                                 
                                 if selectedTabLocation == "pinnedTabs" {
@@ -171,7 +231,7 @@ struct ContentView: View {
                                 Spacer()
                                     .frame(width: 20)
                             }.padding(sidebarLeft ? .trailing: .leading, showBorder ? 12: 0)
-                                .animation(.default)
+                                //.animation(.default)
                             
                             if !sidebarLeft {
                                 if showBorder {
@@ -225,9 +285,19 @@ struct ContentView: View {
                                                 if sidebarLeft {
                                                     LinearGradient(colors: [startColor, Color(hex: averageHexColor(hex1: startHex, hex2: endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         .opacity(1.0)
+                                                    if selectedSpaceIndex < spaces.count {
+                                                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: averageHexColor(hex1: spaces[selectedSpaceIndex].startHex, hex2: spaces[selectedSpaceIndex].endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                        }
+                                                    }
                                                 } else {
                                                     LinearGradient(colors: [Color(hex: averageHexColor(hex1: startHex, hex2: endHex)), endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         .opacity(1.0)
+                                                    if selectedSpaceIndex < spaces.count {
+                                                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                                            LinearGradient(colors: [Color(hex: averageHexColor(hex1: spaces[selectedSpaceIndex].startHex, hex2: spaces[selectedSpaceIndex].endHex)), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                        }
+                                                    }
                                                 }
                                             })
                                             .frame(width: 300)
@@ -273,6 +343,17 @@ struct ContentView: View {
                                 tabBarShown = false
                                 commandBarSearchSubmitted = false
                                 newTabSearch = ""
+                                
+                                print("Saving Tabs")
+                                
+                                Task {
+                                    do {
+                                        try await modelContext.save()
+                                    }
+                                    catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
                                 
                                 saveSpaceData()
                             }
@@ -355,7 +436,49 @@ struct ContentView: View {
                             }
                     }
                 }
+                .onChange(of: selectedSpaceIndex, {
+                    if selectedSpaceIndex < spaces.count {
+                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                            startHex = spaces[selectedSpaceIndex].startHex
+                            endHex = spaces[selectedSpaceIndex].startHex
+                            
+                            startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
+                            endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                        }
+                    }
+                    
+                    UserDefaults.standard.setValue(selectedSpaceIndex, forKey: "savedSelectedSpaceIndex")
+                })
+                .onChange(of: navigationState.webViews, {
+                    saveSpaceData()
+                    print("Saving navigationState")
+                })
+                .onChange(of: pinnedNavigationState.webViews, {
+                    saveSpaceData()
+                    print("Saving pinnedNavigationState")
+                })
+                .onChange(of: favoritesNavigationState.webViews, {
+                    saveSpaceData()
+                    print("Saving favoritesNavigationState")
+                })
                 .onAppear() {
+                    if UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex") > spaces.count - 1 {
+                        selectedSpaceIndex = 0
+                    }
+                    else {
+                        selectedSpaceIndex = UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex")
+                    }
+                    
+                    if selectedSpaceIndex < spaces.count {
+                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                            startHex = spaces[selectedSpaceIndex].startHex
+                            endHex = spaces[selectedSpaceIndex].startHex
+                            
+                            startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
+                            endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                        }
+                    }
+                    
                     for space in spaces {
                         if space.spaceName == currentSpace {
                             for tab in space.tabUrls {
@@ -379,7 +502,7 @@ struct ContentView: View {
             }
         }.task {
             if spaces.count <= 0 {
-                await modelContext.insert(SpaceStorage(spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                await modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                 
                 do {
                     try await modelContext.save()
@@ -397,16 +520,21 @@ struct ContentView: View {
         let savingFavoriteTabs = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
         
         if !spaces.isEmpty {
+            print("Saving Today Tabs: \(savingTodayTabs)")
             spaces[selectedSpaceIndex].tabUrls = savingTodayTabs
+            print(spaces[selectedSpaceIndex].tabUrls)
         }
         else {
-            modelContext.insert(SpaceStorage(spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
+            modelContext.insert(SpaceStorage(spaceIndex: 0, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
         }
         
-        do {
-            try modelContext.save()
-        } catch {
-            print(error.localizedDescription)
+        Task {
+            do {
+                try await modelContext.save()
+                print("modelContext Saved")
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
     

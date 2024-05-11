@@ -28,6 +28,8 @@ struct iPad_browserApp: App {
     }()
     
     init() {
+        UserDefaults.standard.set(0, forKey: "selectedSpaceIndex")
+        
         FirebaseApp.configure()
     }
     var body: some Scene {
