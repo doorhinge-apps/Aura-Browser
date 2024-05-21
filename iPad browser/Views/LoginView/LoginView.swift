@@ -143,7 +143,7 @@ struct LoginView: View {
                     } label: {
                         Text("Yes :)")
                             .frame(width: geo.size.width/2, height: 30)
-                    }.buttonStyle(MainButtonStyle())
+                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
                         .hoverEffect(.lift)
                     
                     
@@ -152,7 +152,7 @@ struct LoginView: View {
                     } label: {
                         Text("Nope :(")
                             .frame(width: geo.size.width/2, height: 30)
-                    }.buttonStyle(MainButtonStyle())
+                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
                         .hoverEffect(.lift)
                     
                     Button {
@@ -160,7 +160,7 @@ struct LoginView: View {
                     } label: {
                         Text("Skip :o")
                             .frame(width: geo.size.width/2, height: 30)
-                    }.buttonStyle(MainButtonStyle())
+                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
                         .hoverEffect(.lift)
                     
                     
@@ -179,7 +179,7 @@ struct LoginView: View {
                         onboarding -= 1
                     } label: {
                         Label("Back", systemImage: "chevron.left")
-                    }.buttonStyle(MainButtonStyle())
+                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
                         .hoverEffect(.lift)
                         .padding(50)
                     

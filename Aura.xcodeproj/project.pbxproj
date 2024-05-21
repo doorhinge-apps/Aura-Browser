@@ -46,8 +46,12 @@
 		B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
-		B96DEFD42BD9723000DB5C32 /* HighlightSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B96DEFD32BD9723000DB5C32 /* HighlightSwift */; };
 		B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */; };
+		B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798BFA2BF0AA4D0012D98E /* Dashboard.swift */; };
+		B9798BFF2BF0B9460012D98E /* Tile Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798BFE2BF0B9460012D98E /* Tile Game.swift */; };
+		B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C402BF28EEB0012D98E /* WeatherManager.swift */; };
+		B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C422BF28F100012D98E /* WeatherWidgetView.swift */; };
+		B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C442BF2908B0012D98E /* LocationManager.swift */; };
 		B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */; };
 		B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */; };
 		B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */; };
@@ -61,9 +65,9 @@
 		B98A32F62BD01D8A00555AB9 /* Long Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F52BD01D8A00555AB9 /* Long Variables.swift */; };
 		B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */; };
 		B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = B98A32FA2BD05CF000555AB9 /* FaviconFinder */; };
-		B9C537F62BEC174B00C7DB2B /* SFSymbolsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = B9C537F52BEC174B00C7DB2B /* SFSymbolsPicker */; };
-		B9C537F82BED1FF800C7DB2B /* NewIconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F72BED1FF800C7DB2B /* NewIconsPicker.swift */; };
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
+		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
+		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */; };
 		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
@@ -95,6 +99,11 @@
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimations.swift; sourceTree = "<group>"; };
+		B9798BFA2BF0AA4D0012D98E /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
+		B9798BFE2BF0B9460012D98E /* Tile Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tile Game.swift"; sourceTree = "<group>"; };
+		B9798C402BF28EEB0012D98E /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
+		B9798C422BF28F100012D98E /* WeatherWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidgetView.swift; sourceTree = "<group>"; };
+		B9798C442BF2908B0012D98E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B98256C72BD2A87200F997F5 /* iPad browser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iPad browser.entitlements"; sourceTree = "<group>"; };
 		B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDots.swift; sourceTree = "<group>"; };
@@ -110,8 +119,9 @@
 		B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlFormatter.swift; sourceTree = "<group>"; };
 		B98A32F52BD01D8A00555AB9 /* Long Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Long Variables.swift"; sourceTree = "<group>"; };
 		B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPicker.swift; sourceTree = "<group>"; };
-		B9C537F72BED1FF800C7DB2B /* NewIconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIconsPicker.swift; sourceTree = "<group>"; };
 		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
+		B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidgetStorage.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -142,7 +152,6 @@
 				B90932ED2BC8FF03005292D6 /* FirebaseAppCheck in Frameworks */,
 				B90932EB2BC8FF03005292D6 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				B90932F12BC8FF03005292D6 /* FirebaseAuth in Frameworks */,
-				B9C537F62BEC174B00C7DB2B /* SFSymbolsPicker in Frameworks */,
 				B90932F52BC8FF03005292D6 /* FirebaseCrashlytics in Frameworks */,
 				B90933152BC8FF03005292D6 /* FirebaseRemoteConfigSwift in Frameworks */,
 				B90933072BC8FF03005292D6 /* FirebaseInAppMessaging-Beta in Frameworks */,
@@ -153,7 +162,6 @@
 				B90932EF2BC8FF03005292D6 /* FirebaseAppDistribution-Beta in Frameworks */,
 				B90932F32BC8FF03005292D6 /* FirebaseAuthCombine-Community in Frameworks */,
 				B90933112BC8FF03005292D6 /* FirebasePerformance in Frameworks */,
-				B96DEFD42BD9723000DB5C32 /* HighlightSwift in Frameworks */,
 				B90933092BC8FF03005292D6 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				B90933172BC8FF03005292D6 /* FirebaseStorage in Frameworks */,
 				B90932FB2BC8FF03005292D6 /* FirebaseDynamicLinks in Frameworks */,
@@ -230,6 +238,34 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		B9798BFC2BF0B92A0012D98E /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				B9798BFA2BF0AA4D0012D98E /* Dashboard.swift */,
+				B9798BFD2BF0B9350012D98E /* Dashboard Widgets */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		B9798BFD2BF0B9350012D98E /* Dashboard Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				B9798BFE2BF0B9460012D98E /* Tile Game.swift */,
+				B9798C002BF1CEDB0012D98E /* Weather */,
+			);
+			path = "Dashboard Widgets";
+			sourceTree = "<group>";
+		};
+		B9798C002BF1CEDB0012D98E /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				B9798C402BF28EEB0012D98E /* WeatherManager.swift */,
+				B9798C422BF28F100012D98E /* WeatherWidgetView.swift */,
+				B9798C442BF2908B0012D98E /* LocationManager.swift */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
 		B98256CA2BD2E2F800F997F5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +294,7 @@
 			children = (
 				C1BD7D182BDDF6810078D7B3 /* TabStorage.swift */,
 				C1BD7D1A2BDDF6A30078D7B3 /* SpaceStorage.swift */,
+				B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */,
 			);
 			path = "Data Models";
 			sourceTree = "<group>";
@@ -273,7 +310,7 @@
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
 				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
 				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
-				B9C537F72BED1FF800C7DB2B /* NewIconsPicker.swift */,
+				B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */,
 				B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B98A32F52BD01D8A00555AB9 /* Long Variables.swift */,
@@ -304,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B9798BFC2BF0B92A0012D98E /* Dashboard */,
 				C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */,
 				B93D9D2B2BDF31A80002D01B /* Today Tab.swift */,
 				B93D9D2F2BDF35DA0002D01B /* Tabs */,
@@ -375,8 +413,6 @@
 				B90933182BC8FF03005292D6 /* FirebaseStorageCombine-Community */,
 				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
-				B96DEFD32BD9723000DB5C32 /* HighlightSwift */,
-				B9C537F52BEC174B00C7DB2B /* SFSymbolsPicker */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -410,8 +446,7 @@
 				B90932E32BC8FF03005292D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
 				B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-				B96DEFD22BD9723000DB5C32 /* XCRemoteSwiftPackageReference "HighlightSwift" */,
-				B9C537F42BEC174B00C7DB2B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */,
+				B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -450,21 +485,26 @@
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
 				C1BD7D332BDE05690078D7B3 /* DefaultsStorage.swift in Sources */,
+				B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */,
+				B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */,
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
+				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				C1BD7D232BDDF9C80078D7B3 /* ContentViewColor.swift in Sources */,
+				B9798BFF2BF0B9460012D98E /* Tile Game.swift in Sources */,
 				B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
 				B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */,
 				B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */,
+				B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */,
 				B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */,
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
+				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
 				C1BD7D212BDDF9400078D7B3 /* FaviconStore.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
-				B9C537F82BED1FF800C7DB2B /* NewIconsPicker.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
 				B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */,
 				C1BD7D302BDE052F0078D7B3 /* WebView.swift in Sources */,
@@ -476,6 +516,7 @@
 				B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */,
 				C1BD7D2E2BDE05160078D7B3 /* navigationState.swift in Sources */,
 				C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */,
+				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				C1BD7D192BDDF6810078D7B3 /* TabStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -592,7 +633,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -617,13 +658,14 @@
 				INFOPLIST_FILE = "iPad-browser-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Aura;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Aura needs your location to load weather data for the dashboard.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Aura needs access to your photo library to save website photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -655,13 +697,14 @@
 				INFOPLIST_FILE = "iPad-browser-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Aura;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Aura needs your location to load weather data for the dashboard.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Aura needs access to your photo library to save website photos.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -710,12 +753,12 @@
 				version = 10.24.0;
 			};
 		};
-		B96DEFD22BD9723000DB5C32 /* XCRemoteSwiftPackageReference "HighlightSwift" */ = {
+		B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/appstefan/HighlightSwift";
+			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.7;
+				minimumVersion = 1.0.1;
 			};
 		};
 		B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
@@ -724,14 +767,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.2;
-			};
-		};
-		B9C537F42BEC174B00C7DB2B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.6;
 			};
 		};
 		B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
@@ -880,20 +915,10 @@
 			package = B90932E32BC8FF03005292D6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
 		};
-		B96DEFD32BD9723000DB5C32 /* HighlightSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B96DEFD22BD9723000DB5C32 /* XCRemoteSwiftPackageReference "HighlightSwift" */;
-			productName = HighlightSwift;
-		};
 		B98A32FA2BD05CF000555AB9 /* FaviconFinder */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
 			productName = FaviconFinder;
-		};
-		B9C537F52BEC174B00C7DB2B /* SFSymbolsPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B9C537F42BEC174B00C7DB2B /* XCRemoteSwiftPackageReference "SFSymbolsPickerForSwiftUI" */;
-			productName = SFSymbolsPicker;
 		};
 		B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

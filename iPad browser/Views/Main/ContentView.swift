@@ -12,7 +12,7 @@ import Combine
 import FaviconFinder
 import SDWebImage
 import SDWebImageSwiftUI
-import HighlightSwift
+//import HighlightSwift
 import SwiftData
 
 
@@ -162,6 +162,9 @@ struct ContentView: View {
                                 Color.white
                                     .opacity(0.4)
                                     .cornerRadius(10)
+                                
+                                Dashboard()
+                                
                                 //MARK: - WebView
                                 if selectedTabLocation == "favoriteTabs" {
                                     WebView(navigationState: favoritesNavigationState)

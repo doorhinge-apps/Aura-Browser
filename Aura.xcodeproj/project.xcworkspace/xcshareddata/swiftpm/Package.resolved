@@ -1,5 +1,4 @@
 {
-  "originHash" : "a26ab04b96b0342da3176d363614054113d63a87e03bf916c6a6a298fc6cbad8",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -15,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/app-check.git",
       "state" : {
-        "revision" : "7d2688de038d5484866d835acb47b379722d610e",
-        "version" : "10.19.0"
+        "revision" : "076b241a625e25eac22f8849be256dfb960fcdfe",
+        "version" : "10.19.1"
       }
     },
     {
@@ -60,8 +59,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "26c898aed8bed13b8a63057ee26500abbbcb8d55",
-        "version" : "7.13.1"
+        "revision" : "57a1d307f42df690fdef2637f3e5b776da02aad6",
+        "version" : "7.13.3"
+      }
+    },
+    {
+      "identity" : "gravatar-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Automattic/Gravatar-SDK-iOS",
+      "state" : {
+        "revision" : "c6a115f5b44c99634d4361cff04db1e9e7ac0baa",
+        "version" : "1.0.1"
       }
     },
     {
@@ -80,15 +88,6 @@
       "state" : {
         "revision" : "0382ca27f22fb3494cf657d8dc356dc282cd1193",
         "version" : "3.4.1"
-      }
-    },
-    {
-      "identity" : "highlightswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/appstefan/HighlightSwift",
-      "state" : {
-        "revision" : "1ee708afe9473828f36d0202722c9cc065d74110",
-        "version" : "1.0.7"
       }
     },
     {
@@ -132,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImage.git",
       "state" : {
-        "revision" : "f6afa0132961d593f07970d84e2d8b588c29ea04",
-        "version" : "5.19.1"
+        "revision" : "5642d1ffe3dbe628592443bd14154e31929727b4",
+        "version" : "5.19.2"
       }
     },
     {
@@ -141,26 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI",
       "state" : {
-        "revision" : "22423b017b99ab8ac44e29e6372f571f782af6e4",
-        "version" : "3.0.2"
-      }
-    },
-    {
-      "identity" : "sfsymbolspickerforswiftui",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alessiorubicini/SFSymbolsPickerForSwiftUI",
-      "state" : {
-        "revision" : "73c909b8a7fc77a30dd04208e33f759f8b52c4c8",
-        "version" : "1.0.6"
-      }
-    },
-    {
-      "identity" : "swift-collections",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-collections.git",
-      "state" : {
-        "revision" : "d029d9d39c87bed85b1c50adee7c41795261a192",
-        "version" : "1.0.6"
+        "revision" : "b7af5e6bd9c2987e41730400d1baad13d74a141a",
+        "version" : "3.0.4"
       }
     },
     {
@@ -182,5 +163,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

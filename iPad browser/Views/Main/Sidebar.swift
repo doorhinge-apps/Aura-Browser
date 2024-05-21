@@ -282,6 +282,7 @@ struct Sidebar: View {
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
                             .hoverEffect(.lift)
+                            .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                             .onHover(perform: { hovering in
                                 if hovering {
                                     spaceIconHover = true
