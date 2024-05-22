@@ -14,8 +14,6 @@ import CloudKit
 @main
 struct iPad_browserApp: App {
     
-    let modelContainer: ModelContainer
-    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             SpaceStorage.self,
@@ -39,12 +37,6 @@ struct iPad_browserApp: App {
         UserDefaults.standard.set(0, forKey: "selectedSpaceIndex")
         
         FirebaseApp.configure()
-        
-        do {
-            modelContainer = try ModelContainer(for: DashboardWidget.self)
-        } catch {
-            fatalError("Could not initialize ModelContainer")
-        }
     }
     var body: some Scene {
         WindowGroup {
@@ -56,7 +48,8 @@ struct iPad_browserApp: App {
             }
             //afdasdfkjnasd()
         }//.modelContainer(sharedModelContainer)
-        .modelContainer(for: [SpaceStorage.self, DashboardWidget.self], inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
+        //.modelContainer(for: [SpaceStorage.self, DashboardWidget.self], inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
+        .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
         //.modelContainer(modelContainer)
         //.modelContainer(for: DashboardWidget.self)
     }

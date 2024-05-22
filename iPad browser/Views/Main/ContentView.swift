@@ -164,6 +164,8 @@ struct ContentView: View {
                                     .cornerRadius(10)
                                 
                                 Dashboard()
+                                    .cornerRadius(10)
+                                    .clipped()
                                 
                                 //MARK: - WebView
                                 if selectedTabLocation == "favoriteTabs" {
@@ -440,6 +442,8 @@ struct ContentView: View {
                     }
                 }
                 .onChange(of: selectedSpaceIndex, {
+                    navigationState.webViews.removeAll()
+                    
                     if selectedSpaceIndex < spaces.count {
                         if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
                             startHex = spaces[selectedSpaceIndex].startHex

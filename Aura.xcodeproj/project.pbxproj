@@ -40,6 +40,7 @@
 		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
+		B93AB8452BFDB6B1003CE87B /* WiggleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AB8442BFDB6B1003CE87B /* WiggleModifier.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
 		B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */; };
 		B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */; };
@@ -91,6 +92,7 @@
 		B91FBF942BC8EB0C001C317C /* Tab Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab Bar.swift"; sourceTree = "<group>"; };
 		B9230FF92BBD36740032C950 /* TopDomains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TopDomains.json; sourceTree = "<group>"; };
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
+		B93AB8442BFDB6B1003CE87B /* WiggleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiggleModifier.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
 		B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pinned Tab.swift"; sourceTree = "<group>"; };
 		B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsURLs.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				B9798BFA2BF0AA4D0012D98E /* Dashboard.swift */,
+				B93AB8442BFDB6B1003CE87B /* WiggleModifier.swift */,
 				B9798BFD2BF0B9350012D98E /* Dashboard Widgets */,
 			);
 			path = Dashboard;
@@ -500,6 +503,7 @@
 				B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */,
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
+				B93AB8452BFDB6B1003CE87B /* WiggleModifier.swift in Sources */,
 				C1BD7D212BDDF9400078D7B3 /* FaviconStore.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,

@@ -4,24 +4,23 @@
 //
 //  Created by Caedmon Myers on 12/5/24.
 //
-
 import SwiftUI
-import SwiftData
+
 
 struct Dashboard: View {
-    //@AppStorage("startColorHex") var startHex = "8A3CEF"
-    //@AppStorage("endColorHex") var endHex = "84F5FE"
-    @State var startHex = "8A3CEF"
-    @State var endHex = "84F5FE"
+    @AppStorage("startColorHex") var startHex = "8A3CEF"
+    @AppStorage("endColorHex") var endHex = "84F5FE"
+    
+    @AppStorage("launchDashboard") var launchDashboard = false
     
     @State var reloadWidgets = false
-    
-    @Environment(\.modelContext) var modelContext
-    @Query(sort: \DashboardWidget.id) var dashboardWidgets: [DashboardWidget]
-    
-    //@State var dashboardWidgets = [DashboardWidget(title: "Test", xPosition: 0.0, yPosition: 0.0, width: 100.0, height: 100.0)]
+    @State var reloadOneWidget = DashboardWidget(title: "", xPosition: 0.0, yPosition: 0.0, width: 0.0, height: 0.0)
+    @State var dashboardWidgets: [DashboardWidget] = loadDashboardWidgets()
     
     @State var draggingResize = false
+    
+    @State var editingWidgets = false
+    
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
@@ -29,126 +28,99 @@ struct Dashboard: View {
             ForEach(dashboardWidgets.indices, id: \.self) { index in
                 let widget = dashboardWidgets[index] // Create a local mutable copy
                 if !reloadWidgets {
+                //if reloadOneWidget != widget {
                     ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing))
-                            .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width/2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height/2))
-                        
-                        RoundedRectangle(cornerRadius: 10)
-                            //.fill(.ultraThinMaterial)
-                            .fill(Color.white.opacity(0.25))
-                            .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width/2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height/2))
-                        
-                        VStack {
-                            Text(dashboardWidgets[index].title)
-                                .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                                .foregroundStyle(Color.white)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(.ultraThinMaterial)
+                                .opacity(0.75)
+                                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 0)
+                                .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                             
-                            WeatherWidgetView()
-                                .cornerRadius(10)
-                                
-                        }.offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width/2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height/2))
-                        
-                        
-                        
-                        VStack {
-                            Spacer()
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                .opacity(0.5)
+                                .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                             
-                            HStack {
-                                Spacer()
-                                
-                                //RoundedRectangle(cornerRadius: 10)
-                                VStack(spacing: 2) {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.white)
-                                        .frame(width: 20, height: 4)
-                                    
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.white)
-                                        .frame(width: 10, height: 4)
-                                    
-                                }.rotationEffect(Angle(degrees: -45))
-                                    .offset(x: -1, y: -6)
-                                //.frame(width: 20, height: 20)
-                                    .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width/2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height/2))
-                                    .gesture(DragGesture()
-                                        .onChanged { value in
-                                            var updatedWidget = widget
-                                            
-                                            if !draggingResize {
-                                                //updatedWidget.width = Double(value.translation.width)
-                                                //updatedWidget.xPosition += value.translation.width - widget.width
-                                                
-                                                //updatedWidget.height = Double(value.translation.height)
-                                                //updatedWidget.yPosition += value.translation.height - widget.height
-                                                
-                                            }
-                                            else {
-                                                updatedWidget.width = Double(value.translation.width) + Double(widget.width)
-                                                updatedWidget.xPosition += value.translation.width/2
-                                                
-                                                updatedWidget.height = Double(value.translation.height) + Double(widget.height)
-                                                updatedWidget.yPosition += value.translation.height/2
-                                            }
-                                            if updatedWidget.width > 100 {
-                                                //dashboardWidgets[index].xPosition = abs(updatedWidget.xPosition)
-                                                dashboardWidgets[index].width = abs(updatedWidget.width)
-                                            }
-                                            else {
-                                                dashboardWidgets[index].width = 100.0
-                                            }
-                                            if updatedWidget.height > 100.0 {
-                                                //dashboardWidgets[index].yPosition = abs(updatedWidget.yPosition)
-                                                dashboardWidgets[index].height = abs(updatedWidget.height)
-                                            }
-                                            else {
-                                                dashboardWidgets[index].height = 100.0
-                                            }
-                                            
-                                            Task {
-                                                do {
-                                                    try await modelContext.save()
-                                                }
-                                                catch {
-                                                    print(error.localizedDescription)
-                                                }
-                                            }
-                                            draggingResize = true
-                                        }
-                                        .onEnded({ value in
-                                            draggingResize = false
-                                            reloadWidgets = true
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
-                                                reloadWidgets = false
-                                            }
-                                        })
-                                    )
-                            }
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white.opacity(0.25))
+                                .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
+                            
+                            VStack {
+                                if dashboardWidgets[index].title == "Weather" {
+                                    WeatherWidgetView()
+                                        .cornerRadius(10)
+                                }
+                            }.offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                         }
+                        
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white.opacity(0.0001))
+                                .contextMenu(menuItems: {
+                                    Text("Change Widget Size")
+                                    Divider()
+                                    
+                                    Button(action: {
+                                        updateWidgetSize(index: index, size: CGSize(width: 150, height: 150))
+                                    }, label: {
+                                        Text("Small")
+                                    })
+                                    
+                                    Button(action: {
+                                        updateWidgetSize(index: index, size: CGSize(width: 300, height: 150))
+                                    }, label: {
+                                        Text("Medium")
+                                    })
+                                    
+                                    Button(action: {
+                                        updateWidgetSize(index: index, size: CGSize(width: 300, height: 300))
+                                    }, label: {
+                                        Text("Large")
+                                    })
+                                    
+                                    Button(action: {
+                                        updateWidgetSize(index: index, size: CGSize(width: 550, height: 300))
+                                    }, label: {
+                                        Text("Extra Large")
+                                    })
+                                }, preview: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                        
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(Color.white.opacity(0.25))
+                                        
+                                        if dashboardWidgets[index].title == "Weather" {
+                                            WeatherWidgetView()
+                                                .cornerRadius(10)
+                                        }
+                                    }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))
+                                })
+                        }
+                        .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
+                        
                     }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))
-                        .gesture(DragGesture()
+                        .gesture(
+                            DragGesture()
                             .onChanged { value in
-                                var updatedWidget = widget // Make a mutable copy
-                                updatedWidget.xPosition = Double(value.location.x)
-                                updatedWidget.yPosition = Double(value.location.y)
-                                dashboardWidgets[index].xPosition = updatedWidget.xPosition
-                                dashboardWidgets[index].yPosition = updatedWidget.yPosition
-                                dashboardWidgets[index].height = updatedWidget.height
-                                dashboardWidgets[index].width = updatedWidget.width
-                                
-                                Task {
-                                    do {
-                                        try await modelContext.save()
-                                    }
-                                    catch {
-                                        print(error.localizedDescription)
-                                    }
+                                if editingWidgets {
+                                    var updatedWidget = widget // Make a mutable copy
+                                    updatedWidget.xPosition = Double(value.location.x)
+                                    updatedWidget.yPosition = Double(value.location.y)
+                                    dashboardWidgets[index] = updatedWidget
+                                    saveDashboardWidgets(widgets: dashboardWidgets)
                                 }
                             }
                             .onEnded({ value in
-                                reloadWidgets = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
-                                    reloadWidgets = false
+                                if editingWidgets {
+                                    reloadWidgets = true
+                                    reloadOneWidget = widget
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
+                                        reloadWidgets = false
+                                        reloadOneWidget = DashboardWidget(title: "", xPosition: 0.0, yPosition: 0.0, width: 0.0, height: 0.0)
+                                    }
                                 }
                             })
                         )
@@ -157,23 +129,70 @@ struct Dashboard: View {
             
             VStack {
                 HStack {
+                    Button(action: {
+                        launchDashboard = false
+                    }, label: {
+                        Text("Disable Dashboard")
+                    })
+                    
                     Spacer()
                     
                     Button(action: {
-                        modelContext.insert(DashboardWidget(title: "Test", xPosition: 0.0, yPosition: 0.0, width: 100.0, height: 100.0))
-                        do {
-                            try modelContext.save()
+                        withAnimation {
+                            editingWidgets.toggle()
                         }
-                        catch {
-                            print(error.localizedDescription)
-                        }
+                    }, label: {
+                        Text(editingWidgets ? "Done": "Edit")
+                    })
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        let newWidget = DashboardWidget(title: "Weather", xPosition: 0.0, yPosition: 0.0, width: 150.0, height: 150.0)
+                        dashboardWidgets.append(newWidget)
+                        saveDashboardWidgets(widgets: dashboardWidgets)
                     }, label: {
                         Image(systemName: "plus")
                     })
                 }
                 Spacer()
             }
+        }.onChange(of: editingWidgets, perform: { value in
+            reloadWidgets = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
+                reloadWidgets = false
+            }
+        })
+    }
+    
+    func updateWidgetSize(index: Int, size: CGSize) {
+        dashboardWidgets[index].width = Double(size.width)
+        dashboardWidgets[index].height = Double(size.height)
+        saveDashboardWidgets(widgets: dashboardWidgets)
+        reloadWidgets = true
+        reloadOneWidget = dashboardWidgets[index]
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
+            reloadWidgets = false
+            reloadOneWidget = DashboardWidget(title: "", xPosition: 0.0, yPosition: 0.0, width: 0.0, height: 0.0)
         }
+    }
+}
+
+// Helper functions to handle UserDefaults
+func loadDashboardWidgets() -> [DashboardWidget] {
+    if let data = UserDefaults.standard.data(forKey: "dashboardWidgets") {
+        let decoder = JSONDecoder()
+        if let widgets = try? decoder.decode([DashboardWidget].self, from: data) {
+            return widgets
+        }
+    }
+    return []
+}
+
+func saveDashboardWidgets(widgets: [DashboardWidget]) {
+    let encoder = JSONEncoder()
+    if let data = try? encoder.encode(widgets) {
+        UserDefaults.standard.set(data, forKey: "dashboardWidgets")
     }
 }
 
