@@ -9,7 +9,7 @@ import SwiftUI
 import WeatherKit
 
 struct WeatherWidgetView: View {
-    @ObservedObject var weatherKitManager = WeatherKitManager()
+    @StateObject var weatherKitManager = WeatherKitManager()
     
     @StateObject var locationDataManager = LocationDataManager()
     
@@ -30,7 +30,6 @@ struct WeatherWidgetView: View {
                                         .font(.system(.largeTitle, design: .rounded, weight: .bold))
                                         .padding(.trailing, 10)
                                     
-                                    //Text(Int(weatherKitManager.weather?.currentWeather.temperature.value.rounded() ?? 0.0).description)
                                     Text(convertToPrefferedUnits(inputTemp: weatherKitManager.weather?.currentWeather.temperature.value ?? 0.0))
                                         .font(.system(.largeTitle, design: .rounded, weight: .bold))
                                 })
@@ -38,7 +37,7 @@ struct WeatherWidgetView: View {
                                 HStack(spacing: 0) {
                                     Spacer()
                                     
-                                    ForEach(weatherKitManager.weather?.hourlyForecast.forecast.prefix(5) ?? [], id:\.self.date) { hourWeather in
+                                    ForEach(weatherKitManager.weather?.hourlyForecast.forecast.prefix(5) ?? [], id: \.date) { hourWeather in
                                         VStack {
                                             Text(hourWeather.date.formatted(.dateTime.hour()))
                                                 .font(.system(geo.size.width <= 200 ? .caption: .body, design: .rounded, weight: .bold))
@@ -46,10 +45,6 @@ struct WeatherWidgetView: View {
                                             
                                             Image(systemName: hourWeather.symbolName)
                                                 .font(.system(geo.size.height < 250 ? .body: .title2, design: .rounded, weight: .bold))
-                                            //.resizable()
-                                            //.scaledToFit()
-                                            //.bold()
-                                            //.frame(width: geo.size.width/8, height: geo.size.width/8)
                                             
                                             Text(convertToPrefferedUnits(inputTemp: hourWeather.temperature.value))
                                                 .font(.system(geo.size.width <= 200 ? .caption: .body, design: .rounded, weight: .regular))
@@ -90,7 +85,7 @@ struct WeatherWidgetView: View {
                             
                             HStack {
                                 VStack {
-                                    ForEach(weatherKitManager.weather?.dailyForecast.forecast.prefix(4) ?? [], id:\.self.date) { dailyWeather in
+                                    ForEach(weatherKitManager.weather?.dailyForecast.forecast.prefix(4) ?? [], id: \.date) { dailyWeather in
                                         HStack {
                                             Text(dailyWeather.date.formatted(.dateTime.weekday(.wide)).description.prefix(3))
                                             
@@ -146,7 +141,7 @@ struct WeatherWidgetView: View {
                                     Divider()
                                     
                                     VStack {
-                                        ForEach(weatherKitManager.weather?.dailyForecast.forecast.prefix(8).suffix(4) ?? [], id:\.self.date) { dailyWeather in
+                                        ForEach(weatherKitManager.weather?.dailyForecast.forecast.prefix(8).suffix(4) ?? [], id: \.date) { dailyWeather in
                                             HStack {
                                                 Text(dailyWeather.date.formatted(.dateTime.weekday(.wide)).description.prefix(3))
                                                 
@@ -205,88 +200,84 @@ struct WeatherWidgetView: View {
                     
                 }.foregroundStyle(Color.white)
                     .task {
-                        await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
-                        print(weatherKitManager.weather?.dailyForecast.forecast.prefix(geo.size.width > 350 ? 8: 4) ?? [])
-                        
-                        if let dailyForecast = weatherKitManager.weather?.dailyForecast.forecast.prefix(geo.size.width > 350 ? 8: 4) {
-                            let highTemperatures = dailyForecast.map { $0.highTemperature.value }
-                            if let maxHighTemp = highTemperatures.max() {
-                                highTemp = maxHighTemp
-                            }
-                        }
-                        
-                        if let dailyForecast = weatherKitManager.weather?.dailyForecast.forecast.prefix(geo.size.width > 350 ? 8: 4) {
-                            let lowTemperatures = dailyForecast.map { $0.lowTemperature.value }
-                            if let minLowTemp = lowTemperatures.min() {
-                                lowTemp = minLowTemp
-                            }
-                        }
+                        await fetchWeatherData()
                     }
             }
             
-            //Label(weatherKitManager.temp, systemImage: weatherKitManager.symbol)
         } else {
             Text("Error Loading Location")
+        }
+    }
+    
+    func fetchWeatherData() async {
+        await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+        print(weatherKitManager.weather?.dailyForecast.forecast.prefix(8) ?? [])
+        
+        if let dailyForecast = weatherKitManager.weather?.dailyForecast.forecast.prefix(8) {
+            let highTemperatures = dailyForecast.map { $0.highTemperature.value }
+            if let maxHighTemp = highTemperatures.max() {
+                highTemp = maxHighTemp
+            }
+        }
+        
+        if let dailyForecast = weatherKitManager.weather?.dailyForecast.forecast.prefix(8) {
+            let lowTemperatures = dailyForecast.map { $0.lowTemperature.value }
+            if let minLowTemp = lowTemperatures.min() {
+                lowTemp = minLowTemp
+            }
         }
     }
 }
 
 
 func createWeatherGradient(low: Double, high: Double) -> LinearGradient {
-    // Define the color mapping
-        let colorMapping: [(value: Double, color: Color)] = [
-            (-20, Color(hex: "5F32BC")), // purple
-            (-10, Color(hex: "4241FF")), // dark blue
-            (0, Color(hex: "41C6FF")),   // light blue
-            (10, Color(hex: "08BD50")),  // green
-            (20, Color(hex: "ECE94D")),  // yellow
-            (30, Color(hex: "ECA54D")),  // orange
-            (40, Color(hex: "F74B42"))   // red
+    let colorMapping: [(value: Double, color: Color)] = [
+        (-20, Color(hex: "5F32BC")),
+        (-10, Color(hex: "4241FF")),
+        (0, Color(hex: "41C6FF")),
+        (10, Color(hex: "08BD50")),
+        (20, Color(hex: "ECE94D")),
+        (30, Color(hex: "ECA54D")),
+        (40, Color(hex: "F74B42"))
+    ]
+    
+    let filteredColors = colorMapping.filter { $0.value >= low && $0.value <= high }
+    
+    let boundaryColors = colorMapping.filter { $0.value == low || $0.value == high }
+    
+    let gradientColors = (filteredColors + boundaryColors).sorted { $0.value < $1.value }
+    
+    let gradientStops: [Gradient.Stop]
+    if let firstColor = gradientColors.first, let lastColor = gradientColors.last {
+        gradientStops = [
+            Gradient.Stop(color: firstColor.color, location: 0),
+            Gradient.Stop(color: firstColor.color, location: 0.001)
+        ] + gradientColors.dropFirst().dropLast().map {
+            Gradient.Stop(color: $0.color, location: CGFloat(($0.value - low) / (high - low)))
+        } + [
+            Gradient.Stop(color: lastColor.color, location: 0.999),
+            Gradient.Stop(color: lastColor.color, location: 1)
         ]
-        
-        // Filter colors within the specified range
-        let filteredColors = colorMapping.filter { $0.value >= low && $0.value <= high }
-        
-        // Ensure the range includes at least the boundary values
-        let boundaryColors = colorMapping.filter { $0.value == low || $0.value == high }
-        
-        // Combine and sort colors by their values
-        let gradientColors = (filteredColors + boundaryColors).sorted { $0.value < $1.value }
-        
-        // Map to Gradient.Stop
-        let gradientStops: [Gradient.Stop]
-        if let firstColor = gradientColors.first, let lastColor = gradientColors.last {
-            gradientStops = [
-                Gradient.Stop(color: firstColor.color, location: 0),
-                Gradient.Stop(color: firstColor.color, location: 0.001) // Ensure first color appears without fading
-            ] + gradientColors.dropFirst().dropLast().map {
-                Gradient.Stop(color: $0.color, location: CGFloat(($0.value - low) / (high - low)))
-            } + [
-                Gradient.Stop(color: lastColor.color, location: 0.999), // Ensure last color appears without fading
-                Gradient.Stop(color: lastColor.color, location: 1)
-            ]
-        } else {
-            gradientStops = []
-        }
-        
-        // Create the linear gradient
-        return LinearGradient(
-            gradient: Gradient(stops: gradientStops),
-            startPoint: .leading,
-            endPoint: .trailing
-        )
+    } else {
+        gradientStops = []
     }
+    
+    return LinearGradient(
+        gradient: Gradient(stops: gradientStops),
+        startPoint: .leading,
+        endPoint: .trailing
+    )
+}
 
 
 func convertToPrefferedUnits(inputTemp: Double) -> String {
     let formatter = MeasurementFormatter()
-    formatter.unitStyle = .medium  // Ensure that the temperature is formatted without additional text
-    formatter.numberFormatter.maximumFractionDigits = 0  // We don't need fraction digits for this purpose
+    formatter.unitStyle = .medium
+    formatter.numberFormatter.maximumFractionDigits = 0
     
     let measurement = Measurement(value: inputTemp, unit: UnitTemperature.celsius)
     let temperatureString = formatter.string(from: measurement)
     
-    // Extract only the numeric part of the formatted string
     let temperatureComponents = temperatureString.components(separatedBy: CharacterSet.decimalDigits.inverted)
     if let numericPart = temperatureComponents.joined().isEmpty ? nil : temperatureComponents.joined(),
        let temperatureValue = Double(numericPart) {
@@ -294,5 +285,5 @@ func convertToPrefferedUnits(inputTemp: Double) -> String {
         return roundedTemp
     }
     
-    return "0"  // Return "0" if conversion fails
+    return "0"
 }

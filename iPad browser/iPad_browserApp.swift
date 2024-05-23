@@ -43,9 +43,9 @@ struct iPad_browserApp: App {
             if !launchDashboard {
                 LoginView()
             }
-            else {
-                Dashboard()
-            }
+            /*else {
+                Dashboard(startHexSpace: <#Binding<String>#>, endHexSpace: <#Binding<String>#>)
+            }*/
             //afdasdfkjnasd()
         }//.modelContainer(sharedModelContainer)
         //.modelContainer(for: [SpaceStorage.self, DashboardWidget.self], inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)

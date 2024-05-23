@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CommandBar: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     @AppStorage("startColorHex") var startHex = "8A3CEF"
     @AppStorage("endColorHex") var endHex = "84F5FE"
     @AppStorage("textColorHex") var textHex = "ffffff"
@@ -103,7 +105,7 @@ struct CommandBar: View {
                                             
                                             HStack {
                                                 Text(suggestion)
-                                                    .foregroundStyle(Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"))
+                                                    .foregroundStyle(colorScheme == .light ? Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"): Color(hex: "ffffff"))
                                                     .padding(.vertical, 27)
                                                     .padding(.horizontal, 25)
                                                 

@@ -25,6 +25,9 @@ struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
+    @Environment(\.colorScheme) var colorScheme
+    @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
+    
     // WebView Handling
     @ObservedObject var navigationState = NavigationState()
     @ObservedObject var pinnedNavigationState = NavigationState()
@@ -132,17 +135,26 @@ struct ContentView: View {
     @State var commandBarSearchSubmitted = false
     @State var commandBarSearchSubmitted2 = false
     
+    @State var auraTab = ""
+    
+    @State var initialLoadDone = false
+    
     var body: some View {
         GeometryReader { geo in
             if spaces.count > 0 {
                 ZStack {
                     ZStack {
-                        LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                        
-                        if selectedSpaceIndex < spaces.count {
-                            if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                            //if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
                                 LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                            }
+                            //}
+                        }
+                        else {
+                            LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                        }
+                        
+                        if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                            Color.black.opacity(0.5)
                         }
                         
                         HStack(spacing: 0) {
@@ -163,21 +175,46 @@ struct ContentView: View {
                                     .opacity(0.4)
                                     .cornerRadius(10)
                                 
-                                Dashboard()
-                                    .cornerRadius(10)
-                                    .clipped()
                                 
                                 //MARK: - WebView
                                 if selectedTabLocation == "favoriteTabs" {
                                     WebView(navigationState: favoritesNavigationState)
                                         .cornerRadius(10)
+                                    
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .trim(from: 0.25 + offset, to: 0.5 + offset)
+                                        .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                                        //.foregroundStyle(Color.white)
+                                        .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                                        .opacity(favoritesNavigationState.selectedWebView?.isLoading ?? false ? 1.0: 0.0)
+                                        .animation(.default, value: favoritesNavigationState.selectedWebView?.isLoading ?? false)
+                                        .blur(radius: 5)
+                                    
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .trim(from: 0.25 + offset, to: 0.5 + offset)
+                                        .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                                        .rotation(Angle(degrees: 180))
+                                        //.foregroundStyle(Color.white)
+                                        .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                                        .opacity(favoritesNavigationState.selectedWebView?.isLoading ?? false ? 1.0: 0.0)
+                                        .animation(.default, value: favoritesNavigationState.selectedWebView?.isLoading ?? false)
+                                        .blur(radius: 5)
+                                    
+                                    .onReceive(rotationTimer) { thing in
+                                        if offset == 0.5 {
+                                            offset = 0.0
+                                            withAnimation(.linear(duration: 1.5)) {
+                                                offset = 0.5
+                                            }
+                                        }
+                                        else {
+                                            withAnimation(.linear(duration: 1.5)) {
+                                                offset = 0.5
+                                            }
+                                        }
+                                    }
                                 }
                                 if selectedTabLocation == "tabs" {
-                                    //if navigationState.selectedWebView?.estimatedProgress != 1.0 {
-                                    
-
-                                    //}
-                                    
                                     WebView(navigationState: navigationState)
                                         .cornerRadius(10)
                                         
@@ -202,17 +239,7 @@ struct ContentView: View {
                                         .opacity(navigationState.selectedWebView?.isLoading ?? false ? 1.0: 0.0)
                                         .animation(.default, value: navigationState.selectedWebView?.isLoading ?? false)
                                         .blur(radius: 5)
-                                        
                                     
-                                    
-//                                    .onAppear {
-//                                        withAnimation(.linear(duration: 0.75).repeatForever()) {
-//                                            offset = 0.5
-//                                        }
-//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-//                                            offset = 0.0
-//                                        }
-//                                    }
                                     .onReceive(rotationTimer) { thing in
                                         if offset == 0.5 {
                                             offset = 0.0
@@ -231,6 +258,45 @@ struct ContentView: View {
                                 if selectedTabLocation == "pinnedTabs" {
                                     WebView(navigationState: pinnedNavigationState)
                                         .cornerRadius(10)
+                                    
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .trim(from: 0.25 + offset, to: 0.5 + offset)
+                                        .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                                        //.foregroundStyle(Color.white)
+                                        .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                                        .opacity(pinnedNavigationState.selectedWebView?.isLoading ?? false ? 1.0: 0.0)
+                                        .animation(.default, value: pinnedNavigationState.selectedWebView?.isLoading ?? false)
+                                        .blur(radius: 5)
+                                    
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .trim(from: 0.25 + offset, to: 0.5 + offset)
+                                        .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                                        .rotation(Angle(degrees: 180))
+                                        //.foregroundStyle(Color.white)
+                                        .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                                        .opacity(pinnedNavigationState.selectedWebView?.isLoading ?? false ? 1.0: 0.0)
+                                        .animation(.default, value: pinnedNavigationState.selectedWebView?.isLoading ?? false)
+                                        .blur(radius: 5)
+                                    
+                                    .onReceive(rotationTimer) { thing in
+                                        if offset == 0.5 {
+                                            offset = 0.0
+                                            withAnimation(.linear(duration: 1.5)) {
+                                                offset = 0.5
+                                            }
+                                        }
+                                        else {
+                                            withAnimation(.linear(duration: 1.5)) {
+                                                offset = 0.5
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                if auraTab == "dashboard" {
+                                    Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
+                                        .cornerRadius(10)
+                                        .clipped()
                                 }
                                 
                                 Spacer()
@@ -304,6 +370,9 @@ struct ContentView: View {
                                                         }
                                                     }
                                                 }
+                                                if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                                    Color.black.opacity(0.5)
+                                                }
                                             })
                                             .frame(width: 300)
                                             .cornerRadius(10)
@@ -342,8 +411,17 @@ struct ContentView: View {
                     if tabBarShown {
                         CommandBar(commandBarText: $newTabSearch, searchSubmitted: $commandBarSearchSubmitted, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
                             .onChange(of: commandBarSearchSubmitted) { thing in
-                                navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                //modelContext.insert(TabStorage(url: formatURL(from: newTabSearch)))
+                                
+                                if !newTabSearch.starts(with: "aura://") {
+                                    auraTab = ""
+                                    navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
+                                }
+                                else {
+                                    if newTabSearch.contains("dashboard") {
+                                        auraTab = "dashboard"
+                                        selectedTabLocation = ""
+                                    }
+                                }
                                 
                                 tabBarShown = false
                                 commandBarSearchSubmitted = false
@@ -442,19 +520,27 @@ struct ContentView: View {
                     }
                 }
                 .onChange(of: selectedSpaceIndex, {
-                    navigationState.webViews.removeAll()
-                    
-                    if selectedSpaceIndex < spaces.count {
-                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                            startHex = spaces[selectedSpaceIndex].startHex
-                            endHex = spaces[selectedSpaceIndex].startHex
-                            
-                            startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
-                            endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                    if initialLoadDone {
+                        navigationState.webViews.removeAll()
+                        
+                        var reloadAuraTabs = auraTab
+                        auraTab = ""
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.00001) {
+                            auraTab = reloadAuraTabs
                         }
+                        
+                        if selectedSpaceIndex < spaces.count {
+                            if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                startHex = spaces[selectedSpaceIndex].startHex
+                                endHex = spaces[selectedSpaceIndex].startHex
+                                
+                                startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
+                                endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                            }
+                        }
+                        
+                        UserDefaults.standard.setValue(selectedSpaceIndex, forKey: "savedSelectedSpaceIndex")
                     }
-                    
-                    UserDefaults.standard.setValue(selectedSpaceIndex, forKey: "savedSelectedSpaceIndex")
                 })
                 .onChange(of: navigationState.webViews, {
                     saveSpaceData()
@@ -502,6 +588,8 @@ struct ContentView: View {
                     navigationState.selectedWebView = nil
                     pinnedNavigationState.selectedWebView = nil
                     favoritesNavigationState.selectedWebView = nil
+                    
+                    initialLoadDone = true
                 }
                 
                 
@@ -530,6 +618,8 @@ struct ContentView: View {
             print("Saving Today Tabs: \(savingTodayTabs)")
             spaces[selectedSpaceIndex].tabUrls = savingTodayTabs
             print(spaces[selectedSpaceIndex].tabUrls)
+            spaces[selectedSpaceIndex].pinnedUrls = savingPinnedTabs
+            spaces[selectedSpaceIndex].favoritesUrls = savingFavoriteTabs
         }
         else {
             modelContext.insert(SpaceStorage(spaceIndex: 0, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))

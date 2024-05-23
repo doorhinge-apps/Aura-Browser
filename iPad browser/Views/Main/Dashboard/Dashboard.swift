@@ -11,6 +11,9 @@ struct Dashboard: View {
     @AppStorage("startColorHex") var startHex = "8A3CEF"
     @AppStorage("endColorHex") var endHex = "84F5FE"
     
+    @State var startHexSpace: String
+    @State var endHexSpace: String
+    
     @AppStorage("launchDashboard") var launchDashboard = false
     
     @State var reloadWidgets = false
@@ -21,9 +24,12 @@ struct Dashboard: View {
     
     @State var editingWidgets = false
     
+    @Environment(\.colorScheme) var colorScheme
+    @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
+    
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            //LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
             
             ForEach(dashboardWidgets.indices, id: \.self) { index in
                 let widget = dashboardWidgets[index] // Create a local mutable copy
@@ -38,9 +44,16 @@ struct Dashboard: View {
                                 .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                             
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                .fill(LinearGradient(colors: [Color(hex: startHexSpace), Color(hex: endHexSpace)], startPoint: .bottomLeading, endPoint: .topTrailing))
                                 .opacity(0.5)
                                 .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
+                            
+                            if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.black.opacity(0.5))
+                                    .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
+                            }
+                            
                             
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white.opacity(0.25))
@@ -129,12 +142,6 @@ struct Dashboard: View {
             
             VStack {
                 HStack {
-                    Button(action: {
-                        launchDashboard = false
-                    }, label: {
-                        Text("Disable Dashboard")
-                    })
-                    
                     Spacer()
                     
                     Button(action: {
@@ -142,19 +149,33 @@ struct Dashboard: View {
                             editingWidgets.toggle()
                         }
                     }, label: {
-                        Text(editingWidgets ? "Done": "Edit")
+                        ZStack {
+                            Capsule()
+                                .fill(.ultraThinMaterial)
+                            
+                            Text(editingWidgets ? "Done": "Edit")
+                                .foregroundStyle(Color.white)
+                        }
+                        .frame(width: 75, height: 35)
                     })
                     
-                    Spacer()
+                    //Spacer()
                     
                     Button(action: {
                         let newWidget = DashboardWidget(title: "Weather", xPosition: 0.0, yPosition: 0.0, width: 150.0, height: 150.0)
                         dashboardWidgets.append(newWidget)
                         saveDashboardWidgets(widgets: dashboardWidgets)
                     }, label: {
-                        Image(systemName: "plus")
+                        ZStack {
+                            Circle()
+                                .fill(.ultraThinMaterial)
+                            
+                            Image(systemName: "plus")
+                                .foregroundStyle(Color.white)
+                        }
+                        .frame(height: 35)
                     })
-                }
+                }.padding(5)
                 Spacer()
             }
         }.onChange(of: editingWidgets, perform: { value in
@@ -197,6 +218,4 @@ func saveDashboardWidgets(widgets: [DashboardWidget]) {
 }
 
 
-#Preview {
-    Dashboard()
-}
+

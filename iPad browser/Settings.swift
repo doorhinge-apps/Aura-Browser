@@ -10,6 +10,8 @@ import Firebase
 import FirebaseAuth
 
 struct Settings: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var presentSheet: Bool
     
     //@AppStorage("startColorHex") var startHex = "ffffff"
@@ -18,8 +20,8 @@ struct Settings: View {
     @State var endHex: String
     @AppStorage("email") var email = ""
     
-    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
-    @AppStorage("favoritesStyle") var favoritesStyle = true
+    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = false
+    @AppStorage("favoritesStyle") var favoritesStyle = false
     @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = true
     
     @AppStorage("showBorder") var showBorder = true
@@ -30,13 +32,19 @@ struct Settings: View {
     
     @AppStorage("searchEngine") var searchEngine = "https://www.google.com/search?q="
     
-    @AppStorage("launchDashboard") var launchDashboard = false
+    @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
+    
+    //@AppStorage("launchDashboard") var launchDashboard = false
     
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
     @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?t=h_&q=", "Yahoo!":"https://search.yahoo.com/search?p=", "Ecosia": "https://www.ecosia.org/search?method=index&q=hello"]
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            
+            if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                Color.black.opacity(0.5)
+            }
             
             ScrollView {
                 VStack {
@@ -141,6 +149,30 @@ struct Settings: View {
                         Spacer()
                     }
                     
+                    Menu {
+                        Button(action: {
+                            prefferedColorScheme = "automatic"
+                        }, label: {
+                            Text("Automatic")
+                        })
+                        
+                        Button(action: {
+                            prefferedColorScheme = "light"
+                        }, label: {
+                            Text("Light")
+                        })
+                        
+                        Button(action: {
+                            prefferedColorScheme = "dark"
+                        }, label: {
+                            Text("Dark")
+                        })
+                        
+                    } label: {
+                        Text("Appearance: \(prefferedColorScheme.capitalized)")
+                    }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
+                    
+                    /*
                     HStack {
                         Text("Launch Dashboard Beta")
                             .font(.system(.title3, design: .rounded, weight: .bold))
@@ -150,7 +182,7 @@ struct Settings: View {
                         
                         CustomToggleSlider(toggle: $launchDashboard, startHex: startHex, endHex: endHex)
                             .scaleEffect(0.75)
-                    }.padding(20)
+                    }.padding(20)*/
                     
                     Spacer()
                         .frame(height: 75)
