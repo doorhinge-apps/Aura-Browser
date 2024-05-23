@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-import Firebase
-import FirebaseAuth
+
 
 
 
@@ -38,7 +37,8 @@ struct LoginView: View {
                 }
                 
                 else if onboarding == 2 {
-                    page2
+                    onboardingComingSoon
+                    //page2
                 }
                 
                 else if onboarding == 3 {
@@ -80,6 +80,32 @@ struct LoginView: View {
                 
                 Button {
                     onboarding = 2
+                } label: {
+                    ZStack {
+                        Text("")
+                    }
+                }.buttonStyle(GrowingButton(buttonText: "Continue", buttonWidth: 225, buttonHeight: 30)).hoverEffect(.lift)
+                
+            }
+        }
+    }
+    
+    var onboardingComingSoon: some View {
+        ZStack {
+            LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            
+            VStack(spacing: 20) {
+                Text("New Onboarding Coming Soon")
+                    .foregroundColor(Color(.white))
+                    .font(.system(size: 50, weight: .bold, design: .rounded))
+                    .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
+                
+                
+                SizedSpacer(height: 100)
+                
+                
+                Button {
+                    appIsLoggedIn = "skip"
                 } label: {
                     ZStack {
                         Text("")
@@ -252,7 +278,7 @@ struct LoginView: View {
                 }
                 
                 Button {
-                    login()
+                    //login()
                     
                     invalidError = true
                 } label: {
@@ -294,9 +320,9 @@ struct LoginView: View {
                         
                         
                         Button {
-                            Auth.auth().sendPasswordReset(withEmail: resetEmail) { error in
+                            //Auth.auth().sendPasswordReset(withEmail: resetEmail) { error in
                                 // ...
-                            }
+                            //}
                         } label: {
                             Text("Send Reset Email")
                                 .bold()
@@ -402,7 +428,7 @@ struct LoginView: View {
                 }
                 
                 Button {
-                    register()
+                    //register()
                 } label: {
                     ZStack {
                         Text("")
@@ -442,9 +468,9 @@ struct LoginView: View {
                         
                         
                         Button {
-                            Auth.auth().sendPasswordReset(withEmail: resetEmail) { error in
+                            //Auth.auth().sendPasswordReset(withEmail: resetEmail) { error in
                                 // ...
-                            }
+                            //}
                         } label: {
                             Text("Send Reset Email")
                                 .bold()
@@ -485,7 +511,7 @@ struct LoginView: View {
         return Color(hex: hexString)
     }
     
-    func register() {
+    /*func register() {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if error != nil {
                 print(error!.localizedDescription)
@@ -519,7 +545,7 @@ struct LoginView: View {
         
         
         defaults.set(email, forKey: "email")
-    }
+    }*/
 }
 
 

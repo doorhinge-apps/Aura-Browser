@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Firebase
 import SwiftData
 import CloudKit
 
@@ -31,18 +30,13 @@ struct iPad_browserApp: App {
         }
     }()
     
-    @AppStorage("launchDashboard") var launchDashboard = false
-    
     init() {
         UserDefaults.standard.set(0, forKey: "selectedSpaceIndex")
-        
-        FirebaseApp.configure()
     }
     var body: some Scene {
         WindowGroup {
-            if !launchDashboard {
-                LoginView()
-            }
+            LoginView()
+            
             /*else {
                 Dashboard(startHexSpace: <#Binding<String>#>, endHexSpace: <#Binding<String>#>)
             }*/

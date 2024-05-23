@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-import Firebase
-import FirebaseAuth
+
 
 struct Settings: View {
     @Environment(\.colorScheme) var colorScheme
@@ -189,11 +188,6 @@ struct Settings: View {
                     
                     Button {
                         email = ""
-                        do {
-                            try Auth.auth().signOut()
-                        } catch let signOutError as NSError {
-                            print("Error signing out: %@", signOutError)
-                        }
                     } label: {
                         Text("Sign Out")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
