@@ -33,6 +33,10 @@ struct ContentView: View {
     @ObservedObject var pinnedNavigationState = NavigationState()
     @ObservedObject var favoritesNavigationState = NavigationState()
     
+    @State var navigationStateArray = [] as [NavigationState]
+    @State var pinnedNavigationStateArray = [] as [NavigationState]
+    @State var favoritesNavigationStateArray = [] as [NavigationState]
+    
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
     //@State private var spaces = ["Home", "Space 2"]
@@ -139,6 +143,9 @@ struct ContentView: View {
     
     @State var initialLoadDone = false
     
+    @State private var scrollPosition: CGPoint = .zero
+    @State private var horizontalScrollPosition: CGPoint = .zero
+    
     var body: some View {
         GeometryReader { geo in
             if spaces.count > 0 {
@@ -164,10 +171,58 @@ struct ContentView: View {
                                         .disabled(true)
                                 }
                                 
-                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
-                                    .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
-                                    .padding(showBorder ? 0: 15)
-                                    .padding(.top, showBorder ? 0: 10)
+                                ScrollViewReader { proxy in
+                                    ScrollView(.horizontal) {
+                                        HStack(spacing: 0) {
+                                            ForEach(0..<spaces.count, id:\.self) { space in
+                                                //VStack {
+                                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationStateArray.count > space ? navigationStateArray[space]: navigationState, pinnedNavigationState: pinnedNavigationStateArray.count > space ? pinnedNavigationStateArray[space]: pinnedNavigationState, favoritesNavigationState: favoritesNavigationStateArray.count > space ? favoritesNavigationStateArray[space]: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
+                                                    .id(space.description)
+                                                
+                                                //Text(horizontalScrollPosition.x.description)
+                                                //}
+                                                    .containerRelativeFrame(.horizontal)
+                                                //.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 10)
+                                                    .animation(.easeOut)
+                                                    .frame(width: hideSidebar ? 0: 300)
+                                            }
+                                        }.scrollTargetLayout()
+                                            .onAppear() {
+                                                proxy.scrollTo(selectedSpaceIndex.description)
+                                            }
+                                            .background(GeometryReader { geometry in
+                                                Color.clear
+                                                    .ignoresSafeArea()
+                                                    .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
+                                            })
+                                            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                                                self.horizontalScrollPosition.x = value.x - 20
+                                                
+                                                if (Int((abs(horizontalScrollPosition.x)) / 10) * 10) % 300 == 0 {
+                                                    selectedSpaceIndex = Int(abs(horizontalScrollPosition.x) / 300)
+                                                    
+                                                    if navigationStateArray.count > selectedSpaceIndex {
+                                                        navigationState.webViews = navigationStateArray[selectedSpaceIndex].webViews
+                                                    }
+                                                    if pinnedNavigationStateArray.count > selectedSpaceIndex {
+                                                        pinnedNavigationState.webViews = pinnedNavigationStateArray[selectedSpaceIndex].webViews
+                                                    }
+                                                    if favoritesNavigationStateArray.count > selectedSpaceIndex {
+                                                        favoritesNavigationState.webViews = favoritesNavigationStateArray[selectedSpaceIndex].webViews
+                                                    }
+                                                    
+                                                }
+                                            }
+                                    }.ignoresSafeArea()
+                                        .padding(.trailing, hideSidebar ? 0: 10)
+                                        .padding(showBorder ? 0: 15)
+                                        .padding(.top, showBorder ? 0: 10)
+                                        .frame(width: hideSidebar ? 0: 300)
+                                        .offset(x: hideSidebar ? -320: 0)
+                                    //.scrollTargetBehavior(.viewAligned)
+                                        .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+                                        .scrollIndicators(.hidden)
+                                }
                             }
                             
                             ZStack {
@@ -588,6 +643,25 @@ struct ContentView: View {
                     navigationState.selectedWebView = nil
                     pinnedNavigationState.selectedWebView = nil
                     favoritesNavigationState.selectedWebView = nil
+                    
+                    navigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
+                    pinnedNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
+                    favoritesNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
+
+                    for spaceIndex in 0..<spaces.count {
+                        for tab in spaces[spaceIndex].tabUrls {
+                            navigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
+                        }
+                        for tab in spaces[spaceIndex].pinnedUrls {
+                            pinnedNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
+                        }
+                        for tab in spaces[spaceIndex].favoritesUrls {
+                            favoritesNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
+                        }
+                        navigationStateArray[spaceIndex].selectedWebView = nil
+                        pinnedNavigationStateArray[spaceIndex].selectedWebView = nil
+                        favoritesNavigationStateArray[spaceIndex].selectedWebView = nil
+                    }
                     
                     initialLoadDone = true
                 }
