@@ -70,9 +70,13 @@ struct Sidebar: View {
     
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
     
+    @State var hoverPaintbrush = false
+    
     // Selection States
     @State private var changingIcon = ""
     @State private var draggedTab: WKWebView?
+    
+    @State var showPaintbrush = false
     
     var body: some View {
         VStack {
@@ -335,9 +339,95 @@ struct Sidebar: View {
                         .opacity(0.5)
                         .frame(height: 1)
                         .cornerRadius(10)
+                        .onTapGesture {
+                            showPaintbrush = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                showPaintbrush = false
+                            }
+                        }
+                    
+                    if showPaintbrush {
+                        Button(action: {
+                            changeColorSheet.toggle()
+                        }, label: {
+                            ZStack {
+                                Color(.white)
+                                    .opacity(hoverPaintbrush ? 0.5: 0.0)
+                                
+                                Image(systemName: hoverPaintbrush ? "paintbrush.pointed.fill": "paintbrush.pointed")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 25, height: 25)
+                                    .foregroundStyle(textColor)
+                                    .opacity(hoverPaintbrush ? 1.0: 0.5)
+                                
+                            }.frame(width: 40, height: 40).cornerRadius(7)
+                                .hoverEffect(.lift)
+                                .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                .onHover(perform: { hovering in
+                                    if hovering {
+                                        hoverPaintbrush = true
+                                    }
+                                    else {
+                                        hoverPaintbrush = false
+                                    }
+                                })
+                        }).keyboardShortcut("e", modifiers: .command)
+                    }
                     
                 }
+                .onHover(perform: { hovering in
+                    if hovering {
+                        showPaintbrush = true
+                    }
+                    else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            showPaintbrush = false
+                        }
+                    }
+                })
                 .padding(.vertical, 10)
+                .popover(isPresented: $changeColorSheet, content: {
+                    VStack(spacing: 20) {
+                        ZStack {
+                            LinearGradient(gradient: Gradient(colors: [startColor, endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                .frame(width: 250, height: 200)
+                                .ignoresSafeArea()
+                                .offset(x: -10)
+                        }.frame(width: 200, height: 200)
+                        
+                        VStack {
+                            ColorPicker("Start Color", selection: $startColor)
+                                .onChange(of: startColor) { newValue in
+                                    //saveColor(color: newValue, key: "startColorHex")
+                                    
+                                    let uiColor1 = UIColor(newValue)
+                                    let hexString1 = uiColor1.toHex()
+                                    
+                                    spaces[selectedSpaceIndex].startHex = hexString1 ?? "858585"
+                                }
+                            
+                            ColorPicker("End Color", selection: $endColor)
+                                .onChange(of: endColor) { newValue in
+                                    //saveColor(color: newValue, key: "endColorHex")
+                                    
+                                    let uiColor2 = UIColor(newValue)
+                                    let hexString2 = uiColor2.toHex()
+                                    
+                                    spaces[selectedSpaceIndex].endHex = hexString2 ?? "ADADAD"
+                                }
+                            
+                            ColorPicker("Text Color", selection: $textColor)
+                                .onChange(of: textColor) { newValue in
+                                    saveColor(color: newValue, key: "textColorHex")
+                                }
+                        }
+                        .padding()
+                        
+                        Spacer()
+                    }
+                    
+                })
                 .popover(isPresented: $presentIcons) {
                     ZStack {
                         LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()

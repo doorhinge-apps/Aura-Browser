@@ -36,15 +36,14 @@ struct iPad_browserApp: App {
     var body: some Scene {
         WindowGroup {
             LoginView()
-            
-            /*else {
-                Dashboard(startHexSpace: <#Binding<String>#>, endHexSpace: <#Binding<String>#>)
-            }*/
-            //afdasdfkjnasd()
-        }//.modelContainer(sharedModelContainer)
-        //.modelContainer(for: [SpaceStorage.self, DashboardWidget.self], inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
+                .onAppear { hideTitleBarOnCatalyst() }
+        }
         .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
-        //.modelContainer(modelContainer)
-        //.modelContainer(for: DashboardWidget.self)
+    }
+    
+    func hideTitleBarOnCatalyst() {
+#if targetEnvironment(macCatalyst)
+        (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.titlebar?.titleVisibility = .hidden
+#endif
     }
 }

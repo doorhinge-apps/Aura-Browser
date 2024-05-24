@@ -64,55 +64,77 @@ struct Dashboard: View {
                                     WeatherWidgetView()
                                         .cornerRadius(10)
                                 }
+                                else if dashboardWidgets[index].title == "Tile Game" {
+                                    TileGame()
+                                        .cornerRadius(10)
+                                }
                             }.offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                         }
                         
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white.opacity(0.0001))
-                                .contextMenu(menuItems: {
-                                    Text("Change Widget Size")
-                                    Divider()
-                                    
-                                    Button(action: {
-                                        updateWidgetSize(index: index, size: CGSize(width: 150, height: 150))
-                                    }, label: {
-                                        Text("Small")
-                                    })
-                                    
-                                    Button(action: {
-                                        updateWidgetSize(index: index, size: CGSize(width: 300, height: 150))
-                                    }, label: {
-                                        Text("Medium")
-                                    })
-                                    
-                                    Button(action: {
-                                        updateWidgetSize(index: index, size: CGSize(width: 300, height: 300))
-                                    }, label: {
-                                        Text("Large")
-                                    })
-                                    
-                                    Button(action: {
-                                        updateWidgetSize(index: index, size: CGSize(width: 550, height: 300))
-                                    }, label: {
-                                        Text("Extra Large")
-                                    })
-                                }, preview: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing))
+                        if editingWidgets {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.white.opacity(0.0001))
+                                    .contextMenu(menuItems: {
+                                        Text("Change Widget Size")
+                                        Divider()
                                         
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(Color.white.opacity(0.25))
+                                        Button(action: {
+                                            updateWidgetSize(index: index, size: CGSize(width: 150, height: 150))
+                                        }, label: {
+                                            Text("Small")
+                                        })
                                         
-                                        if dashboardWidgets[index].title == "Weather" {
-                                            WeatherWidgetView()
-                                                .cornerRadius(10)
-                                        }
-                                    }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))
-                                })
+                                        Button(action: {
+                                            updateWidgetSize(index: index, size: CGSize(width: 300, height: 150))
+                                        }, label: {
+                                            Text("Medium")
+                                        })
+                                        
+                                        Button(action: {
+                                            updateWidgetSize(index: index, size: CGSize(width: 300, height: 300))
+                                        }, label: {
+                                            Text("Large")
+                                        })
+                                        
+                                        Button(action: {
+                                            updateWidgetSize(index: index, size: CGSize(width: 550, height: 300))
+                                        }, label: {
+                                            Text("Extra Large")
+                                        })
+                                    }, preview: {
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .fill(.ultraThinMaterial)
+                                                .opacity(0.75)
+                                                .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 0)
+                                            
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .fill(LinearGradient(colors: [Color(hex: startHexSpace), Color(hex: endHexSpace)], startPoint: .bottomLeading, endPoint: .topTrailing))
+                                                .opacity(0.5)
+                                            
+                                            if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .fill(Color.black.opacity(0.5))
+                                            }
+                                            
+                                            
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .fill(Color.white.opacity(0.25))
+                                            
+                                            if dashboardWidgets[index].title == "Weather" {
+                                                WeatherWidgetView()
+                                                    .cornerRadius(10)
+                                            }
+                                            else if dashboardWidgets[index].title == "Tile Game" {
+                                                TileGame()
+                                                    .cornerRadius(10)
+                                            }
+                                        }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))
+                                    })
+                            }
+                            .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                         }
-                        .offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                         
                     }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))
                         .gesture(
@@ -151,7 +173,8 @@ struct Dashboard: View {
                     }, label: {
                         ZStack {
                             Capsule()
-                                .fill(.ultraThinMaterial)
+                                .fill(.thinMaterial)
+                                .environment(\.colorScheme, .dark)
                             
                             Text(editingWidgets ? "Done": "Edit")
                                 .foregroundStyle(Color.white)
@@ -161,20 +184,33 @@ struct Dashboard: View {
                     
                     //Spacer()
                     
-                    Button(action: {
-                        let newWidget = DashboardWidget(title: "Weather", xPosition: 0.0, yPosition: 0.0, width: 150.0, height: 150.0)
-                        dashboardWidgets.append(newWidget)
-                        saveDashboardWidgets(widgets: dashboardWidgets)
-                    }, label: {
+                    Menu {
+                        Button(action: {
+                            let newWidget = DashboardWidget(title: "Weather", xPosition: 0.0, yPosition: 0.0, width: 150.0, height: 150.0)
+                            dashboardWidgets.append(newWidget)
+                            saveDashboardWidgets(widgets: dashboardWidgets)
+                        }, label: {
+                            Text("Weather")
+                        })
+                        
+                        Button(action: {
+                            let newWidget = DashboardWidget(title: "Tile Game", xPosition: 0.0, yPosition: 0.0, width: 150.0, height: 150.0)
+                            dashboardWidgets.append(newWidget)
+                            saveDashboardWidgets(widgets: dashboardWidgets)
+                        }, label: {
+                            Text("Tile Game")
+                        })
+                    } label: {
                         ZStack {
                             Circle()
-                                .fill(.ultraThinMaterial)
+                                .fill(.thinMaterial)
+                                .environment(\.colorScheme, .dark)
                             
                             Image(systemName: "plus")
                                 .foregroundStyle(Color.white)
                         }
                         .frame(height: 35)
-                    })
+                    }
                 }.padding(5)
                 Spacer()
             }
