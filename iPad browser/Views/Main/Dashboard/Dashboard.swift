@@ -65,7 +65,7 @@ struct Dashboard: View {
                                         .cornerRadius(10)
                                 }
                                 else if dashboardWidgets[index].title == "Tile Game" {
-                                    TileGame()
+                                    TileGame(size: dashboardWidgets[index].height < 250 ? 34.5: 69)
                                         .cornerRadius(10)
                                 }
                             }.offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
@@ -127,7 +127,7 @@ struct Dashboard: View {
                                                     .cornerRadius(10)
                                             }
                                             else if dashboardWidgets[index].title == "Tile Game" {
-                                                TileGame()
+                                                TileGame(size: dashboardWidgets[index].height < 250 ? 34.5: 69)
                                                     .cornerRadius(10)
                                             }
                                         }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))

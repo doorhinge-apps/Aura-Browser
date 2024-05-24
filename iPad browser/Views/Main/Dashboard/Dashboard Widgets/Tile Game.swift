@@ -25,7 +25,6 @@ struct TileGame: View {
     
     var body: some View {
         let columns = Array(repeating: GridItem(.fixed(size), spacing: 1), count: 4)
-        HStack {
             /*VStack {
                 Text(hasShuffled.description)
                 Text(shuffling.description)
@@ -168,8 +167,6 @@ struct TileGame: View {
                     Text("Yosemite")
                 })
             }))
-        }
-        .padding()
     }
     
     private func tileImage(for tileIndex: Int) -> UIImage? {
