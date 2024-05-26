@@ -33,6 +33,8 @@ struct Settings: View {
     
     @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
     
+    @AppStorage("swipingSpaces") var swipingSpaces = true
+    
     //@AppStorage("launchDashboard") var launchDashboard = false
     
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
@@ -142,6 +144,25 @@ struct Settings: View {
                     
                     HStack {
                         Text("Switch between left and right sidebar location")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("Swipe Between Spaces")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                        
+                        CustomToggleSlider(toggle: $swipingSpaces, startHex: startHex, endHex: endHex)
+                            .scaleEffect(0.75)
+                    }.padding(20)
+                    
+                    HStack {
+                        Text("Enables the swiping between spaces beta. This only works for the expanded sidebar on the left right now.")
                             .foregroundStyle(Color.white)
                             .padding(.leading, 20)
                         
