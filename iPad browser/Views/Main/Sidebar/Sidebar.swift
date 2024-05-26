@@ -28,6 +28,7 @@ struct Sidebar: View {
     @Binding var endColor: Color
     @Binding var textColor: Color
     @Binding var hoverSpace: String
+    @Binding var showSettings: Bool
     var geo: GeometryProxy
     
     @State var temporaryRenamingString = ""
@@ -45,7 +46,6 @@ struct Sidebar: View {
     // Settings and Sheets
     @State private var hoverTab = WKWebView()
     
-    @State private var showSettings = false
     @State private var changeColorSheet = false
     
     @State private var startHex = "ffffff"
@@ -97,7 +97,6 @@ struct Sidebar: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundStyle(Color(.white).opacity(hoverSidebarSearchField ? 0.3 : 0.15))
-                            .frame(height: 50)
                         
                         HStack {
                             Text(selectedTabLocation == "tabs" ? (navigationState.currentURL?.absoluteString ?? ""): selectedTabLocation == "pinnedTabs" ? (pinnedNavigationState.currentURL?.absoluteString ?? ""): (favoritesNavigationState.currentURL?.absoluteString ?? ""))
@@ -121,7 +120,9 @@ struct Sidebar: View {
                             
                             Spacer() // Pushes the delete button to the edge
                         }
-                    }.onHover(perform: { hovering in
+                    }
+                    .frame(height: 50)
+                    .onHover(perform: { hovering in
                         if hovering {
                             hoverSidebarSearchField = true
                         }

@@ -10,26 +10,22 @@ import SwiftUI
 struct TileGame: View {
     @Namespace var namespace
     
-    @State private var tiles: [Int] = Array(0..<16)
-    @State private var emptyIndex: Int = 15
+    @State private var tiles: [Int] = UserDefaults.standard.array(forKey: "dashboardTileGameStorage") as? [Int] ?? Array(0..<16)
+    @AppStorage("emptyTileIndex") private var emptyIndex: Int = 15
     
     @State var size: CGFloat = 34.5
     
     @State var image: UIImage = UIImage(named: "catalina")!
+    @AppStorage("tileGameImageName") var imageName = "catalina"
     
-    @State var hasShuffled = false
-    @State var shuffling = false
+    @AppStorage("hasShuffledTileGame") var hasShuffled = false
+    @AppStorage("shufflingTileGame") var shuffling = false
     @State var adjacentTilesDisplay = [] as [Int]
     
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         let columns = Array(repeating: GridItem(.fixed(size), spacing: 1), count: 4)
-            /*VStack {
-                Text(hasShuffled.description)
-                Text(shuffling.description)
-                Text(adjacentTilesDisplay.description)
-            }*/
             ZStack {
                 LazyVGrid(columns: columns, spacing: 1) {
                     ForEach(0..<16, id: \.self) { index in
@@ -83,6 +79,12 @@ struct TileGame: View {
             .onReceive(timer, perform: { _ in
                 shuffleTiles()
             })
+            .onChange(of: tiles, { oldValue, newValue in
+                UserDefaults.standard.set(tiles, forKey: "dashboardTileGameStorage")
+            })
+            .onAppear() {
+                image = UIImage(named: imageName)!
+            }
             .contextMenu(ContextMenu(menuItems: {
                 Text("Change Image")
                 
@@ -92,6 +94,7 @@ struct TileGame: View {
                     hasShuffled = false
                     shuffling = false
                     
+                    imageName = "catalina"
                     image = UIImage(named: "catalina")!
                 }, label: {
                     Text("Catalina")
@@ -101,6 +104,8 @@ struct TileGame: View {
                     emptyIndex = 15
                     hasShuffled = false
                     shuffling = false
+                    
+                    imageName = "catalina night"
                     image = UIImage(named: "catalina night")!
                     
                 }, label: {
@@ -112,6 +117,7 @@ struct TileGame: View {
                     hasShuffled = false
                     shuffling = false
                     
+                    imageName = "mojave"
                     image = UIImage(named: "mojave")!
                 }, label: {
                     Text("Mojave")
@@ -122,6 +128,7 @@ struct TileGame: View {
                     hasShuffled = false
                     shuffling = false
                     
+                    imageName = "mojave night"
                     image = UIImage(named: "mojave night")!
                 }, label: {
                     Text("Mojave Night")
@@ -132,6 +139,7 @@ struct TileGame: View {
                     hasShuffled = false
                     shuffling = false
                     
+                    imageName = "high sierra"
                     image = UIImage(named: "high sierra")!
                 }, label: {
                     Text("High Sierra")
@@ -142,6 +150,7 @@ struct TileGame: View {
                     hasShuffled = false
                     shuffling = false
                     
+                    imageName = "sierra"
                     image = UIImage(named: "sierra")!
                 }, label: {
                     Text("Sierra")
@@ -152,6 +161,7 @@ struct TileGame: View {
                     hasShuffled = false
                     shuffling = false
                     
+                    imageName = "el capitan"
                     image = UIImage(named: "el capitan")!
                 }, label: {
                     Text("El Capitan")
@@ -162,6 +172,7 @@ struct TileGame: View {
                     hasShuffled = false
                     shuffling = false
                     
+                    imageName = "yosemite"
                     image = UIImage(named: "yosemite")!
                 }, label: {
                     Text("Yosemite")

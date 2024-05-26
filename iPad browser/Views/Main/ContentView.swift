@@ -173,186 +173,7 @@ struct ContentView: View {
                                         .disabled(true)
                                 }
                                 
-                                ScrollViewReader { proxy in
-                                    ScrollView(.horizontal) {
-                                        HStack(spacing: 0) {
-                                            ForEach(0..<spaces.count, id:\.self) { space in
-                                                VStack {
-                                                //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationStateArray.count > space ? navigationStateArray[space]: navigationState, pinnedNavigationState: pinnedNavigationStateArray.count > space ? pinnedNavigationStateArray[space]: pinnedNavigationState, favoritesNavigationState: favoritesNavigationStateArray.count > space ? favoritesNavigationStateArray[space]: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
-                                                    Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
-                                                    .id(space.description)
-                                                    
-                                                    //Text(space.description)
-                                                    Text(selectedSpaceIndex.description)
-                                                    //Text(horizontalScrollPosition.x.description)
-                                                }
-                                                    .containerRelativeFrame(.horizontal)
-                                                //.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 10)
-                                                    .animation(.easeOut)
-                                                    .frame(width: hideSidebar ? 0: 300)
-                                            }
-                                        }.scrollTargetLayout()
-                                            .onAppear() {
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                                    proxy.scrollTo(selectedSpaceIndex.description)
-                                                }
-                                            }
-                                            .onChange(of: selectedSpaceIndex, {
-                                                proxy.scrollTo(selectedSpaceIndex.description)
-                                            })
-                                            .background(GeometryReader { geometry in
-                                                Color.clear
-                                                    .ignoresSafeArea()
-                                                    .preference(key: ScrollOffsetPreferenceKey.self, value: geometry.frame(in: .named("scroll")).origin)
-                                            })
-                                            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                                                self.horizontalScrollPosition.x = value.x - 20
-                                                
-                                                if ((Int((abs(horizontalScrollPosition.x)) / 10) * 10) % 300 == 0) && !scrollLimiter {
-//                                                    Task {
-//                                                        print("Saving space data - scroll")
-//                                                        print(navigationState.webViews.count)
-//                                                        await saveSpaceData()
-//                                                    }
-                                                    
-//                                                    if navigationStateArray.count > selectedSpaceIndex {
-//                                                        navigationStateArray[selectedSpaceIndex].webViews = navigationState.webViews
-//                                                    }
-//                                                    if pinnedNavigationStateArray.count > selectedSpaceIndex {
-//                                                        pinnedNavigationStateArray[selectedSpaceIndex].webViews = pinnedNavigationState.webViews
-//                                                    }
-//                                                    if favoritesNavigationStateArray.count > selectedSpaceIndex {
-//                                                        favoritesNavigationStateArray[selectedSpaceIndex].webViews = favoritesNavigationState.webViews
-//                                                    }
-                                                    
-                                                    Task {
-                                                        await selectedSpaceIndex = Int(abs(horizontalScrollPosition.x) / 300)
-                                                    }
-                                                    
-                                                    currentSpace = String(spaces[Int(abs(horizontalScrollPosition.x) / 300)].spaceName)
-                                                    
-                                                    selectedSpaceIndex = Int(abs(horizontalScrollPosition.x) / 300)
-                                                    
-                                                    Task {
-                                                        await navigationState.webViews.removeAll()
-                                                        await pinnedNavigationState.webViews.removeAll()
-                                                        await favoritesNavigationState.webViews.removeAll()
-                                                    }
-                                                    
-                                                    Task {
-                                                        await navigationState.selectedWebView = nil
-                                                        await navigationState.currentURL = nil
-                                                        
-                                                        await pinnedNavigationState.selectedWebView = nil
-                                                        await pinnedNavigationState.currentURL = nil
-                                                        
-                                                        await favoritesNavigationState.selectedWebView = nil
-                                                        await favoritesNavigationState.currentURL = nil
-                                                    }
-                                                    
-                                                    Task {
-                                                        for addSpace in spaces {
-                                                            if addSpace.spaceName == currentSpace {
-                                                                for tab in addSpace.tabUrls {
-                                                                    await navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
-                                                                }
-                                                                for tab in addSpace.pinnedUrls {
-                                                                    await pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
-                                                                }
-                                                                for tab in addSpace.favoritesUrls {
-                                                                    await favoritesNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                    
-                                                    Task {
-                                                        await navigationState.selectedWebView = nil
-                                                        await pinnedNavigationState.selectedWebView = nil
-                                                        await favoritesNavigationState.selectedWebView = nil
-                                                    }
-                                                    
-                                                    scrollLimiter = true
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                                        scrollLimiter = false
-                                                    }
-                                                    //currentSpace = spaces[selectedSpaceIndex].spaceName
-                                                    
-//                                                    Task {
-//                                                        await navigationState.webViews.removeAll()
-//                                                        await pinnedNavigationState.webViews.removeAll()
-//                                                        await favoritesNavigationState.webViews.removeAll()
-//                                                    }
-                                                    
-                                                    /*
-                                                    if navigationStateArray.count > selectedSpaceIndex {
-                                                        //navigationState.webViews = navigationStateArray[selectedSpaceIndex].webViews
-                                                        for oneWebView in navigationStateArray[selectedSpaceIndex].webViews {
-                                                            navigationState.createNewWebView(withRequest: URLRequest(url: oneWebView.url!))
-                                                            print(oneWebView.url.debugDescription)
-                                                        }
-                                                    }
-                                                    if pinnedNavigationStateArray.count > selectedSpaceIndex {
-                                                        pinnedNavigationState.webViews = pinnedNavigationStateArray[selectedSpaceIndex].webViews
-                                                        //print(pinnedNavigationStateArray)
-                                                    }
-                                                    if favoritesNavigationStateArray.count > selectedSpaceIndex {
-                                                        favoritesNavigationState.webViews = favoritesNavigationStateArray[selectedSpaceIndex].webViews
-                                                        //print(favoritesNavigationStateArray)
-                                                    }
-                                                    
-                                                    Task {
-                                                        await navigationState.selectedWebView = nil
-                                                        await navigationState.currentURL = nil
-                                                        
-                                                        await pinnedNavigationState.selectedWebView = nil
-                                                        await pinnedNavigationState.currentURL = nil
-                                                        
-                                                        await favoritesNavigationState.selectedWebView = nil
-                                                        await favoritesNavigationState.currentURL = nil
-                                                    }*/
-                                                    
-//                                                    if selectedSpaceIndex < spaces.count {
-//                                                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-//                                                            startHex = spaces[selectedSpaceIndex].startHex
-//                                                            endHex = spaces[selectedSpaceIndex].startHex
-//                                                            
-//                                                            startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
-//                                                            endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
-//                                                        }
-//                                                    }
-//                                                    
-//                                                    for space in spaces {
-//                                                        if space.spaceName == currentSpace {
-//                                                            for tab in space.tabUrls {
-//                                                                navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
-//                                                            }
-//                                                            for tab in space.pinnedUrls {
-//                                                                pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
-//                                                            }
-//                                                            for tab in space.favoritesUrls {
-//                                                                favoritesNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                    navigationState.selectedWebView = nil
-//                                                    pinnedNavigationState.selectedWebView = nil
-//                                                    favoritesNavigationState.selectedWebView = nil
-                                                    
-                                                    //saveSpaceData()
-                                                    
-                                                }
-                                            }
-                                    }.ignoresSafeArea()
-                                        .padding(.trailing, hideSidebar ? 0: 10)
-                                        .padding(showBorder ? 0: 15)
-                                        .padding(.top, showBorder ? 0: 10)
-                                        .frame(width: hideSidebar ? 0: 300)
-                                        .offset(x: hideSidebar ? -320: 0)
-                                    //.scrollTargetBehavior(.viewAligned)
-                                        .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
-                                        .scrollIndicators(.hidden)
-                                }
+                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                             }
                             
                             ZStack {
@@ -478,7 +299,7 @@ struct ContentView: View {
                                     }
                                 }
                                 
-                                if auraTab == "dashboard" {
+                                if auraTab == "dashboard" && selectedTabLocation == "" {
                                     Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
                                         .cornerRadius(10)
                                         .clipped()
@@ -496,11 +317,12 @@ struct ContentView: View {
                                 }
                                 
                                 
-                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
+                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                 
                                     .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
                                     .padding(showBorder ? 0: 15)
                                     .padding(.top, showBorder ? 0: 10)
+                                //PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
                             }
                         }
                         .padding(.trailing, showBorder ? 10: 0)
@@ -534,8 +356,7 @@ struct ContentView: View {
                                         }
                                     
                                     HStack {
-                                        
-                                        Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
+                                        Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                             .padding(15)
                                             .background(content: {
                                                 if sidebarLeft {
@@ -603,8 +424,15 @@ struct ContentView: View {
                                 }
                                 else {
                                     if newTabSearch.contains("dashboard") {
+                                        navigationState.selectedWebView = nil
+                                        pinnedNavigationState.selectedWebView = nil
+                                        favoritesNavigationState.selectedWebView = nil
+                                        
                                         auraTab = "dashboard"
                                         selectedTabLocation = ""
+                                    }
+                                    if newTabSearch.contains("settings") {
+                                        showSettings = true
                                     }
                                 }
                                 
@@ -676,16 +504,16 @@ struct ContentView: View {
                     }
                 })
                 .onChange(of: navigationState.webViews, {
-                    //saveSpaceData()
-                    //print("Saving navigationState")
+                    saveSpaceData()
+                    print("Saving navigationState")
                 })
                 .onChange(of: pinnedNavigationState.webViews, {
-                    //saveSpaceData()
-                    //print("Saving pinnedNavigationState")
+                    saveSpaceData()
+                    print("Saving pinnedNavigationState")
                 })
                 .onChange(of: favoritesNavigationState.webViews, {
-                    //saveSpaceData()
-                    //print("Saving favoritesNavigationState")
+                    saveSpaceData()
+                    print("Saving favoritesNavigationState")
                 })
                 .onAppear() {
                     if UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex") > spaces.count - 1 {

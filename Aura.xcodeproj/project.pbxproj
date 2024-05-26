@@ -22,6 +22,7 @@
 		B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */; };
 		B97724FE2C0094BB00A39E3A /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */; };
 		B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97725002C0116BA00A39E3A /* Space Picker.swift */; };
+		B97725032C01292400A39E3A /* PagedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97725022C01292400A39E3A /* PagedSidebar.swift */; };
 		B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798BFA2BF0AA4D0012D98E /* Dashboard.swift */; };
 		B9798BFF2BF0B9460012D98E /* Tile Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798BFE2BF0B9460012D98E /* Tile Game.swift */; };
 		B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C402BF28EEB0012D98E /* WeatherManager.swift */; };
@@ -73,6 +74,7 @@
 		B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimations.swift; sourceTree = "<group>"; };
 		B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
 		B97725002C0116BA00A39E3A /* Space Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Space Picker.swift"; sourceTree = "<group>"; };
+		B97725022C01292400A39E3A /* PagedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedSidebar.swift; sourceTree = "<group>"; };
 		B9798BFA2BF0AA4D0012D98E /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		B9798BFE2BF0B9460012D98E /* Tile Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tile Game.swift"; sourceTree = "<group>"; };
 		B9798C402BF28EEB0012D98E /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B97725002C0116BA00A39E3A /* Space Picker.swift */,
 				C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */,
+				B97725022C01292400A39E3A /* PagedSidebar.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				C1BD7D302BDE052F0078D7B3 /* WebView.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
 				B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */,
+				B97725032C01292400A39E3A /* PagedSidebar.swift in Sources */,
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */,
 				C1BD7D2E2BDE05160078D7B3 /* navigationState.swift in Sources */,

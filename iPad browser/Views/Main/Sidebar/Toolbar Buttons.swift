@@ -123,7 +123,7 @@ struct ToolbarButtonsView: View {
                     
                 
                 
-                
+                /*
                 Button(action: {
                     changeColorSheet.toggle()
                 }, label: {
@@ -221,7 +221,9 @@ struct ToolbarButtonsView: View {
                             }
                         })
                 }).keyboardShortcut("t", modifiers: .command)
+                */
                 
+                Spacer()
                 
                 
                 

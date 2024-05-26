@@ -30,16 +30,16 @@ struct WeatherWidgetView: View {
                                         .font(.system(.largeTitle, design: .rounded, weight: .bold))
                                         .padding(.trailing, 10)
                                     
-                                    Text(convertToPrefferedUnits(inputTemp: weatherKitManager.weather?.currentWeather.temperature.value ?? 0.0))
+                                    Text(convertToPrefferedUnits(inputTemp: weatherKitManager.weather?.currentWeather.temperature.value ?? 0.0) + "°")
                                         .font(.system(.largeTitle, design: .rounded, weight: .bold))
                                 })
                                 
                                 HStack(spacing: 0) {
                                     Spacer()
                                     
-                                    ForEach(weatherKitManager.weather?.hourlyForecast.forecast.prefix(5) ?? [], id: \.date) { hourWeather in
+                                    ForEach(weatherKitManager.weather?.hourlyForecast.forecast.prefix(geo.size.width > 200 ? 5: 4) ?? [], id: \.date) { hourWeather in
                                         VStack {
-                                            Text(hourWeather.date.formatted(.dateTime.hour()))
+                                            Text(hourWeather.date.formatted(.dateTime.hour()).prefix(geo.size.width > 200 ? 5: 2).replacingOccurrences(of: geo.size.width > 200 ? "": " ", with: ""))
                                                 .font(.system(geo.size.width <= 200 ? .caption: .body, design: .rounded, weight: .bold))
                                                 .opacity(0.4)
                                             
@@ -47,7 +47,7 @@ struct WeatherWidgetView: View {
                                                 .font(.system(geo.size.height < 250 ? .body: .title2, design: .rounded, weight: .bold))
                                             
                                             Text(convertToPrefferedUnits(inputTemp: hourWeather.temperature.value))
-                                                .font(.system(geo.size.width <= 200 ? .caption: .body, design: .rounded, weight: .regular))
+                                                .font(.system(geo.size.width <= 200 ? .caption2: .body, design: .rounded, weight: .regular))
                                         }
                                         
                                         Spacer()
