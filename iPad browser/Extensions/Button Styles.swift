@@ -207,12 +207,6 @@ struct NewButtonStyle: ButtonStyle {
             if configuration.isPressed {
                 Color.white.opacity(0.0)
                     .frame(width: 0, height: 0)
-                    .onAppear() {
-                        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                    }
-                    .onDisappear() {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    }
             }
             
             configuration.label
@@ -244,6 +238,14 @@ struct NewButtonStyle: ButtonStyle {
                         }
                     }.shadow(color: Color(hex: "000").opacity(0.15), radius: 15, x: 0, y: 0)
                 )
+                .onChange(of: configuration.isPressed, {
+                    if configuration.isPressed {
+                        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                    }
+                    else {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    }
+                })
                 .onHover(perform: { hovering in
                     isHovering = hovering
                 })
