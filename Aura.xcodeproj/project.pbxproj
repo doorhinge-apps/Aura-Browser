@@ -44,6 +44,7 @@
 		B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */; };
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
 		B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */; };
+		B9C0ED8A2C0CC0F200AF6E31 /* DynamicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */; };
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
@@ -102,6 +103,7 @@
 		B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClock.swift; sourceTree = "<group>"; };
 		B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClock.swift; sourceTree = "<group>"; };
 		B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedTabbedSidebar.swift; sourceTree = "<group>"; };
+		B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTextField.swift; sourceTree = "<group>"; };
 		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
 		B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidgetStorage.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
 				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
+				B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */,
 				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
 				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
 				B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */,
@@ -456,6 +459,7 @@
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
 				B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */,
 				B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */,
+				B9C0ED8A2C0CC0F200AF6E31 /* DynamicTextField.swift in Sources */,
 				C1BD7D302BDE052F0078D7B3 /* WebView.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
 				B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */,

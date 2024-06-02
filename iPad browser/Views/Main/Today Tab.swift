@@ -22,6 +22,8 @@ struct TodayTab: View {
     @Binding var selectedTabLocation: String
     @Binding var draggedTab: WKWebView?
     
+    @AppStorage("faviconShape") var faviconShape = "circle"
+    
     @ObservedObject var navigationState: NavigationState
     @ObservedObject var pinnedNavigationState: NavigationState
     @ObservedObject var favoritesNavigationState: NavigationState
@@ -44,7 +46,7 @@ struct TodayTab: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .cornerRadius(50)
+                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
                             .padding(.leading, 5)
                         
                     } placeholder: {
@@ -65,7 +67,7 @@ struct TodayTab: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .cornerRadius(50)
+                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
                             .padding(.leading, 5)
                         
                     } placeholder: {

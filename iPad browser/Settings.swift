@@ -39,6 +39,8 @@ struct Settings: View {
     
     @AppStorage("onboardingDone") var onboardingDone = false
     
+    @AppStorage("faviconShape") var faviconShape = "circle"
+    
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
     @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?t=h_&q=", "Yahoo!":"https://search.yahoo.com/search?p=", "Ecosia": "https://www.ecosia.org/search?method=index&q=hello"]
     var body: some View {
@@ -47,6 +49,7 @@ struct Settings: View {
             
             if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
                 Color.black.opacity(0.5)
+                    .ignoresSafeArea()
             }
             
             ScrollView {
@@ -69,16 +72,18 @@ struct Settings: View {
                         Text("Search Engine: \(searchEngines.someKey(forValue: searchEngine).unsafelyUnwrapped)")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
                     
-                    HStack {
-                        Text("Hover Effects Absorb Cursor")
-                            .font(.system(.title3, design: .rounded, weight: .bold))
-                            .foregroundStyle(Color.white)
-                        
-                        Spacer()
-                        
-                        CustomToggleSlider(toggle: $hoverEffectsAbsorbCursor, startHex: startHex, endHex: endHex)
-                            .scaleEffect(0.75)
-                    }.padding(20)
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        HStack {
+                            Text("Hover Effects Absorb Cursor")
+                                .font(.system(.title3, design: .rounded, weight: .bold))
+                                .foregroundStyle(Color.white)
+                            
+                            Spacer()
+                            
+                            CustomToggleSlider(toggle: $hoverEffectsAbsorbCursor, startHex: startHex, endHex: endHex)
+                                .scaleEffect(0.75)
+                        }.padding(20)
+                    }
                     
                     
                     HStack {
@@ -111,6 +116,37 @@ struct Settings: View {
                         
                         Spacer()
                     }
+                    
+                    
+                    Menu {
+                        Button(action: {
+                            withAnimation {
+                                faviconShape = "circle"
+                            }
+                        }, label: {
+                            Label("Circle", systemImage: "circle")
+                        })
+                        
+                        Button(action: {
+                            withAnimation {
+                                faviconShape = "squircle"
+                            }
+                        }, label: {
+                            Label("Squircle", systemImage: "app")
+                        })
+                        
+                        Button(action: {
+                            withAnimation {
+                                faviconShape = "square"
+                            }
+                        }, label: {
+                            Label("Square", systemImage: "square")
+                        })
+                        
+                    } label: {
+                        Text("Favicon Shape")
+                    }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
+                    
                     
                     HStack {
                         Text("Show Border")
@@ -151,6 +187,7 @@ struct Settings: View {
                         
                         Spacer()
                     }
+                    
                     
                     HStack {
                         Text("Swipe Between Spaces")

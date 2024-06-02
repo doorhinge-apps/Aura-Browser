@@ -69,15 +69,21 @@ struct Sidebar: View {
     @AppStorage("favoritesStyle") var favoritesStyle = false
     @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
     
+    @AppStorage("faviconShape") var faviconShape = "circle"
+    
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
     
     @State var hoverPaintbrush = false
+    
+    @FocusState var renameIsFocused: Bool
     
     // Selection States
     @State private var changingIcon = ""
     @State private var draggedTab: WKWebView?
     
     @State var showPaintbrush = false
+    
+    @State private var textRect = CGRect()
     
     var body: some View {
             VStack {
@@ -167,7 +173,7 @@ struct Sidebar: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 35, height: 35)
-                                            .cornerRadius(50)
+                                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 10: 100)
                                     } placeholder: {
                                         Rectangle().foregroundColor(.gray)
                                     }
@@ -184,7 +190,7 @@ struct Sidebar: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(width: 35, height: 35)
-                                            .cornerRadius(50)
+                                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 10: 100)
                                         
                                     } placeholder: {
                                         LoadingAnimations(size: 35, borderWidth: 5.0)
@@ -269,112 +275,146 @@ struct Sidebar: View {
                         PinnedTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState)
                     }
                     
-                    HStack {
-                        Button {
-                            presentIcons.toggle()
-                        } label: {
+                    ZStack {
+                        HStack {
+                            Spacer()
+                                .frame(width: 50, height: 40)
+                            
                             ZStack {
-                                Color(.white)
-                                    .opacity(spaceIconHover ? 0.5: 0.0)
-                                
-                                Image(systemName: spaces[selectedSpaceIndex].spaceIcon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
+                                TextField("", text: $temporaryRenameSpace)
                                     .foregroundStyle(textColor)
-                                    .opacity(spaceIconHover ? 1.0: 0.5)
+                                    .opacity(renameIsFocused ? 0.75: 0)
+                                    .tint(Color.white)
+                                    .font(.system(.caption, design: .rounded, weight: .medium))
+                                    .focused($renameIsFocused)
+                                    .onSubmit {
+                                        spaces[selectedSpaceIndex].spaceName = temporaryRenameSpace//"\(temporaryRenameSpace)\(UUID().description.prefix(5))"
+                                        
+                                        Task {
+                                            do {
+                                                try await modelContext.save()
+                                            }
+                                            catch {
+                                                print(error.localizedDescription)
+                                            }
+                                        }
+                                        
+                                        temporaryRenameSpace = ""
+                                    }
                                 
-                            }.frame(width: 40, height: 40).cornerRadius(7)
-                                .hoverEffect(.lift)
-                                .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
-                                .onHover(perform: { hovering in
-                                    if hovering {
-                                        spaceIconHover = true
-                                    }
-                                    else {
-                                        spaceIconHover = false
-                                    }
-                                })
-                        }
-                        
-                        ZStack {
-                            if temporaryRenameSpace.isEmpty {
-                                HStack {
-                                    Text(spaces[selectedSpaceIndex].spaceName/*.dropLast(5)*/)
-                                        .foregroundStyle(textColor)
-                                        .opacity(0.5)
-                                        .font(.system(.caption, design: .rounded, weight: .medium))
-                                    
-                                    Spacer()
-                                }
                             }
-                            
-                            TextField("", text: $temporaryRenameSpace)
-                                .foregroundStyle(textColor)
-                                .opacity(0.75)
-                                .tint(Color.white)
-                                .font(.system(.caption, design: .rounded, weight: .medium))
-                                .onTapGesture {
-                                    temporaryRenameSpace = spaces[selectedSpaceIndex].spaceName
-                                    temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
-                                }
-                                .onSubmit {
-                                    spaces[selectedSpaceIndex].spaceName = temporaryRenameSpace//"\(temporaryRenameSpace)\(UUID().description.prefix(5))"
-                                    
-                                    Task {
-                                        do {
-                                            try await modelContext.save()
-                                        }
-                                        catch {
-                                            print(error.localizedDescription)
-                                        }
-                                    }
-                                    
-                                    temporaryRenameSpace = ""
-                                }
                             
                         }
                         
-                        textColor
-                            .opacity(0.5)
-                            .frame(height: 1)
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                showPaintbrush = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    showPaintbrush = false
-                                }
-                            }
-                        
-                        if showPaintbrush {
-                            Button(action: {
-                                changeColorSheet.toggle()
-                            }, label: {
+                        HStack {
+                            Button {
+                                presentIcons.toggle()
+                            } label: {
                                 ZStack {
                                     Color(.white)
-                                        .opacity(hoverPaintbrush ? 0.5: 0.0)
+                                        .opacity(spaceIconHover ? 0.5: 0.0)
                                     
-                                    Image(systemName: hoverPaintbrush ? "paintbrush.pointed.fill": "paintbrush.pointed")
+                                    Image(systemName: spaces[selectedSpaceIndex].spaceIcon)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: 25, height: 25)
+                                        .frame(width: 20, height: 20)
                                         .foregroundStyle(textColor)
-                                        .opacity(hoverPaintbrush ? 1.0: 0.5)
+                                        .opacity(spaceIconHover ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
                                     .hoverEffect(.lift)
                                     .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                                     .onHover(perform: { hovering in
                                         if hovering {
-                                            hoverPaintbrush = true
+                                            spaceIconHover = true
                                         }
                                         else {
-                                            hoverPaintbrush = false
+                                            spaceIconHover = false
                                         }
                                     })
-                            }).keyboardShortcut("e", modifiers: .command)
+                            }
+                            
+                            Text(!renameIsFocused ? spaces[selectedSpaceIndex].spaceName: temporaryRenameSpace)
+                                .foregroundStyle(textColor)
+                                .opacity(!renameIsFocused ? 1.0: 0)
+                                .font(.system(.caption, design: .rounded, weight: .medium))
+                                .onTapGesture {
+                                    temporaryRenameSpace = spaces[selectedSpaceIndex].spaceName
+                                    temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
+                                    renameIsFocused = true
+                                }
+                            
+                            if renameIsFocused {
+                                Button(action: {
+                                    renameIsFocused = false
+                                }, label: {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .frame(height: 20)
+                                        .foregroundStyle(Color.white)
+                                        .opacity(0.5)
+                                })
+                            }
+                            
+                            textColor
+                                .opacity(0.5)
+                                .frame(height: 1)
+                                .cornerRadius(10)
+                                .onTapGesture {
+                                    showPaintbrush = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        showPaintbrush = false
+                                    }
+                                }
+                            
+                            
+                            Menu {
+                                VStack {
+                                    Button(action: {
+                                        changeColorSheet.toggle()
+                                    }, label: {
+                                        Label("Edit Theme", systemImage: "paintbrush.pointed")
+                                    })
+                                    
+                                    Button(action: {
+                                        temporaryRenameSpace = spaces[selectedSpaceIndex].spaceName
+                                        temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
+                                        renameIsFocused = true
+                                    }, label: {
+                                        Label("Rename Space", systemImage: "rectangle.and.pencil.and.ellipsis.rtl")
+                                    })
+                                    
+                                    Button(action: {
+                                        presentIcons.toggle()
+                                    }, label: {
+                                        Label("Change Space Icon", systemImage: spaces[selectedSpaceIndex].spaceIcon)
+                                    })
+                                }
+                            } label: {
+                                ZStack {
+                                    Color(.white)
+                                        .opacity(hoverPaintbrush ? 0.5: 0.0)
+                                    
+                                    Image(systemName: "ellipsis")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 15, height: 25)
+                                        .foregroundStyle(textColor)
+                                        .opacity(hoverPaintbrush ? 1.0: 0.5)
+                                    
+                                }.frame(width: 40, height: 40).cornerRadius(7)
+                            }.hoverEffect(.lift)
+                                .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                .onHover(perform: { hovering in
+                                    if hovering {
+                                        hoverPaintbrush = true
+                                    }
+                                    else {
+                                        hoverPaintbrush = false
+                                    }
+                                })
+                            
+                            
                         }
-                        
                     }
                     .onHover(perform: { hovering in
                         if hovering {

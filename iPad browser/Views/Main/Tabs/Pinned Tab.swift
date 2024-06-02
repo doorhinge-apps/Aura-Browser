@@ -24,6 +24,8 @@ struct PinnedTab: View {
     @ObservedObject var pinnedNavigationState: NavigationState
     @ObservedObject var favoritesNavigationState: NavigationState
     
+    @AppStorage("faviconShape") var faviconShape = "circle"
+    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -43,7 +45,7 @@ struct PinnedTab: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .cornerRadius(50)
+                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
                             .padding(.leading, 5)
                         
                     } placeholder: {
@@ -64,7 +66,7 @@ struct PinnedTab: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .cornerRadius(50)
+                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
                             .padding(.leading, 5)
                         
                     } placeholder: {
