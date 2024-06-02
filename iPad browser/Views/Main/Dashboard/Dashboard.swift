@@ -68,6 +68,10 @@ struct Dashboard: View {
                                     TileGame(size: dashboardWidgets[index].height < 250 ? 34.5: 69)
                                         .cornerRadius(10)
                                 }
+                                else if dashboardWidgets[index].title == "Clock" {
+                                    Clock()
+                                        .cornerRadius(10)
+                                }
                             }.offset(x: widget.xPosition - CGFloat(dashboardWidgets[index].width / 2), y: widget.yPosition - CGFloat(dashboardWidgets[index].height / 2))
                         }
                         
@@ -76,32 +80,45 @@ struct Dashboard: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.white.opacity(0.0001))
                                     .contextMenu(menuItems: {
-                                        Text("Change Widget Size")
-                                        Divider()
+                                        Menu {
+                                            Button(action: {
+                                                updateWidgetSize(index: index, size: CGSize(width: 150, height: 150))
+                                            }, label: {
+                                                Text("Small")
+                                            })
+                                            
+                                            Button(action: {
+                                                updateWidgetSize(index: index, size: CGSize(width: 300, height: 150))
+                                            }, label: {
+                                                Text("Medium")
+                                            })
+                                            
+                                            Button(action: {
+                                                updateWidgetSize(index: index, size: CGSize(width: 300, height: 300))
+                                            }, label: {
+                                                Text("Large")
+                                            })
+                                            
+                                            Button(action: {
+                                                updateWidgetSize(index: index, size: CGSize(width: 550, height: 300))
+                                            }, label: {
+                                                Text("Extra Large")
+                                            })
+                                        } label: {
+                                            Text("Size")
+                                        }
+
                                         
-                                        Button(action: {
-                                            updateWidgetSize(index: index, size: CGSize(width: 150, height: 150))
-                                        }, label: {
-                                            Text("Small")
-                                        })
-                                        
-                                        Button(action: {
-                                            updateWidgetSize(index: index, size: CGSize(width: 300, height: 150))
-                                        }, label: {
-                                            Text("Medium")
-                                        })
-                                        
-                                        Button(action: {
-                                            updateWidgetSize(index: index, size: CGSize(width: 300, height: 300))
-                                        }, label: {
-                                            Text("Large")
-                                        })
-                                        
-                                        Button(action: {
-                                            updateWidgetSize(index: index, size: CGSize(width: 550, height: 300))
-                                        }, label: {
-                                            Text("Extra Large")
-                                        })
+                                        Menu {
+                                            Button(action: {
+                                                dashboardWidgets.remove(at: index)
+                                            }, label: {
+                                                Label("Remove", systemImage: "trash")
+                                            })
+                                        } label: {
+                                            Text("Remove")
+                                        }
+
                                     }, preview: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 10)
@@ -128,6 +145,10 @@ struct Dashboard: View {
                                             }
                                             else if dashboardWidgets[index].title == "Tile Game" {
                                                 TileGame(size: dashboardWidgets[index].height < 250 ? 34.5: 69)
+                                                    .cornerRadius(10)
+                                            }
+                                            else if dashboardWidgets[index].title == "Clock" {
+                                                Clock()
                                                     .cornerRadius(10)
                                             }
                                         }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))
@@ -199,6 +220,14 @@ struct Dashboard: View {
                             saveDashboardWidgets(widgets: dashboardWidgets)
                         }, label: {
                             Text("Tile Game")
+                        })
+                        
+                        Button(action: {
+                            let newWidget = DashboardWidget(title: "Clock", xPosition: 0.0, yPosition: 0.0, width: 150.0, height: 150.0)
+                            dashboardWidgets.append(newWidget)
+                            saveDashboardWidgets(widgets: dashboardWidgets)
+                        }, label: {
+                            Text("Clock")
                         })
                     } label: {
                         ZStack {
