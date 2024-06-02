@@ -43,6 +43,7 @@
 		B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */; };
 		B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */; };
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
+		B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */; };
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
@@ -100,6 +101,7 @@
 		B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClock.swift; sourceTree = "<group>"; };
 		B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClock.swift; sourceTree = "<group>"; };
+		B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedTabbedSidebar.swift; sourceTree = "<group>"; };
 		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
 		B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidgetStorage.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				B97725002C0116BA00A39E3A /* Space Picker.swift */,
 				C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */,
 				B97725022C01292400A39E3A /* PagedSidebar.swift */,
+				B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
+				B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */,
 				B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */,
 				C1BD7D302BDE052F0078D7B3 /* WebView.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
@@ -596,7 +600,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -635,7 +639,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;

@@ -175,16 +175,16 @@ struct ContentView: View {
                                         .disabled(true)
                                 }
                                 
-                                if swipingSpaces {
+                                //if swipingSpaces {
                                     PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                }
-                                else {
+                                //}
+                                /*else {
                                     Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                     
                                         .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
                                         .padding(showBorder ? 0: 15)
                                         .padding(.top, showBorder ? 0: 10)
-                                }
+                                }*/
                             }
                             
                             ZStack {
@@ -328,12 +328,12 @@ struct ContentView: View {
                                 }
                                 
                                 
-                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                
-                                    .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
-                                    .padding(showBorder ? 0: 15)
-                                    .padding(.top, showBorder ? 0: 10)
-                                //PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, geo: geo)
+//                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+//                                
+//                                    .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
+//                                    .padding(showBorder ? 0: 15)
+//                                    .padding(.top, showBorder ? 0: 10)
+                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                             }
                         }
                         .padding(.trailing, showBorder ? 10: 0)
@@ -367,8 +367,77 @@ struct ContentView: View {
                                         }
                                     
                                     HStack {
-                                        Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+//                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                        VStack {
+                                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, geo: geo).frame(height: 40)
+                                                .padding([.top, .horizontal], 5)
+                                            
+                                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                            
+                                            HStack {
+                                                Button {
+                                                    showSettings.toggle()
+                                                } label: {
+                                                    ZStack {
+                                                        Color(.white)
+                                                            .opacity(settingsButtonHover ? 0.5: 0.0)
+                                                        
+                                                        Image(systemName: "gearshape")
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 20, height: 20)
+                                                            .foregroundStyle(textColor)
+                                                            .opacity(settingsButtonHover ? 1.0: 0.5)
+                                                        
+                                                    }.frame(width: 40, height: 40).cornerRadius(7)
+                                                        .hoverEffect(.lift)
+                                                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                                        .onHover(perform: { hovering in
+                                                            if hovering {
+                                                                settingsButtonHover = true
+                                                            }
+                                                            else {
+                                                                settingsButtonHover = false
+                                                            }
+                                                        })
+                                                }
+                                                .sheet(isPresented: $showSettings) {
+                                                    Settings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                }
+                                                Spacer()
+                                                
+                                                SpacePicker(navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                
+                                                Button(action: {
+                                                    modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                                                }, label: {
+                                                    ZStack {
+                                                        Color(.white)
+                                                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                        
+                                                        Image(systemName: "plus")
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 20, height: 20)
+                                                            .foregroundStyle(textColor)
+                                                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                        
+                                                    }.frame(width: 40, height: 40).cornerRadius(7)
+                                                        .hoverEffect(.lift)
+                                                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                                        .onHover(perform: { hovering in
+                                                            if hovering {
+                                                                hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                            }
+                                                            else {
+                                                                hoverSpace = ""
+                                                            }
+                                                        })
+                                                })
+                                            }
+                                        }
                                             .padding(15)
+                                            .frame(width: 300)
                                             .background(content: {
                                                 if sidebarLeft {
                                                     LinearGradient(colors: [startColor, Color(hex: averageHexColor(hex1: startHex, hex2: endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
@@ -391,7 +460,6 @@ struct ContentView: View {
                                                     Color.black.opacity(0.5)
                                                 }
                                             })
-                                            .frame(width: 300)
                                             .cornerRadius(10)
                                             .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
                                         

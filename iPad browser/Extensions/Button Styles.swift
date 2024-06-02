@@ -237,7 +237,7 @@ struct NewButtonStyle: ButtonStyle {
                                     .offset(y: 2)
                                 RoundedRectangle(cornerRadius: 15)
                                     .fill(Color(.white))
-                                    .offset(y: isHovering ? 1: 0)
+                                    //.offset(y: isHovering ? 0: 0)
                                     .opacity(isHovering ? 0.8: 1.0)
                                     .modifier(InnerShadow())
                             }

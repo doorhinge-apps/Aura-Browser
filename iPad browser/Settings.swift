@@ -37,6 +37,8 @@ struct Settings: View {
     
     //@AppStorage("launchDashboard") var launchDashboard = false
     
+    @AppStorage("onboardingDone") var onboardingDone = false
+    
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
     @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?t=h_&q=", "Yahoo!":"https://search.yahoo.com/search?p=", "Ecosia": "https://www.ecosia.org/search?method=index&q=hello"]
     var body: some View {
@@ -159,10 +161,12 @@ struct Settings: View {
                         
                         CustomToggleSlider(toggle: $swipingSpaces, startHex: startHex, endHex: endHex)
                             .scaleEffect(0.75)
+                            .disabled(true)
+                            .grayscale(1.0)
                     }.padding(20)
                     
                     HStack {
-                        Text("Enables the swiping between spaces beta. This only works for the expanded sidebar on the left right now.")
+                        Text("Enables swiping between spaces beta. Cannot be disabled currently. Only works for expanded sidebars for now.")
                             .foregroundStyle(Color.white)
                             .padding(.leading, 20)
                         
@@ -209,8 +213,9 @@ struct Settings: View {
                     
                     Button {
                         email = ""
+                        onboardingDone = false
                     } label: {
-                        Text("Sign Out")
+                        Text("Reset Onboarding")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
                     
                     
@@ -229,7 +234,7 @@ struct Settings: View {
                         Text("Done")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
                         .padding(15)
-
+                    
                 }
                 
                 Spacer()

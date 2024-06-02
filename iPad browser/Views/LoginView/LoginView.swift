@@ -24,6 +24,7 @@ struct LoginView: View {
     @State var invalidError = false
     
     @AppStorage("email") var appIsLoggedIn: String = ""
+    @AppStorage("onboardingDone") var onboardingDone = false
     
     @State var incorrectPassword = false
     
@@ -31,22 +32,13 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            if appIsLoggedIn.isEmpty {
+            if !onboardingDone {
                 if onboarding == 1 {
                     page1
                 }
                 
                 else if onboarding == 2 {
                     onboardingComingSoon
-                    //page2
-                }
-                
-                else if onboarding == 3 {
-                    page3Login
-                }
-                
-                else if onboarding == 4 {
-                    page3SignUp
                 }
             }
             else {
@@ -82,9 +74,9 @@ struct LoginView: View {
                     onboarding = 2
                 } label: {
                     ZStack {
-                        Text("")
+                        Text("Continue")
                     }
-                }.buttonStyle(GrowingButton(buttonText: "Continue", buttonWidth: 225, buttonHeight: 30)).hoverEffect(.lift)
+                }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
                 
             }
         }
@@ -105,15 +97,15 @@ struct LoginView: View {
                 
                 
                 Button {
-                    appIsLoggedIn = "skip"
+                    onboardingDone = true
                 } label: {
                     ZStack {
-                        Text("")
+                        Text("Continue")
                     }
-                }.buttonStyle(GrowingButton(buttonText: "Continue", buttonWidth: 225, buttonHeight: 30)).hoverEffect(.lift)
+                }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
                 
                 
-            }//.frame(width: 350)
+            }
         }
     }
     

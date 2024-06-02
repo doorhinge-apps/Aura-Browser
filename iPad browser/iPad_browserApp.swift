@@ -12,6 +12,8 @@ import UIKit
 
 class CustomAppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Set the appearance of UITabBar here
+        //UITabBar.appearance().backgroundColor = UIColor.clear
         return true
     }
     

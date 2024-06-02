@@ -47,6 +47,7 @@ struct ToolbarButtonsView: View {
     @Binding var textColor: Color
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
+    @AppStorage("sidebarLeft") var sidebarLeft = true
     
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
     
@@ -54,6 +55,11 @@ struct ToolbarButtonsView: View {
     var body: some View {
         GeometryReader { geo2 in
             HStack {
+                if ProcessInfo.processInfo.isMacCatalystApp && !hideSidebar && sidebarLeft {
+                    Spacer()
+                        .frame(width: 65)
+                }
+                
                 if UIDevice.current.userInterfaceIdiom != .phone {
                     Button(action: {
                         Task {
@@ -222,8 +228,10 @@ struct ToolbarButtonsView: View {
                         })
                 }).keyboardShortcut("t", modifiers: .command)
                 */
-                
-                Spacer()
+                //if UIDevice.current.userInterfaceIdiom != .mac {
+                //if ProcessInfo.processInfo.isMacCatalystApp {
+                    Spacer()
+                //}
                 
                 
                 

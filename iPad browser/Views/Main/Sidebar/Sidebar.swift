@@ -81,8 +81,6 @@ struct Sidebar: View {
     
     var body: some View {
             VStack {
-                ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, geo: geo).frame(height: 40)
-                
                 // Sidebar Searchbar
                 Button {
                     if ((navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
@@ -490,67 +488,7 @@ struct Sidebar: View {
                     }
                 }
                 
-                HStack {
-                    Button {
-                        showSettings.toggle()
-                    } label: {
-                        ZStack {
-                            Color(.white)
-                                .opacity(settingsButtonHover ? 0.5: 0.0)
-                            
-                            Image(systemName: "gearshape")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .foregroundStyle(textColor)
-                                .opacity(settingsButtonHover ? 1.0: 0.5)
-                            
-                        }.frame(width: 40, height: 40).cornerRadius(7)
-                            .hoverEffect(.lift)
-                            .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
-                            .onHover(perform: { hovering in
-                                if hovering {
-                                    settingsButtonHover = true
-                                }
-                                else {
-                                    settingsButtonHover = false
-                                }
-                            })
-                    }
-                    .sheet(isPresented: $showSettings) {
-                        Settings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                    }
-                    Spacer()
-                    
-                    SpacePicker(navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
-                    
-                    Button(action: {
-                        modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                    }, label: {
-                        ZStack {
-                            Color(.white)
-                                .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-                            
-                            Image(systemName: "plus")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .foregroundStyle(textColor)
-                                .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-                            
-                        }.frame(width: 40, height: 40).cornerRadius(7)
-                            .hoverEffect(.lift)
-                            .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
-                            .onHover(perform: { hovering in
-                                if hovering {
-                                    hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                }
-                                else {
-                                    hoverSpace = ""
-                                }
-                            })
-                    })
-                }
+                
             }
     }
     
