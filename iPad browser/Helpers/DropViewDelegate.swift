@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WebKit
+import Dynamic
 
 struct DropViewDelegate: DropDelegate {
     
@@ -32,6 +33,8 @@ struct DropViewDelegate: DropDelegate {
                 if let toIndex, fromIndex != toIndex {
                     withAnimation {
                         self.allTabs.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
+                        
+                        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     }
                 }
             }

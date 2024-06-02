@@ -1,6 +1,15 @@
 {
-  "originHash" : "6e35014d8a5b83f5e5a7bf1538315aee9676a63c730d8112f8c176741902afe2",
+  "originHash" : "f8042c2e9e3a8d40b20ca28167e29a6c4106224cc082da71dcf828382bbd7347",
   "pins" : [
+    {
+      "identity" : "dynamic?tab=readme-ov-file#installation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mhdhejazi/Dynamic?tab=readme-ov-file#installation",
+      "state" : {
+        "revision" : "ab9a2570862d54aed2663691bb767f881226a12f",
+        "version" : "1.2.0"
+      }
+    },
     {
       "identity" : "faviconfinder",
       "kind" : "remoteSourceControl",

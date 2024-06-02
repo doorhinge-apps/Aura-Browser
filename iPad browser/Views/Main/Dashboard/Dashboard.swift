@@ -108,16 +108,22 @@ struct Dashboard: View {
                                             Text("Size")
                                         }
 
-                                        
-                                        Menu {
+                                        Button(role: .destructive, action: {
+                                            dashboardWidgets.remove(at: index)
+                                        }, label: {
+                                            Label("Remove", systemImage: "trash")
+                                                .tint(.red)
+                                        })
+                                        /*Menu {
                                             Button(action: {
                                                 dashboardWidgets.remove(at: index)
                                             }, label: {
                                                 Label("Remove", systemImage: "trash")
+                                                    .tint(.red)
                                             })
                                         } label: {
                                             Text("Remove")
-                                        }
+                                        }*/
 
                                     }, preview: {
                                         ZStack {

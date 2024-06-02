@@ -352,7 +352,8 @@ struct Sidebar: View {
                                         .frame(height: 20)
                                         .foregroundStyle(Color.white)
                                         .opacity(0.5)
-                                })
+                                }).hoverEffect(.lift)
+                                    .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                             }
                             
                             textColor
@@ -521,6 +522,9 @@ struct Sidebar: View {
                                 hoverNewTabSection = false
                             }
                         })
+                    }
+                    .onAppear() {
+                        tabBarShown = true
                     }
                     
                     ForEach(navigationState.webViews.reversed(), id: \.self) { tab in
