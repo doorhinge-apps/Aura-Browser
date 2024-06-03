@@ -45,7 +45,6 @@
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
 		B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */; };
 		B9C0ED8A2C0CC0F200AF6E31 /* DynamicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */; };
-		B9C0ED8D2C0CCF5700AF6E31 /* Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B9C0ED8C2C0CCF5700AF6E31 /* Dynamic */; };
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
@@ -125,7 +124,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9C0ED8D2C0CCF5700AF6E31 /* Dynamic in Frameworks */,
 				B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
 			);
@@ -365,7 +363,6 @@
 			packageProductDependencies = (
 				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
-				B9C0ED8C2C0CCF5700AF6E31 /* Dynamic */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -399,7 +396,6 @@
 				B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
 				B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
-				B9C0ED8B2C0CCF5700AF6E31 /* XCRemoteSwiftPackageReference "Dynamic" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -542,6 +538,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Debug;
 		};
@@ -598,6 +595,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Release;
 		};
@@ -608,7 +606,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -649,7 +647,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -723,14 +721,6 @@
 				minimumVersion = 5.0.2;
 			};
 		};
-		B9C0ED8B2C0CCF5700AF6E31 /* XCRemoteSwiftPackageReference "Dynamic" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mhdhejazi/Dynamic?tab=readme-ov-file#installation";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
-			};
-		};
 		B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -746,11 +736,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
 			productName = FaviconFinder;
-		};
-		B9C0ED8C2C0CCF5700AF6E31 /* Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B9C0ED8B2C0CCF5700AF6E31 /* XCRemoteSwiftPackageReference "Dynamic" */;
-			productName = Dynamic;
 		};
 		B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

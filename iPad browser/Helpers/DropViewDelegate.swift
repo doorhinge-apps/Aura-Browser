@@ -7,7 +7,6 @@
 
 import SwiftUI
 import WebKit
-import Dynamic
 
 struct DropViewDelegate: DropDelegate {
     

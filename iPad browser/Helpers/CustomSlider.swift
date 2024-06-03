@@ -39,7 +39,11 @@ struct CustomToggleSlider: View {
         .onTapGesture {
             withAnimation {
                 toggle.toggle()
+                #if os(visionOS)
+                
+                #else
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                #endif
             }
         }.onHover(perform: { hovering in
             if hovering {
