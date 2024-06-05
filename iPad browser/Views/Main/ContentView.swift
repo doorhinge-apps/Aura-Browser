@@ -157,6 +157,7 @@ struct ContentView: View {
     
     @State private var navigationOffset: CGFloat = 0
     @State var navigationArrowColor = false
+    @State var arrowImpactOnce = false
     var body: some View {
         GeometryReader { geo in
             if spaces.count > 0 {
@@ -247,6 +248,162 @@ struct ContentView: View {
                                     
                                     Spacer()
                                         .frame(width: 20)
+                                    
+                                    HStack {
+                                        Button {
+                                            Task {
+                                                await hideSidebar.toggle()
+                                            }
+                                            
+                                            withAnimation {
+                                                if !hideSidebar {
+                                                    if selectedTabLocation == "tabs" {
+                                                        Task {
+                                                            await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                        }
+                                                    }
+                                                    else if selectedTabLocation == "pinnedTabs" {
+                                                        Task {
+                                                            await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                        }
+                                                    }
+                                                    else if selectedTabLocation == "favoriteTabs" {
+                                                        Task {
+                                                            await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                        }
+                                                    }
+                                                } else {
+                                                    if selectedTabLocation == "tabs" {
+                                                        Task {
+                                                            await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                                        }
+                                                    }
+                                                    else if selectedTabLocation == "pinnedTabs" {
+                                                        Task {
+                                                            await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                                        }
+                                                    }
+                                                    else if selectedTabLocation == "favoriteTabs" {
+                                                        Task {
+                                                            await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } label: {
+                                            
+                                        }.keyboardShortcut("s", modifiers: .command)
+                                        
+                                        Button {
+                                            if selectedTabLocation == "tabs" {
+                                                variables.navigationState.selectedWebView?.goBack()
+                                            }
+                                            else if selectedTabLocation == "pinnedTabs" {
+                                                variables.pinnedNavigationState.selectedWebView?.goBack()
+                                            }
+                                            else if selectedTabLocation == "favoriteTabs" {
+                                                variables.favoritesNavigationState.selectedWebView?.goBack()
+                                            }
+                                        } label: {
+                                            
+                                        }.keyboardShortcut("[", modifiers: .command)
+                                        
+                                        Button {
+                                            if selectedTabLocation == "tabs" {
+                                                variables.navigationState.selectedWebView?.goForward()
+                                            }
+                                            else if selectedTabLocation == "pinnedTabs" {
+                                                variables.pinnedNavigationState.selectedWebView?.goForward()
+                                            }
+                                            else if selectedTabLocation == "favoriteTabs" {
+                                                variables.favoritesNavigationState.selectedWebView?.goForward()
+                                            }
+                                        } label: {
+                                            
+                                        }.keyboardShortcut("]", modifiers: .command)
+                                        
+                                        Button {
+                                            reloadRotation += 360
+                                            
+                                            if selectedTabLocation == "tabs" {
+                                                variables.navigationState.selectedWebView?.reload()
+                                                variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                
+                                                variables.navigationState.selectedWebView = variables.navigationState.selectedWebView
+                                                //navigationState.currentURL = navigationState.currentURL
+                                                
+                                                if let unwrappedURL = variables.navigationState.currentURL {
+                                                    searchInSidebar = unwrappedURL.absoluteString
+                                                }
+                                            }
+                                            else if selectedTabLocation == "pinnedTabs" {
+                                                variables.pinnedNavigationState.selectedWebView?.reload()
+                                                variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                
+                                                variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.selectedWebView
+                                                
+                                                if let unwrappedURL = variables.pinnedNavigationState.currentURL {
+                                                    searchInSidebar = unwrappedURL.absoluteString
+                                                }
+                                            }
+                                            else if selectedTabLocation == "favoriteTabs" {
+                                                variables.favoritesNavigationState.selectedWebView?.reload()
+                                                variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                
+                                                variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.selectedWebView
+                                                
+                                                if let unwrappedURL = variables.favoritesNavigationState.currentURL {
+                                                    searchInSidebar = unwrappedURL.absoluteString
+                                                }
+                                            }
+                                        } label: {
+                                            
+                                        }.keyboardShortcut("r", modifiers: .command)
+                                        
+                                        
+                                        Button {
+                                            if ((variables.navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
+                                                tabBarShown.toggle()
+                                                commandBarShown = false
+                                            }
+                                            else {
+                                                commandBarShown.toggle()
+                                                tabBarShown = false
+                                            }
+                                        } label: {
+                                            
+                                        }.keyboardShortcut("l", modifiers: .command)
+                                        
+                                        
+                                        Button {
+                                            if selectedTabLocation == "favoriteTabs" {
+                                                if let index = variables.favoritesNavigationState.webViews.firstIndex(of: variables.favoritesNavigationState.selectedWebView ?? WKWebView()) {
+                                                    favoriteRemoveTab(at: index)
+                                                }
+                                            }
+                                            else if selectedTabLocation == "pinnedTabs" {
+                                                if let index = variables.pinnedNavigationState.webViews.firstIndex(of: variables.pinnedNavigationState.selectedWebView ?? WKWebView()) {
+                                                    pinnedRemoveTab(at: index)
+                                                }
+                                            }
+                                            else if selectedTabLocation == "tabs" {
+                                                if let index = variables.navigationState.webViews.firstIndex(of: variables.navigationState.selectedWebView ?? WKWebView()) {
+                                                    removeTab(at: index)
+                                                }
+                                            }
+                                        } label: {
+                                            
+                                        }.keyboardShortcut("w", modifiers: .command)
+                                        
+                                        
+                                        Button {
+                                            tabBarShown.toggle()
+                                        } label: {
+                                            
+                                        }.keyboardShortcut("t", modifiers: .command)
+
+
+                                    }
                                     /*
                                     TrackpadScrollView(
                                         onScroll: { offset in
@@ -295,10 +452,19 @@ struct ContentView: View {
                                                     navigationOffset = newOffset > 0 ? 150 : -150
                                                 }
                                                 if abs(newOffset) > 100 {
+                                                    if !arrowImpactOnce {
+                                                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                                        arrowImpactOnce = true
+                                                    }
+                                                    
                                                     withAnimation(.linear(duration: 0.3)) {
                                                         navigationArrowColor = true
                                                     }
                                                 } else {
+                                                    if arrowImpactOnce {
+                                                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                                        arrowImpactOnce = false
+                                                    }
                                                     withAnimation(.linear(duration: 0.3)) {
                                                         navigationArrowColor = false
                                                     }
@@ -306,6 +472,7 @@ struct ContentView: View {
                                             }
                                         }
                                         .onEnded { value in
+                                            arrowImpactOnce = false
                                             let startLocation = value.startLocation.x
                                             let width = webGeo.size.width
                                             
@@ -828,5 +995,68 @@ struct ContentView: View {
         } else if selectedTabLocation == "favoriteTabs" {
             variables.favoritesNavigationState.selectedWebView?.goForward()
         }
+    }
+    
+    func favoriteRemoveTab(at index: Int) {
+        // If the deleted tab is the currently selected one
+        if variables.favoritesNavigationState.selectedWebView == variables.favoritesNavigationState.webViews[index] {
+            if variables.favoritesNavigationState.webViews.count > 1 { // Check if there's more than one tab
+                if index == 0 { // If the first tab is being deleted, select the next one
+                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[1]
+                } else { // Otherwise, select the previous one
+                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[index - 1]
+                }
+            } else { // If it's the only tab, set the selectedWebView to nil
+                variables.favoritesNavigationState.selectedWebView = nil
+            }
+        }
+        
+        variables.favoritesNavigationState.webViews.remove(at: index)
+        
+        saveSpaceData()
+    }
+    
+    func pinnedRemoveTab(at index: Int) {
+        // If the deleted tab is the currently selected one
+        if variables.pinnedNavigationState.selectedWebView == variables.pinnedNavigationState.webViews[index] {
+            if variables.pinnedNavigationState.webViews.count > 1 { // Check if there's more than one tab
+                if index == 0 { // If the first tab is being deleted, select the next one
+                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[1]
+                } else { // Otherwise, select the previous one
+                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[index - 1]
+                }
+            } else { // If it's the only tab, set the selectedWebView to nil
+                variables.pinnedNavigationState.selectedWebView = nil
+            }
+        }
+        
+        variables.pinnedNavigationState.webViews.remove(at: index)
+        
+        saveSpaceData()
+    }
+    
+    func removeTab(at index: Int) {
+        // If the deleted tab is the currently selected one
+        if variables.navigationState.selectedWebView == variables.navigationState.webViews[index] {
+            if variables.navigationState.webViews.count > 1 { // Check if there's more than one tab
+                if index == 0 { // If the first tab is being deleted, select the next one
+                    variables.navigationState.selectedWebView = variables.navigationState.webViews[1]
+                } else { // Otherwise, select the previous one
+                    variables.navigationState.selectedWebView = variables.navigationState.webViews[index - 1]
+                }
+            } else { // If it's the only tab, set the selectedWebView to nil
+                variables.navigationState.selectedWebView = nil
+            }
+        }
+        
+        variables.navigationState.webViews.remove(at: index)
+        
+        do {
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        saveSpaceData()
     }
 }

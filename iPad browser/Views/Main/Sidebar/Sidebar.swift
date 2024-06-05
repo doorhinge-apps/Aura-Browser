@@ -136,7 +136,7 @@ struct Sidebar: View {
                             hoverSidebarSearchField = false
                         }
                     })
-                }.keyboardShortcut("l", modifiers: .command)
+                }
                 
                 // Favorite Tabs
                 LazyVGrid(columns: [GridItem(), GridItem()]) {

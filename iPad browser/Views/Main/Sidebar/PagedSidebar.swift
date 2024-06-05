@@ -103,6 +103,7 @@ struct PagedSidebar: View {
                                 VStack {
                                     Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                         .id(space.description)
+                                        .padding(.horizontal, 10)
                                     
                                     // Variables to test offset of scrolling between spaces
                                     //Text(horizontalScrollPosition.x.description)
@@ -329,13 +330,11 @@ struct PagedSidebar: View {
                 }
             }
         }.ignoresSafeArea()
-            .padding(.trailing, hideSidebar ? 0: 10)
-            .padding(showBorder ? 0: 15)
-            .padding(.top, showBorder ? 0: 10)
+            //.padding(.trailing, hideSidebar ? 0: 10)
+            //.padding(showBorder ? 0: 15)
+            //.padding(.top, showBorder ? 0: 10)
             .frame(width: hideSidebar ? 0: 300)
-            //.frame(width: 300)
             .offset(x: hideSidebar ? 320 * (sidebarLeft ? -1: 1): 0)
-        //.scrollTargetBehavior(.viewAligned)
             .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
             .scrollIndicators(.hidden)
     }

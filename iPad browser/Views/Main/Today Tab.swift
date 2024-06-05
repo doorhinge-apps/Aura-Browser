@@ -99,7 +99,7 @@ struct TodayTab: View {
                 Spacer() // Pushes the delete button to the edge
                 
                 Button(action: {
-                    if let index = navigationState.webViews.firstIndex(of: tab) {
+                    if let index = navigationState.webViews.firstIndex(of: navigationState.selectedWebView ?? tab) {
                         removeTab(at: index)
                     }
                 }) {
@@ -127,7 +127,7 @@ struct TodayTab: View {
                             })
                         
                     }
-                }.keyboardShortcut("w", modifiers: .option)
+                }
             }
         }
         .contextMenu {

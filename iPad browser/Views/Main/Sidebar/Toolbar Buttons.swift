@@ -124,7 +124,7 @@ struct ToolbarButtonsView: View {
                                     hoverSidebarButton = false
                                 }
                             })
-                    }).keyboardShortcut("s", modifiers: .command)
+                    })
                 }
                     
                 
@@ -268,7 +268,7 @@ struct ToolbarButtonsView: View {
                                 hoverBackwardButton = false
                             }
                         })
-                }).keyboardShortcut("[", modifiers: .command)
+                })
                 
                 Button(action: {
                     if selectedTabLocation == "tabs" {
@@ -303,7 +303,7 @@ struct ToolbarButtonsView: View {
                                 hoverForwardButton = false
                             }
                         })
-                }).keyboardShortcut("]", modifiers: .command)
+                })
                 
                 
                 Button(action: {
@@ -365,7 +365,7 @@ struct ToolbarButtonsView: View {
                                 hoverReloadButton = false
                             }
                         })
-                }).keyboardShortcut("r", modifiers: .command)
+                })
             }
             .onAppear() {
                 if UIDevice.current.userInterfaceIdiom == .phone {

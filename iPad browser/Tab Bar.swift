@@ -73,7 +73,7 @@ struct TabBar: View {
                                     })
                                 
                             }
-                        }.keyboardShortcut("w", modifiers: .option)
+                        }
                     }.contextMenu {
                         Button {
                             //
