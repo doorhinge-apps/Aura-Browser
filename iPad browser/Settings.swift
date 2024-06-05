@@ -13,33 +13,10 @@ struct Settings: View {
     
     @Binding var presentSheet: Bool
     
-    //@AppStorage("startColorHex") var startHex = "ffffff"
-    //@AppStorage("endColorHex") var endHex = "000000"
     @State var startHex: String
     @State var endHex: String
-    @AppStorage("email") var email = ""
     
-    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = false
-    @AppStorage("favoritesStyle") var favoritesStyle = false
-    @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = true
-    
-    @AppStorage("showBorder") var showBorder = true
-    
-    @AppStorage("disableSidebarHover") var disableSidebarHover = true
-    
-    @AppStorage("sidebarLeft") var sidebarLeft = true
-    
-    @AppStorage("searchEngine") var searchEngine = "https://www.google.com/search?q="
-    
-    @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
-    
-    @AppStorage("swipingSpaces") var swipingSpaces = true
-    
-    //@AppStorage("launchDashboard") var launchDashboard = false
-    
-    @AppStorage("onboardingDone") var onboardingDone = false
-    
-    @AppStorage("faviconShape") var faviconShape = "circle"
+    @StateObject var settings = SettingsVariables()
     
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
     @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?t=h_&q=", "Yahoo!":"https://search.yahoo.com/search?p=", "Ecosia": "https://www.ecosia.org/search?method=index&q=hello"]
@@ -47,7 +24,7 @@ struct Settings: View {
         ZStack {
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
             
-            if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+            if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                 Color.black.opacity(0.5)
                     .ignoresSafeArea()
             }
@@ -61,7 +38,7 @@ struct Settings: View {
                         ForEach(searchEngineOptions, id:\.self) { option in
                             Button(action: {
                                 withAnimation {
-                                    searchEngine = searchEngines[option] ?? "https://www.google.com/search?q="
+                                    settings.searchEngine = searchEngines[option] ?? "https://www.google.com/search?q="
                                 }
                             }, label: {
                                 Text(option)
@@ -69,7 +46,7 @@ struct Settings: View {
                         }
                         
                     } label: {
-                        Text("Search Engine: \(searchEngines.someKey(forValue: searchEngine).unsafelyUnwrapped)")
+                        Text("Search Engine: \(searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped)")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
                     
                     if UIDevice.current.userInterfaceIdiom == .pad {
@@ -80,7 +57,7 @@ struct Settings: View {
                             
                             Spacer()
                             
-                            CustomToggleSlider(toggle: $hoverEffectsAbsorbCursor, startHex: startHex, endHex: endHex)
+                            CustomToggleSlider(toggle: $settings.hoverEffectsAbsorbCursor, startHex: startHex, endHex: endHex)
                                 .scaleEffect(0.75)
                         }.padding(20)
                     }
@@ -93,7 +70,7 @@ struct Settings: View {
                         
                         Spacer()
                         
-                        CustomToggleSlider(toggle: $favoritesStyle, startHex: startHex, endHex: endHex)
+                        CustomToggleSlider(toggle: $settings.favoritesStyle, startHex: startHex, endHex: endHex)
                             .scaleEffect(0.75)
                     }.padding(20)
                     
@@ -105,7 +82,7 @@ struct Settings: View {
                         
                         Spacer()
                         
-                        CustomToggleSlider(toggle: $faviconLoadingStyle, startHex: startHex, endHex: endHex)
+                        CustomToggleSlider(toggle: $settings.faviconLoadingStyle, startHex: startHex, endHex: endHex)
                             .scaleEffect(0.75)
                     }.padding(20)
                     
@@ -121,7 +98,7 @@ struct Settings: View {
                     Menu {
                         Button(action: {
                             withAnimation {
-                                faviconShape = "circle"
+                                settings.faviconShape = "circle"
                             }
                         }, label: {
                             Label("Circle", systemImage: "circle")
@@ -129,7 +106,7 @@ struct Settings: View {
                         
                         Button(action: {
                             withAnimation {
-                                faviconShape = "squircle"
+                                settings.faviconShape = "squircle"
                             }
                         }, label: {
                             Label("Squircle", systemImage: "app")
@@ -137,7 +114,7 @@ struct Settings: View {
                         
                         Button(action: {
                             withAnimation {
-                                faviconShape = "square"
+                                settings.faviconShape = "square"
                             }
                         }, label: {
                             Label("Square", systemImage: "square")
@@ -155,7 +132,7 @@ struct Settings: View {
                         
                         Spacer()
                         
-                        CustomToggleSlider(toggle: $showBorder, startHex: startHex, endHex: endHex)
+                        CustomToggleSlider(toggle: $settings.showBorder, startHex: startHex, endHex: endHex)
                             .scaleEffect(0.75)
                     }.padding(20)
                     
@@ -175,7 +152,7 @@ struct Settings: View {
                         
                         Spacer()
                         
-                        CustomToggleSlider(toggle: $sidebarLeft, startHex: startHex, endHex: endHex)
+                        CustomToggleSlider(toggle: $settings.sidebarLeft, startHex: startHex, endHex: endHex)
                             .scaleEffect(0.75)
                     }.padding(20)
                     
@@ -190,13 +167,34 @@ struct Settings: View {
                     
                     
                     HStack {
+                        Text("Command Bar on Launch")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                        
+                        CustomToggleSlider(toggle: $settings.commandBarOnLaunch, startHex: startHex, endHex: endHex)
+                            .scaleEffect(0.75)
+                    }.padding(20)
+                    
+                    
+                    HStack {
+                        Text("Show the command bar each time you open the app.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    
+                    HStack {
                         Text("Swipe Between Spaces")
                             .font(.system(.title3, design: .rounded, weight: .bold))
                             .foregroundStyle(Color.white)
                         
                         Spacer()
                         
-                        CustomToggleSlider(toggle: $swipingSpaces, startHex: startHex, endHex: endHex)
+                        CustomToggleSlider(toggle: $settings.swipingSpaces, startHex: startHex, endHex: endHex)
                             .scaleEffect(0.75)
                             .disabled(true)
                             .grayscale(1.0)
@@ -212,25 +210,25 @@ struct Settings: View {
                     
                     Menu {
                         Button(action: {
-                            prefferedColorScheme = "automatic"
+                            settings.prefferedColorScheme = "automatic"
                         }, label: {
                             Text("Automatic")
                         })
                         
                         Button(action: {
-                            prefferedColorScheme = "light"
+                            settings.prefferedColorScheme = "light"
                         }, label: {
                             Text("Light")
                         })
                         
                         Button(action: {
-                            prefferedColorScheme = "dark"
+                            settings.prefferedColorScheme = "dark"
                         }, label: {
                             Text("Dark")
                         })
                         
                     } label: {
-                        Text("Appearance: \(prefferedColorScheme.capitalized)")
+                        Text("Appearance: \(settings.prefferedColorScheme.capitalized)")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
                     
                     /*
@@ -249,8 +247,8 @@ struct Settings: View {
                         .frame(height: 75)
                     
                     Button {
-                        email = ""
-                        onboardingDone = false
+                        settings.email = ""
+                        settings.onboardingDone = false
                     } label: {
                         Text("Reset Onboarding")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))

@@ -15,6 +15,8 @@ struct Sidebar: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
+    @StateObject var settings = SettingsVariables()
+    
     @Binding var selectedTabLocation: String
     
     @ObservedObject var navigationState: NavigationState
@@ -524,7 +526,9 @@ struct Sidebar: View {
                         })
                     }
                     .onAppear() {
-                        tabBarShown = true
+                        if settings.commandBarOnLaunch {
+                            tabBarShown = true
+                        }
                     }
                     
                     ForEach(navigationState.webViews.reversed(), id: \.self) { tab in

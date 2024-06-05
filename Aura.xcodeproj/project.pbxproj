@@ -48,6 +48,9 @@
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
+		B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */; };
+		B9ED10552C0F9FFC004F2AF3 /* WKDownloadHelper in Frameworks */ = {isa = PBXBuildFile; productRef = B9ED10542C0F9FFC004F2AF3 /* WKDownloadHelper */; };
+		B9ED10572C0FAFF4004F2AF3 /* Trackpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */; };
 		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
@@ -107,6 +110,8 @@
 		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
 		B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidgetStorage.swift; sourceTree = "<group>"; };
+		B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObjects.swift; sourceTree = "<group>"; };
+		B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trackpad.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -125,6 +130,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */,
+				B9ED10552C0F9FFC004F2AF3 /* WKDownloadHelper in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +323,8 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */,
+				B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */,
 				B9798BFC2BF0B92A0012D98E /* Dashboard */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
 				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
@@ -363,6 +371,7 @@
 			packageProductDependencies = (
 				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
+				B9ED10542C0F9FFC004F2AF3 /* WKDownloadHelper */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -396,6 +405,7 @@
 				B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
 				B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
+				B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -467,10 +477,12 @@
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */,
 				B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */,
+				B9ED10572C0FAFF4004F2AF3 /* Trackpad.swift in Sources */,
 				C1BD7D2E2BDE05160078D7B3 /* navigationState.swift in Sources */,
 				C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */,
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				C1BD7D192BDDF6810078D7B3 /* TabStorage.swift in Sources */,
+				B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,6 +733,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gualtierofrigerio/WKDownloadHelper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.1;
+			};
+		};
 		B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -736,6 +756,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
 			productName = FaviconFinder;
+		};
+		B9ED10542C0F9FFC004F2AF3 /* WKDownloadHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */;
+			productName = WKDownloadHelper;
 		};
 		B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

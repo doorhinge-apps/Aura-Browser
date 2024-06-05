@@ -1,5 +1,5 @@
 {
-  "originHash" : "6e35014d8a5b83f5e5a7bf1538315aee9676a63c730d8112f8c176741902afe2",
+  "originHash" : "84840a0fe700c3d53e7f37cbac0e48a9e7fc0aadd24274940de9b40dc88ea4f2",
   "pins" : [
     {
       "identity" : "faviconfinder",
@@ -44,6 +44,15 @@
       "state" : {
         "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
         "version" : "2.7.2"
+      }
+    },
+    {
+      "identity" : "wkdownloadhelper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gualtierofrigerio/WKDownloadHelper",
+      "state" : {
+        "revision" : "3a13843e37a4bdcbeca9f9357c17fec77893fa3a",
+        "version" : "0.3.1"
       }
     }
   ],
