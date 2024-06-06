@@ -8,10 +8,7 @@
 import SwiftUI
 
 
-
-
-
-struct LoginView: View {
+struct OnboardingView: View {
     @State private var startColor: Color = Color.purple
     @State private var endColor: Color = Color.pink
     
@@ -25,31 +22,35 @@ struct LoginView: View {
     
     @AppStorage("email") var appIsLoggedIn: String = ""
     @AppStorage("onboardingDone") var onboardingDone = false
+    @State var onboardingComplete = false
     
     @State var incorrectPassword = false
     
     @State var onboarding = 1
     
     var body: some View {
-        ZStack {
-            if !onboardingDone {
-                if onboarding == 1 {
-                    page1
+        GeometryReader { geo in
+            ZStack {
+                if onboardingDone || onboardingComplete {
+                    ContentView()
+                }
+                else {
+                    HStack(spacing: 0) {
+                        page1
+                            .frame(width: geo.size.width, height: geo.size.height)
+                        
+                        page2
+                            .frame(width: geo.size.width)
+                    }.offset(x: onboarding == 1 ? 0: -geo.size.width)
                 }
                 
-                else if onboarding == 2 {
-                    onboardingComingSoon
-                }
-            }
-            else {
-                ContentView()
             }
         }
     }
     
     var page1: some View {
         ZStack {
-            LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            onboardingBackground
             
             VStack(spacing: 20) {
                 Text("Hello!")
@@ -71,7 +72,9 @@ struct LoginView: View {
                 
                 
                 Button {
-                    onboarding = 2
+                    withAnimation {
+                        onboarding = 2
+                    }
                 } label: {
                     ZStack {
                         Text("Continue")
@@ -82,410 +85,192 @@ struct LoginView: View {
         }
     }
     
-    var onboardingComingSoon: some View {
-        ZStack {
-            LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-            
-            VStack(spacing: 20) {
-                Text("New Onboarding Coming Soon")
-                    .foregroundColor(Color(.white))
-                    .font(.system(size: 50, weight: .bold, design: .rounded))
-                    .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
-                
-                
-                SizedSpacer(height: 100)
-                
-                
-                Button {
-                    onboardingDone = true
-                } label: {
-                    ZStack {
-                        Text("Continue")
-                    }
-                }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
-                
-                
-            }
-        }
-    }
+    @State var onboardingInfo = [
+        OnboardingInfo(index: 0, title: "Meet Aura", description: "Aura is a new browser built for iPad first with additional support for iOS, macOS, and visionOS. The design is based on Arc browser.", rectangle1Size: [0, 0], rectangle2Size: [0, 0], rectangle3Size: [0, 554], rectangleOutlineSize: [780, 554]),
+        OnboardingInfo(index: 1, title: "Meet Aura - Sidebar", description: "Aura organizes tabs into a sidebar which can be either on the left or right. There are three types of tabs: favorite, pinned, and today tabs.", rectangle1Size: [126, 0], rectangle2Size: [126, 0], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 554]),
+        OnboardingInfo(index: 2, title: "Meet Aura - Favorite Tabs", description: "Favorite tabs are shown at the top of the sidebar under the url bar. These tabs are displayed in capsules as either the website icon or name.", rectangle1Size: [126, 80], rectangle2Size: [126, 400], rectangle3Size: [674, 554], rectangleOutlineSize: [126, 74]),
+        OnboardingInfo(index: 3, title: "Meet Aura - Pinned Tabs", description: "Pinned tabs are beneath favorite tabs. They show the website icon and name.", rectangle1Size: [217, 145], rectangle2Size: [217, 325], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 84]),
+        OnboardingInfo(index: 4, title: "Meet Aura - Today Tabs", description: "Today tabs are at the bottom and are where new tabs are created. We will be adding support to automatically close these tabs after a set amount of time.", rectangle1Size: [217, 264], rectangle2Size: [217, 195], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 95]),
+        OnboardingInfo(index: 5, title: "Meet Aura - Spaces", description: "Spaces scroll horizontally at the bottom. You can switch between spaces by tapping on the space you want to use or swiping in the sidebar. \n \nSpaces can be added with the plus icon. The name, icon, and theme can be customized for each space.", rectangle1Size: [217, 504], rectangle2Size: [217, 10], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 40]),
+        OnboardingInfo(index: 6, title: "Meet Aura - Feedback", description: "Thanks for trying out our browser. If you have any feedback, we’d love to hear it. Email us at support@doorhingeapps.com. Click the button below to get started using the browser.", rectangle1Size: [0, 0], rectangle2Size: [0, 0], rectangle3Size: [0, 0], rectangleOutlineSize: [0, 0])
+    ]
     
+    @State var rectangle1Size = [0, 0] as [CGFloat]
+    @State var rectangle2Size = [0, 0] as [CGFloat]
+    @State var rectangle3Size = [0, 0] as [CGFloat]
+    @State var rectangleOutlineSize = [780, 540] as [CGFloat]
     
+    @State var onboardingIndex = 0
     var page2: some View {
         GeometryReader { geo in
             ZStack {
-                LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                onboardingBackground
                 
                 VStack {
-                    HStack {
-                        Button {
-                            onboarding -= 1
-                        } label: {
-                            ZStack {
-                                Text("")
-                            }
-                        }.buttonStyle(GrowingButton(buttonText: "< Back", buttonWidth: 75, buttonHeight: 20))
-                            .hoverEffect(.lift)
-                            .padding(50)
-                        
-                        Spacer()
-                    }
-                    
-                    Spacer()
-                }
-                
-                VStack(spacing: 20) {
-                    HStack {
-                        Text("First,")
-                            .foregroundColor(Color(.white))
-                            .font(.system(size: 100, weight: .bold, design: .rounded))
-                            .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
-                    }.frame(width: 500)
-                    
-                    SizedSpacer(height: 20)
-                    
-                    
-                    Text("Do you already have an account?")
+                    Text(onboardingInfo[onboardingIndex].title)
                         .foregroundColor(Color(.white))
-                        .multilineTextAlignment(.center)
-                        .frame(width: 500)
-                        //.font(.system(size: 50, weight: .bold, design: .rounded))
-                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                        .font(.system(size: 55, weight: .bold, design: .rounded))
                         .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
                     
+                    GeometryReader { geo2 in
+                        ZStack {
+                            Image("Aura")
+                                .resizable()
+                                .scaledToFit()
+                            
+                            HStack(alignment: .center, spacing: 0) {
+                                VStack(alignment: .center, spacing: 0) {
+                                    Rectangle()
+                                        .fill(Color.black.opacity(0.5))
+                                        .frame(width: rectangle1Size[0], height: rectangle1Size[1])
+                                        .zIndex(0)
+                                    
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Color.white, lineWidth: 3)
+                                        .frame(width: rectangleOutlineSize[0], height: rectangleOutlineSize[1])
+                                        .zIndex(2)
+                                    
+                                    Rectangle()
+                                        .fill(Color.black.opacity(0.5))
+                                        .frame(width: rectangle2Size[0], height: rectangle2Size[1])
+                                        .zIndex(0)
+                                }.zIndex(1)
+                                
+                                Rectangle()
+                                    .fill(Color.black.opacity(0.5))
+                                    .frame(width: rectangle3Size[0], height: rectangle3Size[1])
+                                    .zIndex(0)
+                            }
+                        }.cornerRadius(15)
+                    }
+                    .frame(maxWidth: geo.size.width, maxHeight: geo.size.height-400)
+                    .aspectRatio(1, contentMode: .fit)
                     
-                    SizedSpacer(height: 75)
+                    //Spacer()
+                    //    .frame(height: 100)
                     
+                    Text(onboardingInfo[onboardingIndex].description)
+                        .foregroundColor(Color(.white))
+                        .font(.system(size: 25, weight: .bold, design: .rounded))
+                        .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
+                        .frame(maxWidth: geo.size.width / 1.2 + 50)
+                        .frame(height: geo.size.width > 450 ? 100: .infinity)
                     
                     Button {
-                        onboarding += 1
+                            if onboardingIndex >= 6 {
+                                onboardingComplete = true
+                                withAnimation(.linear(duration: 0)) {
+                                    onboardingDone = true
+                                }
+                            }
+                            else {
+                                withAnimation {
+                                    onboardingIndex += 1
+                                }
+                            }
                     } label: {
-                        Text("Yes :)")
-                            .frame(width: geo.size.width/2, height: 30)
-                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
-                        .hoverEffect(.lift)
+                        ZStack {
+                            if onboardingIndex >= 6 {
+                                Text("Get Started")
+                            }
+                            else {
+                                Text("Continue")
+                            }
+                        }
+                    }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
+                }.onChange(of: onboardingIndex) {
+                    withAnimation(.default, {
+                        rectangle1Size = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangle1Size[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangle1Size[1]]
+                        rectangle2Size = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangle2Size[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangle2Size[1]]
+                        rectangle3Size = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangle3Size[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangle3Size[1]]
+                        rectangleOutlineSize = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangleOutlineSize[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangleOutlineSize[1]]
+                    })
+                }
+                .onAppear() {
+                    rectangle1Size = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangle1Size[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangle1Size[1]]
+                    rectangle2Size = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangle2Size[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangle2Size[1]]
+                    rectangle3Size = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangle3Size[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangle3Size[1]]
+                    rectangleOutlineSize = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangleOutlineSize[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangleOutlineSize[1]]
+                }
+                
+                VStack {
+                    HStack {
+                        Button {
+                            withAnimation {
+                                if onboardingIndex > 0 {
+                                    onboardingIndex -= 1
+                                }
+                                else {
+                                    onboarding = 1
+                                }
+                            }
+                        } label: {
+                            ZStack {
+                                Label("Back", systemImage: "chevron.left")
+                            }
+                        }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
+                        
+                        Spacer()
+                        
+                        Button {
+                            withAnimation(.linear(duration: 0)) {
+                                onboardingDone = true
+                            }
+                            
+                            onboardingComplete = true
+                        } label: {
+                            ZStack {
+                                Text("Skip")
+                            }
+                        }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
+                    }.padding(.horizontal, 30)
                     
-                    
-                    Button {
-                        onboarding += 2
-                    } label: {
-                        Text("Nope :(")
-                            .frame(width: geo.size.width/2, height: 30)
-                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
-                        .hoverEffect(.lift)
-                    
-                    Button {
-                        appIsLoggedIn = "loginSkipped"
-                    } label: {
-                        Text("Skip :o")
-                            .frame(width: geo.size.width/2, height: 30)
-                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
-                        .hoverEffect(.lift)
-                    
-                    
-                }//.frame(width: 350)
+                    Spacer()
+                }
             }
         }
     }
     
-    var page3Login: some View {
-        ZStack {
-            LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-            
-            VStack {
-                HStack {
-                    Button {
-                        onboarding -= 1
-                    } label: {
-                        Label("Back", systemImage: "chevron.left")
-                    }.buttonStyle(NewButtonStyle(startHex: "8041E6", endHex: "A0F2FC"))
-                        .hoverEffect(.lift)
-                        .padding(50)
+    @State var circleOffsets = [[-0.7, -0.7], [0.0, 0.6], [0.8, 0.4]]
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    var onboardingBackground: some View {
+        GeometryReader { geo in
+            ZStack {
+                Color(hex: "8880F5")
+                    .ignoresSafeArea()
+                
+                Circle()
+                    .fill(Color(hex: "84F5FE"))
+                    .frame(height: 400)
+                    .blur(radius: 100)
+                    .opacity(0.7)
+                    .offset(x: geo.size.width / 2 * circleOffsets[0][0], y: geo.size.height / 2 * circleOffsets[0][1])
+                
+                Circle()
+                    .fill(Color(hex: "953EF6"))
+                    .frame(height: 400)
+                    .blur(radius: 100)
+                    .opacity(0.5)
+                    .offset(x: geo.size.width / 2 * circleOffsets[1][0], y: geo.size.height / 2 * circleOffsets[1][1])
+                
+                Circle()
+                    .fill(Color(hex: "84F5FE"))
+                    .frame(height: 400)
+                    .blur(radius: 100)
+                    .opacity(0.7)
+                    .offset(x: geo.size.width / 2 * circleOffsets[2][0], y: geo.size.height / 2 * circleOffsets[2][1])
+                
+            }.onReceive(timer, perform: { _ in
+                for circle in 0..<circleOffsets.count {
+                    let randomValue = Double.random(in: -100...100)
+                    let randomValue2 = Double.random(in: -100...100)
                     
-                    Spacer()
+                    withAnimation(.easeInOut(duration: 4.9), {
+                        circleOffsets[circle][0] = randomValue / 100
+                        circleOffsets[circle][1] = randomValue2 / 100
+                    })
                 }
-                
-                Spacer()
-            }
-            
-            VStack(spacing: 20) {
-                Text("Login")
-                    .foregroundColor(Color(.white))
-                    .font(.system(size: 50, weight: .bold, design: .rounded))
-                    .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
-                
-                ZStack {
-                    VStack {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(.white))
-                                .modifier(InnerShadow())
-                                .offset(y: 2)
-                                .frame(height: 75)
-                            
-                            TextField("", text: $email)
-                                .font(Font.body.weight(.bold))
-                                .foregroundColor(Color(hex: "8880F5"))
-                                .textFieldStyle(.plain)
-                                .textInputAutocapitalization(.never)
-                                .placeholder(when: email.isEmpty) {
-                                    Text("Email")
-                                        .foregroundColor(Color(hex: "8880F5"))
-                                        .bold()
-                                }
-                                .padding(17)
-                                .hoverEffect(.lift)
-                            
-                        }
-                        
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(.white))
-                                .modifier(InnerShadow())
-                                .offset(y: 2)
-                                .frame(height: 75)
-                            
-                            SecureField("", text: $password)
-                                .font(Font.body.weight(.bold))
-                                .foregroundColor(Color(hex: "8880F5"))
-                                .textFieldStyle(.plain)
-                                .placeholder(when: password.isEmpty) {
-                                    Text("Password")
-                                        .foregroundColor(Color(hex: "8880F5"))
-                                        .bold()
-                                }
-                                .padding(17)
-                                .hoverEffect(.lift)
-                        }
-                    }
-                    
-                }
-                
-                if invalidError && incorrectPassword == false {
-                    ProgressView("Loading")
-                }
-                
-                if incorrectPassword {
-                    Text("Incorrect Password")
-                        .foregroundStyle(Color.white)
-                }
-                
-                Button {
-                    //login()
-                    
-                    invalidError = true
-                } label: {
-                    ZStack {
-                        Text("")
-                    }.hoverEffect(.lift)
-                }.buttonStyle(GrowingButton(buttonText: "Login", buttonWidth: 225, buttonHeight: 30))
-                
-                
-                VStack {
-                    if resetPassword == false {
-                        Button {
-                            resetPassword.toggle()
-                        } label: {
-                            Text("Forgot Password")
-                                .bold()
-                                .foregroundColor(Color(.white))
-                                .hoverEffect(.highlight)
-                        }
-                    }
-                    
-                    else {
-                        TextField("Email", text: $resetEmail)
-                            .font(Font.body.weight(.bold))
-                            .foregroundColor(Color(.white))
-                            .textFieldStyle(.plain)
-                            .textInputAutocapitalization(.never)
-                            .keyboardType(.emailAddress)
-                            .placeholder(when: resetEmail.isEmpty) {
-                                Text("Email")
-                                    .foregroundColor(Color(.white))
-                                    .bold()
-                            }
-                            .hoverEffect(.lift)
-                        
-                        Rectangle()
-                            .frame(width: 350, height: 1)
-                            .foregroundColor(Color(.white))
-                        
-                        
-                        Button {
-                            //Auth.auth().sendPasswordReset(withEmail: resetEmail) { error in
-                                // ...
-                            //}
-                        } label: {
-                            Text("Send Reset Email")
-                                .bold()
-                                .foregroundColor(Color(.white))
-                                .hoverEffect(.highlight)
-                        }
-                        
-                        if resetSent {
-                            Text("Request Sent")
-                                .bold()
-                                .foregroundColor(Color(.white))
-                        }
-                    }
-                }//.offset(y: 110)
-                
-            }.frame(width: 350)
-                /*.onAppear() {
-                    Auth.auth().addStateDidChangeListener { auth, user in
-                        if user != nil {
-                            appIsLoggedIn
-                        }
-                    }
-                }*/
-        }
-    }
-    
-    
-    var page3SignUp: some View {
-        ZStack {
-            LinearGradient(colors: [Color(hex: "8A3CEF"), Color(hex: "84F5FE")], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-            
-            VStack {
-                HStack {
-                    Button {
-                        onboarding -= 2
-                    } label: {
-                        ZStack {
-                            Text("")
-                        }.hoverEffect(.lift)
-                    }.buttonStyle(GrowingButton(buttonText: "< Back", buttonWidth: 75, buttonHeight: 20))
-                        .padding(50)
-                    
-                    Spacer()
-                }
-                
-                Spacer()
-            }
-            
-            VStack(spacing: 20) {
-                Text("Create Account")
-                    .foregroundColor(Color(.white))
-                    .font(.system(size: 50, weight: .bold, design: .rounded))
-                    .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
-                
-                ZStack {
-                    VStack {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(.white))
-                                .modifier(InnerShadow())
-                                .offset(y: 2)
-                                .frame(height: 75)
-                            
-                            TextField("", text: $email)
-                                .font(Font.body.weight(.bold))
-                                .foregroundColor(Color(hex: "8880F5"))
-                                .textFieldStyle(.plain)
-                                .textInputAutocapitalization(.never)
-                                .placeholder(when: email.isEmpty) {
-                                    Text("Email")
-                                        .foregroundColor(Color(hex: "8880F5"))
-                                        .bold()
-                                }
-                                .padding(17)
-                                .hoverEffect(.lift)
-                        }
-                        
-                        /*Rectangle()
-                            .frame(width: 350, height: 1)
-                            .foregroundColor(Color(.white))*/
-                        
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color(.white))
-                                .modifier(InnerShadow())
-                                .offset(y: 2)
-                                .frame(height: 75)
-                            
-                            SecureField("", text: $password)
-                                .font(Font.body.weight(.bold))
-                                .foregroundColor(Color(hex: "8880F5"))
-                                .textFieldStyle(.plain)
-                                .placeholder(when: password.isEmpty) {
-                                    Text("Password")
-                                        .foregroundColor(Color(hex: "8880F5"))
-                                        .bold()
-                                }
-                                .padding(17)
-                                .hoverEffect(.lift)
-                        }
-                    }
-                    
-                }
-                
-                Button {
-                    //register()
-                } label: {
-                    ZStack {
-                        Text("")
-                    }.hoverEffect(.lift)
-                }.buttonStyle(GrowingButton(buttonText: "Next", buttonWidth: 225, buttonHeight: 30))
-                
-                
-                VStack {
-                    if resetPassword == false {
-                        Button {
-                            resetPassword.toggle()
-                        } label: {
-                            Text("Forgot Password")
-                                .bold()
-                                .foregroundColor(Color(.white))
-                                .hoverEffect(.highlight)
-                        }
-                    }
-                    
-                    else {
-                        TextField("Email", text: $resetEmail)
-                            .font(Font.body.weight(.bold))
-                            .foregroundColor(Color(.white))
-                            .textFieldStyle(.plain)
-                            .textInputAutocapitalization(.never)
-                            .keyboardType(.emailAddress)
-                            .placeholder(when: resetEmail.isEmpty) {
-                                Text("Email")
-                                    .foregroundColor(Color(.white))
-                                    .bold()
-                            }
-                            .hoverEffect(.lift)
-                        
-                        Rectangle()
-                            .frame(width: 350, height: 1)
-                            .foregroundColor(Color(.white))
-                        
-                        
-                        Button {
-                            //Auth.auth().sendPasswordReset(withEmail: resetEmail) { error in
-                                // ...
-                            //}
-                        } label: {
-                            Text("Send Reset Email")
-                                .bold()
-                                .foregroundColor(Color(.white))
-                                .hoverEffect(.highlight)
-                        }
-                        
-                        if resetSent {
-                            Text("Request Sent")
-                                .bold()
-                                .foregroundColor(Color(.white))
-                        }
-                    }
-                }//.offset(y: 110)
-                
-            }.frame(width: 350)
-                /*.onAppear() {
-                    Auth.auth().addStateDidChangeListener { auth, user in
-                        if user != nil {
-                            appIsLoggedIn
-                        }
-                    }
-                }*/
+            })
         }
     }
     
@@ -502,42 +287,6 @@ struct LoginView: View {
         }
         return Color(hex: hexString)
     }
-    
-    /*func register() {
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            if error != nil {
-                print(error!.localizedDescription)
-            }
-        }
-        
-        defaults.set(email, forKey: "email")
-        
-        incorrectPassword = false
-    }
-    
-    func login() {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            if error != nil {
-                if (error as! AuthErrorCode).code == AuthErrorCode.wrongPassword {
-                    // The password is incorrect.
-                    print("Incorrect password.")
-                    
-                    incorrectPassword = true
-                } else {
-                    // Another error occurred.
-                    print(error!.localizedDescription)
-                }
-            } else {
-                // The user was successfully signed in.
-                print("User signed in.")
-                
-                incorrectPassword = false
-            }
-        }
-        
-        
-        defaults.set(email, forKey: "email")
-    }*/
 }
 
 
@@ -555,4 +304,20 @@ extension View {
         }
     }
 }
+
+
+struct OnboardingInfo {
+    let index: Int
+    let title: String
+    let description: String
+    let rectangle1Size: [CGFloat]
+    let rectangle2Size: [CGFloat]
+    let rectangle3Size: [CGFloat]
+    let rectangleOutlineSize: [CGFloat]
+}
+
+
+#Preview(body: {
+    OnboardingView()
+})
 

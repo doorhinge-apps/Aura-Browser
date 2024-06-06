@@ -12,7 +12,6 @@ import Combine
 import FaviconFinder
 import SDWebImage
 import SDWebImageSwiftUI
-//import HighlightSwift
 import SwiftData
 
 

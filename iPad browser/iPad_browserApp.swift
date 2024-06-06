@@ -52,7 +52,7 @@ struct iPad_browserApp: App {
 
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            OnboardingView()
                 .onAppear { hideTitleBarOnCatalyst() }
         }
         .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
