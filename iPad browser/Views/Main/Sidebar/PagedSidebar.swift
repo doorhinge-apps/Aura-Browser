@@ -13,6 +13,8 @@ struct PagedSidebar: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
+    @EnvironmentObject var variables: ObservableVariables
+    
     @Binding var selectedTabLocation: String
     
     @ObservedObject var navigationState: NavigationState
@@ -102,6 +104,7 @@ struct PagedSidebar: View {
                             ForEach(0..<spaces.count, id:\.self) { space in
                                 VStack {
                                     Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                        .environmentObject(variables)
                                         .id(space.description)
                                         .padding(.horizontal, 10)
                                     

@@ -24,3 +24,30 @@ func formatURL(from input: String) -> String {
     let searchTerms = input.split(separator: " ").joined(separator: "+")
     return "\(UserDefaults.standard.string(forKey: "searchEngine") ?? "https://www.google.com/search?q=")\(searchTerms)"
 }
+
+
+func unformatURL(url: String) -> String {
+    let searchEngine = UserDefaults.standard.string(forKey: "searchEngine") ?? "https://www.google.com/search?q="
+    
+    var formattedUrl = url
+    if url.starts(with: searchEngine) {
+        formattedUrl = formattedUrl.replacingOccurrences(of: searchEngine, with: "")
+        formattedUrl.removeEverythingAfter(str: "&")
+        if formattedUrl.last == "/" {
+            formattedUrl.removeLast()
+        }
+        formattedUrl = formattedUrl.replacingOccurrences(of: "+", with: " ")
+        formattedUrl = formattedUrl.replacingOccurrences(of: "%20", with: " ")
+    }
+    else {
+        formattedUrl = formattedUrl.replacingOccurrences(of: "https://", with: "")
+        formattedUrl = formattedUrl.replacingOccurrences(of: "http://", with: "")
+        formattedUrl = formattedUrl.replacingOccurrences(of: "www.", with: "")
+        if formattedUrl.last == "/" {
+            formattedUrl.removeLast()
+        }
+    }
+    
+    
+    return formattedUrl
+}

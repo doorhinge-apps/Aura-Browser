@@ -15,11 +15,13 @@ struct Settings: View {
     
     @State var startHex: String
     @State var endHex: String
+    //https://search.yahoo.com/search;_ylt=awrnoc_g6wnmmakqngbddwvh;_ylc=x1mdmte5nzgwndg2nwrfcgmybgzyawrmcjidcdpzlhy6c2zwlg06c2itdg9wbgdwcmlka1pobkfqtfvsuw4ubu1qb3hzvklir0eebl9yc2x0azaebl9zdwdnazewbg9yawdpbgnzzwfyy2guewfob28uy29tbhbvcwmwbhbxc3ryawrwcxn0cmwdmarxc3rybamybhf1zxj5a2hpbhrfc3rtcamxnze3odizotq0?p=
+    //https://search.yahoo.com/search;_ylt=AwrNOC_G6WNmmAkQngBDDWVH;_ylc=X1MDMTE5NzgwNDg2NwRfcgMyBGZyAwRmcjIDcDpzLHY6c2ZwLG06c2ItdG9wBGdwcmlkA1pobkFqTFVSUW4ubU1Qb3hZVklIR0EEbl9yc2x0AzAEbl9zdWdnAzEwBG9yaWdpbgNzZWFyY2gueWFob28uY29tBHBvcwMwBHBxc3RyAwRwcXN0cmwDMARxc3RybAMyBHF1ZXJ5A2hpBHRfc3RtcAMxNzE3ODIzOTQ0?p=
     
     @StateObject var settings = SettingsVariables()
     
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
-    @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?t=h_&q=", "Yahoo!":"https://search.yahoo.com/search?p=", "Ecosia": "https://www.ecosia.org/search?method=index&q=hello"]
+    @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/search?p=", "Yahoo!":"https://search.yahoo.com/search?q=", "Ecosia": "https://www.ecosia.org/search?q="]
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()

@@ -13,6 +13,8 @@ struct ToolbarButtonsView: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
+    @StateObject var variables = ObservableVariables()
+    
     @Binding var selectedTabLocation: String
     @ObservedObject var navigationState: NavigationState
     @ObservedObject var pinnedNavigationState: NavigationState

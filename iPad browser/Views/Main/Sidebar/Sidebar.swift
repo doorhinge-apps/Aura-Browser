@@ -15,6 +15,7 @@ struct Sidebar: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
+    @EnvironmentObject var variables: ObservableVariables
     @StateObject var settings = SettingsVariables()
     
     @Binding var selectedTabLocation: String
@@ -105,24 +106,28 @@ struct Sidebar: View {
                             .foregroundStyle(Color(.white).opacity(hoverSidebarSearchField ? 0.3 : 0.15))
                         
                         HStack {
-                            Text(selectedTabLocation == "tabs" ? (navigationState.currentURL?.absoluteString ?? ""): selectedTabLocation == "pinnedTabs" ? (pinnedNavigationState.currentURL?.absoluteString ?? ""): (favoritesNavigationState.currentURL?.absoluteString ?? ""))
+//                            Text(selectedTabLocation == "tabs" ? (navigationState.currentURL?.absoluteString ?? ""): selectedTabLocation == "pinnedTabs" ? (pinnedNavigationState.currentURL?.absoluteString ?? ""): (favoritesNavigationState.currentURL?.absoluteString ?? ""))
+//                                .padding(.leading, 5)
+//                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+//                                .lineLimit(1)
+//                                .onReceive(timer) { _ in
+//                                    if !commandBarShown {
+//                                        if let unwrappedURL = navigationState.selectedWebView?.url {
+//                                            searchInSidebar = unwrappedURL.absoluteString
+//                                        }
+//                                        if let unwrappedURL = pinnedNavigationState.selectedWebView?.url {
+//                                            searchInSidebar = unwrappedURL.absoluteString
+//                                        }
+//                                        if let unwrappedURL = favoritesNavigationState.selectedWebView?.url {
+//                                            searchInSidebar = unwrappedURL.absoluteString
+//                                        }
+//                                    }
+//                                    
+//                                }
+                            Text(selectedTabLocation == "tabs" ? variables.navigationState.selectedWebView?.url?.absoluteString ?? "": selectedTabLocation == "pinnedTabs" ? variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? "": variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? "")
                                 .padding(.leading, 5)
                                 .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                                 .lineLimit(1)
-                                .onReceive(timer) { _ in
-                                    if !commandBarShown {
-                                        if let unwrappedURL = navigationState.selectedWebView?.url {
-                                            searchInSidebar = unwrappedURL.absoluteString
-                                        }
-                                        if let unwrappedURL = pinnedNavigationState.selectedWebView?.url {
-                                            searchInSidebar = unwrappedURL.absoluteString
-                                        }
-                                        if let unwrappedURL = favoritesNavigationState.selectedWebView?.url {
-                                            searchInSidebar = unwrappedURL.absoluteString
-                                        }
-                                    }
-                                    
-                                }
                             
                             Spacer() // Pushes the delete button to the edge
                         }
@@ -150,7 +155,7 @@ struct Sidebar: View {
                             if favoritesStyle {
                                 HStack {
                                     if tab.title == "" {
-                                        Text(tab.url?.absoluteString ?? "Tab not found.")
+                                        Text(unformatURL(url: tab.url?.absoluteString ?? "Tab not found"))
                                             .lineLimit(1)
                                             .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                                             .padding(.leading, 5)

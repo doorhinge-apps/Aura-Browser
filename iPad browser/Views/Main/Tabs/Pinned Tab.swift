@@ -77,7 +77,7 @@ struct PinnedTab: View {
                 }
                 
                 if tab.title == "" {
-                    Text(tab.url?.absoluteString ?? "Tab not found.")
+                    Text(unformatURL(url: tab.url?.absoluteString ?? "Tab not found"))
                         .lineLimit(1)
                         .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                         .padding(.leading, 5)

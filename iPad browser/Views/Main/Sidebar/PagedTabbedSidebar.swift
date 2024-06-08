@@ -15,6 +15,8 @@ struct PagedTabbedSidebar: View {
     
     @Binding var selectedTabLocation: String
     
+    @EnvironmentObject var variables: ObservableVariables
+    
     @ObservedObject var navigationState: NavigationState
     @ObservedObject var pinnedNavigationState: NavigationState
     @ObservedObject var favoritesNavigationState: NavigationState
@@ -92,6 +94,7 @@ struct PagedTabbedSidebar: View {
             ForEach(0..<spaces.count, id:\.self) { space in
                 Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                     .tag(space.description)
+                    .environmentObject(variables)
             }
         })
         .toolbarBackground(.clear, for: .tabBar)

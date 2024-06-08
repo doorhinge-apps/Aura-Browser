@@ -184,6 +184,7 @@ struct ContentView: View {
                                 
                                 //if swipingSpaces {
                                 PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                    .environmentObject(variables)
                                 //}
                                 /*else {
                                     Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
@@ -361,13 +362,23 @@ struct ContentView: View {
                                         
                                         
                                         Button {
-                                            if ((variables.navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
-                                                tabBarShown.toggle()
+                                            if (variables.navigationState.selectedWebView == nil) && (variables.pinnedNavigationState.selectedWebView == nil) && (variables.favoritesNavigationState.selectedWebView == nil) {
+                                                tabBarShown = true
                                                 commandBarShown = false
+                                                print("Showing Tab Bar")
                                             }
                                             else {
+                                                if selectedTabLocation == "pinnedTabs" {
+                                                    searchInSidebar = unformatURL(url: variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? searchInSidebar)
+                                                }
+                                                else if selectedTabLocation == "favoriteTabs" {
+                                                    searchInSidebar = unformatURL(url: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? searchInSidebar)
+                                                }else {
+                                                    searchInSidebar = unformatURL(url: variables.navigationState.selectedWebView?.url?.absoluteString ?? searchInSidebar)
+                                                }
                                                 commandBarShown.toggle()
                                                 tabBarShown = false
+                                                print("Showing Command Bar")
                                             }
                                         } label: {
                                             
@@ -397,6 +408,7 @@ struct ContentView: View {
                                         
                                         Button {
                                             tabBarShown.toggle()
+                                            commandBarShown = false
                                         } label: {
                                             
                                         }.keyboardShortcut("t", modifiers: .command)
@@ -508,6 +520,7 @@ struct ContentView: View {
 //                                    .padding(showBorder ? 0: 15)
 //                                    .padding(.top, showBorder ? 0: 10)
                                 PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                    .environmentObject(variables)
                             }
                         }
                         .padding(.trailing, settings.showBorder ? 10: 0)
@@ -547,6 +560,7 @@ struct ContentView: View {
                                                 .padding([.top, .horizontal], 5)
                                             
                                             Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                                .environmentObject(variables)
                                             
                                             HStack {
                                                 Button {
@@ -695,17 +709,6 @@ struct ContentView: View {
                                 
                                 print("Saving Tabs")
                                 
-//                                Task {
-//                                    do {
-//                                        try await modelContext.save()
-//                                        print("Success")
-//                                    }
-//                                    catch {
-//                                        print("Failed")
-//                                        print(error.localizedDescription)
-//                                    }
-//                                }
-                                
                                 saveSpaceData()
                             }
                     }
@@ -713,22 +716,56 @@ struct ContentView: View {
                     //MARK: - Command Bar
                     else if commandBarShown {
                         CommandBar(commandBarText: $searchInSidebar, searchSubmitted: $commandBarSearchSubmitted2, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
-                            .onChange(of: commandBarSearchSubmitted) { thing in
-                                if selectedTabLocation == "tabs" {
-                                    //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                    variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
-                                    //modelContext.insert(TabStorage(url: formatURL(from: newTabSearch)))
-                                    
-                                    //                                var savingWebsites = [] as [String]
-                                    //                                for webView in navigationState.webViews.compactMap { $0.url?.absoluteString } {
-                                    //                                    savingWebsites.append("\(webView.url?.description)")
-                                    //                                }
+                            .onChange(of: variables.navigationState.currentURL, {
+                                if let unwrappedURL = variables.navigationState.currentURL {
+                                    searchInSidebar = unwrappedURL.absoluteString
+                                }
+                                print("Changing searchInSidebar - 1")
+                            })
+                            .onChange(of: variables.pinnedNavigationState.currentURL, {
+                                if let unwrappedURL = variables.pinnedNavigationState.currentURL {
+                                    searchInSidebar = unwrappedURL.absoluteString
+                                }
+                                print("Changing searchInSidebar - 2")
+                            })
+                            .onChange(of: variables.favoritesNavigationState.currentURL, {
+                                if let unwrappedURL = variables.favoritesNavigationState.currentURL {
+                                    searchInSidebar = unwrappedURL.absoluteString
+                                }
+                                print("Changing searchInSidebar - 3")
+                            })
+                            .onChange(of: commandBarSearchSubmitted2) { thing in
+                                
+                                    //variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
+                                    //variables.navigationState.selectedWebView?.load(URLRequest(url: URL(formatURL(from: newTabSearch))!))
+                                Task {
+                                    await searchInSidebar = formatURL(from: searchInSidebar)
+                                    if let url = URL(string: searchInSidebar) {
+                                        // Create a URLRequest object
+                                        let request = URLRequest(url: url)
+                                        
+                                        if selectedTabLocation == "tabs" {
+                                            await variables.navigationState.selectedWebView?.load(request)
+                                        }
+                                        if selectedTabLocation == "pinnedTabs" {
+                                            await variables.pinnedNavigationState.selectedWebView?.load(request)
+                                        }
+                                        if selectedTabLocation == "favoriteTabs" {
+                                            await variables.favoritesNavigationState.selectedWebView?.load(request)
+                                        }
+                                        
+                                        print("Updated URL String")
+                                    } else {
+                                        print("Invalid URL string")
+                                    }
                                     
                                     saveSpaceData()
                                 }
                                 
+                                
+                                commandBarShown = false
                                 tabBarShown = false
-                                commandBarSearchSubmitted = false
+                                commandBarSearchSubmitted2 = false
                                 newTabSearch = ""
                             }
                     }
