@@ -28,6 +28,8 @@ struct OnboardingView: View {
     
     @State var onboarding = 1
     
+    @FocusState var focusedShortcuts: Bool
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -41,10 +43,69 @@ struct OnboardingView: View {
                         
                         page2
                             .frame(width: geo.size.width)
-                    }.offset(x: onboarding == 1 ? 0: -geo.size.width)
+                    }.focusable()
+                        .focused($focusedShortcuts)
+                        .onAppear() {
+                            focusedShortcuts = true
+                        }
+                        //.focusEffectDisabled(true)
+                        .onKeyPress(.rightArrow) {
+                            if onboarding == 1 {
+                                withAnimation {
+                                    onboarding = 2
+                                }
+                            }
+                            else {
+                                if onboardingIndex >= 6 {
+                                    onboardingComplete = true
+                                    withAnimation(.linear(duration: 0)) {
+                                        onboardingDone = true
+                                    }
+                                }
+                                else {
+                                    withAnimation {
+                                        onboardingIndex += 1
+                                    }
+                                }
+                            }
+                            return .handled
+                        }
+                        .onKeyPress(.return) {
+                            if onboarding == 1 {
+                                withAnimation {
+                                    onboarding = 2
+                                }
+                            }
+                            else {
+                                if onboardingIndex >= 6 {
+                                    onboardingComplete = true
+                                    withAnimation(.linear(duration: 0)) {
+                                        onboardingDone = true
+                                    }
+                                }
+                                else {
+                                    withAnimation {
+                                        onboardingIndex += 1
+                                    }
+                                }
+                            }
+                            return .handled
+                        }
+                        .onKeyPress(.leftArrow) {
+                            withAnimation {
+                                if onboardingIndex > 0 {
+                                    onboardingIndex -= 1
+                                }
+                                else {
+                                    onboarding = 1
+                                }
+                            }
+                            
+                            return .handled
+                        }
                 }
                 
-            }
+            }.offset(x: onboarding == 1 ? 0: -geo.size.width)
         }
     }
     
