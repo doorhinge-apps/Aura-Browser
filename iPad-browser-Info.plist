@@ -32,10 +32,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.doorhingeapps.browser</string>
+			<string>aura</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>aurabrowser</string>
+				<string>aura</string>
 			</array>
 		</dict>
 	</array>
