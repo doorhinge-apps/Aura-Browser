@@ -435,7 +435,7 @@ struct Sidebar: View {
                         }
                     })
                     .padding(.vertical, 10)
-                    .popover(isPresented: $changeColorSheet, content: {
+                    .popover(isPresented: $changeColorSheet, attachmentAnchor: .point(.trailing), arrowEdge: .leading, content: {
                         VStack(spacing: 20) {
                             ZStack {
                                 LinearGradient(gradient: Gradient(colors: [startColor, endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
@@ -476,7 +476,7 @@ struct Sidebar: View {
                         }
                         
                     })
-                    .popover(isPresented: $presentIcons) {
+                    .popover(isPresented: $presentIcons, attachmentAnchor: .point(.trailing), arrowEdge: .leading) {
                         ZStack {
                             LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                 .opacity(1.0)

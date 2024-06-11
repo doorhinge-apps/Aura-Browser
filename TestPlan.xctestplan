@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "39FECB3D-546A-47D2-BD0D-1CC4E2251FC6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Aura.xcodeproj",
+        "identifier" : "B9E4742F2C17EDE80098C7C6",
+        "name" : "Aura Tests"
+      }
+    }
+  ],
+  "version" : 1
+}

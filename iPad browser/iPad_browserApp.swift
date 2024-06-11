@@ -17,6 +17,12 @@ class CustomAppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        // Handle the incoming URL
+        NotificationCenter.default.post(name: .handleIncomingURL, object: url)
+        return true
+    }
+    
     override func buildMenu(with builder: UIMenuBuilder) {
         super.buildMenu(with: builder)
 
@@ -25,6 +31,10 @@ class CustomAppDelegate: UIResponder, UIApplicationDelegate {
         builder.remove(menu: .format)
         builder.remove(menu: .toolbar)
     }
+}
+
+extension Notification.Name {
+    static let handleIncomingURL = Notification.Name("handleIncomingURL")
 }
 
 @main
@@ -46,6 +56,7 @@ struct iPad_browserApp: App {
         }
     }()
     
+    
     init() {
         UserDefaults.standard.set(0, forKey: "selectedSpaceIndex")
     }
@@ -54,6 +65,11 @@ struct iPad_browserApp: App {
         WindowGroup {
             OnboardingView()
                 .onAppear { hideTitleBarOnCatalyst() }
+//                .onOpenURL { url in
+//                    variables.navigationState.createNewWebView(withRequest: URLRequest(url: url))
+//                    print("Url:")
+//                    print(url)
+//                }
         }
         .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
     }

@@ -26,11 +26,9 @@ struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
+//    @EnvironmentObject var variables: ObservableVariables
     @StateObject var variables = ObservableVariables()
     @StateObject var settings = SettingsVariables()
-    
-    
-    
     
     
     // Selection States
@@ -102,9 +100,7 @@ struct ContentView: View {
                 ZStack {
                     ZStack {
                         if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
-                            //if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                                LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                            //}
+                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                         }
                         else {
                             LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
@@ -126,12 +122,12 @@ struct ContentView: View {
                                     .environmentObject(variables)
                                 //}
                                 /*else {
-                                    Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                    
-                                        .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
-                                        .padding(showBorder ? 0: 15)
-                                        .padding(.top, showBorder ? 0: 10)
-                                }*/
+                                 Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                 
+                                 .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
+                                 .padding(showBorder ? 0: 15)
+                                 .padding(.top, showBorder ? 0: 10)
+                                 }*/
                             }
                             GeometryReader { webGeo in
                                 ZStack {
@@ -162,22 +158,22 @@ struct ContentView: View {
                                     }
                                     
                                     if (selectedTabLocation == "favoriteTabs" && variables.favoritesNavigationState.selectedWebView != nil) ||
-                                               (selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
-                                               (selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
-                                                HStack(alignment: .center, spacing: 0) {
-                                                    navigationButton(imageName: "arrow.left", action: goBack)
-                                                        .padding(.trailing, 30)
-                                                    
-                                                    Spacer()
-                                                        .frame(width: webGeo.size.width)
-                                                    
-                                                    navigationButton(imageName: "arrow.right", action: goForward)
-                                                        .padding(.leading, 30)
-                                                    
-                                                }
+                                        (selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
+                                        (selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
+                                        HStack(alignment: .center, spacing: 0) {
+                                            navigationButton(imageName: "arrow.left", action: goBack)
+                                                .padding(.trailing, 30)
+                                            
+                                            Spacer()
                                                 .frame(width: webGeo.size.width)
-                                                .offset(x: navigationOffset)
-                                            }
+                                            
+                                            navigationButton(imageName: "arrow.right", action: goForward)
+                                                .padding(.leading, 30)
+                                            
+                                        }
+                                        .frame(width: webGeo.size.width)
+                                        .offset(x: navigationOffset)
+                                    }
                                     
                                     if auraTab == "dashboard" && selectedTabLocation == "" {
                                         Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
@@ -351,42 +347,42 @@ struct ContentView: View {
                                         } label: {
                                             
                                         }.keyboardShortcut("t", modifiers: .command)
-
-
+                                        
+                                        
                                     }
                                     /*
-                                    TrackpadScrollView(
-                                        onScroll: { offset in
-                                            let newOffset = -offset
-                                            if abs(newOffset) <= 150 {
-                                                navigationOffset = newOffset
-                                            } else {
-                                                navigationOffset = newOffset > 0 ? 150 : -150
-                                            }
-                                            if abs(newOffset) > 100 {
-                                                withAnimation(.linear(duration: 0.3)) {
-                                                    navigationArrowColor = true
-                                                }
-                                            } else {
-                                                withAnimation(.linear(duration: 0.3)) {
-                                                    navigationArrowColor = false
-                                                }
-                                            }
-                                        },
-                                        onScrollEnd: {
-                                            if navigationOffset >= 100 {
-                                                goBack()
-                                            } else if navigationOffset < -100 {
-                                                goForward()
-                                            }
-                                            
-                                            withAnimation(.linear(duration: 0.25)) {
-                                                navigationOffset = 0
-                                                navigationArrowColor = false
-                                            }
-                                        }
-                                    )
-                                    .frame(width: webGeo.size.width, height: webGeo.size.height)*/
+                                     TrackpadScrollView(
+                                     onScroll: { offset in
+                                     let newOffset = -offset
+                                     if abs(newOffset) <= 150 {
+                                     navigationOffset = newOffset
+                                     } else {
+                                     navigationOffset = newOffset > 0 ? 150 : -150
+                                     }
+                                     if abs(newOffset) > 100 {
+                                     withAnimation(.linear(duration: 0.3)) {
+                                     navigationArrowColor = true
+                                     }
+                                     } else {
+                                     withAnimation(.linear(duration: 0.3)) {
+                                     navigationArrowColor = false
+                                     }
+                                     }
+                                     },
+                                     onScrollEnd: {
+                                     if navigationOffset >= 100 {
+                                     goBack()
+                                     } else if navigationOffset < -100 {
+                                     goForward()
+                                     }
+                                     
+                                     withAnimation(.linear(duration: 0.25)) {
+                                     navigationOffset = 0
+                                     navigationArrowColor = false
+                                     }
+                                     }
+                                     )
+                                     .frame(width: webGeo.size.width, height: webGeo.size.height)*/
                                 }
                                 .highPriorityGesture(
                                     DragGesture()
@@ -453,11 +449,11 @@ struct ContentView: View {
                                 }
                                 
                                 
-//                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-//                                
-//                                    .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
-//                                    .padding(showBorder ? 0: 15)
-//                                    .padding(.top, showBorder ? 0: 10)
+                                //                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                //
+                                //                                    .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
+                                //                                    .padding(showBorder ? 0: 15)
+                                //                                    .padding(.top, showBorder ? 0: 10)
                                 PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                     .environmentObject(variables)
                             }
@@ -493,76 +489,77 @@ struct ContentView: View {
                                         }
                                     
                                     HStack {
-//                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                        VStack {
-                                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
-                                                .padding([.top, .horizontal], 5)
-                                            
-                                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
-                                                .environmentObject(variables)
-                                            
-                                            HStack {
-                                                Button {
-                                                    variables.showSettings.toggle()
-                                                } label: {
-                                                    ZStack {
-                                                        Color(.white)
-                                                            .opacity(variables.settingsButtonHover ? 0.5: 0.0)
-                                                        
-                                                        Image(systemName: "gearshape")
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 20, height: 20)
-                                                            .foregroundStyle(variables.textColor)
-                                                            .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-                                                        
-                                                    }.frame(width: 40, height: 40).cornerRadius(7)
-                                                        .hoverEffect(.lift)
-                                                        .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                        .onHover(perform: { hovering in
-                                                            if hovering {
-                                                                variables.settingsButtonHover = true
-                                                            }
-                                                            else {
-                                                                variables.settingsButtonHover = false
-                                                            }
-                                                        })
-                                                }
-                                                .sheet(isPresented: $variables.showSettings) {
-                                                    Settings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: variables.startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: variables.endHex)
-                                                }
-                                                Spacer()
+                                        //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                        if UIDevice.current.userInterfaceIdiom != .phone {
+                                            VStack {
+                                                ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                    .padding([.top, .horizontal], 5)
                                                 
-                                                SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $variables.currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                    .environmentObject(variables)
                                                 
-                                                Button(action: {
-                                                    modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                                                }, label: {
-                                                    ZStack {
-                                                        Color(.white)
-                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-                                                        
-                                                        Image(systemName: "plus")
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 20, height: 20)
-                                                            .foregroundStyle(variables.textColor)
-                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-                                                        
-                                                    }.frame(width: 40, height: 40).cornerRadius(7)
-                                                        .hoverEffect(.lift)
-                                                        .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                        .onHover(perform: { hovering in
-                                                            if hovering {
-                                                                variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                                            }
-                                                            else {
-                                                                variables.hoverSpace = ""
-                                                            }
-                                                        })
-                                                })
+                                                HStack {
+                                                    Button {
+                                                        variables.showSettings.toggle()
+                                                    } label: {
+                                                        ZStack {
+                                                            Color(.white)
+                                                                .opacity(variables.settingsButtonHover ? 0.5: 0.0)
+                                                            
+                                                            Image(systemName: "gearshape")
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                                .frame(width: 20, height: 20)
+                                                                .foregroundStyle(variables.textColor)
+                                                                .opacity(variables.settingsButtonHover ? 1.0: 0.5)
+                                                            
+                                                        }.frame(width: 40, height: 40).cornerRadius(7)
+                                                            .hoverEffect(.lift)
+                                                            .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                            .onHover(perform: { hovering in
+                                                                if hovering {
+                                                                    variables.settingsButtonHover = true
+                                                                }
+                                                                else {
+                                                                    variables.settingsButtonHover = false
+                                                                }
+                                                            })
+                                                    }
+                                                    .sheet(isPresented: $variables.showSettings) {
+                                                        Settings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: variables.startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: variables.endHex)
+                                                    }
+                                                    Spacer()
+                                                    
+                                                    SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $variables.currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                    
+                                                    Button(action: {
+                                                        modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                                                    }, label: {
+                                                        ZStack {
+                                                            Color(.white)
+                                                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                            
+                                                            Image(systemName: "plus")
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                                .frame(width: 20, height: 20)
+                                                                .foregroundStyle(variables.textColor)
+                                                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                            
+                                                        }.frame(width: 40, height: 40).cornerRadius(7)
+                                                            .hoverEffect(.lift)
+                                                            .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                            .onHover(perform: { hovering in
+                                                                if hovering {
+                                                                    variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                }
+                                                                else {
+                                                                    variables.hoverSpace = ""
+                                                                }
+                                                            })
+                                                    })
+                                                }
                                             }
-                                        }
                                             .padding(15)
                                             .frame(width: 300)
                                             .background(content: {
@@ -589,6 +586,97 @@ struct ContentView: View {
                                             })
                                             .cornerRadius(10)
                                             .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
+                                        }
+                                        else {
+                                            Color.clear
+                                                .sheet(isPresented: $tapSidebarShown) {
+                                                    ZStack {
+                                                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                                                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                        }
+                                                        else {
+                                                            LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                        }
+                                                        
+                                                        if variables.prefferedColorScheme == "dark" || (variables.prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                                            Color.black.opacity(0.5)
+                                                        }
+                                                        
+                                                        VStack {
+                                                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                                .padding([.top, .horizontal], 5)
+                                                            
+                                                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                                .environmentObject(variables)
+                                                            
+                                                            HStack {
+                                                                Button {
+                                                                    variables.showSettings.toggle()
+                                                                } label: {
+                                                                    ZStack {
+                                                                        Color(.white)
+                                                                            .opacity(variables.settingsButtonHover ? 0.5: 0.0)
+                                                                        
+                                                                        Image(systemName: "gearshape")
+                                                                            .resizable()
+                                                                            .scaledToFit()
+                                                                            .frame(width: 20, height: 20)
+                                                                            .foregroundStyle(variables.textColor)
+                                                                            .opacity(variables.settingsButtonHover ? 1.0: 0.5)
+                                                                        
+                                                                    }.frame(width: 40, height: 40).cornerRadius(7)
+                                                                        .hoverEffect(.lift)
+                                                                        .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                                        .onHover(perform: { hovering in
+                                                                            if hovering {
+                                                                                variables.settingsButtonHover = true
+                                                                            }
+                                                                            else {
+                                                                                variables.settingsButtonHover = false
+                                                                            }
+                                                                        })
+                                                                }
+                                                                .sheet(isPresented: $variables.showSettings) {
+                                                                    Settings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: variables.startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: variables.endHex)
+                                                                }
+                                                                Spacer()
+                                                                
+                                                                SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $variables.currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                                
+                                                                Button(action: {
+                                                                    modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                                                                }, label: {
+                                                                    ZStack {
+                                                                        Color(.white)
+                                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                                        
+                                                                        Image(systemName: "plus")
+                                                                            .resizable()
+                                                                            .scaledToFit()
+                                                                            .frame(width: 20, height: 20)
+                                                                            .foregroundStyle(variables.textColor)
+                                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                        
+                                                                    }.frame(width: 40, height: 40).cornerRadius(7)
+                                                                        .hoverEffect(.lift)
+                                                                        .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                                        .onHover(perform: { hovering in
+                                                                            if hovering {
+                                                                                variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                            }
+                                                                            else {
+                                                                                variables.hoverSpace = ""
+                                                                            }
+                                                                        })
+                                                                })
+                                                            }
+                                                        }
+                                                        .padding(15)
+                                                        .frame(width: 300)
+                                                        .cornerRadius(10)
+                                                    }
+                                                }
+                                        }
                                         
                                         Spacer()
                                     }.padding(40)
@@ -618,7 +706,11 @@ struct ContentView: View {
                         }
                         tapSidebarShown = false
                     }
-                    
+                    //                    .onOpenURL { url in
+                    //                        variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: url.absoluteString))!))
+                    //                        print("Url:")
+                    //                        print(url)
+                    //                    }
                     //MARK: - Tabbar
                     if variables.tabBarShown {
                         CommandBar(commandBarText: $newTabSearch, searchSubmitted: $commandBarSearchSubmitted, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
@@ -675,8 +767,8 @@ struct ContentView: View {
                             })
                             .onChange(of: commandBarSearchSubmitted2) { thing in
                                 
-                                    //variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
-                                    //variables.navigationState.selectedWebView?.load(URLRequest(url: URL(formatURL(from: newTabSearch))!))
+                                //variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
+                                //variables.navigationState.selectedWebView?.load(URLRequest(url: URL(formatURL(from: newTabSearch))!))
                                 Task {
                                     await searchInSidebar = formatURL(from: searchInSidebar)
                                     if let url = URL(string: searchInSidebar) {
@@ -708,6 +800,10 @@ struct ContentView: View {
                                 newTabSearch = ""
                             }
                     }
+                }
+                .onAppear() {
+                    print("Variables")
+                    print(variables)
                 }
                 .onChange(of: selectedSpaceIndex, {
                     if initialLoadDone {

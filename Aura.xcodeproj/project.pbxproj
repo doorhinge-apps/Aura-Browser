@@ -48,6 +48,9 @@
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
+		B9E474202C17EA800098C7C6 /* TestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */; };
+		B9E474332C17EDE80098C7C6 /* Aura_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */; };
+		B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */; };
 		B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */; };
 		B9ED10552C0F9FFC004F2AF3 /* WKDownloadHelper in Frameworks */ = {isa = PBXBuildFile; productRef = B9ED10542C0F9FFC004F2AF3 /* WKDownloadHelper */; };
 		B9ED10572C0FAFF4004F2AF3 /* Trackpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */; };
@@ -110,6 +113,10 @@
 		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
 		B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidgetStorage.swift; sourceTree = "<group>"; };
+		B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
+		B9E474302C17EDE80098C7C6 /* Aura Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aura Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_Tests.swift; sourceTree = "<group>"; };
+		B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayIOS18.swift; sourceTree = "<group>"; };
 		B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObjects.swift; sourceTree = "<group>"; };
 		B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trackpad.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -135,6 +142,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B9E4742D2C17EDE80098C7C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -156,8 +170,10 @@
 		B95B19D82AABBEE00013AC79 = {
 			isa = PBXGroup;
 			children = (
+				B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */,
 				B98A32F12BCDB62C00555AB9 /* README.md */,
 				B95B19E32AABBEE00013AC79 /* iPad browser */,
+				B9E474312C17EDE80098C7C6 /* Aura Tests */,
 				B95B19E22AABBEE00013AC79 /* Products */,
 				B9230FFD2BBDC06A0032C950 /* Frameworks */,
 			);
@@ -167,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				B95B19E12AABBEE00013AC79 /* Aura.app */,
+				B9E474302C17EDE80098C7C6 /* Aura Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -265,6 +282,14 @@
 			path = Clock;
 			sourceTree = "<group>";
 		};
+		B9E474312C17EDE80098C7C6 /* Aura Tests */ = {
+			isa = PBXGroup;
+			children = (
+				B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */,
+			);
+			path = "Aura Tests";
+			sourceTree = "<group>";
+		};
 		B9FE8D162BDD87FA00BBF221 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +321,7 @@
 				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
 				B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */,
 				B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */,
+				B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -377,6 +403,23 @@
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B9E4742F2C17EDE80098C7C6 /* Aura Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B9E474342C17EDE80098C7C6 /* Build configuration list for PBXNativeTarget "Aura Tests" */;
+			buildPhases = (
+				B9E4742C2C17EDE80098C7C6 /* Sources */,
+				B9E4742D2C17EDE80098C7C6 /* Frameworks */,
+				B9E4742E2C17EDE80098C7C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Aura Tests";
+			productName = "Aura Tests";
+			productReference = B9E474302C17EDE80098C7C6 /* Aura Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -384,11 +427,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					B95B19E02AABBEE00013AC79 = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					B9E4742F2C17EDE80098C7C6 = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -412,6 +458,7 @@
 			projectRoot = "";
 			targets = (
 				B95B19E02AABBEE00013AC79 /* Aura */,
+				B9E4742F2C17EDE80098C7C6 /* Aura Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -423,11 +470,19 @@
 			files = (
 				B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */,
 				B98953A32AABCF7200EE3B42 /* GoogleService-Info.plist in Resources */,
+				B9E474202C17EA800098C7C6 /* TestPlan.xctestplan in Resources */,
 				B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */,
 				B98A32F22BCDB62C00555AB9 /* README.md in Resources */,
 				B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */,
 				B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */,
 				B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B9E4742E2C17EDE80098C7C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +495,7 @@
 			files = (
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
+				B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
@@ -484,6 +540,14 @@
 				C1BD7D192BDDF6810078D7B3 /* TabStorage.swift in Sources */,
 				B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B9E4742C2C17EDE80098C7C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B9E474332C17EDE80098C7C6 /* Aura_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,6 +713,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 1.0;
+				_EXPERIMENTAL_SWIFT_EXPLICIT_MODULES = NO;
 			};
 			name = Debug;
 		};
@@ -690,6 +755,41 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 1.0;
+				_EXPERIMENTAL_SWIFT_EXPLICIT_MODULES = NO;
+			};
+			name = Release;
+		};
+		B9E474352C17EDE80098C7C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47J6H2LHDD;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.doorhingeapps.Aura-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B9E474362C17EDE80098C7C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 47J6H2LHDD;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.doorhingeapps.Aura-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -710,6 +810,15 @@
 			buildConfigurations = (
 				B95B19F02AABBEE10013AC79 /* Debug */,
 				B95B19F12AABBEE10013AC79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B9E474342C17EDE80098C7C6 /* Build configuration list for PBXNativeTarget "Aura Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B9E474352C17EDE80098C7C6 /* Debug */,
+				B9E474362C17EDE80098C7C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

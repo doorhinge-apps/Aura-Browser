@@ -9,6 +9,8 @@ import SwiftUI
 
 
 struct OnboardingView: View {
+//    @EnvironmentObject var variables: ObservableVariables
+    
     @State private var startColor: Color = Color.purple
     @State private var endColor: Color = Color.pink
     
@@ -35,6 +37,7 @@ struct OnboardingView: View {
             ZStack {
                 if onboardingDone || onboardingComplete {
                     ContentView()
+//                        .environmentObject(variables)
                 }
                 else {
                     HStack(spacing: 0) {

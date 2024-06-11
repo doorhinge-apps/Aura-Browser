@@ -28,6 +28,16 @@
 				<string>https</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.doorhingeapps.browser</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>aurabrowser</string>
+			</array>
+		</dict>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
