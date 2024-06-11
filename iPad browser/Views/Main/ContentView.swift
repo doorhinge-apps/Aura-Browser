@@ -29,78 +29,17 @@ struct ContentView: View {
     @StateObject var variables = ObservableVariables()
     @StateObject var settings = SettingsVariables()
     
-    //@Environment(\.colorScheme) var colorScheme
-    //@AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
     
-    // WebView Handling
-//    @ObservedObject var navigationState = NavigationState()
-//    @ObservedObject var pinnedNavigationState = NavigationState()
-//    @ObservedObject var favoritesNavigationState = NavigationState()
     
-//    @State var navigationStateArray = [] as [NavigationState]
-//    @State var pinnedNavigationStateArray = [] as [NavigationState]
-//    @State var favoritesNavigationStateArray = [] as [NavigationState]
     
-    // Storage and Website Loading
-    @AppStorage("currentSpace") var currentSpace = "Untitled"
-    //@State private var spaces = ["Home", "Space 2"]
-    @State private var spaceIcons: [String: String]? = [:]
-    
-    @State private var reloadTitles = false
-    
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    let rotationTimer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
-    
-    // Settings and Sheets
-    @State private var hoverTab = WKWebView()
-    
-    @State private var showSettings = false
-    @State private var changeColorSheet = false
-    
-    @State private var startColor: Color = Color.purple
-    @State private var endColor: Color = Color.pink
-    @State private var textColor: Color = Color.white
-    
-    @AppStorage("startColorHex") var startHex = "8A3CEF"
-    @AppStorage("endColorHex") var endHex = "84F5FE"
-    @AppStorage("textColorHex") var textHex = "ffffff"
-    
-    //@AppStorage("swipingSpaces") var swipingSpaces = true
-    
-    @State private var presentIcons = false
-    
-    // Hover Effects
-    @State private var hoverTinySpace = false
-    
-    @State private var hoverSidebarButton = false
-    @State private var hoverPaintbrush = false
-    @State private var hoverReloadButton = false
-    @State private var hoverForwardButton = false
-    @State private var hoverBackwardButton = false
-    @State private var hoverNewTab = false
-    @State private var settingsButtonHover = false
-    @State private var hoverNewTabSection = false
-    
-    @State private var hoverSpaceIndex = 1000
-    @State private var hoverSpace = ""
-    
-    @State private var hoverSidebarSearchField = false
-    
-    @State private var hoverCloseTab = WKWebView()
-    
-    @State private var spaceIconHover = false
-    
-    // Animations and Gestures
-    @State private var reloadRotation = 0
-    @State private var draggedTab: WKWebView?
     
     // Selection States
-    @State private var tabBarShown = false
-    @State private var commandBarShown = false
+//    @State private var tabBarShown = false
+//    @State private var commandBarShown = false
     
-    @State private var changingIcon = ""
+//    @State private var changingIcon = ""
     //@State private var hideSidebar = false
-    @AppStorage("hideSidebar") var hideSidebar = false
+//    @AppStorage("hideSidebar") var hideSidebar = false
     
     @State private var searchInSidebar = ""
     @State private var newTabSearch = ""
@@ -168,7 +107,7 @@ struct ContentView: View {
                             //}
                         }
                         else {
-                            LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                            LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                         }
                         
                         if variables.prefferedColorScheme == "dark" || (variables.prefferedColorScheme == "automatic" && colorScheme == .dark) {
@@ -178,12 +117,12 @@ struct ContentView: View {
                         HStack(spacing: 0) {
                             if settings.sidebarLeft {
                                 if settings.showBorder {
-                                    ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
+                                    ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $variables.hideSidebar)
                                         .disabled(true)
                                 }
                                 
                                 //if swipingSpaces {
-                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                     .environmentObject(variables)
                                 //}
                                 /*else {
@@ -252,11 +191,11 @@ struct ContentView: View {
                                     HStack {
                                         Button {
                                             Task {
-                                                await hideSidebar.toggle()
+                                                await variables.hideSidebar.toggle()
                                             }
                                             
                                             withAnimation {
-                                                if !hideSidebar {
+                                                if !variables.hideSidebar {
                                                     if selectedTabLocation == "tabs" {
                                                         Task {
                                                             await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
@@ -323,7 +262,7 @@ struct ContentView: View {
                                         }.keyboardShortcut("]", modifiers: .command)
                                         
                                         Button {
-                                            reloadRotation += 360
+                                            variables.reloadRotation += 360
                                             
                                             if selectedTabLocation == "tabs" {
                                                 variables.navigationState.selectedWebView?.reload()
@@ -363,8 +302,8 @@ struct ContentView: View {
                                         
                                         Button {
                                             if (variables.navigationState.selectedWebView == nil) && (variables.pinnedNavigationState.selectedWebView == nil) && (variables.favoritesNavigationState.selectedWebView == nil) {
-                                                tabBarShown = true
-                                                commandBarShown = false
+                                                variables.tabBarShown = true
+                                                variables.commandBarShown = false
                                                 print("Showing Tab Bar")
                                             }
                                             else {
@@ -376,8 +315,8 @@ struct ContentView: View {
                                                 }else {
                                                     searchInSidebar = unformatURL(url: variables.navigationState.selectedWebView?.url?.absoluteString ?? searchInSidebar)
                                                 }
-                                                commandBarShown.toggle()
-                                                tabBarShown = false
+                                                variables.commandBarShown.toggle()
+                                                variables.tabBarShown = false
                                                 print("Showing Command Bar")
                                             }
                                         } label: {
@@ -407,8 +346,8 @@ struct ContentView: View {
                                         
                                         
                                         Button {
-                                            tabBarShown.toggle()
-                                            commandBarShown = false
+                                            variables.tabBarShown.toggle()
+                                            variables.commandBarShown = false
                                         } label: {
                                             
                                         }.keyboardShortcut("t", modifiers: .command)
@@ -509,7 +448,7 @@ struct ContentView: View {
                             
                             if !settings.sidebarLeft {
                                 if settings.showBorder {
-                                    ThreeDots(hoverTinySpace: $hoverTinySpace, hideSidebar: $hideSidebar)
+                                    ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $variables.hideSidebar)
                                         .disabled(true)
                                 }
                                 
@@ -519,7 +458,7 @@ struct ContentView: View {
 //                                    .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
 //                                    .padding(showBorder ? 0: 15)
 //                                    .padding(.top, showBorder ? 0: 10)
-                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                     .environmentObject(variables)
                             }
                         }
@@ -527,19 +466,19 @@ struct ContentView: View {
                         .padding(.vertical, settings.showBorder ? 25: 0)
                         .onAppear {
                             if let savedStartColor = getColor(forKey: "startColorHex") {
-                                startColor = savedStartColor
+                                variables.startColor = savedStartColor
                             }
                             if let savedEndColor = getColor(forKey: "endColorHex") {
-                                endColor = savedEndColor
+                                variables.endColor = savedEndColor
                             }
                             if let savedTextColor = getColor(forKey: "textColorHex") {
-                                textColor = savedTextColor
+                                variables.textColor = savedTextColor
                             }
                             
-                            spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
+                            variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
                         }
                         
-                        if hideSidebar {
+                        if variables.hideSidebar {
                             HStack {
                                 if !settings.sidebarLeft {
                                     Spacer()
@@ -556,69 +495,69 @@ struct ContentView: View {
                                     HStack {
 //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                         VStack {
-                                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, geo: geo).frame(height: 40)
+                                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
                                                 .padding([.top, .horizontal], 5)
                                             
-                                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                            Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $variables.hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                                 .environmentObject(variables)
                                             
                                             HStack {
                                                 Button {
-                                                    showSettings.toggle()
+                                                    variables.showSettings.toggle()
                                                 } label: {
                                                     ZStack {
                                                         Color(.white)
-                                                            .opacity(settingsButtonHover ? 0.5: 0.0)
+                                                            .opacity(variables.settingsButtonHover ? 0.5: 0.0)
                                                         
                                                         Image(systemName: "gearshape")
                                                             .resizable()
                                                             .scaledToFit()
                                                             .frame(width: 20, height: 20)
-                                                            .foregroundStyle(textColor)
-                                                            .opacity(settingsButtonHover ? 1.0: 0.5)
+                                                            .foregroundStyle(variables.textColor)
+                                                            .opacity(variables.settingsButtonHover ? 1.0: 0.5)
                                                         
                                                     }.frame(width: 40, height: 40).cornerRadius(7)
                                                         .hoverEffect(.lift)
                                                         .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
                                                         .onHover(perform: { hovering in
                                                             if hovering {
-                                                                settingsButtonHover = true
+                                                                variables.settingsButtonHover = true
                                                             }
                                                             else {
-                                                                settingsButtonHover = false
+                                                                variables.settingsButtonHover = false
                                                             }
                                                         })
                                                 }
-                                                .sheet(isPresented: $showSettings) {
-                                                    Settings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                .sheet(isPresented: $variables.showSettings) {
+                                                    Settings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: variables.startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: variables.endHex)
                                                 }
                                                 Spacer()
                                                 
-                                                SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $variables.currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
                                                 
                                                 Button(action: {
                                                     modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                                                 }, label: {
                                                     ZStack {
                                                         Color(.white)
-                                                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
                                                         
                                                         Image(systemName: "plus")
                                                             .resizable()
                                                             .scaledToFit()
                                                             .frame(width: 20, height: 20)
-                                                            .foregroundStyle(textColor)
-                                                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                            .foregroundStyle(variables.textColor)
+                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                                                         
                                                     }.frame(width: 40, height: 40).cornerRadius(7)
                                                         .hoverEffect(.lift)
                                                         .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
                                                         .onHover(perform: { hovering in
                                                             if hovering {
-                                                                hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
                                                             }
                                                             else {
-                                                                hoverSpace = ""
+                                                                variables.hoverSpace = ""
                                                             }
                                                         })
                                                 })
@@ -628,7 +567,7 @@ struct ContentView: View {
                                             .frame(width: 300)
                                             .background(content: {
                                                 if settings.sidebarLeft {
-                                                    LinearGradient(colors: [startColor, Color(hex: averageHexColor(hex1: startHex, hex2: endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                    LinearGradient(colors: [variables.startColor, Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         .opacity(1.0)
                                                     if selectedSpaceIndex < spaces.count {
                                                         if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
@@ -636,7 +575,7 @@ struct ContentView: View {
                                                         }
                                                     }
                                                 } else {
-                                                    LinearGradient(colors: [Color(hex: averageHexColor(hex1: startHex, hex2: endHex)), endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                    LinearGradient(colors: [Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex)), variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         .opacity(1.0)
                                                     if selectedSpaceIndex < spaces.count {
                                                         if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
@@ -673,15 +612,15 @@ struct ContentView: View {
                             }.animation(.default)
                         }
                     }.onTapGesture {
-                        if tabBarShown || commandBarShown {
-                            tabBarShown = false
-                            commandBarShown = false
+                        if variables.tabBarShown || variables.commandBarShown {
+                            variables.tabBarShown = false
+                            variables.commandBarShown = false
                         }
                         tapSidebarShown = false
                     }
                     
                     //MARK: - Tabbar
-                    if tabBarShown {
+                    if variables.tabBarShown {
                         CommandBar(commandBarText: $newTabSearch, searchSubmitted: $commandBarSearchSubmitted, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
                             .onChange(of: commandBarSearchSubmitted) { thing in
                                 
@@ -699,12 +638,12 @@ struct ContentView: View {
                                         selectedTabLocation = ""
                                     }
                                     if newTabSearch.contains("settings") {
-                                        showSettings = true
+                                        variables.showSettings = true
                                     }
                                 }
                                 
-                                tabBarShown = false
-                                commandBarSearchSubmitted = false
+                                variables.tabBarShown = false
+                                variables.commandBarSearchSubmitted = false
                                 newTabSearch = ""
                                 
                                 print("Saving Tabs")
@@ -714,7 +653,7 @@ struct ContentView: View {
                     }
                     
                     //MARK: - Command Bar
-                    else if commandBarShown {
+                    else if variables.commandBarShown {
                         CommandBar(commandBarText: $searchInSidebar, searchSubmitted: $commandBarSearchSubmitted2, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
                             .onChange(of: variables.navigationState.currentURL, {
                                 if let unwrappedURL = variables.navigationState.currentURL {
@@ -763,8 +702,8 @@ struct ContentView: View {
                                 }
                                 
                                 
-                                commandBarShown = false
-                                tabBarShown = false
+                                variables.commandBarShown = false
+                                variables.tabBarShown = false
                                 commandBarSearchSubmitted2 = false
                                 newTabSearch = ""
                             }
@@ -782,11 +721,11 @@ struct ContentView: View {
                         
                         if selectedSpaceIndex < spaces.count {
                             if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                                startHex = spaces[selectedSpaceIndex].startHex
-                                endHex = spaces[selectedSpaceIndex].startHex
+                                variables.startHex = spaces[selectedSpaceIndex].startHex
+                                variables.endHex = spaces[selectedSpaceIndex].startHex
                                 
-                                startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
-                                endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                                variables.startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
+                                variables.endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
                             }
                         }
                         
@@ -815,16 +754,16 @@ struct ContentView: View {
                     
                     if selectedSpaceIndex < spaces.count {
                         if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                            startHex = spaces[selectedSpaceIndex].startHex
-                            endHex = spaces[selectedSpaceIndex].startHex
+                            variables.startHex = spaces[selectedSpaceIndex].startHex
+                            variables.endHex = spaces[selectedSpaceIndex].startHex
                             
-                            startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
-                            endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                            variables.startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
+                            variables.endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
                         }
                     }
                     
                     for space in spaces {
-                        if space.spaceName == currentSpace {
+                        if space.spaceName == variables.currentSpace {
                             for tab in space.tabUrls {
                                 variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
                             }
@@ -946,7 +885,7 @@ struct ContentView: View {
                 .opacity(isLoading ?? false ? 1.0 : 0.0)
                 .animation(.default, value: isLoading ?? false)
                 .blur(radius: 5)
-                .onReceive(rotationTimer) { _ in
+                .onReceive(variables.rotationTimer) { _ in
                     handleRotation()
                 }
         }

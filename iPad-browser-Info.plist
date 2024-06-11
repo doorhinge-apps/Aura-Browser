@@ -38,5 +38,7 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>com.apple.developer.web-browser</key>
+	<true/>
 </dict>
 </plist>
