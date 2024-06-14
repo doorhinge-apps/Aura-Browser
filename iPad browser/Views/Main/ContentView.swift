@@ -438,7 +438,7 @@ struct ContentView: View {
                                      )
                                      .frame(width: webGeo.size.width, height: webGeo.size.height)*/
                                 }
-                                .highPriorityGesture(
+                                .gesture(
                                     DragGesture()
                                         .onChanged { value in
                                             let startLocation = value.startLocation.x
@@ -490,7 +490,13 @@ struct ContentView: View {
                                             }
                                         }
                                 )
-                                //.animation(.default)
+                                .onChange(of: webGeo.size) {
+                                    variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                    
+                                    variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                    
+                                    variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                }
                             }
                             .cornerRadius(10)
                             .clipped()
