@@ -35,6 +35,8 @@ struct CommandBar: View {
     
     @FocusState private var focusedField: FocusedField?
     
+    @Binding var isBrowseForMe: Bool
+    
     var body: some View {
         ZStack {
             //LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
@@ -51,32 +53,48 @@ struct CommandBar: View {
                                     .frame(height: 60)
                                 if !commandBarText.isEmpty {
                                     ZStack {
-                                        if selectedSuggestion == -1 {
-                                            Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
-                                                .cornerRadius(10)
-                                                .padding(5)
-                                                .padding(.horizontal, 5)
-                                        }
-                                        
-                                        HStack {
-                                            Text(commandBarText)
-                                                .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
-                                                .padding(.vertical, 27)
-                                                .padding(.horizontal, 25)
-                                            
-                                            Spacer()
-                                            
-                                            Image(systemName: "arrow.right")
-                                                .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
-                                                .frame(width: selectedSuggestion != -1 ? 00: 40, height: 40)
-                                                .bold()
-                                                .hoverEffect(.lift)
-                                                .background(.ultraThinMaterial)
-                                                .cornerRadius(10)
-                                                .padding(.trailing, 20)
-                                                .animation(.default)
-                                            
-                                        }
+                                        Button(action: {
+                                            searchSubmitted = true
+                                        }, label: {
+                                            ZStack {
+                                                if selectedSuggestion == -1 {
+                                                    Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
+                                                        .cornerRadius(10)
+                                                        .padding(5)
+                                                        .padding(.horizontal, 5)
+                                                }
+                                                
+                                                HStack {
+                                                    Text(commandBarText)
+                                                        .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
+                                                        .padding(.vertical, 27)
+                                                        .padding(.horizontal, 25)
+                                                    
+                                                    Spacer()
+                                                    
+                                                    Button {
+                                                        isBrowseForMe = true
+                                                        searchSubmitted = true
+                                                    } label: {
+                                                        Text("Browse for me")
+                                                            .foregroundStyle(selectedSuggestion != -1 ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
+                                                            .animation(.linear)
+                                                        
+                                                    }
+                                                    
+                                                    Image(systemName: "arrow.right")
+                                                        .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
+                                                        .frame(width: selectedSuggestion != -1 ? 00: 40, height: 40)
+                                                        .bold()
+                                                        .hoverEffect(.lift)
+                                                        .background(.ultraThinMaterial)
+                                                        .cornerRadius(10)
+                                                        .padding(.trailing, 20)
+                                                        .animation(.default)
+                                                    
+                                                }
+                                            }
+                                        })
                                     }.id("veryLongStringForUnlikelySearchID")
                                 }
                                 
@@ -110,6 +128,19 @@ struct CommandBar: View {
                                                     .padding(.horizontal, 25)
                                                 
                                                 Spacer()
+                                                
+                                                
+                                                Button {
+                                                    isBrowseForMe = true
+                                                    commandBarText = suggestion
+                                                    searchSubmitted = true
+                                                } label: {
+                                                    Text("Browse for me")
+                                                        .foregroundStyle(selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing)): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
+                                                        .animation(.linear)
+                                                }
+
+                                                
                                                 
                                                 Image(systemName: "arrow.right")
                                                     .foregroundStyle(Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"))

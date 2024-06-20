@@ -1,5 +1,5 @@
 {
-  "originHash" : "84840a0fe700c3d53e7f37cbac0e48a9e7fc0aadd24274940de9b40dc88ea4f2",
+  "originHash" : "3ecc4dfabfc92152c6ffcf101d278f1976c1212bb8b2f223c8f3b9510dae73a3",
   "pins" : [
     {
       "identity" : "faviconfinder",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "c6a115f5b44c99634d4361cff04db1e9e7ac0baa",
         "version" : "1.0.1"
+      }
+    },
+    {
+      "identity" : "okta-storage-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/okta/okta-storage-swift",
+      "state" : {
+        "revision" : "c52fe4f25b5aa89c4c3869e52249cd75ee936658",
+        "version" : "1.1.3"
       }
     },
     {

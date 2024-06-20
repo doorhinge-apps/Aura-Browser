@@ -13,6 +13,9 @@
 		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
+		B9272D342C240DDD00B014D8 /* Browse for Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D312C240DDD00B014D8 /* Browse for Me.swift */; };
+		B9272D352C240DDD00B014D8 /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D332C240DDD00B014D8 /* MarkdownParser.swift */; };
+		B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
 		B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */; };
 		B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */; };
@@ -75,6 +78,9 @@
 		B91FBF942BC8EB0C001C317C /* Tab Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab Bar.swift"; sourceTree = "<group>"; };
 		B9230FF92BBD36740032C950 /* TopDomains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TopDomains.json; sourceTree = "<group>"; };
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
+		B9272D312C240DDD00B014D8 /* Browse for Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Browse for Me.swift"; sourceTree = "<group>"; };
+		B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerplexityRequest.swift; sourceTree = "<group>"; };
+		B9272D332C240DDD00B014D8 /* MarkdownParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
 		B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pinned Tab.swift"; sourceTree = "<group>"; };
 		B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsURLs.swift; sourceTree = "<group>"; };
@@ -157,6 +163,16 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B9272D302C240D5800B014D8 /* Browse for Me */ = {
+			isa = PBXGroup;
+			children = (
+				B9272D312C240DDD00B014D8 /* Browse for Me.swift */,
+				B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */,
+				B9272D332C240DDD00B014D8 /* MarkdownParser.swift */,
+			);
+			path = "Browse for Me";
 			sourceTree = "<group>";
 		};
 		B93D9D2F2BDF35DA0002D01B /* Tabs */ = {
@@ -351,6 +367,7 @@
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
 				B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */,
 				B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */,
+				B9272D302C240D5800B014D8 /* Browse for Me */,
 				B9798BFC2BF0B92A0012D98E /* Dashboard */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
 				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
@@ -511,6 +528,9 @@
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
 				B918673C2BCB0AFD00C159AB /* Settings.swift in Sources */,
+				B9272D342C240DDD00B014D8 /* Browse for Me.swift in Sources */,
+				B9272D352C240DDD00B014D8 /* MarkdownParser.swift in Sources */,
+				B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */,
 				B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */,
 				B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */,
 				B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */,

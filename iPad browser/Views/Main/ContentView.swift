@@ -148,6 +148,9 @@ struct ContentView: View {
     @State private var navigationOffset: CGFloat = 0
     @State var navigationArrowColor = false
     @State var arrowImpactOnce = false
+    
+    @State var isBrowseForMe = false
+    
     var body: some View {
         GeometryReader { geo in
             if spaces.count > 0 {
@@ -778,40 +781,41 @@ struct ContentView: View {
                     }
                     //MARK: - Tabbar
                     if tabBarShown {
-                        CommandBar(commandBarText: $newTabSearch, searchSubmitted: $commandBarSearchSubmitted, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
+                        CommandBar(commandBarText: $newTabSearch, searchSubmitted: $commandBarSearchSubmitted, collapseHeightAnimation: $commandBarCollapseHeightAnimation, isBrowseForMe: $isBrowseForMe)
                             .onChange(of: commandBarSearchSubmitted) { thing in
-                                
-                                if !newTabSearch.starts(with: "aura://") {
-                                    auraTab = ""
-                                    variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
-                                }
-                                else {
-                                    if newTabSearch.contains("dashboard") {
-                                        variables.navigationState.selectedWebView = nil
-                                        variables.pinnedNavigationState.selectedWebView = nil
-                                        variables.favoritesNavigationState.selectedWebView = nil
-                                        
-                                        auraTab = "dashboard"
-                                        selectedTabLocation = ""
+                                if !isBrowseForMe {
+                                    if !newTabSearch.starts(with: "aura://") {
+                                        auraTab = ""
+                                        variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
                                     }
-                                    if newTabSearch.contains("settings") {
-                                        showSettings = true
+                                    else {
+                                        if newTabSearch.contains("dashboard") {
+                                            variables.navigationState.selectedWebView = nil
+                                            variables.pinnedNavigationState.selectedWebView = nil
+                                            variables.favoritesNavigationState.selectedWebView = nil
+                                            
+                                            auraTab = "dashboard"
+                                            selectedTabLocation = ""
+                                        }
+                                        if newTabSearch.contains("settings") {
+                                            showSettings = true
+                                        }
                                     }
+                                    
+                                    tabBarShown = false
+                                    commandBarSearchSubmitted = false
+                                    newTabSearch = ""
+                                    
+                                    print("Saving Tabs")
+                                    
+                                    saveSpaceData()
                                 }
-                                
-                                tabBarShown = false
-                                commandBarSearchSubmitted = false
-                                newTabSearch = ""
-                                
-                                print("Saving Tabs")
-                                
-                                saveSpaceData()
                             }
                     }
                     
                     //MARK: - Command Bar
                     else if commandBarShown {
-                        CommandBar(commandBarText: $searchInSidebar, searchSubmitted: $commandBarSearchSubmitted2, collapseHeightAnimation: $commandBarCollapseHeightAnimation)
+                        CommandBar(commandBarText: $searchInSidebar, searchSubmitted: $commandBarSearchSubmitted2, collapseHeightAnimation: $commandBarCollapseHeightAnimation, isBrowseForMe: $isBrowseForMe)
                             .onChange(of: variables.navigationState.currentURL, {
                                 if let unwrappedURL = variables.navigationState.currentURL {
                                     searchInSidebar = unwrappedURL.absoluteString
@@ -866,6 +870,34 @@ struct ContentView: View {
                             }
                     }
                 }
+                .sheet(isPresented: $isBrowseForMe, content: {
+                    VStack {
+                        if UIDevice.current.userInterfaceIdiom != .phone {
+                            BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
+                                .frame(width: geo.size.width * 0.7, height: geo.size.height * 0.9)
+                                .onDisappear() {
+                                    isBrowseForMe = false
+                                    newTabSearch = ""
+                                    commandBarShown = false
+                                    tabBarShown = false
+                                    commandBarSearchSubmitted = false
+                                    commandBarSearchSubmitted2 = false
+                                }
+                        }
+                        else {
+                            BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
+                                .onDisappear() {
+                                    isBrowseForMe = false
+                                    newTabSearch = ""
+                                    commandBarShown = false
+                                    tabBarShown = false
+                                    commandBarSearchSubmitted = false
+                                    commandBarSearchSubmitted2 = false
+                                }
+                        }
+                    }
+                    .interactiveDismissDisabled(true)
+                })
                 .onAppear() {
                     print("Variables")
                     print(variables)
