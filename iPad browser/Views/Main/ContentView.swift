@@ -1035,37 +1035,14 @@ struct ContentView: View {
                 print(error.localizedDescription)
             }
         }
-        
-        print(spaces[selectedSpaceIndex].tabUrls)
-        
     }
-    
-    /*func saveToLocalStorage() {
-        let urlStringArray = navigationState.webViews.compactMap { $0.url?.absoluteString }
-        if let urlsData = try? JSONEncoder().encode(urlStringArray){
-            UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)userTabs")
-            
-        }
-        
-        let urlStringArray2 = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
-        if let urlsData = try? JSONEncoder().encode(urlStringArray2){
-            UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)pinnedTabs")
-            
-        }
-        
-        let urlStringArray3 = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
-        if let urlsData = try? JSONEncoder().encode(urlStringArray3){
-            UserDefaults.standard.set(urlsData, forKey: "\(currentSpace)favoriteTabs")
-            
-        }
-    }*/
     
     private func loadingIndicators(for isLoading: Bool?) -> some View {
         Group {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .trim(from: 0.25 + offset, to: 0.5 + offset)
                 .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
-                .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                .foregroundColor(selectedSpaceIndex < spaces.count ? Color(hex: spaces[selectedSpaceIndex].startHex) : .blue)
                 .opacity(isLoading ?? false ? 1.0 : 0.0)
                 .animation(.default, value: isLoading ?? false)
                 .blur(radius: 5)
@@ -1074,7 +1051,7 @@ struct ContentView: View {
                 .trim(from: 0.25 + offset, to: 0.5 + offset)
                 .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 .rotation(Angle(degrees: 180))
-                .foregroundColor(Color(hex: spaces[selectedSpaceIndex].startHex))
+                .foregroundColor(selectedSpaceIndex < spaces.count ? Color(hex: spaces[selectedSpaceIndex].startHex) : .blue)
                 .opacity(isLoading ?? false ? 1.0 : 0.0)
                 .animation(.default, value: isLoading ?? false)
                 .blur(radius: 5)
