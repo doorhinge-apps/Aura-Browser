@@ -160,4 +160,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("faviconShape") var faviconShape = "circle"
     
     @AppStorage("commandBarOnLaunch") var commandBarOnLaunch = true
+    
+    @AppStorage("adBlockEnabled") var adBlockEnabled = true
 }

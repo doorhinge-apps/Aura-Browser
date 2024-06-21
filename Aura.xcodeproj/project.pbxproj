@@ -16,6 +16,8 @@
 		B9272D342C240DDD00B014D8 /* Browse for Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D312C240DDD00B014D8 /* Browse for Me.swift */; };
 		B9272D352C240DDD00B014D8 /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D332C240DDD00B014D8 /* MarkdownParser.swift */; };
 		B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */; };
+		B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9272D3A2C250A9D00B014D8 /* MarkdownUI */; };
+		B9272D3D2C250CDD00B014D8 /* Adaway.json in Resources */ = {isa = PBXBuildFile; fileRef = B9272D3C2C250CDD00B014D8 /* Adaway.json */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
 		B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */; };
 		B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */; };
@@ -81,6 +83,7 @@
 		B9272D312C240DDD00B014D8 /* Browse for Me.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Browse for Me.swift"; sourceTree = "<group>"; };
 		B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerplexityRequest.swift; sourceTree = "<group>"; };
 		B9272D332C240DDD00B014D8 /* MarkdownParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
+		B9272D3C2C250CDD00B014D8 /* Adaway.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Adaway.json; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
 		B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pinned Tab.swift"; sourceTree = "<group>"; };
 		B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsURLs.swift; sourceTree = "<group>"; };
@@ -145,6 +148,7 @@
 				B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */,
 				B9ED10552C0F9FFC004F2AF3 /* WKDownloadHelper in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
+				B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +332,7 @@
 		C1BD7D1C2BDDF8DF0078D7B3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B9272D3C2C250CDD00B014D8 /* Adaway.json */,
 				C1BD7D2C2BDE04FB0078D7B3 /* WebsiteHandling */,
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
 				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
@@ -415,6 +420,7 @@
 				B98A32FA2BD05CF000555AB9 /* FaviconFinder */,
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
 				B9ED10542C0F9FFC004F2AF3 /* WKDownloadHelper */,
+				B9272D3A2C250A9D00B014D8 /* MarkdownUI */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -469,6 +475,7 @@
 				B9F7D6252BD851CC00E186B8 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
 				B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */,
+				B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -485,6 +492,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9272D3D2C250CDD00B014D8 /* Adaway.json in Resources */,
 				B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */,
 				B98953A32AABCF7200EE3B42 /* GoogleService-Info.plist in Resources */,
 				B9E474202C17EA800098C7C6 /* TestPlan.xctestplan in Resources */,
@@ -850,6 +858,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 		B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS";
@@ -885,6 +901,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B9272D3A2C250A9D00B014D8 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
 		B98A32FA2BD05CF000555AB9 /* FaviconFinder */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;

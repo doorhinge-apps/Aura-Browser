@@ -35,6 +35,10 @@ struct WebView: UIViewRepresentable {
             webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
         }
         
+        if UserDefaults.standard.bool(forKey: "adBlockEnabled") {
+            loadContentBlockingRules(webView)
+        }
+        
         // Set the frame again to ensure the webView resizes correctly
         webView.frame = CGRect(origin: .zero, size: uiView.bounds.size)
         
@@ -42,6 +46,33 @@ struct WebView: UIViewRepresentable {
         if webView != uiView.subviews.first {
             uiView.subviews.forEach { $0.removeFromSuperview() }
             uiView.addSubview(webView)
+        }
+    }
+    
+    private func loadContentBlockingRules(_ webView: WKWebView) {
+        guard let filePath = Bundle.main.path(forResource: "Adaway", ofType: "json") else {
+            print("Error: Could not find rules.json file.")
+            return
+        }
+        
+        do {
+            let jsonString = try String(contentsOfFile: filePath, encoding: .utf8)
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "ContentBlockingRules", encodedContentRuleList: jsonString) { ruleList, error in
+                if let error = error {
+                    print("Error compiling content rule list: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let ruleList = ruleList else {
+                    print("Error: Rule list is nil.")
+                    return
+                }
+                
+                let configuration = webView.configuration
+                configuration.userContentController.add(ruleList)
+            }
+        } catch {
+            print("Error loading rules.json file: \(error.localizedDescription)")
         }
     }
 }

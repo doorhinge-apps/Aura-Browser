@@ -762,12 +762,17 @@ struct ContentView: View {
                                 }
                             }.animation(.default)
                         }
-                    }.onTapGesture {
-                        if tabBarShown || commandBarShown {
-                            tabBarShown = false
-                            commandBarShown = false
+                        
+                        if tabBarShown || commandBarShown || tapSidebarShown {
+                            Button(action: {
+                                tabBarShown = false
+                                commandBarShown = false
+                                tapSidebarShown = false
+                            }, label: {
+                                Color.white.opacity(0.0001)
+                            })
                         }
-                        tapSidebarShown = false
+                        
                     }
                     .onOpenURL { url in
                         if url.absoluteString.starts(with: "aura://") {
