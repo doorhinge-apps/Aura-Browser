@@ -106,24 +106,6 @@ struct Sidebar: View {
                             .foregroundStyle(Color(.white).opacity(hoverSidebarSearchField ? 0.3 : 0.15))
                         
                         HStack {
-//                            Text(selectedTabLocation == "tabs" ? (navigationState.currentURL?.absoluteString ?? ""): selectedTabLocation == "pinnedTabs" ? (pinnedNavigationState.currentURL?.absoluteString ?? ""): (favoritesNavigationState.currentURL?.absoluteString ?? ""))
-//                                .padding(.leading, 5)
-//                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-//                                .lineLimit(1)
-//                                .onReceive(timer) { _ in
-//                                    if !commandBarShown {
-//                                        if let unwrappedURL = navigationState.selectedWebView?.url {
-//                                            searchInSidebar = unwrappedURL.absoluteString
-//                                        }
-//                                        if let unwrappedURL = pinnedNavigationState.selectedWebView?.url {
-//                                            searchInSidebar = unwrappedURL.absoluteString
-//                                        }
-//                                        if let unwrappedURL = favoritesNavigationState.selectedWebView?.url {
-//                                            searchInSidebar = unwrappedURL.absoluteString
-//                                        }
-//                                    }
-//                                    
-//                                }
                             Text(unformatURL(url: selectedTabLocation == "tabs" ? variables.navigationState.selectedWebView?.url?.absoluteString ?? "": selectedTabLocation == "pinnedTabs" ? variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? "": variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? ""))
                                 .padding(.leading, 5)
                                 .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
@@ -143,141 +125,142 @@ struct Sidebar: View {
                     })
                 }
                 
-                // Favorite Tabs
-                LazyVGrid(columns: [GridItem(), GridItem()]) {
-                    ForEach(favoritesNavigationState.webViews, id:\.self) { tab in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(textColor.opacity(tab == favoritesNavigationState.selectedWebView ? 1.0 : hoverTab == tab ? 0.6: 0.2), lineWidth: 3)
-                                .fill(textColor.opacity(tab == favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.15: 0.0001))
-                                .frame(height: 75)
-                            
-                            if favoritesStyle {
-                                HStack {
-                                    if tab.title == "" {
-                                        Text(unformatURL(url: tab.url?.absoluteString ?? "Tab not found"))
-                                            .lineLimit(1)
-                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                            .padding(.leading, 5)
-                                            .onReceive(timer) { _ in
-                                                reloadTitles.toggle()
-                                            }
-                                    }
-                                    else {
-                                        Text(tab.title ?? "Tab not found.")
-                                            .lineLimit(1)
-                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                            .padding(.leading, 5)
-                                            .onReceive(timer) { _ in
-                                                reloadTitles.toggle()
-                                            }
-                                    }
-                                }
-                            } else {
-                                if faviconLoadingStyle {
-                                    WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 35, height: 35)
-                                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 10: 100)
-                                    } placeholder: {
-                                        Rectangle().foregroundColor(.gray)
-                                    }
-                                    .onSuccess { image, data, cacheType in
-                                        // Success
-                                        // Note: Data exist only when queried from disk cache or network. Use `.queryMemoryData` if you really need data
-                                    }
-                                    .indicator(.activity) // Activity Indicator
-                                    .transition(.fade(duration: 0.5)) // Fade Transition with duration
-                                    .scaledToFit()
-                                } else {
-                                    AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 35, height: 35)
-                                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 10: 100)
-                                        
-                                    } placeholder: {
-                                        LoadingAnimations(size: 35, borderWidth: 5.0)
-                                    }
-                                    
-                                }
-                            }
-                            
-                        }
-                        .contextMenu {
-                            Button {
-                                pinnedNavigationState.webViews.append(tab)
-                                
-                                if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
-                                    favoriteRemoveTab(at: index)
-                                }
-                            } label: {
-                                Label("Pin Tab", systemImage: "pin")
-                            }
-                            
-                            Button {
-                                navigationState.webViews.append(tab)
-                                
-                                if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
-                                    favoriteRemoveTab(at: index)
-                                }
-                            } label: {
-                                Label("Unfavorite", systemImage: "star.fill")
-                            }
-                            
-                            Button {
-                                if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
-                                    favoriteRemoveTab(at: index)
-                                }
-                            } label: {
-                                Label("Close Tab", systemImage: "xmark")
-                            }
-                            
-                        }
-                        .onAppear() {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                hoverTab = WKWebView()
-                            }
-                        }
-                        .onHover(perform: { hovering in
-                            if hovering {
-                                hoverTab = tab
-                            }
-                            else {
-                                hoverTab = WKWebView()
-                            }
-                        })
-                        .onTapGesture {
-                            navigationState.selectedWebView = nil
-                            navigationState.currentURL = nil
-                            
-                            pinnedNavigationState.selectedWebView = nil
-                            pinnedNavigationState.currentURL = nil
-                            
-                            selectedTabLocation = "favoriteTabs"
-                            
-                            Task {
-                                await favoritesNavigationState.selectedWebView = tab
-                                await favoritesNavigationState.currentURL = tab.url
-                            }
-                            
-                            if let unwrappedURL = tab.url {
-                                searchInSidebar = unwrappedURL.absoluteString
-                            }
-                        }
-                        .onDrag {
-                            self.draggedTab = tab
-                            return NSItemProvider()
-                        }
-                        .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $favoritesNavigationState.webViews, draggedItem: $draggedTab))
-                    }
-                }
                 
                 // Tabs
                 ScrollView {
+                    // Favorite Tabs
+                    LazyVGrid(columns: [GridItem(), GridItem()]) {
+                        ForEach(favoritesNavigationState.webViews, id:\.self) { tab in
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(textColor.opacity(tab == favoritesNavigationState.selectedWebView ? 1.0 : hoverTab == tab ? 0.6: 0.2), lineWidth: 3)
+                                    .fill(textColor.opacity(tab == favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.15: 0.0001))
+                                    .frame(height: 75)
+                                
+                                if favoritesStyle {
+                                    HStack {
+                                        if tab.title == "" {
+                                            Text(unformatURL(url: tab.url?.absoluteString ?? "Tab not found"))
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
+                                        else {
+                                            Text(tab.title ?? "Tab not found.")
+                                                .lineLimit(1)
+                                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                                .padding(.leading, 5)
+                                                .onReceive(timer) { _ in
+                                                    reloadTitles.toggle()
+                                                }
+                                        }
+                                    }
+                                } else {
+                                    if faviconLoadingStyle {
+                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35, height: 35)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 10: 100)
+                                        } placeholder: {
+                                            Rectangle().foregroundColor(.gray)
+                                        }
+                                        .onSuccess { image, data, cacheType in
+                                            // Success
+                                            // Note: Data exist only when queried from disk cache or network. Use `.queryMemoryData` if you really need data
+                                        }
+                                        .indicator(.activity) // Activity Indicator
+                                        .transition(.fade(duration: 0.5)) // Fade Transition with duration
+                                        .scaledToFit()
+                                    } else {
+                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(tab.url?.absoluteString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35, height: 35)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 10: 100)
+                                            
+                                        } placeholder: {
+                                            LoadingAnimations(size: 35, borderWidth: 5.0)
+                                        }
+                                        
+                                    }
+                                }
+                                
+                            }
+                            .contextMenu {
+                                Button {
+                                    pinnedNavigationState.webViews.append(tab)
+                                    
+                                    if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                        favoriteRemoveTab(at: index)
+                                    }
+                                } label: {
+                                    Label("Pin Tab", systemImage: "pin")
+                                }
+                                
+                                Button {
+                                    navigationState.webViews.append(tab)
+                                    
+                                    if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                        favoriteRemoveTab(at: index)
+                                    }
+                                } label: {
+                                    Label("Unfavorite", systemImage: "star.fill")
+                                }
+                                
+                                Button {
+                                    if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                        favoriteRemoveTab(at: index)
+                                    }
+                                } label: {
+                                    Label("Close Tab", systemImage: "xmark")
+                                }
+                                
+                            }
+                            .onAppear() {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    hoverTab = WKWebView()
+                                }
+                            }
+                            .onHover(perform: { hovering in
+                                if hovering {
+                                    hoverTab = tab
+                                }
+                                else {
+                                    hoverTab = WKWebView()
+                                }
+                            })
+                            .onTapGesture {
+                                navigationState.selectedWebView = nil
+                                navigationState.currentURL = nil
+                                
+                                pinnedNavigationState.selectedWebView = nil
+                                pinnedNavigationState.currentURL = nil
+                                
+                                selectedTabLocation = "favoriteTabs"
+                                
+                                Task {
+                                    await favoritesNavigationState.selectedWebView = tab
+                                    await favoritesNavigationState.currentURL = tab.url
+                                }
+                                
+                                if let unwrappedURL = tab.url {
+                                    searchInSidebar = unwrappedURL.absoluteString
+                                }
+                            }
+                            .onDrag {
+                                self.draggedTab = tab
+                                return NSItemProvider()
+                            }
+                            .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $favoritesNavigationState.webViews, draggedItem: $draggedTab))
+                        }
+                    }
+                    
                     ForEach(pinnedNavigationState.webViews, id: \.self) { tab in
                         PinnedTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState)
                     }

@@ -240,10 +240,10 @@
 		B97724FF2C0115F600A39E3A /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
-				B97725002C0116BA00A39E3A /* Space Picker.swift */,
 				C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */,
 				B97725022C01292400A39E3A /* PagedSidebar.swift */,
+				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
+				B97725002C0116BA00A39E3A /* Space Picker.swift */,
 				B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */,
 			);
 			path = Sidebar;

@@ -136,6 +136,11 @@ class ObservableVariables: ObservableObject {
 }
 
 
+class SidebarTabStorageUpdate: ObservableObject {
+    
+}
+
+
 class SettingsVariables: ObservableObject {
     @AppStorage("email") var email = ""
     

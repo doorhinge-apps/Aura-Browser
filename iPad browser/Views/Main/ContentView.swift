@@ -26,23 +26,20 @@ struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
-    @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
-    
-//    @EnvironmentObject var variables: ObservableVariables
     @StateObject var variables = ObservableVariables()
     @StateObject var settings = SettingsVariables()
     
     @AppStorage("currentSpace") var currentSpace = "Untitled"
         //@State private var spaces = ["Home", "Space 2"]
-        @State private var spaceIcons: [String: String]? = [:]
+        //@State private var spaceIcons: [String: String]? = [:]
 
-        @State private var reloadTitles = false
+        //@State private var reloadTitles = false
 
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         let rotationTimer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
 
         // Settings and Sheets
-        @State private var hoverTab = WKWebView()
+        //@State private var hoverTab = WKWebView()
 
         @State private var showSettings = false
         @State private var changeColorSheet = false
@@ -163,7 +160,7 @@ struct ContentView: View {
                             LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                         }
                         
-                        if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                        if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                             Color.black.opacity(0.5)
                         }
                         
@@ -174,17 +171,8 @@ struct ContentView: View {
                                         .disabled(true)
                                 }
                                 
-                                //if swipingSpaces {
                                 PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                     .environmentObject(variables)
-                                //}
-                                /*else {
-                                 Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                 
-                                 .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? -320: 0).padding(.trailing, hideSidebar ? 0: 10)
-                                 .padding(showBorder ? 0: 15)
-                                 .padding(.top, showBorder ? 0: 10)
-                                 }*/
                             }
                             GeometryReader { webGeo in
                                 ZStack {
@@ -195,21 +183,37 @@ struct ContentView: View {
                                     
                                     //MARK: - WebView
                                     if selectedTabLocation == "favoriteTabs" {
-                                        WebView(navigationState: variables.favoritesNavigationState)
-                                            .cornerRadius(10)
+                                        ScrollView(showsIndicators: false) {
+                                            WebView(navigationState: variables.favoritesNavigationState)
+                                                .frame(width: webGeo.size.width, height: webGeo.size.height)
+                                        }
                                         
                                         loadingIndicators(for: variables.favoritesNavigationState.selectedWebView?.isLoading)
                                     }
                                     if selectedTabLocation == "tabs" {
-                                        WebView(navigationState: variables.navigationState)
-                                            .cornerRadius(10)
+                                        ScrollView(showsIndicators: false) {
+                                            WebView(navigationState: variables.navigationState)
+                                                .frame(width: webGeo.size.width, height: webGeo.size.height)
+                                        }
+                                        .refreshable {
+                                            reloadRotation += 360
+                                            
+                                            variables.navigationState.selectedWebView?.reload()
+                                        }
                                         
                                         
                                         loadingIndicators(for: variables.navigationState.selectedWebView?.isLoading)
                                     }
                                     if selectedTabLocation == "pinnedTabs" {
-                                        WebView(navigationState: variables.pinnedNavigationState)
-                                            .cornerRadius(10)
+                                        ScrollView(showsIndicators: false) {
+                                            WebView(navigationState: variables.pinnedNavigationState)
+                                                .frame(width: webGeo.size.width, height: webGeo.size.height)
+                                        }
+                                        .refreshable {
+                                            reloadRotation += 360
+                                            
+                                            variables.navigationState.selectedWebView?.reload()
+                                        }
                                         
                                         loadingIndicators(for: variables.pinnedNavigationState.selectedWebView?.isLoading)
                                     }
@@ -407,39 +411,6 @@ struct ContentView: View {
                                         
                                         
                                     }
-                                    /*
-                                     TrackpadScrollView(
-                                     onScroll: { offset in
-                                     let newOffset = -offset
-                                     if abs(newOffset) <= 150 {
-                                     navigationOffset = newOffset
-                                     } else {
-                                     navigationOffset = newOffset > 0 ? 150 : -150
-                                     }
-                                     if abs(newOffset) > 100 {
-                                     withAnimation(.linear(duration: 0.3)) {
-                                     navigationArrowColor = true
-                                     }
-                                     } else {
-                                     withAnimation(.linear(duration: 0.3)) {
-                                     navigationArrowColor = false
-                                     }
-                                     }
-                                     },
-                                     onScrollEnd: {
-                                     if navigationOffset >= 100 {
-                                     goBack()
-                                     } else if navigationOffset < -100 {
-                                     goForward()
-                                     }
-                                     
-                                     withAnimation(.linear(duration: 0.25)) {
-                                     navigationOffset = 0
-                                     navigationArrowColor = false
-                                     }
-                                     }
-                                     )
-                                     .frame(width: webGeo.size.width, height: webGeo.size.height)*/
                                 }
                                 .gesture(
                                     DragGesture()
@@ -511,12 +482,6 @@ struct ContentView: View {
                                         .disabled(true)
                                 }
                                 
-                                
-                                //                                Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                //
-                                //                                    .animation(.easeOut).frame(width: hideSidebar ? 0: 300).offset(x: hideSidebar ? 320: 0).padding(.leading, hideSidebar ? 0: 10)
-                                //                                    .padding(showBorder ? 0: 15)
-                                //                                    .padding(.top, showBorder ? 0: 10)
                                 PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                     .environmentObject(variables)
                             }
@@ -534,7 +499,17 @@ struct ContentView: View {
                                 textColor = savedTextColor
                             }
                             
-                            spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
+                            variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
+                        }
+                        
+                        if tabBarShown || commandBarShown || tapSidebarShown {
+                            Button(action: {
+                                tabBarShown = false
+                                commandBarShown = false
+                                tapSidebarShown = false
+                            }, label: {
+                                Color.white.opacity(0.0001)
+                            })
                         }
                         
                         if hideSidebar {
@@ -643,7 +618,7 @@ struct ContentView: View {
                                                         }
                                                     }
                                                 }
-                                                if variables.prefferedColorScheme == "dark" || (variables.prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                                                     Color.black.opacity(0.5)
                                                 }
                                             })
@@ -661,7 +636,7 @@ struct ContentView: View {
                                                             LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         }
                                                         
-                                                        if prefferedColorScheme == "dark" || (prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                                        if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                                                             Color.black.opacity(0.5)
                                                         }
                                                         
@@ -762,17 +737,6 @@ struct ContentView: View {
                                 }
                             }.animation(.default)
                         }
-                        
-                        if tabBarShown || commandBarShown || tapSidebarShown {
-                            Button(action: {
-                                tabBarShown = false
-                                commandBarShown = false
-                                tapSidebarShown = false
-                            }, label: {
-                                Color.white.opacity(0.0001)
-                            })
-                        }
-                        
                     }
                     .onOpenURL { url in
                         if url.absoluteString.starts(with: "aura://") {
