@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import MarkdownUI
+
 
 struct BrowseForMe: View {
     @State var searchText: String
@@ -142,9 +144,12 @@ struct BrowseForMe: View {
                             .animation(.none)
                     }
                     
-                    ParserView(markdownText: $searchResponse)
+                    Markdown(searchResponse)
+                        .preferredColorScheme(.light)
+                        .padding(10)
                     
-                }
+                    
+                }.foregroundStyle(Color.black)
                 
             }.onChange(of: searchResponse) {
                 withAnimation(.linear(duration: 1)) {
