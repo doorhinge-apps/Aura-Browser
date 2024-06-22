@@ -25,7 +25,11 @@ struct BrowseForMe: View {
         Color.white, Color.white, Color.white
     ]
     
+    @State var offset: Double = 0
+    
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    @State var waveTimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
         ZStack {
@@ -55,32 +59,32 @@ struct BrowseForMe: View {
             
             ScrollView {
                 VStack {
-                    HStack {
-                        TextField("Browse for me", text: $searchText, axis: .vertical)
-                            .lineLimit(3)
-                            .padding(15)
-                            .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                            .underline(!searchResponse.isEmpty)
-                            .onSubmit {
-                                if !searching {
-                                    searchResponse = ""
-                                    
-                                    withAnimation(.linear(duration: 1)) {
-                                        searching = true
-                                    }
-                                    
-                                    Task {
-                                        do {
-                                            let response = try await getChatCompletion(prompt: searchText)
-                                            searchResponse = response
-                                            print("Response: \(response)")
-                                        } catch {
-                                            print("Error: \(error)")
-                                        }
+                    TextField("Browse for me", text: $searchText, axis: .vertical)
+                        .lineLimit(3)
+                        .padding(15)
+                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                        .underline(!searchResponse.isEmpty)
+                        .onSubmit {
+                            if !searching {
+                                searchResponse = ""
+                                
+                                withAnimation(.linear(duration: 1)) {
+                                    searching = true
+                                }
+                                
+                                Task {
+                                    do {
+                                        let response = try await getChatCompletion(prompt: searchText)
+                                        searchResponse = response
+                                        print("Response: \(response)")
+                                    } catch {
+                                        print("Error: \(error)")
                                     }
                                 }
                             }
-                        
+                        }
+                    
+                    HStack {
                         Button {
                             if !searching {
                                 searchResponse = ""
@@ -139,9 +143,23 @@ struct BrowseForMe: View {
                     }
                     
                     if searching {
-                        Text("Searching...")
-                            .font(.system(.title2, design: .rounded, weight: .bold))
-                            .animation(.none)
+                        if #available(iOS 18.0, *) {
+                            Text("Searching...")
+                                .font(.system(.title2, design: .rounded, weight: .bold))
+                                .textRenderer(AnimatedSineWaveOffsetRender(timeOffset: offset))
+                                .onReceive(waveTimer) { _ in
+                                    withAnimation(.linear(duration: 0.5), {
+                                        if offset > 1_000_000_000_000 {
+                                            offset = 0
+                                        }
+                                        offset += 10
+                                    })
+                                }
+                        }
+                        else {
+                            Text("Searching...")
+                                .font(.system(.title2, design: .rounded, weight: .bold))
+                        }
                     }
                     
                     Markdown(searchResponse)

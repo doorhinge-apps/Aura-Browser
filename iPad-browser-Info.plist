@@ -47,6 +47,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
+		<string>audio</string>
 	</array>
 	<key>com.apple.developer.web-browser</key>
 	<true/>

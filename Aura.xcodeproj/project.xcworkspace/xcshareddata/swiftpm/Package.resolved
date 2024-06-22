@@ -1,5 +1,5 @@
 {
-  "originHash" : "f20bcb91edfc00c420940742d76662deb45890c6351e3aafd8883e7a5727da5f",
+  "originHash" : "cea3007c10854b5be1566ae3cc3de850371c3285d59553668cdae543d3b555a8",
   "pins" : [
     {
       "identity" : "faviconfinder",
@@ -71,6 +71,15 @@
       "state" : {
         "revision" : "3a13843e37a4bdcbeca9f9357c17fec77893fa3a",
         "version" : "0.3.1"
+      }
+    },
+    {
+      "identity" : "youtubeplayerkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SvenTiigi/YouTubePlayerKit",
+      "state" : {
+        "revision" : "5ade0dfbabaf7456069b4e8f604de261bf6d7c67",
+        "version" : "1.8.0"
       }
     }
   ],

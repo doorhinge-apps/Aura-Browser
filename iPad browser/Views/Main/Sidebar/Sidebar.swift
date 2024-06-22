@@ -20,9 +20,9 @@ struct Sidebar: View {
     
     @Binding var selectedTabLocation: String
     
-    @ObservedObject var navigationState: NavigationState
-    @ObservedObject var pinnedNavigationState: NavigationState
-    @ObservedObject var favoritesNavigationState: NavigationState
+    //@ObservedObject var navigationState: NavigationState
+    //@ObservedObject var pinnedNavigationState: NavigationState
+    //@ObservedObject var favoritesNavigationState: NavigationState
     @Binding var hideSidebar: Bool
     @Binding var searchInSidebar: String
     @Binding var commandBarShown: Bool
@@ -92,7 +92,7 @@ struct Sidebar: View {
             VStack {
                 // Sidebar Searchbar
                 Button {
-                    if ((navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
+                    if ((variables.navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
                         tabBarShown.toggle()
                         commandBarShown = false
                     }
@@ -129,12 +129,11 @@ struct Sidebar: View {
                 // Tabs
                 ScrollView {
                     // Favorite Tabs
-                    LazyVGrid(columns: [GridItem(), GridItem()]) {
-                        ForEach(favoritesNavigationState.webViews, id:\.self) { tab in
+                    VGrid(variables.favoritesNavigationState.webViews, numberOfColumns: 4) { tab in
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
-                                    .stroke(textColor.opacity(tab == favoritesNavigationState.selectedWebView ? 1.0 : hoverTab == tab ? 0.6: 0.2), lineWidth: 3)
-                                    .fill(textColor.opacity(tab == favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.15: 0.0001))
+                                    .stroke(textColor.opacity(tab == variables.favoritesNavigationState.selectedWebView ? 1.0 : hoverTab == tab ? 0.6: 0.2), lineWidth: 3)
+                                    .fill(textColor.opacity(tab == variables.favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.15: 0.0001))
                                     .frame(height: 75)
                                 
                                 if favoritesStyle {
@@ -194,9 +193,9 @@ struct Sidebar: View {
                             }
                             .contextMenu {
                                 Button {
-                                    pinnedNavigationState.webViews.append(tab)
+                                    variables.pinnedNavigationState.webViews.append(tab)
                                     
-                                    if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                    if let index = variables.favoritesNavigationState.webViews.firstIndex(of: tab) {
                                         favoriteRemoveTab(at: index)
                                     }
                                 } label: {
@@ -204,9 +203,9 @@ struct Sidebar: View {
                                 }
                                 
                                 Button {
-                                    navigationState.webViews.append(tab)
+                                    variables.navigationState.webViews.append(tab)
                                     
-                                    if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                    if let index = variables.favoritesNavigationState.webViews.firstIndex(of: tab) {
                                         favoriteRemoveTab(at: index)
                                     }
                                 } label: {
@@ -214,7 +213,7 @@ struct Sidebar: View {
                                 }
                                 
                                 Button {
-                                    if let index = favoritesNavigationState.webViews.firstIndex(of: tab) {
+                                    if let index = variables.favoritesNavigationState.webViews.firstIndex(of: tab) {
                                         favoriteRemoveTab(at: index)
                                     }
                                 } label: {
@@ -236,17 +235,17 @@ struct Sidebar: View {
                                 }
                             })
                             .onTapGesture {
-                                navigationState.selectedWebView = nil
-                                navigationState.currentURL = nil
+                                variables.navigationState.selectedWebView = nil
+                                variables.navigationState.currentURL = nil
                                 
-                                pinnedNavigationState.selectedWebView = nil
-                                pinnedNavigationState.currentURL = nil
+                                variables.pinnedNavigationState.selectedWebView = nil
+                                variables.pinnedNavigationState.currentURL = nil
                                 
                                 selectedTabLocation = "favoriteTabs"
                                 
                                 Task {
-                                    await favoritesNavigationState.selectedWebView = tab
-                                    await favoritesNavigationState.currentURL = tab.url
+                                    await variables.favoritesNavigationState.selectedWebView = tab
+                                    await variables.favoritesNavigationState.currentURL = tab.url
                                 }
                                 
                                 if let unwrappedURL = tab.url {
@@ -257,12 +256,12 @@ struct Sidebar: View {
                                 self.draggedTab = tab
                                 return NSItemProvider()
                             }
-                            .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $favoritesNavigationState.webViews, draggedItem: $draggedTab))
-                        }
+                            .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $variables.favoritesNavigationState.webViews, draggedItem: $draggedTab))
+                        
                     }
                     
-                    ForEach(pinnedNavigationState.webViews, id: \.self) { tab in
-                        PinnedTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState)
+                    ForEach(variables.pinnedNavigationState.webViews, id: \.self) { tab in
+                        PinnedTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState)
                     }
                     
                     ZStack {
@@ -278,7 +277,7 @@ struct Sidebar: View {
                                     .font(.system(.caption, design: .rounded, weight: .medium))
                                     .focused($renameIsFocused)
                                     .onSubmit {
-                                        spaces[selectedSpaceIndex].spaceName = temporaryRenameSpace//"\(temporaryRenameSpace)\(UUID().description.prefix(5))"
+                                        spaces[selectedSpaceIndex].spaceName = temporaryRenameSpace
                                         
                                         Task {
                                             do {
@@ -472,7 +471,7 @@ struct Sidebar: View {
                             
                             
                             //IconsPicker(currentIcon: $changingIcon)
-                            IconsPicker(currentIcon: $changingIcon, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, selectedSpaceIndex: $selectedSpaceIndex)
+                            IconsPicker(currentIcon: $changingIcon, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, selectedSpaceIndex: $selectedSpaceIndex)
                                 .onChange(of: changingIcon) {
                                     spaces[selectedSpaceIndex].spaceIcon = changingIcon
                                     do {
@@ -519,8 +518,8 @@ struct Sidebar: View {
                         }
                     }
                     
-                    ForEach(navigationState.webViews.reversed(), id: \.self) { tab in
-                        TodayTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState)
+                    ForEach(variables.navigationState.webViews.reversed(), id: \.self) { tab in
+                        TodayTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState)
                     }
                 }
                 
@@ -530,57 +529,57 @@ struct Sidebar: View {
     
     func favoriteRemoveTab(at index: Int) {
         // If the deleted tab is the currently selected one
-        if favoritesNavigationState.selectedWebView == favoritesNavigationState.webViews[index] {
-            if favoritesNavigationState.webViews.count > 1 { // Check if there's more than one tab
+        if variables.favoritesNavigationState.selectedWebView == variables.favoritesNavigationState.webViews[index] {
+            if variables.favoritesNavigationState.webViews.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    favoritesNavigationState.selectedWebView = favoritesNavigationState.webViews[1]
+                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[1]
                 } else { // Otherwise, select the previous one
-                    favoritesNavigationState.selectedWebView = favoritesNavigationState.webViews[index - 1]
+                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[index - 1]
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                favoritesNavigationState.selectedWebView = nil
+                variables.favoritesNavigationState.selectedWebView = nil
             }
         }
         
-        favoritesNavigationState.webViews.remove(at: index)
+        variables.favoritesNavigationState.webViews.remove(at: index)
         
         saveSpaceData()
     }
     
     func pinnedRemoveTab(at index: Int) {
         // If the deleted tab is the currently selected one
-        if pinnedNavigationState.selectedWebView == pinnedNavigationState.webViews[index] {
-            if pinnedNavigationState.webViews.count > 1 { // Check if there's more than one tab
+        if variables.pinnedNavigationState.selectedWebView == variables.pinnedNavigationState.webViews[index] {
+            if variables.pinnedNavigationState.webViews.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    pinnedNavigationState.selectedWebView = pinnedNavigationState.webViews[1]
+                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[1]
                 } else { // Otherwise, select the previous one
-                    pinnedNavigationState.selectedWebView = pinnedNavigationState.webViews[index - 1]
+                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[index - 1]
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                pinnedNavigationState.selectedWebView = nil
+                variables.pinnedNavigationState.selectedWebView = nil
             }
         }
         
-        pinnedNavigationState.webViews.remove(at: index)
+        variables.pinnedNavigationState.webViews.remove(at: index)
         
         saveSpaceData()
     }
     
     func removeTab(at index: Int) {
         // If the deleted tab is the currently selected one
-        if navigationState.selectedWebView == navigationState.webViews[index] {
-            if navigationState.webViews.count > 1 { // Check if there's more than one tab
+        if variables.navigationState.selectedWebView == variables.navigationState.webViews[index] {
+            if variables.navigationState.webViews.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    navigationState.selectedWebView = navigationState.webViews[1]
+                    variables.navigationState.selectedWebView = variables.navigationState.webViews[1]
                 } else { // Otherwise, select the previous one
-                    navigationState.selectedWebView = navigationState.webViews[index - 1]
+                    variables.navigationState.selectedWebView = variables.navigationState.webViews[index - 1]
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                navigationState.selectedWebView = nil
+                variables.navigationState.selectedWebView = nil
             }
         }
         
-        navigationState.webViews.remove(at: index)
+        variables.navigationState.webViews.remove(at: index)
         
         do {
             try modelContext.save()
@@ -592,9 +591,9 @@ struct Sidebar: View {
     }
     
     func saveSpaceData() {
-        let savingTodayTabs = navigationState.webViews.compactMap { $0.url?.absoluteString }
-        let savingPinnedTabs = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
-        let savingFavoriteTabs = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
+        let savingTodayTabs = variables.navigationState.webViews.compactMap { $0.url?.absoluteString }
+        let savingPinnedTabs = variables.pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
+        let savingFavoriteTabs = variables.favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
         
         if !spaces.isEmpty {
             spaces[selectedSpaceIndex].tabUrls = savingTodayTabs

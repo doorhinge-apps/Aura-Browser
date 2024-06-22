@@ -73,11 +73,15 @@ struct CommandBar: View {
                                                     Spacer()
                                                     
                                                     Button {
-                                                        isBrowseForMe = true
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                            withAnimation(.linear, {
+                                                                isBrowseForMe = true
+                                                            })
+                                                        })
                                                         searchSubmitted = true
                                                     } label: {
                                                         Text("Browse for me")
-                                                            .foregroundStyle(selectedSuggestion != -1 ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
+                                                            .foregroundStyle(selectedSuggestion == -1 ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
                                                             .animation(.linear)
                                                         
                                                     }
@@ -131,7 +135,11 @@ struct CommandBar: View {
                                                 
                                                 
                                                 Button {
-                                                    isBrowseForMe = true
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                        withAnimation(.linear, {
+                                                            isBrowseForMe = true
+                                                        })
+                                                    })
                                                     commandBarText = suggestion
                                                     searchSubmitted = true
                                                 } label: {

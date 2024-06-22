@@ -18,28 +18,28 @@ class ObservableVariables: ObservableObject {
     
     @StateObject var settings = SettingsVariables()
     
-    @State var navigationStateArray = [] as [NavigationState]
-    @State var pinnedNavigationStateArray = [] as [NavigationState]
-    @State var favoritesNavigationStateArray = [] as [NavigationState]
+    @Published var navigationStateArray = [] as [NavigationState]
+    @Published var pinnedNavigationStateArray = [] as [NavigationState]
+    @Published var favoritesNavigationStateArray = [] as [NavigationState]
     
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-    //@State var spaces = ["Home", "Space 2"]
-    @State var spaceIcons: [String: String]? = [:]
+    //@Published var spaces = ["Home", "Space 2"]
+    @Published var spaceIcons: [String: String]? = [:]
     
-    @State var reloadTitles = false
+    @Published var reloadTitles = false
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     let rotationTimer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
     
     // Settings and Sheets
-    @State var hoverTab = WKWebView()
+    @Published var hoverTab = WKWebView()
     
-    @State var showSettings = false
-    @State var changeColorSheet = false
+    @Published var showSettings = false
+    @Published var changeColorSheet = false
     
-    @State var startColor: Color = Color.purple
-    @State var endColor: Color = Color.pink
-    @State var textColor: Color = Color.white
+    @Published var startColor: Color = Color.purple
+    @Published var endColor: Color = Color.pink
+    @Published var textColor: Color = Color.white
     
     @AppStorage("startColorHex") var startHex = "8A3CEF"
     @AppStorage("endColorHex") var endHex = "84F5FE"
@@ -47,56 +47,56 @@ class ObservableVariables: ObservableObject {
     
     @AppStorage("swipingSpaces") var swipingSpaces = true
     
-    @State var presentIcons = false
+    @Published var presentIcons = false
     
     // Hover Effects
-    @State var hoverTinySpace = false
-    @State var hoverSidebarButton = false
-    @State var hoverPaintbrush = false
-    @State var hoverReloadButton = false
-    @State var hoverForwardButton = false
-    @State var hoverBackwardButton = false
-    @State var hoverNewTab = false
-    @State var settingsButtonHover = false
-    @State var hoverNewTabSection = false
+    @Published var hoverTinySpace = false
+    @Published var hoverSidebarButton = false
+    @Published var hoverPaintbrush = false
+    @Published var hoverReloadButton = false
+    @Published var hoverForwardButton = false
+    @Published var hoverBackwardButton = false
+    @Published var hoverNewTab = false
+    @Published var settingsButtonHover = false
+    @Published var hoverNewTabSection = false
     
-    @State var hoverSpaceIndex = 1000
-    @State var hoverSpace = ""
+    @Published var hoverSpaceIndex = 1000
+    @Published var hoverSpace = ""
     
-    @State var hoverSidebarSearchField = false
+    @Published var hoverSidebarSearchField = false
     
-    @State var hoverCloseTab = WKWebView()
+    @Published var hoverCloseTab = WKWebView()
     
-    @State var spaceIconHover = false
+    @Published var spaceIconHover = false
     
     // Animations and Gestures
-    @State var reloadRotation = 0
-    @State var draggedTab: WKWebView?
+    @Published var reloadRotation = 0
+    @Published var draggedTab: WKWebView?
     
     // Selection States
-    @State var tabBarShown = false
-    @State var commandBarShown = false
+    @Published var tabBarShown = false
+    @Published var commandBarShown = false
     
-    @State var changingIcon = ""
-    //@State var hideSidebar = false
+    @Published var changingIcon = ""
+    //@Published var hideSidebar = false
     @AppStorage("hideSidebar") var hideSidebar = false
     
-    @State var searchInSidebar = ""
-    @State var newTabSearch = ""
-    @State var newTabSaveSearch = ""
+    @Published var searchInSidebar = ""
+    @Published var newTabSearch = ""
+    @Published var newTabSaveSearch = ""
     
-    @State var currentTabNum = 0
+    @Published var currentTabNum = 0
     
-    @State var selectedIndex: Int? = 0
+    @Published var selectedIndex: Int? = 0
     
     @FocusState var focusedField: FocusedField?
     
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
-    //@State var selectedSpaceIndex = 0
+    //@Published var selectedSpaceIndex = 0
     
-    @State var loadingAnimationToggle = false
-    @State var offset = 0.0
-    @State var loadingRotation = 0
+    @Published var loadingAnimationToggle = false
+    @Published var offset = 0.0
+    @Published var loadingRotation = 0
     
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
@@ -107,32 +107,36 @@ class ObservableVariables: ObservableObject {
     
     @AppStorage("showBorder") var showBorder = true
     
-    @State var inspectCode = ""
+    @Published var inspectCode = ""
     
     enum FocusedField {
         case commandBar, tabBar, none
     }
-    @State var selectedTabLocation = "tabs"
+    @Published var selectedTabLocation = "tabs"
     
     // Other Stuff
-    @State var screenWidth = UIScreen.main.bounds.width
+    @Published var screenWidth = UIScreen.main.bounds.width
     
-    @State var hoveringSidebar = false
-    @State var tapSidebarShown = false
+    @Published var hoveringSidebar = false
+    @Published var tapSidebarShown = false
     
-    @State var commandBarCollapseHeightAnimation = false
-    @State var commandBarSearchSubmitted = false
-    @State var commandBarSearchSubmitted2 = false
+    @Published var commandBarCollapseHeightAnimation = false
+    @Published var commandBarSearchSubmitted = false
+    @Published var commandBarSearchSubmitted2 = false
     
-    @State var auraTab = ""
+    @Published var auraTab = ""
     
-    @State var initialLoadDone = false
+    @Published var initialLoadDone = false
     
-    @State var scrollLimiter = false
+    @Published var scrollLimiter = false
     
-    @State var scrollPosition: CGPoint = .zero
-    @State var horizontalScrollPosition: CGPoint = .zero
+    @Published var scrollPosition: CGPoint = .zero
+    @Published var horizontalScrollPosition: CGPoint = .zero
     
+    @Published var isBrowseForMe = false
+    @Published var delayedBrowseForMe = false
+    
+    @Published var browseForMeSearch = ""
 }
 
 

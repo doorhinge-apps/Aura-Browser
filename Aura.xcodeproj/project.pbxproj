@@ -18,6 +18,9 @@
 		B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */; };
 		B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9272D3A2C250A9D00B014D8 /* MarkdownUI */; };
 		B9272D3D2C250CDD00B014D8 /* Adaway.json in Resources */ = {isa = PBXBuildFile; fileRef = B9272D3C2C250CDD00B014D8 /* Adaway.json */; };
+		B9272D472C26A52300B014D8 /* VGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D462C26A52300B014D8 /* VGrid.swift */; };
+		B9272D4A2C26AA7A00B014D8 /* WaveTextEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */; };
+		B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
 		B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */; };
 		B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */; };
@@ -84,6 +87,8 @@
 		B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerplexityRequest.swift; sourceTree = "<group>"; };
 		B9272D332C240DDD00B014D8 /* MarkdownParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownParser.swift; sourceTree = "<group>"; };
 		B9272D3C2C250CDD00B014D8 /* Adaway.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Adaway.json; sourceTree = "<group>"; };
+		B9272D462C26A52300B014D8 /* VGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGrid.swift; sourceTree = "<group>"; };
+		B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveTextEffect.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
 		B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pinned Tab.swift"; sourceTree = "<group>"; };
 		B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsURLs.swift; sourceTree = "<group>"; };
@@ -147,6 +152,7 @@
 			files = (
 				B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */,
 				B9ED10552C0F9FFC004F2AF3 /* WKDownloadHelper in Frameworks */,
+				B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
 				B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */,
 			);
@@ -173,10 +179,19 @@
 			isa = PBXGroup;
 			children = (
 				B9272D312C240DDD00B014D8 /* Browse for Me.swift */,
+				B9272D482C26AA6900B014D8 /* Animations */,
 				B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */,
 				B9272D332C240DDD00B014D8 /* MarkdownParser.swift */,
 			);
 			path = "Browse for Me";
+			sourceTree = "<group>";
+		};
+		B9272D482C26AA6900B014D8 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		B93D9D2F2BDF35DA0002D01B /* Tabs */ = {
@@ -281,6 +296,7 @@
 		B98256CA2BD2E2F800F997F5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B9272D462C26A52300B014D8 /* VGrid.swift */,
 				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
 				B9230FF92BBD36740032C950 /* TopDomains.json */,
 				B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */,
@@ -421,6 +437,7 @@
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
 				B9ED10542C0F9FFC004F2AF3 /* WKDownloadHelper */,
 				B9272D3A2C250A9D00B014D8 /* MarkdownUI */,
+				B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -476,6 +493,7 @@
 				B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */,
 				B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */,
 				B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -518,6 +536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9272D4A2C26AA7A00B014D8 /* WaveTextEffect.swift in Sources */,
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
 				B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */,
@@ -532,6 +551,7 @@
 				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				C1BD7D232BDDF9C80078D7B3 /* ContentViewColor.swift in Sources */,
 				B9798BFF2BF0B9460012D98E /* Tile Game.swift in Sources */,
+				B9272D472C26A52300B014D8 /* VGrid.swift in Sources */,
 				B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
@@ -866,6 +886,14 @@
 				minimumVersion = 2.3.1;
 			};
 		};
+		B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.0;
+			};
+		};
 		B95721362BF540B1009E0B81 /* XCRemoteSwiftPackageReference "Gravatar-SDK-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Automattic/Gravatar-SDK-iOS";
@@ -905,6 +933,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = MarkdownUI;
+		};
+		B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
+			productName = YouTubePlayerKit;
 		};
 		B98A32FA2BD05CF000555AB9 /* FaviconFinder */ = {
 			isa = XCSwiftPackageProductDependency;
