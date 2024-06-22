@@ -66,6 +66,7 @@ struct CommandBar: View {
                                                 
                                                 HStack {
                                                     Text(commandBarText)
+                                                        .lineLimit(1)
                                                         .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
                                                         .padding(.vertical, 27)
                                                         .padding(.horizontal, 25)
@@ -73,7 +74,7 @@ struct CommandBar: View {
                                                     Spacer()
                                                     
                                                     Button {
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
                                                             withAnimation(.linear, {
                                                                 isBrowseForMe = true
                                                             })
@@ -127,6 +128,7 @@ struct CommandBar: View {
                                             
                                             HStack {
                                                 Text(suggestion)
+                                                    .lineLimit(1)
                                                     .foregroundStyle(colorScheme == .light ? Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"): Color(hex: "ffffff"))
                                                     .padding(.vertical, 27)
                                                     .padding(.horizontal, 25)
@@ -135,7 +137,7 @@ struct CommandBar: View {
                                                 
                                                 
                                                 Button {
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
                                                         withAnimation(.linear, {
                                                             isBrowseForMe = true
                                                         })

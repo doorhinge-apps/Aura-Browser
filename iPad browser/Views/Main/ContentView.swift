@@ -30,123 +30,43 @@ struct ContentView: View {
     @StateObject var settings = SettingsVariables()
     
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-        //@State private var spaces = ["Home", "Space 2"]
-        //@State private var spaceIcons: [String: String]? = [:]
-
-        //@State private var reloadTitles = false
 
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
         let rotationTimer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
-
-        // Settings and Sheets
-        //@State private var hoverTab = WKWebView()
-
-        //@State private var changeColorSheet = false
-
-        //@State private var startColor: Color = Color.purple
-        //@State private var endColor: Color = Color.pink
-        //@State private var textColor: Color = Color.white
 
         @AppStorage("startColorHex") var startHex = "8A3CEF"
         @AppStorage("endColorHex") var endHex = "84F5FE"
         @AppStorage("textColorHex") var textHex = "ffffff"
 
-        //@AppStorage("swipingSpaces") var swipingSpaces = true
-
-        //@State private var presentIcons = false
-
-        // Hover Effects
-        //@State private var hoverTinySpace = false
-
-        //@State private var hoverSidebarButton = false
-        //@State private var hoverPaintbrush = false
-        //@State private var hoverReloadButton = false
-        //@State private var hoverForwardButton = false
-        //@State private var hoverBackwardButton = false
-        //@State private var hoverNewTab = false
-        //@State private var settingsButtonHover = false
-        //@State private var hoverNewTabSection = false
-
-        @State private var hoverSpaceIndex = 1000
-        @State private var hoverSpace = ""
-
-        @State private var hoverSidebarSearchField = false
-
-        @State private var hoverCloseTab = WKWebView()
-
-        @State private var spaceIconHover = false
-
-        // Animations and Gestures
-        @State private var reloadRotation = 0
-        @State private var draggedTab: WKWebView?
+        
     
     
-    // Selection States
-    @State private var tabBarShown = false
-    @State private var commandBarShown = false
-    
-//    @State private var changingIcon = ""
-    //@State private var hideSidebar = false
     @AppStorage("hideSidebar") var hideSidebar = false
     
-    @State private var searchInSidebar = ""
-    @State private var newTabSearch = ""
-    @State private var newTabSaveSearch = ""
-    
-    @State private var currentTabNum = 0
-    
-    @State private var selectedIndex: Int? = 0
     
     @FocusState private var focusedField: FocusedField?
     
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
-    //@State var selectedSpaceIndex = 0
-    
-    @State var loadingAnimationToggle = false
-    @State var offset = 0.0
-    @State var loadingRotation = 0
-    
-    
-    //@AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
-    //@AppStorage("favoritesStyle") var favoritesStyle = false
-    //@AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
-    
-    //@AppStorage("sidebarLeft") var sidebarLeft = true
-    
-    //@AppStorage("showBorder") var showBorder = true
-    
-    @State private var inspectCode = ""
     
     enum FocusedField {
         case commandBar, tabBar, none
     }
-    @State private var selectedTabLocation = "tabs"
     
-    // Other Stuff
-    @State private var screenWidth = UIScreen.main.bounds.width
+    //@State var auraTab = ""
     
-    @State private var hoveringSidebar = false
-    @State private var tapSidebarShown = false
+    //@State var initialLoadDone = false
     
-    @State var commandBarCollapseHeightAnimation = false
-    @State var commandBarSearchSubmitted = false
-    @State var commandBarSearchSubmitted2 = false
+    //@State var scrollLimiter = false
     
-    @State var auraTab = ""
+    //@State private var scrollPosition: CGPoint = .zero
+    //@State private var horizontalScrollPosition: CGPoint = .zero
     
-    @State var initialLoadDone = false
+    //@State private var navigationOffset: CGFloat = 0
+    //@State var navigationArrowColor = false
+    //@State var arrowImpactOnce = false
     
-    @State var scrollLimiter = false
-    
-    @State private var scrollPosition: CGPoint = .zero
-    @State private var horizontalScrollPosition: CGPoint = .zero
-    
-    @State private var navigationOffset: CGFloat = 0
-    @State var navigationArrowColor = false
-    @State var arrowImpactOnce = false
-    
-    @State var isBrowseForMe = false
-    @State var delayedBrowseForMe = false
+    //@State var isBrowseForMe = false
+    //@State var delayedBrowseForMe = false
     
     @State var browseForMeSearch = ""
     
@@ -173,7 +93,7 @@ struct ContentView: View {
                                         .disabled(true)
                                 }
                                 
-                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                     .environmentObject(variables)
                             }
                             
@@ -186,7 +106,7 @@ struct ContentView: View {
                                         
                                         
                                         //MARK: - WebView
-                                        if selectedTabLocation == "favoriteTabs" {
+                                        if variables.selectedTabLocation == "favoriteTabs" {
                                             ScrollView(showsIndicators: false) {
                                                 WebView(navigationState: variables.favoritesNavigationState)
                                                     .frame(width: webGeo.size.width, height: webGeo.size.height)
@@ -194,13 +114,13 @@ struct ContentView: View {
                                             
                                             loadingIndicators(for: variables.favoritesNavigationState.selectedWebView?.isLoading)
                                         }
-                                        if selectedTabLocation == "tabs" {
+                                        if variables.selectedTabLocation == "tabs" {
                                             ScrollView(showsIndicators: false) {
                                                 WebView(navigationState: variables.navigationState)
                                                     .frame(width: webGeo.size.width, height: webGeo.size.height)
                                             }
                                             .refreshable {
-                                                reloadRotation += 360
+                                                variables.reloadRotation += 360
                                                 
                                                 variables.navigationState.selectedWebView?.reload()
                                             }
@@ -208,13 +128,13 @@ struct ContentView: View {
                                             
                                             loadingIndicators(for: variables.navigationState.selectedWebView?.isLoading)
                                         }
-                                        if selectedTabLocation == "pinnedTabs" {
+                                        if variables.selectedTabLocation == "pinnedTabs" {
                                             ScrollView(showsIndicators: false) {
                                                 WebView(navigationState: variables.pinnedNavigationState)
                                                     .frame(width: webGeo.size.width, height: webGeo.size.height)
                                             }
                                             .refreshable {
-                                                reloadRotation += 360
+                                                variables.reloadRotation += 360
                                                 
                                                 variables.navigationState.selectedWebView?.reload()
                                             }
@@ -222,9 +142,9 @@ struct ContentView: View {
                                             loadingIndicators(for: variables.pinnedNavigationState.selectedWebView?.isLoading)
                                         }
                                         
-                                        if (selectedTabLocation == "favoriteTabs" && variables.favoritesNavigationState.selectedWebView != nil) ||
-                                            (selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
-                                            (selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
+                                        if (variables.selectedTabLocation == "favoriteTabs" && variables.favoritesNavigationState.selectedWebView != nil) ||
+                                            (variables.selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
+                                            (variables.selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
                                             HStack(alignment: .center, spacing: 0) {
                                                 navigationButton(imageName: "arrow.left", action: goBack)
                                                     .padding(.trailing, 30)
@@ -237,10 +157,10 @@ struct ContentView: View {
                                                 
                                             }
                                             .frame(width: webGeo.size.width)
-                                            .offset(x: navigationOffset)
+                                            .offset(x: variables.navigationOffset)
                                         }
                                         
-                                        if auraTab == "dashboard" && selectedTabLocation == "" {
+                                        if variables.auraTab == "dashboard" && variables.selectedTabLocation == "" {
                                             Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
                                                 .cornerRadius(10)
                                                 .clipped()
@@ -257,33 +177,33 @@ struct ContentView: View {
                                                 
                                                 withAnimation {
                                                     if !hideSidebar {
-                                                        if selectedTabLocation == "tabs" {
+                                                        if variables.selectedTabLocation == "tabs" {
                                                             Task {
                                                                 await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                                             }
                                                         }
-                                                        else if selectedTabLocation == "pinnedTabs" {
+                                                        else if variables.selectedTabLocation == "pinnedTabs" {
                                                             Task {
                                                                 await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                                             }
                                                         }
-                                                        else if selectedTabLocation == "favoriteTabs" {
+                                                        else if variables.selectedTabLocation == "favoriteTabs" {
                                                             Task {
                                                                 await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                                             }
                                                         }
                                                     } else {
-                                                        if selectedTabLocation == "tabs" {
+                                                        if variables.selectedTabLocation == "tabs" {
                                                             Task {
                                                                 await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
                                                             }
                                                         }
-                                                        else if selectedTabLocation == "pinnedTabs" {
+                                                        else if variables.selectedTabLocation == "pinnedTabs" {
                                                             Task {
                                                                 await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
                                                             }
                                                         }
-                                                        else if selectedTabLocation == "favoriteTabs" {
+                                                        else if variables.selectedTabLocation == "favoriteTabs" {
                                                             Task {
                                                                 await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
                                                             }
@@ -295,13 +215,13 @@ struct ContentView: View {
                                             }.keyboardShortcut("s", modifiers: .command)
                                             
                                             Button {
-                                                if selectedTabLocation == "tabs" {
+                                                if variables.selectedTabLocation == "tabs" {
                                                     variables.navigationState.selectedWebView?.goBack()
                                                 }
-                                                else if selectedTabLocation == "pinnedTabs" {
+                                                else if variables.selectedTabLocation == "pinnedTabs" {
                                                     variables.pinnedNavigationState.selectedWebView?.goBack()
                                                 }
-                                                else if selectedTabLocation == "favoriteTabs" {
+                                                else if variables.selectedTabLocation == "favoriteTabs" {
                                                     variables.favoritesNavigationState.selectedWebView?.goBack()
                                                 }
                                             } label: {
@@ -309,13 +229,13 @@ struct ContentView: View {
                                             }.keyboardShortcut("[", modifiers: .command)
                                             
                                             Button {
-                                                if selectedTabLocation == "tabs" {
+                                                if variables.selectedTabLocation == "tabs" {
                                                     variables.navigationState.selectedWebView?.goForward()
                                                 }
-                                                else if selectedTabLocation == "pinnedTabs" {
+                                                else if variables.selectedTabLocation == "pinnedTabs" {
                                                     variables.pinnedNavigationState.selectedWebView?.goForward()
                                                 }
-                                                else if selectedTabLocation == "favoriteTabs" {
+                                                else if variables.selectedTabLocation == "favoriteTabs" {
                                                     variables.favoritesNavigationState.selectedWebView?.goForward()
                                                 }
                                             } label: {
@@ -325,7 +245,7 @@ struct ContentView: View {
                                             Button {
                                                 variables.reloadRotation += 360
                                                 
-                                                if selectedTabLocation == "tabs" {
+                                                if variables.selectedTabLocation == "tabs" {
                                                     variables.navigationState.selectedWebView?.reload()
                                                     variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                                     
@@ -333,27 +253,27 @@ struct ContentView: View {
                                                     //navigationState.currentURL = navigationState.currentURL
                                                     
                                                     if let unwrappedURL = variables.navigationState.currentURL {
-                                                        searchInSidebar = unwrappedURL.absoluteString
+                                                        variables.searchInSidebar = unwrappedURL.absoluteString
                                                     }
                                                 }
-                                                else if selectedTabLocation == "pinnedTabs" {
+                                                else if variables.selectedTabLocation == "pinnedTabs" {
                                                     variables.pinnedNavigationState.selectedWebView?.reload()
                                                     variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                                     
                                                     variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.selectedWebView
                                                     
                                                     if let unwrappedURL = variables.pinnedNavigationState.currentURL {
-                                                        searchInSidebar = unwrappedURL.absoluteString
+                                                        variables.searchInSidebar = unwrappedURL.absoluteString
                                                     }
                                                 }
-                                                else if selectedTabLocation == "favoriteTabs" {
+                                                else if variables.selectedTabLocation == "favoriteTabs" {
                                                     variables.favoritesNavigationState.selectedWebView?.reload()
                                                     variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
                                                     
                                                     variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.selectedWebView
                                                     
                                                     if let unwrappedURL = variables.favoritesNavigationState.currentURL {
-                                                        searchInSidebar = unwrappedURL.absoluteString
+                                                        variables.searchInSidebar = unwrappedURL.absoluteString
                                                     }
                                                 }
                                             } label: {
@@ -363,21 +283,21 @@ struct ContentView: View {
                                             
                                             Button {
                                                 if (variables.navigationState.selectedWebView == nil) && (variables.pinnedNavigationState.selectedWebView == nil) && (variables.favoritesNavigationState.selectedWebView == nil) {
-                                                    tabBarShown.toggle()
-                                                    commandBarShown = false
+                                                    variables.tabBarShown.toggle()
+                                                    variables.commandBarShown = false
                                                     print("Showing Tab Bar")
                                                 }
                                                 else {
-                                                    if selectedTabLocation == "pinnedTabs" {
-                                                        searchInSidebar = unformatURL(url: variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? searchInSidebar)
+                                                    if variables.selectedTabLocation == "pinnedTabs" {
+                                                        variables.searchInSidebar = unformatURL(url: variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
                                                     }
-                                                    else if selectedTabLocation == "favoriteTabs" {
-                                                        searchInSidebar = unformatURL(url: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? searchInSidebar)
+                                                    else if variables.selectedTabLocation == "favoriteTabs" {
+                                                        variables.searchInSidebar = unformatURL(url: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
                                                     }else {
-                                                        searchInSidebar = unformatURL(url: variables.navigationState.selectedWebView?.url?.absoluteString ?? searchInSidebar)
+                                                        variables.searchInSidebar = unformatURL(url: variables.navigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
                                                     }
-                                                    commandBarShown.toggle()
-                                                    tabBarShown = false
+                                                    variables.commandBarShown.toggle()
+                                                    variables.tabBarShown = false
                                                     print("Showing Command Bar")
                                                 }
                                             } label: {
@@ -386,17 +306,17 @@ struct ContentView: View {
                                             
                                             
                                             Button {
-                                                if selectedTabLocation == "favoriteTabs" {
+                                                if variables.selectedTabLocation == "favoriteTabs" {
                                                     if let index = variables.favoritesNavigationState.webViews.firstIndex(of: variables.favoritesNavigationState.selectedWebView ?? WKWebView()) {
                                                         favoriteRemoveTab(at: index)
                                                     }
                                                 }
-                                                else if selectedTabLocation == "pinnedTabs" {
+                                                else if variables.selectedTabLocation == "pinnedTabs" {
                                                     if let index = variables.pinnedNavigationState.webViews.firstIndex(of: variables.pinnedNavigationState.selectedWebView ?? WKWebView()) {
                                                         pinnedRemoveTab(at: index)
                                                     }
                                                 }
-                                                else if selectedTabLocation == "tabs" {
+                                                else if variables.selectedTabLocation == "tabs" {
                                                     if let index = variables.navigationState.webViews.firstIndex(of: variables.navigationState.selectedWebView ?? WKWebView()) {
                                                         removeTab(at: index)
                                                     }
@@ -407,8 +327,8 @@ struct ContentView: View {
                                             
                                             
                                             Button {
-                                                tabBarShown.toggle()
-                                                commandBarShown = false
+                                                variables.tabBarShown.toggle()
+                                                variables.commandBarShown = false
                                             } label: {
                                                 
                                             }.keyboardShortcut("t", modifiers: .command)
@@ -425,45 +345,45 @@ struct ContentView: View {
                                                 if startLocation < 100 || startLocation > (width - 100) {
                                                     let newOffset = value.translation.width
                                                     if abs(newOffset) <= 150 {
-                                                        navigationOffset = newOffset
+                                                        variables.navigationOffset = newOffset
                                                     } else {
-                                                        navigationOffset = newOffset > 0 ? 150 : -150
+                                                        variables.navigationOffset = newOffset > 0 ? 150 : -150
                                                     }
                                                     if abs(newOffset) > 100 {
-                                                        if !arrowImpactOnce {
+                                                        if !variables.arrowImpactOnce {
                                                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                                                            arrowImpactOnce = true
+                                                            variables.arrowImpactOnce = true
                                                         }
                                                         
                                                         withAnimation(.linear(duration: 0.3)) {
-                                                            navigationArrowColor = true
+                                                            variables.navigationArrowColor = true
                                                         }
                                                     } else {
-                                                        if arrowImpactOnce {
+                                                        if variables.arrowImpactOnce {
                                                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                                                            arrowImpactOnce = false
+                                                            variables.arrowImpactOnce = false
                                                         }
                                                         withAnimation(.linear(duration: 0.3)) {
-                                                            navigationArrowColor = false
+                                                            variables.navigationArrowColor = false
                                                         }
                                                     }
                                                 }
                                             }
                                             .onEnded { value in
-                                                arrowImpactOnce = false
+                                                variables.arrowImpactOnce = false
                                                 let startLocation = value.startLocation.x
                                                 let width = webGeo.size.width
                                                 
                                                 if startLocation < 150 || startLocation > (width - 150) {
-                                                    if navigationOffset >= 100 {
+                                                    if variables.navigationOffset >= 100 {
                                                         goBack()
-                                                    } else if navigationOffset < -100 {
+                                                    } else if variables.navigationOffset < -100 {
                                                         goForward()
                                                     }
                                                     
                                                     withAnimation(.linear(duration: 0.25)) {
-                                                        navigationOffset = 0
-                                                        navigationArrowColor = false
+                                                        variables.navigationOffset = 0
+                                                        variables.navigationArrowColor = false
                                                     }
                                                 }
                                             }
@@ -480,42 +400,51 @@ struct ContentView: View {
                                 .clipped()
                                 .padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
                                 
-                                if delayedBrowseForMe {
-                                BrowseForMe(searchText: browseForMeSearch, searchResponse: "", closeSheet: $isBrowseForMe)
-                                    .frame(width: isBrowseForMe ? 400: 0)
+                                if variables.delayedBrowseForMe {
+                                    BrowseForMe(searchText: browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
+                                        .frame(width: variables.isBrowseForMe ? 400: 0)
                                     .cornerRadius(10)
                                     .clipped()
                                     .onDisappear() {
-                                        isBrowseForMe = false
-                                        newTabSearch = ""
-                                        commandBarShown = false
-                                        tabBarShown = false
-                                        commandBarSearchSubmitted = false
-                                        commandBarSearchSubmitted2 = false
+                                        variables.isBrowseForMe = false
+                                        variables.newTabSearch = ""
+                                        variables.commandBarShown = false
+                                        variables.tabBarShown = false
+                                        variables.commandBarSearchSubmitted = false
+                                        variables.commandBarSearchSubmitted2 = false
                                     }
                                     .onChange(of: variables.navigationState.selectedWebView, {
                                         withAnimation(.linear, {
-                                            isBrowseForMe = false
+                                            variables.isBrowseForMe = false
                                             browseForMeSearch = ""
                                         })
                                     })
                                     .onChange(of: variables.pinnedNavigationState.selectedWebView, {
                                         withAnimation(.linear, {
-                                            isBrowseForMe = false
+                                            variables.isBrowseForMe = false
                                             browseForMeSearch = ""
                                         })
                                     })
                                     .onChange(of: variables.favoritesNavigationState.selectedWebView, {
                                         withAnimation(.linear, {
-                                            isBrowseForMe = false
+                                            variables.isBrowseForMe = false
                                             browseForMeSearch = ""
                                         })
                                     })
                                 }
-                            }.onChange(of: isBrowseForMe, {
+                            }.onChange(of: variables.isBrowseForMe, {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                                     withAnimation(.linear, {
-                                        delayedBrowseForMe = true
+                                        variables.delayedBrowseForMe = true
+                                    })
+                                })
+                            })
+                            .onChange(of: browseForMeSearch, {
+                                variables.delayedBrowseForMe = false
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                    withAnimation(.linear, {
+                                        variables.delayedBrowseForMe = true
                                     })
                                 })
                             })
@@ -526,7 +455,7 @@ struct ContentView: View {
                                         .disabled(true)
                                 }
                                 
-                                PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                     .environmentObject(variables)
                             }
                         }
@@ -546,11 +475,11 @@ struct ContentView: View {
                             variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
                         }
                         
-                        if tabBarShown || commandBarShown || tapSidebarShown {
+                        if variables.tabBarShown || variables.commandBarShown || variables.tapSidebarShown {
                             Button(action: {
-                                tabBarShown = false
-                                commandBarShown = false
-                                tapSidebarShown = false
+                                variables.tabBarShown = false
+                                variables.commandBarShown = false
+                                variables.tapSidebarShown = false
                             }, label: {
                                 Color.white.opacity(0.0001)
                             })
@@ -566,7 +495,7 @@ struct ContentView: View {
                                     Color.white.opacity(0.00001)
                                         .frame(width: 35)
                                         .onTapGesture {
-                                            tapSidebarShown = true
+                                            variables.tapSidebarShown = true
                                             
                                         }
                                     
@@ -574,11 +503,11 @@ struct ContentView: View {
                                         //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                         if UIDevice.current.userInterfaceIdiom != .phone {
                                             VStack {
-                                                ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
                                                     .padding([.top, .horizontal], 5)
                                                 
                                                 //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                                Sidebar(selectedTabLocation: $selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                                     .environmentObject(variables)
                                                 
                                                 HStack {
@@ -620,24 +549,24 @@ struct ContentView: View {
                                                     }, label: {
                                                         ZStack {
                                                             Color(.white)
-                                                                .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
                                                             
                                                             Image(systemName: "plus")
                                                                 .resizable()
                                                                 .scaledToFit()
                                                                 .frame(width: 20, height: 20)
                                                                 .foregroundStyle(variables.textColor)
-                                                                .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                                                             
                                                         }.frame(width: 40, height: 40).cornerRadius(7)
                                                             .hoverEffect(.lift)
                                                             .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
                                                             .onHover(perform: { hovering in
                                                                 if hovering {
-                                                                    hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                    variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
                                                                 }
                                                                 else {
-                                                                    hoverSpace = ""
+                                                                    variables.hoverSpace = ""
                                                                 }
                                                             })
                                                     })
@@ -672,7 +601,7 @@ struct ContentView: View {
                                         }
                                         else {
                                             Color.clear
-                                                .sheet(isPresented: $tapSidebarShown) {
+                                                .sheet(isPresented: $variables.tapSidebarShown) {
                                                     ZStack {
                                                         if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
                                                             LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
@@ -686,11 +615,11 @@ struct ContentView: View {
                                                         }
                                                         
                                                         VStack {
-                                                            ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                            ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
                                                                 .padding([.top, .horizontal], 5)
                                                             
                                                             //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                                            Sidebar(selectedTabLocation: $selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                            Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
                                                                 .environmentObject(variables)
                                                             
                                                             HStack {
@@ -732,24 +661,24 @@ struct ContentView: View {
                                                                 }, label: {
                                                                     ZStack {
                                                                         Color(.white)
-                                                                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
                                                                         
                                                                         Image(systemName: "plus")
                                                                             .resizable()
                                                                             .scaledToFit()
                                                                             .frame(width: 20, height: 20)
                                                                             .foregroundStyle(variables.textColor)
-                                                                            .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                                                                         
                                                                     }.frame(width: 40, height: 40).cornerRadius(7)
                                                                         .hoverEffect(.lift)
                                                                         .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
                                                                         .onHover(perform: { hovering in
                                                                             if hovering {
-                                                                                hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                                variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
                                                                             }
                                                                             else {
-                                                                                hoverSpace = ""
+                                                                                variables.hoverSpace = ""
                                                                             }
                                                                         })
                                                                 })
@@ -765,16 +694,16 @@ struct ContentView: View {
                                         Spacer()
                                     }.padding(40)
                                         .padding(.leading, 30)
-                                        .frame(width: hoveringSidebar || tapSidebarShown ? 350: 0)
-                                        .offset(x: hoveringSidebar || tapSidebarShown ? 0: settings.sidebarLeft ? -350: 300)
+                                        .frame(width: variables.hoveringSidebar || variables.tapSidebarShown ? 350: 0)
+                                        .offset(x: variables.hoveringSidebar || variables.tapSidebarShown ? 0: settings.sidebarLeft ? -350: 300)
                                         .clipped()
                                     
                                 }.onHover(perform: { hovering in
                                     if hovering {
-                                        hoveringSidebar = true
+                                        variables.hoveringSidebar = true
                                     }
                                     else {
-                                        hoveringSidebar = false
+                                        variables.hoveringSidebar = false
                                     }
                                 })
                                 
@@ -795,32 +724,33 @@ struct ContentView: View {
                         print(url)
                     }
                     //MARK: - Tabbar
-                    if tabBarShown {
-                        CommandBar(commandBarText: $newTabSearch, searchSubmitted: $commandBarSearchSubmitted, collapseHeightAnimation: $commandBarCollapseHeightAnimation, isBrowseForMe: $isBrowseForMe)
-                            .onChange(of: commandBarSearchSubmitted) { thing in
-                                //if !isBrowseForMe {
-                                    if !newTabSearch.starts(with: "aura://") {
-                                        auraTab = ""
-                                        variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: newTabSearch))!))
+                    if variables.tabBarShown {
+                        CommandBar(commandBarText: $variables.newTabSearch, searchSubmitted: $variables.commandBarSearchSubmitted, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
+                            .onChange(of: variables.commandBarSearchSubmitted) { thing in
+                                
+                                browseForMeSearch = variables.newTabSearch
+                                
+                                if !variables.newTabSearch.starts(with: "aura://") {
+                                    variables.auraTab = ""
+                                        variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
                                     }
                                     else {
-                                        if newTabSearch.contains("dashboard") {
+                                        if variables.newTabSearch.contains("dashboard") {
                                             variables.navigationState.selectedWebView = nil
                                             variables.pinnedNavigationState.selectedWebView = nil
                                             variables.favoritesNavigationState.selectedWebView = nil
                                             
-                                            auraTab = "dashboard"
-                                            selectedTabLocation = ""
+                                            variables.auraTab = "dashboard"
+                                            variables.selectedTabLocation = ""
                                         }
-                                        if newTabSearch.contains("settings") {
+                                        if variables.newTabSearch.contains("settings") {
                                             variables.showSettings = true
                                         }
                                     }
-                                browseForMeSearch = newTabSearch
                                 
-                                    tabBarShown = false
-                                    commandBarSearchSubmitted = false
-                                    newTabSearch = ""
+                                variables.tabBarShown = false
+                                variables.commandBarSearchSubmitted = false
+                                variables.newTabSearch = ""
                                     
                                     print("Saving Tabs")
                                     
@@ -830,43 +760,43 @@ struct ContentView: View {
                     }
                     
                     //MARK: - Command Bar
-                    else if commandBarShown {
-                        CommandBar(commandBarText: $searchInSidebar, searchSubmitted: $commandBarSearchSubmitted2, collapseHeightAnimation: $commandBarCollapseHeightAnimation, isBrowseForMe: $isBrowseForMe)
+                    else if variables.commandBarShown {
+                        CommandBar(commandBarText: $variables.searchInSidebar, searchSubmitted: $variables.commandBarSearchSubmitted2, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
                             .onChange(of: variables.navigationState.currentURL, {
                                 if let unwrappedURL = variables.navigationState.currentURL {
-                                    searchInSidebar = unwrappedURL.absoluteString
+                                    variables.searchInSidebar = unwrappedURL.absoluteString
                                 }
                                 print("Changing searchInSidebar - 1")
                             })
                             .onChange(of: variables.pinnedNavigationState.currentURL, {
                                 if let unwrappedURL = variables.pinnedNavigationState.currentURL {
-                                    searchInSidebar = unwrappedURL.absoluteString
+                                    variables.searchInSidebar = unwrappedURL.absoluteString
                                 }
                                 print("Changing searchInSidebar - 2")
                             })
                             .onChange(of: variables.favoritesNavigationState.currentURL, {
                                 if let unwrappedURL = variables.favoritesNavigationState.currentURL {
-                                    searchInSidebar = unwrappedURL.absoluteString
+                                    variables.searchInSidebar = unwrappedURL.absoluteString
                                 }
                                 print("Changing searchInSidebar - 3")
                             })
-                            .onChange(of: commandBarSearchSubmitted2) { thing in
+                            .onChange(of: variables.commandBarSearchSubmitted2) { thing in
                                 
                                 //variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
                                 //variables.navigationState.selectedWebView?.load(URLRequest(url: URL(formatURL(from: newTabSearch))!))
                                 Task {
-                                    await searchInSidebar = formatURL(from: searchInSidebar)
-                                    if let url = URL(string: searchInSidebar) {
+                                    await variables.searchInSidebar = formatURL(from: variables.searchInSidebar)
+                                    if let url = URL(string: variables.searchInSidebar) {
                                         // Create a URLRequest object
                                         let request = URLRequest(url: url)
                                         
-                                        if selectedTabLocation == "tabs" {
+                                        if variables.selectedTabLocation == "tabs" {
                                             await variables.navigationState.selectedWebView?.load(request)
                                         }
-                                        if selectedTabLocation == "pinnedTabs" {
+                                        if variables.selectedTabLocation == "pinnedTabs" {
                                             await variables.pinnedNavigationState.selectedWebView?.load(request)
                                         }
-                                        if selectedTabLocation == "favoriteTabs" {
+                                        if variables.selectedTabLocation == "favoriteTabs" {
                                             await variables.favoritesNavigationState.selectedWebView?.load(request)
                                         }
                                         
@@ -879,10 +809,10 @@ struct ContentView: View {
                                 }
                                 
                                 
-                                commandBarShown = false
-                                tabBarShown = false
-                                commandBarSearchSubmitted2 = false
-                                newTabSearch = ""
+                                variables.commandBarShown = false
+                                variables.tabBarShown = false
+                                variables.commandBarSearchSubmitted2 = false
+                                variables.newTabSearch = ""
                             }
                     }
                 }
@@ -919,13 +849,13 @@ struct ContentView: View {
                     print(variables)
                 }
                 .onChange(of: selectedSpaceIndex, {
-                    if initialLoadDone {
+                    if variables.initialLoadDone {
                         variables.navigationState.webViews.removeAll()
                         
-                        var reloadAuraTabs = auraTab
-                        auraTab = ""
+                        var reloadAuraTabs = variables.auraTab
+                        variables.auraTab = ""
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.00001) {
-                            auraTab = reloadAuraTabs
+                            variables.auraTab = reloadAuraTabs
                         }
                         
                         if selectedSpaceIndex < spaces.count {
@@ -1007,7 +937,7 @@ struct ContentView: View {
 //                        variables.favoritesNavigationStateArray[spaceIndex].selectedWebView = nil
 //                    }
                     
-                    initialLoadDone = true
+                    variables.initialLoadDone = true
                 }
                 
                 
@@ -1056,7 +986,7 @@ struct ContentView: View {
     private func loadingIndicators(for isLoading: Bool?) -> some View {
         Group {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .trim(from: 0.25 + offset, to: 0.5 + offset)
+                .trim(from: 0.25 + variables.offset, to: 0.5 + variables.offset)
                 .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 .foregroundColor(selectedSpaceIndex < spaces.count ? Color(hex: spaces[selectedSpaceIndex].startHex) : .blue)
                 .opacity(isLoading ?? false ? 1.0 : 0.0)
@@ -1064,7 +994,7 @@ struct ContentView: View {
                 .blur(radius: 5)
             
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .trim(from: 0.25 + offset, to: 0.5 + offset)
+                .trim(from: 0.25 + variables.offset, to: 0.5 + variables.offset)
                 .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 .rotation(Angle(degrees: 180))
                 .foregroundColor(selectedSpaceIndex < spaces.count ? Color(hex: spaces[selectedSpaceIndex].startHex) : .blue)
@@ -1080,14 +1010,14 @@ struct ContentView: View {
     private func navigationButton(imageName: String, action: @escaping () -> Void) -> some View {
         ZStack {
             Circle()
-                .fill(navigationArrowColor ? Color(.systemBlue) : Color.gray)
-                .shadow(color: Color(.systemBlue), radius: navigationArrowColor ? 10 : 0, x: 0, y: 0)
+                .fill(variables.navigationArrowColor ? Color(.systemBlue) : Color.gray)
+                .shadow(color: Color(.systemBlue), radius: variables.navigationArrowColor ? 10 : 0, x: 0, y: 0)
             
             Image(systemName: imageName)
                 .resizable()
                 .scaledToFit()
                 .padding(12)
-                .scaleEffect(navigationArrowColor ? 1.0 : 0.7)
+                .scaleEffect(variables.navigationArrowColor ? 1.0 : 0.7)
                 .foregroundStyle(Color.white)
             
         }.frame(width: 50, height: 50)
@@ -1097,63 +1027,63 @@ struct ContentView: View {
     private func handleDragChange(_ value: DragGesture.Value) {
         let newOffset = value.translation.width
         if abs(newOffset) <= 150 {
-            navigationOffset = newOffset
+            variables.navigationOffset = newOffset
         } else {
-            navigationOffset = newOffset > 0 ? 150 : -150
+            variables.navigationOffset = newOffset > 0 ? 150 : -150
         }
         if abs(newOffset) > 100 {
             withAnimation(.linear(duration: 0.3)) {
-                navigationArrowColor = true
+                variables.navigationArrowColor = true
             }
         } else {
             withAnimation(.linear(duration: 0.3)) {
-                navigationArrowColor = false
+                variables.navigationArrowColor = false
             }
         }
     }
 
     private func handleDragEnd() {
-        if navigationOffset >= 100 {
+        if variables.navigationOffset >= 100 {
             goBack()
-        } else if navigationOffset < -100 {
+        } else if variables.navigationOffset < -100 {
             goForward()
         }
         
         withAnimation(.linear(duration: 0.25)) {
-            navigationOffset = 0
-            navigationArrowColor = false
+            variables.navigationOffset = 0
+            variables.navigationArrowColor = false
         }
     }
 
     private func handleRotation() {
-        if offset == 0.5 {
-            offset = 0.0
+        if variables.offset == 0.5 {
+            variables.offset = 0.0
             withAnimation(.linear(duration: 1.5)) {
-                offset = 0.5
+                variables.offset = 0.5
             }
         } else {
             withAnimation(.linear(duration: 1.5)) {
-                offset = 0.5
+                variables.offset = 0.5
             }
         }
     }
 
     private func goBack() {
-        if selectedTabLocation == "tabs" {
+        if variables.selectedTabLocation == "tabs" {
             variables.navigationState.selectedWebView?.goBack()
-        } else if selectedTabLocation == "pinnedTabs" {
+        } else if variables.selectedTabLocation == "pinnedTabs" {
             variables.pinnedNavigationState.selectedWebView?.goBack()
-        } else if selectedTabLocation == "favoriteTabs" {
+        } else if variables.selectedTabLocation == "favoriteTabs" {
             variables.favoritesNavigationState.selectedWebView?.goBack()
         }
     }
 
     private func goForward() {
-        if selectedTabLocation == "tabs" {
+        if variables.selectedTabLocation == "tabs" {
             variables.navigationState.selectedWebView?.goForward()
-        } else if selectedTabLocation == "pinnedTabs" {
+        } else if variables.selectedTabLocation == "pinnedTabs" {
             variables.pinnedNavigationState.selectedWebView?.goForward()
-        } else if selectedTabLocation == "favoriteTabs" {
+        } else if variables.selectedTabLocation == "favoriteTabs" {
             variables.favoritesNavigationState.selectedWebView?.goForward()
         }
     }

@@ -258,7 +258,7 @@ struct Sidebar: View {
                             }
                             .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $variables.favoritesNavigationState.webViews, draggedItem: $draggedTab))
                         
-                    }
+                    }.padding(10)
                     
                     ForEach(variables.pinnedNavigationState.webViews, id: \.self) { tab in
                         PinnedTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState)

@@ -137,6 +137,10 @@ class ObservableVariables: ObservableObject {
     @Published var delayedBrowseForMe = false
     
     @Published var browseForMeSearch = ""
+    
+    @Published var navigationOffset: CGFloat = 0
+    @Published var navigationArrowColor = false
+    @Published var arrowImpactOnce = false
 }
 
 

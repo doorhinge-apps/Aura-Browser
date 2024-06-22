@@ -29,7 +29,7 @@ struct BrowseForMe: View {
     
     var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    @State var waveTimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+    @State var waveTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         ZStack {
@@ -121,7 +121,9 @@ struct BrowseForMe: View {
                         }
                         
                         Button {
-                            closeSheet = false
+                            withAnimation(.linear(duration: 0.5)) {
+                                closeSheet = false
+                            }
                         } label: {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 10)
