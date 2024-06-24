@@ -191,10 +191,10 @@ struct ContentView: View {
                                             loadingIndicators(for: variables.favoritesNavigationState.selectedWebView?.isLoading)
                                         }
                                         if variables.selectedTabLocation == "tabs" {
-                                            //ScrollView(showsIndicators: false) {
+                                            ScrollView(showsIndicators: false) {
                                                 WebView(navigationState: variables.navigationState, variables: variables)
                                                     .frame(width: webGeo.size.width, height: webGeo.size.height)
-                                            //}
+                                            }
                                             .refreshable {
                                                 variables.reloadRotation += 360
                                                 
