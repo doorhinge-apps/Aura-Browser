@@ -8,9 +8,26 @@
 import SwiftUI
 import WebKit
 
+let testcss = """
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #333333;
+  line-height: 1.5;
+  color: white;
+  padding: 10;
+  font-weight: 600;
+  font-family: -apple-system;
+}
+"""
+
 struct WebView: UIViewRepresentable {
     
     @ObservedObject var navigationState : NavigationState
+    
+    @ObservedObject var variables = ObservableVariables()
     
     func makeUIView(context: Context) -> UIView  {
         return UIView()
@@ -24,6 +41,7 @@ struct WebView: UIViewRepresentable {
         }
         //webView.customUserAgent = "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
         //webView.customUserAgent = "Mozilla/5.0 (iPad; CPU OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1"
+
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             webView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1"

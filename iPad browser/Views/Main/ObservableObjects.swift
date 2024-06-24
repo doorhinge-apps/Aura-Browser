@@ -175,4 +175,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("commandBarOnLaunch") var commandBarOnLaunch = true
     
     @AppStorage("adBlockEnabled") var adBlockEnabled = true
+    
+    @AppStorage("swipeNavigationDisabled") var swipeNavigationDisabled = false
 }

@@ -37,6 +37,7 @@ struct OnboardingView: View {
             ZStack {
                 if onboardingDone || onboardingComplete {
                     ContentView()
+                    //SwiftUITabBar()
 //                        .environmentObject(variables)
                 }
                 else {

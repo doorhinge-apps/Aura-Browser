@@ -29,7 +29,7 @@ struct PagedSidebar: View {
     @Binding var textColor: Color
     @Binding var hoverSpace: String
     @Binding var showSettings: Bool
-    var geo: GeometryProxy
+    //var geo: GeometryProxy
     
     @State var temporaryRenamingString = ""
     @State var isRenaming = false
@@ -90,6 +90,8 @@ struct PagedSidebar: View {
     @AppStorage("showBorder") var showBorder = true
     
     @State var hasSetThing = false
+    
+    var fullGeo: GeometryProxy
     
     var body: some View {
         GeometryReader { geo in
@@ -231,7 +233,9 @@ struct PagedSidebar: View {
                             })
                     }
                     .sheet(isPresented: $showSettings) {
-                        Settings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                        NewSettings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: fullGeo.size.width - 200,
+                                   height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: fullGeo.size.height - 100)
                     }
                     Spacer()
                     
