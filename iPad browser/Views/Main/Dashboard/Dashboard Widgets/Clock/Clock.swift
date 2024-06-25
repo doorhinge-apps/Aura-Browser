@@ -73,6 +73,7 @@ struct Clock: View {
     
     var body: some View {
         ZStack {
+#if !os(visionOS)
             GeometryReader { geometry in
                 let size = min(geometry.size.width, geometry.size.height)
                 let center = CGPoint(x: geometry.size.width / 2, y: geometry.size.height / 2)
@@ -125,7 +126,7 @@ struct Clock: View {
                     DigitalClock(animating: $animateTransitons, format: $clockFormat, monochrome: $monochrome)
                 }
             }.padding(10)
-            
+            #endif
             Color.white.opacity(0.001)
                 .ignoresSafeArea()
         }

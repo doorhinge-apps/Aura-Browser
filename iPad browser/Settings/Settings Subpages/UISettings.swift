@@ -28,7 +28,9 @@ struct UISettings: View {
     
     var body: some View {
         ZStack {
+#if !os(visionOS)
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            #endif
             
             
             Color.black.opacity((settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark)) ? 0.5: 0.0)
@@ -39,11 +41,13 @@ struct UISettings: View {
             ScrollView {
                 VStack {
                     ZStack {
+#if !os(visionOS)
                         LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: gradientStartPoint, endPoint: gradientEndPoint)
                             .ignoresSafeArea()
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 0)
                             .animation(.easeInOut(duration: 1), value: gradientStartPoint)
                             .animation(.easeInOut(duration: 1), value: gradientEndPoint)
+                        #endif
                         
                             LinearGradient(colors: [settings.prefferedColorScheme != "dark" ? Color.clear: Color.black.opacity(0.5), settings.prefferedColorScheme != "dark" ? Color.clear: Color.black.opacity(0.5), settings.prefferedColorScheme == "light" ? Color.clear: Color.black.opacity(0.5), settings.prefferedColorScheme == "light" ? Color.clear: Color.black.opacity(0.5)], startPoint: .topLeading, endPoint: .bottom)
                                 .ignoresSafeArea()
@@ -110,10 +114,14 @@ struct UISettings: View {
                     }.frame(width: 300, height: 200)
                         .cornerRadius(8)
                         .foregroundStyle(Color.white)
+#if !os(visionOS)
                         .rotation3DEffect(
                             max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                             axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                         )
+                    #else
+                        .hoverEffect(.lift)
+                    #endif
                     
                     Spacer()
                         .frame(height: 30)
@@ -130,7 +138,9 @@ struct UISettings: View {
                             updateAppearance()
                         }
                     }
+#if !os(visionOS)
                     .background(Color.white.opacity(0.5).cornerRadius(7))
+                    #endif
                     .padding([.leading, .trailing, .bottom])
                     
                     if UIDevice.current.userInterfaceIdiom == .pad {
@@ -184,6 +194,37 @@ struct UISettings: View {
                     HStack {
                         Text("Switch between left and right sidebar location")
                             .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text("Launch Animation")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                        
+                        CustomToggleSlider(toggle: $settings.launchAnimation, startHex: startHex, endHex: endHex)
+                            .scaleEffect(0.75)
+                    }.padding(20)
+                    
+                    
+                    HStack {
+                        Text("Animate from the launch screen to the app when you open it.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("This makes launch slightly slower, but the UI will be less buggy and more tabs will be loaded.")
+                            .foregroundStyle(Color.white)
+                            .font(Font.caption)
                             .padding(.leading, 20)
                         
                         Spacer()

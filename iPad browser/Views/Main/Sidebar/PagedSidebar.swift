@@ -14,6 +14,7 @@ struct PagedSidebar: View {
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
     @EnvironmentObject var variables: ObservableVariables
+    @StateObject var settings = SettingsVariables()
     
     @Binding var selectedTabLocation: String
     
@@ -210,8 +211,7 @@ struct PagedSidebar: View {
                         showSettings.toggle()
                     } label: {
                         ZStack {
-                            Color(.white)
-                                .opacity(settingsButtonHover ? 0.5: 0.0)
+                            HoverButtonDisabledVision(hoverInteraction: settingsButtonHover)
                             
                             Image(systemName: "gearshape")
                                 .resizable()
@@ -221,8 +221,10 @@ struct PagedSidebar: View {
                                 .opacity(settingsButtonHover ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                        #endif
                             .onHover(perform: { hovering in
                                 if hovering {
                                     settingsButtonHover = true
@@ -245,25 +247,29 @@ struct PagedSidebar: View {
                         modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                     }, label: {
                         ZStack {
+#if !os(visionOS)
                             Color(.white)
-                                .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                            #endif
                             
                             Image(systemName: "plus")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
-                                .foregroundStyle(textColor)
-                                .opacity(hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                .foregroundStyle(variables.textColor)
+                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                             .hoverEffect(.lift)
-                            .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                            .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                        #endif
                             .onHover(perform: { hovering in
                                 if hovering {
-                                    hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                    variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
                                 }
                                 else {
-                                    hoverSpace = ""
+                                    variables.hoverSpace = ""
                                 }
                             })
                     })

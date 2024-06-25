@@ -115,7 +115,9 @@ class ObservableVariables: ObservableObject {
     @Published var selectedTabLocation = "tabs"
     
     // Other Stuff
+#if !os(visionOS)
     @Published var screenWidth = UIScreen.main.bounds.width
+    #endif
     
     @Published var hoveringSidebar = false
     @Published var tapSidebarShown = false
@@ -177,4 +179,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("adBlockEnabled") var adBlockEnabled = true
     
     @AppStorage("swipeNavigationDisabled") var swipeNavigationDisabled = false
+    
+    @AppStorage("launchAnimation") var launchAnimation = true
 }

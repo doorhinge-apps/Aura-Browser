@@ -102,8 +102,10 @@ struct Sidebar: View {
                     }
                 } label: {
                     ZStack {
+#if !os(visionOS)
                         RoundedRectangle(cornerRadius: 20)
                             .foregroundStyle(Color(.white).opacity(hoverSidebarSearchField ? 0.3 : 0.15))
+                        #endif
                         
                         HStack {
                             Text(unformatURL(url: selectedTabLocation == "tabs" ? variables.navigationState.selectedWebView?.url?.absoluteString ?? "": selectedTabLocation == "pinnedTabs" ? variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? "": variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? ""))
@@ -300,8 +302,7 @@ struct Sidebar: View {
                                 presentIcons.toggle()
                             } label: {
                                 ZStack {
-                                    Color(.white)
-                                        .opacity(spaceIconHover ? 0.5: 0.0)
+                                    HoverButtonDisabledVision(hoverInteraction: spaceIconHover)
                                     
                                     Image(systemName: spaces[selectedSpaceIndex].spaceIcon)
                                         .resizable()
@@ -311,8 +312,10 @@ struct Sidebar: View {
                                         .opacity(spaceIconHover ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                                     .hoverEffect(.lift)
                                     .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                #endif
                                     .onHover(perform: { hovering in
                                         if hovering {
                                             spaceIconHover = true
@@ -332,6 +335,9 @@ struct Sidebar: View {
                                     temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
                                     renameIsFocused = true
                                 }
+#if !os(visionOS)
+                                .hoverEffect(.lift)
+                            #endif
                             
                             if renameIsFocused {
                                 Button(action: {
@@ -341,8 +347,11 @@ struct Sidebar: View {
                                         .frame(height: 20)
                                         .foregroundStyle(Color.white)
                                         .opacity(0.5)
-                                }).hoverEffect(.lift)
+                                })
+#if !os(visionOS)
+                                .hoverEffect(.lift)
                                     .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                #endif
                             }
                             
                             textColor
@@ -381,8 +390,7 @@ struct Sidebar: View {
                                 }
                             } label: {
                                 ZStack {
-                                    Color(.white)
-                                        .opacity(hoverPaintbrush ? 0.5: 0.0)
+                                    HoverButtonDisabledVision(hoverInteraction: hoverPaintbrush)
                                     
                                     Image(systemName: "ellipsis")
                                         .resizable()
@@ -392,8 +400,11 @@ struct Sidebar: View {
                                         .opacity(hoverPaintbrush ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
-                            }.hoverEffect(.lift)
+                            }
+#if !os(visionOS)
+                            .hoverEffect(.lift)
                                 .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                            #endif
                                 .onHover(perform: { hovering in
                                     if hovering {
                                         hoverPaintbrush = true
@@ -417,7 +428,7 @@ struct Sidebar: View {
                         }
                     })
                     .padding(.vertical, 10)
-                    .popover(isPresented: $changeColorSheet, attachmentAnchor: .point(.trailing), arrowEdge: .leading, content: {
+                    /*.popover(isPresented: $changeColorSheet, attachmentAnchor: .point(.trailing), arrowEdge: .leading, content: {
                         VStack(spacing: 20) {
                             ZStack {
                                 LinearGradient(gradient: Gradient(colors: [startColor, endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
@@ -457,9 +468,10 @@ struct Sidebar: View {
                             Spacer()
                         }
                         
-                    })
+                    })*/
                     .popover(isPresented: $presentIcons, attachmentAnchor: .point(.trailing), arrowEdge: .leading) {
                         ZStack {
+#if !os(visionOS)
                             LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                 .opacity(1.0)
                             
@@ -468,7 +480,7 @@ struct Sidebar: View {
                                     LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                 }
                             }
-                            
+                            #endif
                             
                             //IconsPicker(currentIcon: $changingIcon)
                             IconsPicker(currentIcon: $changingIcon, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, selectedSpaceIndex: $selectedSpaceIndex)

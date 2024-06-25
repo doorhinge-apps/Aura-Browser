@@ -19,7 +19,7 @@ struct WeatherWidgetView: View {
     @State var lowTemp = 1000.0
     
     var body: some View {
-        if locationDataManager.authorizationStatus == .authorizedWhenInUse || locationDataManager.authorizationStatus == .authorizedAlways {
+        if locationDataManager.authorizationStatus == .authorizedWhenInUse {
             GeometryReader { geo in
                 HStack(spacing: 0) {
                     VStack(spacing: 0) {

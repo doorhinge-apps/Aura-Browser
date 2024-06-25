@@ -156,8 +156,13 @@ struct IconsPicker: View {
                                         print("Current Icon: \(currentIcon)")
                                     } label: {
                                         ZStack {
+#if !os(visionOS)
                                             Color(.white)
                                                 .opacity(currentIcon == icon ? 1.0: currentHoverIcon == icon ? 0.5: 0.0)
+                                            #else
+                                            Color(.white)
+                                                .opacity(currentIcon == icon ? 1.0: 0.0)
+                                            #endif
                                             
                                             Image(systemName: icon)
                                                 .resizable()
@@ -167,8 +172,10 @@ struct IconsPicker: View {
                                                 .opacity(currentHoverIcon == icon ? 1.0: 0.7)
                                             
                                         }.frame(width: 50, height: 50).cornerRadius(7)
+#if !os(visionOS)
                                             .hoverEffect(.lift)
                                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                                        #endif
                                             .onHover(perform: { hovering in
                                                 if hovering {
                                                     currentHoverIcon = icon

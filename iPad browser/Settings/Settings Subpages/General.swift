@@ -35,8 +35,9 @@ struct General: View {
     
     var body: some View {
         ZStack {
+#if !os(visionOS)
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-            
+            #endif
             
             Color.black.opacity((settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark)) ? 0.5: 0.0)
                     .ignoresSafeArea()
@@ -46,11 +47,13 @@ struct General: View {
             ScrollView {
                 VStack {
                     ZStack {
+#if !os(visionOS)
                         LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: gradientStartPoint, endPoint: gradientEndPoint)
                             .ignoresSafeArea()
                             .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 0)
                             .animation(.easeInOut(duration: 1), value: gradientStartPoint)
                             .animation(.easeInOut(duration: 1), value: gradientEndPoint)
+                        #endif
                         
                             LinearGradient(colors: [settings.prefferedColorScheme != "dark" ? Color.clear: Color.black.opacity(0.5), settings.prefferedColorScheme != "dark" ? Color.clear: Color.black.opacity(0.5), settings.prefferedColorScheme == "light" ? Color.clear: Color.black.opacity(0.5), settings.prefferedColorScheme == "light" ? Color.clear: Color.black.opacity(0.5)], startPoint: .topLeading, endPoint: .bottom)
                                 .ignoresSafeArea()
@@ -172,10 +175,14 @@ struct General: View {
                         })
                         .cornerRadius(8)
                         .foregroundStyle(Color.black)
+#if !os(visionOS)
                         .rotation3DEffect(
                             max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                             axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                         )
+                    #else
+                        .hoverEffect(.lift)
+                    #endif
                     
                     Spacer()
                         .frame(height: 30)

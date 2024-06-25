@@ -39,12 +39,14 @@ struct GrowingButton: ButtonStyle {
             if configuration.isPressed {
                 Color.white.opacity(0.0)
                     .frame(width: 0, height: 0)
+#if !os(visionOS)
                     .onAppear() {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     }
                     .onDisappear() {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     }
+#endif
             }
             
             Text(buttonText)
@@ -147,12 +149,14 @@ struct MainButtonStyle: ButtonStyle {
             if configuration.isPressed {
                 Color.white.opacity(0.0)
                     .frame(width: 0, height: 0)
+#if !os(visionOS)
                     .onAppear() {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     }
                     .onDisappear() {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     }
+                #endif
             }
             
             configuration.label
@@ -238,6 +242,7 @@ struct NewButtonStyle: ButtonStyle {
                         }
                     }.shadow(color: Color(hex: "000").opacity(0.15), radius: 15, x: 0, y: 0)
                 )
+#if !os(visionOS)
                 .onChange(of: configuration.isPressed, {
                     if configuration.isPressed {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
@@ -246,6 +251,7 @@ struct NewButtonStyle: ButtonStyle {
                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     }
                 })
+            #endif
                 .onHover(perform: { hovering in
                     isHovering = hovering
                 })

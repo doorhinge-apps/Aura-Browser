@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct SwiftUITabBar: View {
+/*struct SwiftUITabBar: View {
     @StateObject var variables = ObservableVariables()
     @State var webView = WebViewSidebarAdaptable()
     
@@ -92,4 +92,4 @@ struct SwiftUITabBar: View {
 
 #Preview {
     SwiftUITabBar()
-}
+}*/

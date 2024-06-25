@@ -105,8 +105,7 @@ struct ToolbarButtonsView: View {
                         }
                     }, label: {
                         ZStack {
-                            Color(.white)
-                                .opacity(hoverSidebarButton ? 0.5: 0.0)
+                            HoverButtonDisabledVision(hoverInteraction: hoverSidebarButton)
                             
                             Image(systemName: "sidebar.left")
                                 .resizable()
@@ -116,8 +115,10 @@ struct ToolbarButtonsView: View {
                                 .opacity(hoverSidebarButton ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                        #endif
                             .onHover(perform: { hovering in
                                 if hovering {
                                     hoverSidebarButton = true
@@ -249,8 +250,7 @@ struct ToolbarButtonsView: View {
                     }
                 }, label: {
                     ZStack {
-                        Color(.white)
-                            .opacity(hoverBackwardButton ? 0.5: 0.0)
+                        HoverButtonDisabledVision(hoverInteraction: hoverBackwardButton)
                         
                         Image(systemName: "arrow.left")
                             .resizable()
@@ -260,8 +260,10 @@ struct ToolbarButtonsView: View {
                             .opacity(hoverBackwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                         .hoverEffect(.lift)
                         .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                    #endif
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverBackwardButton = true
@@ -284,8 +286,7 @@ struct ToolbarButtonsView: View {
                     }
                 }, label: {
                     ZStack {
-                        Color(.white)
-                            .opacity(hoverForwardButton ? 0.5: 0.0)
+                        HoverButtonDisabledVision(hoverInteraction: hoverForwardButton)
                         
                         Image(systemName: "arrow.right")
                             .resizable()
@@ -295,8 +296,10 @@ struct ToolbarButtonsView: View {
                             .opacity(hoverForwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                         .hoverEffect(.lift)
                         .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                    #endif
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverForwardButton = true
@@ -344,8 +347,7 @@ struct ToolbarButtonsView: View {
                     }
                 }, label: {
                     ZStack {
-                        Color(.white)
-                            .opacity(hoverReloadButton ? 0.5: 0.0)
+                        HoverButtonDisabledVision(hoverInteraction: hoverReloadButton)
                         
                         Image(systemName: "arrow.clockwise")
                             .resizable()
@@ -357,8 +359,10 @@ struct ToolbarButtonsView: View {
                             .animation(.bouncy, value: reloadRotation)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                         .hoverEffect(.lift)
                         .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                    #endif
                         .onHover(perform: { hovering in
                             if hovering {
                                 hoverReloadButton = true

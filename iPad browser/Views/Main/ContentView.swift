@@ -53,39 +53,28 @@ struct ContentView: View {
         case commandBar, tabBar, none
     }
     
-    //@State var auraTab = ""
-    
-    //@State var initialLoadDone = false
-    
-    //@State var scrollLimiter = false
-    
-    //@State private var scrollPosition: CGPoint = .zero
-    //@State private var horizontalScrollPosition: CGPoint = .zero
-    
-    //@State private var navigationOffset: CGFloat = 0
-    //@State var navigationArrowColor = false
-    //@State var arrowImpactOnce = false
-    
-    //@State var isBrowseForMe = false
-    //@State var delayedBrowseForMe = false
-    
     @State var browseForMeSearch = ""
+    
+    @State var launchingAnimation = true
     
     var body: some View {
         GeometryReader { geo in
             if spaces.count > 0 {
                 ZStack {
                     ZStack {
+#if !os(visionOS)
                         if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
                             LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                         }
                         else {
                             LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                         }
+                        #endif
                         
                         if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                             Color.black.opacity(0.5)
                         }
+                        
                         
                         HStack(spacing: 0) {
                             if settings.sidebarLeft {
@@ -111,8 +100,7 @@ struct ContentView: View {
                                                 variables.showSettings.toggle()
                                             } label: {
                                                 ZStack {
-                                                    Color(.white)
-                                                        .opacity(variables.settingsButtonHover ? 0.5: 0.0)
+                                                    HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
                                                     
                                                     Image(systemName: "gearshape")
                                                         .resizable()
@@ -122,8 +110,10 @@ struct ContentView: View {
                                                         .opacity(variables.settingsButtonHover ? 1.0: 0.5)
                                                     
                                                 }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                                                     .hoverEffect(.lift)
                                                     .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                #endif
                                                     .onHover(perform: { hovering in
                                                         if hovering {
                                                             variables.settingsButtonHover = true
@@ -146,8 +136,10 @@ struct ContentView: View {
                                                 modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                                             }, label: {
                                                 ZStack {
+#if !os(visionOS)
                                                     Color(.white)
                                                         .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                    #endif
                                                     
                                                     Image(systemName: "plus")
                                                         .resizable()
@@ -157,8 +149,10 @@ struct ContentView: View {
                                                         .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                                                     
                                                 }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                                                     .hoverEffect(.lift)
                                                     .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                #endif
                                                     .onHover(perform: { hovering in
                                                         if hovering {
                                                             variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
@@ -285,8 +279,9 @@ struct ContentView: View {
                                                     }
                                                 }
                                             } label: {
-                                                
+
                                             }.keyboardShortcut("s", modifiers: .command)
+                                                .buttonStyle(.plain)
                                             
                                             Button {
                                                 if variables.selectedTabLocation == "tabs" {
@@ -301,6 +296,7 @@ struct ContentView: View {
                                             } label: {
                                                 
                                             }.keyboardShortcut("[", modifiers: .command)
+                                                .buttonStyle(.plain)
                                             
                                             Button {
                                                 if variables.selectedTabLocation == "tabs" {
@@ -313,8 +309,10 @@ struct ContentView: View {
                                                     variables.favoritesNavigationState.selectedWebView?.goForward()
                                                 }
                                             } label: {
-                                                
+
                                             }.keyboardShortcut("]", modifiers: .command)
+                                                .buttonStyle(.plain)
+                                            
                                             
                                             Button {
                                                 variables.reloadRotation += 360
@@ -351,8 +349,9 @@ struct ContentView: View {
                                                     }
                                                 }
                                             } label: {
-                                                
+
                                             }.keyboardShortcut("r", modifiers: .command)
+                                                .buttonStyle(.plain)
                                             
                                             
                                             Button {
@@ -377,6 +376,7 @@ struct ContentView: View {
                                             } label: {
                                                 
                                             }.keyboardShortcut("l", modifiers: .command)
+                                                .buttonStyle(.plain)
                                             
                                             
                                             Button {
@@ -398,6 +398,7 @@ struct ContentView: View {
                                             } label: {
                                                 
                                             }.keyboardShortcut("w", modifiers: .command)
+                                                .buttonStyle(.plain)
                                             
                                             
                                             Button {
@@ -406,6 +407,7 @@ struct ContentView: View {
                                             } label: {
                                                 
                                             }.keyboardShortcut("t", modifiers: .command)
+                                                .buttonStyle(.plain)
                                             
                                             
                                         }
@@ -426,7 +428,9 @@ struct ContentView: View {
                                                         }
                                                         if abs(newOffset) > 100 {
                                                             if !variables.arrowImpactOnce {
+#if !os(visionOS)
                                                                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                                                #endif
                                                                 variables.arrowImpactOnce = true
                                                             }
                                                             
@@ -435,7 +439,9 @@ struct ContentView: View {
                                                             }
                                                         } else {
                                                             if variables.arrowImpactOnce {
+#if !os(visionOS)
                                                                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                                                #endif
                                                                 variables.arrowImpactOnce = false
                                                             }
                                                             withAnimation(.linear(duration: 0.3)) {
@@ -481,34 +487,34 @@ struct ContentView: View {
                                 if variables.delayedBrowseForMe {
                                     BrowseForMe(searchText: browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
                                         .frame(width: variables.isBrowseForMe ? 400: 0)
-                                    .cornerRadius(10)
-                                    .clipped()
-                                    .onDisappear() {
-                                        variables.isBrowseForMe = false
-                                        variables.newTabSearch = ""
-                                        variables.commandBarShown = false
-                                        variables.tabBarShown = false
-                                        variables.commandBarSearchSubmitted = false
-                                        variables.commandBarSearchSubmitted2 = false
-                                    }
-                                    .onChange(of: variables.navigationState.selectedWebView, {
-                                        withAnimation(.linear, {
+                                        .cornerRadius(10)
+                                        .clipped()
+                                        .onDisappear() {
                                             variables.isBrowseForMe = false
-                                            browseForMeSearch = ""
+                                            variables.newTabSearch = ""
+                                            variables.commandBarShown = false
+                                            variables.tabBarShown = false
+                                            variables.commandBarSearchSubmitted = false
+                                            variables.commandBarSearchSubmitted2 = false
+                                        }
+                                        .onChange(of: variables.navigationState.selectedWebView, {
+                                            withAnimation(.linear, {
+                                                variables.isBrowseForMe = false
+                                                browseForMeSearch = ""
+                                            })
                                         })
-                                    })
-                                    .onChange(of: variables.pinnedNavigationState.selectedWebView, {
-                                        withAnimation(.linear, {
-                                            variables.isBrowseForMe = false
-                                            browseForMeSearch = ""
+                                        .onChange(of: variables.pinnedNavigationState.selectedWebView, {
+                                            withAnimation(.linear, {
+                                                variables.isBrowseForMe = false
+                                                browseForMeSearch = ""
+                                            })
                                         })
-                                    })
-                                    .onChange(of: variables.favoritesNavigationState.selectedWebView, {
-                                        withAnimation(.linear, {
-                                            variables.isBrowseForMe = false
-                                            browseForMeSearch = ""
+                                        .onChange(of: variables.favoritesNavigationState.selectedWebView, {
+                                            withAnimation(.linear, {
+                                                variables.isBrowseForMe = false
+                                                browseForMeSearch = ""
+                                            })
                                         })
-                                    })
                                 }
                             }.onChange(of: variables.isBrowseForMe, {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
@@ -550,8 +556,7 @@ struct ContentView: View {
                                                 variables.showSettings.toggle()
                                             } label: {
                                                 ZStack {
-                                                    Color(.white)
-                                                        .opacity(variables.settingsButtonHover ? 0.5: 0.0)
+                                                    HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
                                                     
                                                     Image(systemName: "gearshape")
                                                         .resizable()
@@ -561,8 +566,10 @@ struct ContentView: View {
                                                         .opacity(variables.settingsButtonHover ? 1.0: 0.5)
                                                     
                                                 }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                                                     .hoverEffect(.lift)
                                                     .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                #endif
                                                     .onHover(perform: { hovering in
                                                         if hovering {
                                                             variables.settingsButtonHover = true
@@ -585,8 +592,10 @@ struct ContentView: View {
                                                 modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                                             }, label: {
                                                 ZStack {
+#if !os(visionOS)
                                                     Color(.white)
                                                         .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                    #endif
                                                     
                                                     Image(systemName: "plus")
                                                         .resizable()
@@ -596,8 +605,10 @@ struct ContentView: View {
                                                         .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                                                     
                                                 }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                                                     .hoverEffect(.lift)
                                                     .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                #endif
                                                     .onHover(perform: { hovering in
                                                         if hovering {
                                                             variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
@@ -635,7 +646,8 @@ struct ContentView: View {
                                 variables.tapSidebarShown = false
                             }, label: {
                                 Color.white.opacity(0.0001)
-                            })
+                            }).buttonStyle(.plain)
+                                .hoverEffectDisabled(true)
                         }
                         
                         if hideSidebar {
@@ -668,8 +680,7 @@ struct ContentView: View {
                                                         variables.showSettings.toggle()
                                                     } label: {
                                                         ZStack {
-                                                            Color(.white)
-                                                                .opacity(variables.settingsButtonHover ? 0.5: 0.0)
+                                                            HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
                                                             
                                                             Image(systemName: "gearshape")
                                                                 .resizable()
@@ -679,8 +690,10 @@ struct ContentView: View {
                                                                 .opacity(variables.settingsButtonHover ? 1.0: 0.5)
                                                             
                                                         }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                                                             .hoverEffect(.lift)
                                                             .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                        #endif
                                                             .onHover(perform: { hovering in
                                                                 if hovering {
                                                                     variables.settingsButtonHover = true
@@ -703,8 +716,10 @@ struct ContentView: View {
                                                         modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                                                     }, label: {
                                                         ZStack {
+        #if !os(visionOS)
                                                             Color(.white)
                                                                 .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                            #endif
                                                             
                                                             Image(systemName: "plus")
                                                                 .resizable()
@@ -714,8 +729,10 @@ struct ContentView: View {
                                                                 .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                                                             
                                                         }.frame(width: 40, height: 40).cornerRadius(7)
+        #if !os(visionOS)
                                                             .hoverEffect(.lift)
                                                             .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                        #endif
                                                             .onHover(perform: { hovering in
                                                                 if hovering {
                                                                     variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
@@ -730,6 +747,7 @@ struct ContentView: View {
                                             .padding(15)
                                             .frame(width: 300)
                                             .background(content: {
+#if !os(visionOS)
                                                 if settings.sidebarLeft {
                                                     LinearGradient(colors: [variables.startColor, Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         .opacity(1.0)
@@ -747,6 +765,8 @@ struct ContentView: View {
                                                         }
                                                     }
                                                 }
+                                                #endif
+                                                
                                                 if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                                                     Color.black.opacity(0.5)
                                                 }
@@ -758,12 +778,14 @@ struct ContentView: View {
                                             Color.clear
                                                 .sheet(isPresented: $variables.tapSidebarShown) {
                                                     ZStack {
+#if !os(visionOS)
                                                         if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
                                                             LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         }
                                                         else {
                                                             LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                         }
+                                                        #endif
                                                         
                                                         if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                                                             Color.black.opacity(0.5)
@@ -781,8 +803,7 @@ struct ContentView: View {
                                                                     variables.showSettings.toggle()
                                                                 } label: {
                                                                     ZStack {
-                                                                        Color(.white)
-                                                                            .opacity(variables.settingsButtonHover ? 0.5: 0.0)
+                                                                        HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
                                                                         
                                                                         Image(systemName: "gearshape")
                                                                             .resizable()
@@ -792,8 +813,10 @@ struct ContentView: View {
                                                                             .opacity(variables.settingsButtonHover ? 1.0: 0.5)
                                                                         
                                                                     }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
                                                                         .hoverEffect(.lift)
                                                                         .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                                    #endif
                                                                         .onHover(perform: { hovering in
                                                                             if hovering {
                                                                                 variables.settingsButtonHover = true
@@ -816,8 +839,10 @@ struct ContentView: View {
                                                                     modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
                                                                 }, label: {
                                                                     ZStack {
+                    #if !os(visionOS)
                                                                         Color(.white)
                                                                             .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+                                                                        #endif
                                                                         
                                                                         Image(systemName: "plus")
                                                                             .resizable()
@@ -827,8 +852,10 @@ struct ContentView: View {
                                                                             .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                                                                         
                                                                     }.frame(width: 40, height: 40).cornerRadius(7)
+                    #if !os(visionOS)
                                                                         .hoverEffect(.lift)
                                                                         .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+                                                                    #endif
                                                                         .onHover(perform: { hovering in
                                                                             if hovering {
                                                                                 variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
@@ -888,31 +915,31 @@ struct ContentView: View {
                                 
                                 if !variables.newTabSearch.starts(with: "aura://") {
                                     variables.auraTab = ""
-                                        variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
+                                    variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
+                                }
+                                else {
+                                    if variables.newTabSearch.contains("dashboard") {
+                                        variables.navigationState.selectedWebView = nil
+                                        variables.pinnedNavigationState.selectedWebView = nil
+                                        variables.favoritesNavigationState.selectedWebView = nil
+                                        
+                                        variables.auraTab = "dashboard"
+                                        variables.selectedTabLocation = ""
                                     }
-                                    else {
-                                        if variables.newTabSearch.contains("dashboard") {
-                                            variables.navigationState.selectedWebView = nil
-                                            variables.pinnedNavigationState.selectedWebView = nil
-                                            variables.favoritesNavigationState.selectedWebView = nil
-                                            
-                                            variables.auraTab = "dashboard"
-                                            variables.selectedTabLocation = ""
-                                        }
-                                        if variables.newTabSearch.contains("settings") {
-                                            variables.showSettings = true
-                                        }
+                                    if variables.newTabSearch.contains("settings") {
+                                        variables.showSettings = true
                                     }
+                                }
                                 
                                 variables.tabBarShown = false
                                 variables.commandBarSearchSubmitted = false
                                 variables.newTabSearch = ""
-                                    
-                                    print("Saving Tabs")
-                                    
-                                    saveSpaceData()
-                                }
-                            //}
+                                
+                                print("Saving Tabs")
+                                
+                                saveSpaceData()
+                            }
+                        //}
                     }
                     
                     //MARK: - Command Bar
@@ -971,6 +998,11 @@ struct ContentView: View {
                                 variables.newTabSearch = ""
                             }
                     }
+                    
+                    
+                    if launchingAnimation && settings.launchAnimation {
+                        Launch_Animation()
+                    }
                 }
                 /*.sheet(isPresented: $isBrowseForMe, content: {
                     VStack {
@@ -1001,8 +1033,9 @@ struct ContentView: View {
                     .interactiveDismissDisabled(true)
                 })*/
                 .onAppear() {
-                    print("Variables")
-                    print(variables)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.6, execute: {
+                        
+                    })
                 }
                 .onChange(of: selectedSpaceIndex, {
                     if variables.initialLoadDone {

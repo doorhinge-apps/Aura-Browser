@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23077.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="ipad11_0rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23068.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="1210" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
+                                <rect key="frame" x="0.0" y="814" width="1210" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="Rectangle 2" translatesAutoresizingMaskIntoConstraints="NO" id="5qK-UD-6BL">
+                                <rect key="frame" x="0.0" y="0.0" width="1210" height="834"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Aura circle" translatesAutoresizingMaskIntoConstraints="NO" id="Rhl-Pt-Gd6">
+                                <rect key="frame" x="100" y="124" width="1010" height="590"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="5qK-UD-6BL" firstAttribute="trailing" secondItem="Bcu-3y-fUS" secondAttribute="trailing" id="3zT-yu-akQ"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
+                            <constraint firstAttribute="bottom" secondItem="5qK-UD-6BL" secondAttribute="bottom" id="CbW-gv-3pl"/>
+                            <constraint firstItem="Rhl-Pt-Gd6" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="100" id="KNd-Dm-Yph"/>
+                            <constraint firstItem="5qK-UD-6BL" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="NmI-nm-ywY"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" symbolic="YES" id="SfN-ll-jLj"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="Rhl-Pt-Gd6" secondAttribute="trailing" constant="100" id="Srq-to-Pv1"/>
+                            <constraint firstAttribute="bottom" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="Y44-ml-fuU"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="top" secondItem="Rhl-Pt-Gd6" secondAttribute="bottom" constant="100" id="dSX-jB-guM"/>
+                            <constraint firstItem="Rhl-Pt-Gd6" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="100" id="jkR-iS-Jyy"/>
+                            <constraint firstItem="5qK-UD-6BL" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="qLc-rh-jVe"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="64.95867768595042" y="50.359712230215834"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Aura circle" width="700" height="700"/>
+        <image name="Rectangle 2" width="1024" height="1024"/>
+    </resources>
+</document>

@@ -104,8 +104,10 @@ struct PinnedTab: View {
                 }) {
                     if hoverTab == tab || pinnedNavigationState.selectedWebView == tab {
                         ZStack {
+#if !os(visionOS)
                             Color(.white)
                                 .opacity(hoverCloseTab == tab ? 0.3: 0.0)
+                            #endif
                             Image(systemName: "xmark")
                                 .resizable()
                                 .scaledToFit()
@@ -113,8 +115,12 @@ struct PinnedTab: View {
                                 .foregroundStyle(Color.white)
                                 .opacity(hoverCloseTab == tab ? 1.0: 0.8)
                             
-                        }.frame(width: 35, height: 35).cornerRadius(7).padding(.trailing, 10)
+                        }.frame(width: 35, height: 35)
+#if !os(visionOS)
+                            .cornerRadius(7)
+                            .padding(.trailing, 10)
                             .hoverEffect(.lift)
+                        #endif
                             .onHover(perform: { hovering in
                                 if hovering {
                                     hoverCloseTab = tab

@@ -43,10 +43,16 @@ struct CommandBar: View {
             
             if !searchSubmitted {
                 ZStack {
+#if !os(visionOS)
                     RoundedRectangle(cornerRadius: 15)
                         .fill(.regularMaterial)
+                    #endif
                     
                     ScrollViewReader { proxy in
+#if os(visionOS)
+                        Spacer()
+                            .frame(height: 25)
+                        #endif
                         ZStack {
                             ScrollView {
                                 Spacer()
@@ -57,12 +63,22 @@ struct CommandBar: View {
                                             searchSubmitted = true
                                         }, label: {
                                             ZStack {
+#if !os(visionOS)
                                                 if selectedSuggestion == -1 {
                                                     Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
                                                         .cornerRadius(10)
                                                         .padding(5)
                                                         .padding(.horizontal, 5)
                                                 }
+                                                #else
+                                                if selectedSuggestion == -1 {
+                                                    Color.white.opacity(0.4)
+                                                        .cornerRadius(10)
+                                                        .padding(5)
+                                                        .padding(.horizontal, 5)
+                                                        .blur(radius: 30)
+                                                }
+                                                #endif
                                                 
                                                 HStack {
                                                     Text(commandBarText)
@@ -82,10 +98,13 @@ struct CommandBar: View {
                                                         searchSubmitted = true
                                                     } label: {
                                                         Text("Browse for me")
+#if !os(visionOS)
                                                             .foregroundStyle(selectedSuggestion == -1 ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
-                                                            .animation(.linear)
+                                                        #else
+                                                            .foregroundStyle(Color.white)
+#endif
                                                         
-                                                    }
+                                                    }.animation(.linear)
                                                     
                                                     Image(systemName: "arrow.right")
                                                         .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
@@ -117,6 +136,7 @@ struct CommandBar: View {
                                                     .padding(.horizontal, 5)
                                             }
                                             
+#if !os(visionOS)
                                             if selectedSuggestion != -1 {
                                                 if suggestions[selectedSuggestion] == suggestion {
                                                     Color(hex: averageHexColor(hex1: startHex, hex2: endHex))
@@ -125,11 +145,26 @@ struct CommandBar: View {
                                                         .padding(.horizontal, 5)
                                                 }
                                             }
+                                            #else
+                                            if selectedSuggestion != -1 {
+                                                if suggestions[selectedSuggestion] == suggestion {
+                                                    Color.white.opacity(0.4)
+                                                        .cornerRadius(10)
+                                                        .padding(5)
+                                                        .padding(.horizontal, 5)
+                                                        .blur(radius: 30)
+                                                }
+                                            }
+                                            #endif
                                             
                                             HStack {
                                                 Text(suggestion)
                                                     .lineLimit(1)
+#if !os(visionOS)
                                                     .foregroundStyle(colorScheme == .light ? Color(hex: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? textHex: "000000"): "000000"): Color(hex: "ffffff"))
+#else
+                                                    .foregroundStyle(Color.white)
+                                                #endif
                                                     .padding(.vertical, 27)
                                                     .padding(.horizontal, 25)
                                                 
@@ -146,9 +181,12 @@ struct CommandBar: View {
                                                     searchSubmitted = true
                                                 } label: {
                                                     Text("Browse for me")
+#if !os(visionOS)
                                                         .foregroundStyle(selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing)): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
-                                                        .animation(.linear)
-                                                }
+                                                    #else
+                                                        .foregroundStyle(Color.white)
+                                                    #endif
+                                                }.animation(.linear)
 
                                                 
                                                 
@@ -276,7 +314,12 @@ struct CommandBar: View {
                                         suggestions = UserDefaults.standard.stringArray(forKey: "commandBarHistory") ?? ["arc.net", "thebrowser.company", "notion.so", "figma.com", "google.com", "apple.com"]
                                     }
                                 }
+#if !os(visionOS)
                                 .background(.thinMaterial)
+                                #else
+                                .background(.thinMaterial)
+                                .cornerRadius(100)
+                                #endif
                                 
                                 
                                 Spacer()

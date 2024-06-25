@@ -24,11 +24,19 @@ struct NewSettings: View {
     
     @State private var selectedFaviconShape: String = "circle"
     
+#if !os(visionOS)
+    @State var settingsButtonTextColor = Color.black
+    #else
+    @State var settingsButtonTextColor = Color.white
+    #endif
+    
     var body: some View {
         GeometryReader { geo in
             NavigationStack {
                 ZStack {
+#if !os(visionOS)
                     LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                    #endif
                     
                     if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                         Color.black.opacity(0.5)
@@ -44,8 +52,10 @@ struct NewSettings: View {
                                 General(settings: settings, startHex: startHex, endHex: endHex)
                             }, label: {
                                 ZStack {
+#if !os(visionOS)
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color.white)
+                                    #endif
                                     
                                     HStack {
                                         Image("General Icon")
@@ -68,18 +78,19 @@ struct NewSettings: View {
                                         Image(systemName: "chevron.right")
                                             .padding(.trailing, 10)
                                         
-                                    }.foregroundStyle(Color.black)
+                                    }.foregroundStyle(settingsButtonTextColor)
                                         .padding(10)
                                 }.frame(height: 50)
-                                    .padding([.leading, .trailing, .bottom], 10)
-                            })
+                            }).padding([.leading, .trailing, .bottom], 10)
                             
                             NavigationLink(destination: {
                                 UISettings(settings: settings, startHex: startHex, endHex: endHex)
                             }, label: {
                                 ZStack {
+#if !os(visionOS)
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color.white)
+                                    #endif
                                     
                                     HStack {
                                         Image("Appearance Icon")
@@ -102,11 +113,10 @@ struct NewSettings: View {
                                         Image(systemName: "chevron.right")
                                             .padding(.trailing, 10)
                                         
-                                    }.foregroundStyle(Color.black)
+                                    }.foregroundStyle(settingsButtonTextColor)
                                         .padding(10)
                                 }.frame(height: 50)
-                                    .padding([.leading, .trailing, .bottom], 10)
-                            })
+                            }).padding([.leading, .trailing, .bottom], 10)
                             
                             
                             Menu {
@@ -122,8 +132,10 @@ struct NewSettings: View {
                                 
                             } label: {
                                 ZStack {
+#if !os(visionOS)
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color.white)
+                                    #endif
                                     
                                     HStack {
                                         Image("Search Icon")
@@ -143,19 +155,20 @@ struct NewSettings: View {
                                         
                                         Spacer()
                                         
-                                    }.foregroundStyle(Color.black)
+                                    }.foregroundStyle(settingsButtonTextColor)
                                         .padding(10)
                                 }.frame(height: 50)
-                                    .padding([.leading, .trailing, .bottom], 10)
-                            }//.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
+                            }.padding([.leading, .trailing, .bottom], 10)
                             
                             
                             NavigationLink(destination: {
                                 Favicons(settings: settings, startHex: startHex, endHex: endHex)
                             }, label: {
                                 ZStack {
+#if !os(visionOS)
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color.white)
+                                    #endif
                                     
                                     HStack {
                                         Image("Favicon Icon")
@@ -178,11 +191,10 @@ struct NewSettings: View {
                                         Image(systemName: "chevron.right")
                                             .padding(.trailing, 10)
                                         
-                                    }.foregroundStyle(Color.black)
+                                    }.foregroundStyle(settingsButtonTextColor)
                                         .padding(10)
                                 }.frame(height: 50)
-                                    .padding([.leading, .trailing, .bottom], 10)
-                            })
+                            }).padding([.leading, .trailing, .bottom], 10)
                             
                             
                             Button(action: {
@@ -190,8 +202,10 @@ struct NewSettings: View {
                                 settings.onboardingDone = false
                             }, label: {
                                 ZStack {
+#if !os(visionOS)
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color.white)
+                                    #endif
                                     
                                     HStack {
                                         Image("Reset Icon")
@@ -211,11 +225,10 @@ struct NewSettings: View {
                                         
                                         Spacer()
                                         
-                                    }.foregroundStyle(Color.black)
+                                    }.foregroundStyle(settingsButtonTextColor)
                                         .padding(10)
                                 }.frame(height: 50)
-                                    .padding([.leading, .trailing, .bottom], 10)
-                            })
+                            }).padding([.leading, .trailing, .bottom], 10)
                         }
                     }
                     
@@ -227,7 +240,10 @@ struct NewSettings: View {
                                 presentSheet = false
                             } label: {
                                 Text("Done")
-                            }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
+                            }
+#if !os(visionOS)
+                            .buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
+                            #endif
                                 .padding(15)
                             
                         }

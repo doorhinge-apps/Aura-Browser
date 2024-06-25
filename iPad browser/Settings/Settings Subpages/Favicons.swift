@@ -25,7 +25,9 @@ struct Favicons: View {
     
     var body: some View {
         ZStack {
+#if !os(visionOS)
             LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            #endif
             
             if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                 Color.black.opacity(0.5)
@@ -41,10 +43,14 @@ struct Favicons: View {
                             .frame(width: 200, height: 200)
                             .cornerRadius(CGFloat(iconRadius))
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
+#if !os(visionOS)
                             .rotation3DEffect(
                                 max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                                 axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                             )
+#else
+                            .hoverEffect(.lift)
+                        #endif
                     }
                     else {
                         Image("Aura Light")
@@ -53,10 +59,14 @@ struct Favicons: View {
                             .frame(width: 200, height: 200)
                             .cornerRadius(CGFloat(iconRadius))
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
+#if !os(visionOS)
                             .rotation3DEffect(
                                 max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                                 axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                             )
+                        #else
+                            .hoverEffect(.lift)
+                        #endif
                     }
                     
                     HStack {
@@ -80,7 +90,9 @@ struct Favicons: View {
                             iconRadius = selectedFaviconShape == "square" ? 0: selectedFaviconShape == "squircle" ? 40: 100
                         }
                     }
+#if !os(visionOS)
                     .background(Color.white.opacity(0.5).cornerRadius(7))
+                    #endif
                     .padding([.leading, .trailing, .bottom])
                     
                     Divider()

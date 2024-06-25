@@ -21,6 +21,8 @@
 		B9272D472C26A52300B014D8 /* VGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D462C26A52300B014D8 /* VGrid.swift */; };
 		B9272D4A2C26AA7A00B014D8 /* WaveTextEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */; };
 		B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */; };
+		B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */; };
+		B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
 		B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */; };
 		B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */; };
@@ -32,7 +34,7 @@
 		B94CA9272C28EB7500AD3921 /* SkewIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9262C28EB7500AD3921 /* SkewIcon.swift */; };
 		B94CA9292C28EB9A00AD3921 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9282C28EB9A00AD3921 /* MotionManager.swift */; };
 		B94CA92B2C290E7F00AD3921 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA92A2C290E7F00AD3921 /* General.swift */; };
-		B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */; };
+		B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* Aura_App.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
 		B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */; };
@@ -99,6 +101,8 @@
 		B9272D3C2C250CDD00B014D8 /* Adaway.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Adaway.json; sourceTree = "<group>"; };
 		B9272D462C26A52300B014D8 /* VGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGrid.swift; sourceTree = "<group>"; };
 		B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveTextEffect.swift; sourceTree = "<group>"; };
+		B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Launch Animation.swift"; sourceTree = "<group>"; };
+		B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButtonDisabled.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
 		B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pinned Tab.swift"; sourceTree = "<group>"; };
 		B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsURLs.swift; sourceTree = "<group>"; };
@@ -111,7 +115,7 @@
 		B94CA9282C28EB9A00AD3921 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		B94CA92A2C290E7F00AD3921 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
 		B95B19E12AABBEE00013AC79 /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPad_browserApp.swift; sourceTree = "<group>"; };
+		B95B19E42AABBEE00013AC79 /* Aura_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_App.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimations.swift; sourceTree = "<group>"; };
@@ -214,6 +218,23 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		B93AE92E2C2A3EA5003D0E88 /* Launch Screen */ = {
+			isa = PBXGroup;
+			children = (
+				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
+				B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */,
+			);
+			path = "Launch Screen";
+			sourceTree = "<group>";
+		};
+		B93AE9312C2AA0E9003D0E88 /* visionOS Components */ = {
+			isa = PBXGroup;
+			children = (
+				B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */,
+			);
+			path = "visionOS Components";
+			sourceTree = "<group>";
+		};
 		B93D9D2F2BDF35DA0002D01B /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,7 +276,7 @@
 		B95B19E32AABBEE00013AC79 /* iPad browser */ = {
 			isa = PBXGroup;
 			children = (
-				B95B19E42AABBEE00013AC79 /* iPad_browserApp.swift */,
+				B95B19E42AABBEE00013AC79 /* Aura_App.swift */,
 				B98256C72BD2A87200F997F5 /* iPad browser.entitlements */,
 				B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */,
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
@@ -326,7 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				B9272D462C26A52300B014D8 /* VGrid.swift */,
-				B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */,
+				B93AE92E2C2A3EA5003D0E88 /* Launch Screen */,
 				B9230FF92BBD36740032C950 /* TopDomains.json */,
 				B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */,
 				B90213742AB0174F00AB708D /* Functions.swift */,
@@ -400,6 +421,7 @@
 		C1BD7D1C2BDDF8DF0078D7B3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B93AE9312C2AA0E9003D0E88 /* visionOS Components */,
 				B9272D3C2C250CDD00B014D8 /* Adaway.json */,
 				B94CA91D2C28C72E00AD3921 /* Boosts */,
 				C1BD7D2C2BDE04FB0078D7B3 /* WebsiteHandling */,
@@ -603,6 +625,7 @@
 				B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */,
 				B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */,
 				B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */,
+				B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */,
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
 				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */,
@@ -632,6 +655,7 @@
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
+				B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */,
 				B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */,
 				B94CA9292C28EB9A00AD3921 /* MotionManager.swift in Sources */,
 				B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */,
@@ -643,7 +667,7 @@
 				B94CA9212C28C78200AD3921 /* BoostEditor.swift in Sources */,
 				B97725032C01292400A39E3A /* PagedSidebar.swift in Sources */,
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
-				B95B19E52AABBEE00013AC79 /* iPad_browserApp.swift in Sources */,
+				B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */,
 				B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */,
 				B9ED10572C0FAFF4004F2AF3 /* Trackpad.swift in Sources */,
 				B94CA91F2C28C73E00AD3921 /* BoostStorage.swift in Sources */,
@@ -792,11 +816,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iOS 18 Icon";
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xrsimulator*]" = "Vision Icon";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 38;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -820,13 +846,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.doorhingeapps.browser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 1.0;
 				_EXPERIMENTAL_SWIFT_EXPLICIT_MODULES = YES;
 			};
@@ -837,10 +863,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iOS 18 Icon";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 38;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -864,13 +891,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.doorhingeapps.browser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 1.0;
 				_EXPERIMENTAL_SWIFT_EXPLICIT_MODULES = YES;
 			};

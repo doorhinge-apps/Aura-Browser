@@ -75,19 +75,28 @@ struct SpacePicker: View {
                         
                     } label: {
                         ZStack {
+#if !os(visionOS)
                             Color(.white)
                                 .opacity(selectedSpaceIndex == space ? 1.0: hoverSpace == spaces[space].spaceName ? 0.5: 0.0)
+                            #endif
                             
                             Image(systemName: String(spaces[space].spaceIcon))
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
+#if !os(visionOS)
                                 .foregroundStyle(selectedSpaceIndex == space ? Color.black: Color(hex: textHex))
+                            #else
+                                .foregroundStyle(Color.white)
+                            #endif
                                 .opacity(selectedSpaceIndex == space ? 1.0: hoverSpace == spaces[space].spaceName ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
+                            .buttonStyle(.plain)
+#if !os(visionOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                        #endif
                             .help(spaces[space].spaceName/*.dropLast(5)*/)
                             .onHover(perform: { hovering in
                                 if hovering {
@@ -102,7 +111,9 @@ struct SpacePicker: View {
                                     hoverSpace = ""
                                 }
                             })
-                    }.contextMenu(ContextMenu(menuItems: {
+                    }
+                    .buttonStyle(.plain)
+                    .contextMenu(ContextMenu(menuItems: {
                         Button(action: {
                             if selectedSpaceIndex > spaces.count - 2 {
                                 selectedSpaceIndex = spaces.count - 2

@@ -30,7 +30,10 @@ struct ThreeDots: View {
                         Circle()
                             .frame(width: 8, height: 8)
                         
-                    }.padding(.horizontal, 6.5).foregroundStyle(Color.white).hoverEffect(.highlight)
+                    }.padding(.horizontal, 6.5).foregroundStyle(Color.white)
+#if !os(visionOS)
+                        .hoverEffect(.highlight)
+                    #endif
                 }
             }
             
