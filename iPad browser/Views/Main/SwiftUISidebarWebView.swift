@@ -8,7 +8,7 @@
 import SwiftUI
 import WebKit
 
-
+/*
 struct WebViewSidebarAdaptable: UIViewRepresentable {
     
     let webView: WKWebView
@@ -40,3 +40,4 @@ struct WebViewSidebarAdaptable: UIViewRepresentable {
         webView.load(URLRequest(url: URL(string: urlString)!))
     }
 }
+*/

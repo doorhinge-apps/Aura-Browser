@@ -42,7 +42,7 @@ struct CustomToggleSlider: View {
                 withAnimation {
                     toggle.toggle()
                 }
-                #if os(visionOS)
+                #if os(visionOS) || os(macOS)
                 
                 #else
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()

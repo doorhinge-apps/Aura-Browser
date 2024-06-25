@@ -8,7 +8,11 @@
 import SwiftUI
 import SwiftData
 import CloudKit
+#if !os(macOS)
 import UIKit
+#else
+import AppKit
+#endif
 
 class CustomAppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

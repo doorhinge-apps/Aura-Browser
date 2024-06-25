@@ -98,7 +98,9 @@ struct PagedTabbedSidebar: View {
                     .environmentObject(variables)
             }
         })
+#if !os(macOS)
         .toolbarBackground(.clear, for: .tabBar)
+        #endif
         .ignoresSafeArea()
         .padding(.trailing, hideSidebar ? 0: 10)
         .padding(showBorder ? 0: 15)

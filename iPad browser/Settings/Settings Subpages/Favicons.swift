@@ -18,8 +18,9 @@ struct Favicons: View {
     @State private var selectedFaviconShape: String = "circle"
     
     @State var iconRadius = 0
-    
+#if !os(macOS)
     @StateObject var motionManager = MotionManager()
+    #endif
     private let maxDegrees: Double = 30
     private let rotationScale: Double = 0.5
     

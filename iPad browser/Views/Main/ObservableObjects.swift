@@ -115,9 +115,9 @@ class ObservableVariables: ObservableObject {
     @Published var selectedTabLocation = "tabs"
     
     // Other Stuff
-#if !os(visionOS)
-    @Published var screenWidth = UIScreen.main.bounds.width
-    #endif
+//#if !os(visionOS)
+//    @Published var screenWidth = UIScreen.main.bounds.width
+//    #endif
     
     @Published var hoveringSidebar = false
     @Published var tapSidebarShown = false

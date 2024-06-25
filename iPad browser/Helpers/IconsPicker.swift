@@ -62,12 +62,14 @@ struct IconsPicker: View {
                      searchFocused = true
                      }
                      })*/
+#if !os(macOS)
                         .textInputAutocapitalization(.never)
+                    #endif
                         .autocorrectionDisabled(true)
                 }
                 .frame(height: 50)
                 .padding(10)
-                
+#if !os(macOS)
                 LazyVGrid(columns: UIDevice.current.userInterfaceIdiom == .phone ? [GridItem(), GridItem()]: [GridItem(), GridItem(), GridItem()], alignment: .center) {
                     Button {
                         filterApplied = .all
@@ -124,6 +126,64 @@ struct IconsPicker: View {
                         .scaleEffect(filterApplied == .circleFill ? 1.0: 0.75)
                         .animation(.default, value: filterApplied)
                 }
+                #else
+                LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], alignment: .center) {
+                    Button {
+                        filterApplied = .all
+                    } label: {
+                        Text("All")
+                            .frame(width: 100)
+                    }.buttonStyle(NewButtonStyle(startHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].startHex: "ffffff", endHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].endHex: "000000"))
+                        .padding(15)
+                        .opacity(filterApplied == .all ? 1.0: 0.5)
+                        .scaleEffect(filterApplied == .all ? 1.0: 0.75)
+                        .animation(.default, value: filterApplied)
+                    
+                    Button {
+                        filterApplied = .outline
+                    } label: {
+                        Text("Outline")
+                            .frame(width: 100)
+                    }.buttonStyle(NewButtonStyle(startHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].startHex: "ffffff", endHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].endHex: "000000"))
+                        .padding(15)
+                        .opacity(filterApplied == .outline ? 1.0: 0.5)
+                        .scaleEffect(filterApplied == .outline ? 1.0: 0.75)
+                        .animation(.default, value: filterApplied)
+                    
+                    Button {
+                        filterApplied = .fill
+                    } label: {
+                        Text("Fill")
+                            .frame(width: 100)
+                    }.buttonStyle(NewButtonStyle(startHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].startHex: "ffffff", endHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].endHex: "000000"))
+                        .padding(15)
+                        .opacity(filterApplied == .fill ? 1.0: 0.5)
+                        .scaleEffect(filterApplied == .fill ? 1.0: 0.75)
+                        .animation(.default, value: filterApplied)
+                    
+                    Button {
+                        filterApplied = .circle
+                    } label: {
+                        Text("Circle")
+                            .frame(width: 100)
+                    }.buttonStyle(NewButtonStyle(startHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].startHex: "ffffff", endHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].endHex: "000000"))
+                        .padding(15)
+                        .opacity(filterApplied == .circle ? 1.0: 0.5)
+                        .scaleEffect(filterApplied == .circle ? 1.0: 0.75)
+                        .animation(.default, value: filterApplied)
+                    
+                    Button {
+                        filterApplied = .circleFill
+                    } label: {
+                        Text("Circle Fill")
+                            .frame(width: 100)
+                    }.buttonStyle(NewButtonStyle(startHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].startHex: "ffffff", endHex: spaces.count > selectedSpaceIndex ? spaces[selectedSpaceIndex].endHex: "000000"))
+                        .padding(15)
+                        .opacity(filterApplied == .circleFill ? 1.0: 0.5)
+                        .scaleEffect(filterApplied == .circleFill ? 1.0: 0.75)
+                        .animation(.default, value: filterApplied)
+                }
+                #endif
                 
                 ScrollView {
                     if allIcons {
@@ -172,7 +232,7 @@ struct IconsPicker: View {
                                                 .opacity(currentHoverIcon == icon ? 1.0: 0.7)
                                             
                                         }.frame(width: 50, height: 50).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                                             .hoverEffect(.lift)
                                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                                         #endif

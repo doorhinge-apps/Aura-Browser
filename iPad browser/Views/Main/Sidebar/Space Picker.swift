@@ -93,7 +93,7 @@ struct SpacePicker: View {
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
                             .buttonStyle(.plain)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         #endif

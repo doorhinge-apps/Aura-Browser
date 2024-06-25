@@ -31,7 +31,7 @@ struct ThreeDots: View {
                             .frame(width: 8, height: 8)
                         
                     }.padding(.horizontal, 6.5).foregroundStyle(Color.white)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                         .hoverEffect(.highlight)
                     #endif
                 }

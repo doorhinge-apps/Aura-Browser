@@ -8,7 +8,11 @@
 import SwiftUI
 
 func saveColor(color: Color, key: String) {
+#if !os(macOS)
     let uiColor = UIColor(color)
+    #else
+    let uiColor = NSColor(color)
+    #endif
     let hexString = uiColor.toHex()
     defaults.set(hexString, forKey: key)
 }

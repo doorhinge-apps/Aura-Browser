@@ -14,8 +14,11 @@ struct TileGame: View {
     @AppStorage("emptyTileIndex") private var emptyIndex: Int = 15
     
     @State var size: CGFloat = 34.5
-    
+#if !os(macOS)
     @State var image: UIImage = UIImage(named: "catalina")!
+    #else
+    @State var image: NSImage = NSImage(named: "catalina")!
+    #endif
     @AppStorage("tileGameImageName") var imageName = "catalina"
     
     @AppStorage("hasShuffledTileGame") var hasShuffled = false
@@ -35,12 +38,21 @@ struct TileGame: View {
                                 .matchedGeometryEffect(id: "tile", in: namespace)
                         } else {
                             if let tileImage = tileImage(for: tiles[index]) {
+#if !os(macOS)
                                 Image(uiImage: tileImage)
                                     .resizable()
                                     .frame(width: size, height: size)
                                     .onTapGesture {
                                         moveTile(at: index)
                                     }
+                                #else
+                                Image(nsImage: tileImage)
+                                    .resizable()
+                                    .frame(width: size, height: size)
+                                    .onTapGesture {
+                                        moveTile(at: index)
+                                    }
+                                #endif
                             } else {
                                 Color.clear
                                     .frame(width: size, height: size)
@@ -50,6 +62,7 @@ struct TileGame: View {
                 }
                 
                 if hasShuffled && tiles == Array(0..<16) {
+#if !os(macOS)
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
@@ -59,6 +72,17 @@ struct TileGame: View {
                             hasShuffled = false
                             shuffling = false
                         }
+                    #else
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .onTapGesture {
+                            tiles = Array(0..<16)
+                            emptyIndex = 15
+                            hasShuffled = false
+                            shuffling = false
+                        }
+                    #endif
                 }
                 
                 if !hasShuffled {
@@ -83,7 +107,11 @@ struct TileGame: View {
                 UserDefaults.standard.set(tiles, forKey: "dashboardTileGameStorage")
             })
             .onAppear() {
+#if !os(macOS)
                 image = UIImage(named: imageName)!
+                #else
+                image = NSImage(named: imageName)!
+                #endif
             }
             .contextMenu(ContextMenu(menuItems: {
                 Text("Change Image")
@@ -95,7 +123,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "catalina"
-                    image = UIImage(named: "catalina")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                 }, label: {
                     Text("Catalina")
                 })
@@ -106,7 +138,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "catalina night"
-                    image = UIImage(named: "catalina night")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                     
                 }, label: {
                     Text("Catalina Night")
@@ -118,7 +154,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "mojave"
-                    image = UIImage(named: "mojave")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                 }, label: {
                     Text("Mojave")
                 })
@@ -129,7 +169,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "mojave night"
-                    image = UIImage(named: "mojave night")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                 }, label: {
                     Text("Mojave Night")
                 })
@@ -140,7 +184,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "high sierra"
-                    image = UIImage(named: "high sierra")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                 }, label: {
                     Text("High Sierra")
                 })
@@ -151,7 +199,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "sierra"
-                    image = UIImage(named: "sierra")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                 }, label: {
                     Text("Sierra")
                 })
@@ -162,7 +214,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "el capitan"
-                    image = UIImage(named: "el capitan")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                 }, label: {
                     Text("El Capitan")
                 })
@@ -173,7 +229,11 @@ struct TileGame: View {
                     shuffling = false
                     
                     imageName = "yosemite"
-                    image = UIImage(named: "yosemite")!
+#if !os(macOS)
+                    image = UIImage(named: imageName)!
+                    #else
+                    image = NSImage(named: imageName)!
+                    #endif
                 }, label: {
                     Text("Yosemite")
                 })

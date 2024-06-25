@@ -8,6 +8,7 @@ import Foundation
 import Combine
 import CoreMotion
 
+#if !os(macOS)
 class MotionManager: ObservableObject {
 
     private var motionManager: CMMotionManager
@@ -66,3 +67,4 @@ class MotionManager: ObservableObject {
         self.motionManager.stopDeviceMotionUpdates()
     }
 }
+#endif

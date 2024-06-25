@@ -62,7 +62,9 @@ struct TabBar: View {
                                         .opacity(hoverCloseTab == tab ? 1.0: 0.8)
                                     
                                 }.frame(width: 35, height: 35).cornerRadius(7).padding(.trailing, 10)
+#if !os(macOS)
                                     .hoverEffect(.lift)
+                                #endif
                                     .onHover(perform: { hovering in
                                         if hovering {
                                             hoverCloseTab = tab

@@ -39,7 +39,7 @@ struct GrowingButton: ButtonStyle {
             if configuration.isPressed {
                 Color.white.opacity(0.0)
                     .frame(width: 0, height: 0)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                     .onAppear() {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     }
@@ -82,7 +82,7 @@ struct GrowingButton: ButtonStyle {
 }
 
 
-
+#if !os(macOS)
 extension UIColor {
     convenience init?(hexString: String) {
         var hexSanitized = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -111,31 +111,72 @@ extension UIColor {
         return String(format: "#%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
     }
 }
-
-func averageHexColor(hex1: String, hex2: String) -> String {
-        // Convert hex strings to UIColor
-        guard let color1 = UIColor(hexString: hex1), let color2 = UIColor(hexString: hex2) else {
-            return "Invalid Hex Values"
+#else
+extension NSColor {
+    convenience init?(hexString: String) {
+        var hexSanitized = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+        
+        var rgb: UInt64 = 0
+        
+        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else {
+            return nil
         }
         
-        // Get the RGB components of both colors
-        var red1: CGFloat = 0, green1: CGFloat = 0, blue1: CGFloat = 0, alpha1: CGFloat = 0
-        var red2: CGFloat = 0, green2: CGFloat = 0, blue2: CGFloat = 0, alpha2: CGFloat = 0
-        
-        color1.getRed(&red1, green: &green1, blue: &blue1, alpha: &alpha1)
-        color2.getRed(&red2, green: &green2, blue: &blue2, alpha: &alpha2)
-        
-        // Calculate the average RGB components
-        let averageRed = (red1 + red2) / 2
-        let averageGreen = (green1 + green2) / 2
-        let averageBlue = (blue1 + blue2) / 2
-        
-        // Create a new UIColor with the average RGB components
-        let averageColor = UIColor(red: averageRed, green: averageGreen, blue: averageBlue, alpha: 1.0)
-        
-        // Convert the average UIColor to hex string
-        return averageColor.hexString
+        self.init(
+            red: CGFloat((rgb & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgb & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgb & 0x0000FF) / 255.0,
+            alpha: 1.0
+        )
     }
+    
+    var hexString: String {
+        let components = cgColor.components!
+        let r = Float(components[0])
+        let g = Float(components[1])
+        let b = Float(components[2])
+        
+        return String(format: "#%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
+    }
+}
+#endif
+
+
+func averageHexColor(hex1: String, hex2: String) -> String {
+    // Convert hex strings to UIColor
+#if !os(macOS)
+    guard let color1 = UIColor(hexString: hex1), let color2 = UIColor(hexString: hex2) else {
+        return "Invalid Hex Values"
+    }
+    #else
+    guard let color1 = NSColor(hexString: hex1), let color2 = NSColor(hexString: hex2) else {
+        return "Invalid Hex Values"
+    }
+    #endif
+    
+    // Get the RGB components of both colors
+    var red1: CGFloat = 0, green1: CGFloat = 0, blue1: CGFloat = 0, alpha1: CGFloat = 0
+    var red2: CGFloat = 0, green2: CGFloat = 0, blue2: CGFloat = 0, alpha2: CGFloat = 0
+    
+    color1.getRed(&red1, green: &green1, blue: &blue1, alpha: &alpha1)
+    color2.getRed(&red2, green: &green2, blue: &blue2, alpha: &alpha2)
+    
+    // Calculate the average RGB components
+    let averageRed = (red1 + red2) / 2
+    let averageGreen = (green1 + green2) / 2
+    let averageBlue = (blue1 + blue2) / 2
+    
+    // Create a new UIColor with the average RGB components
+#if !os(macOS)
+    let averageColor = UIColor(red: averageRed, green: averageGreen, blue: averageBlue, alpha: 1.0)
+    #else
+    let averageColor = NSColor(red: averageRed, green: averageGreen, blue: averageBlue, alpha: 1.0)
+    #endif
+    
+    // Convert the average UIColor to hex string
+    return averageColor.hexString
+}
 
 
 struct MainButtonStyle: ButtonStyle {
@@ -149,7 +190,7 @@ struct MainButtonStyle: ButtonStyle {
             if configuration.isPressed {
                 Color.white.opacity(0.0)
                     .frame(width: 0, height: 0)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                     .onAppear() {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                     }
@@ -242,7 +283,7 @@ struct NewButtonStyle: ButtonStyle {
                         }
                     }.shadow(color: Color(hex: "000").opacity(0.15), radius: 15, x: 0, y: 0)
                 )
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                 .onChange(of: configuration.isPressed, {
                     if configuration.isPressed {
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()

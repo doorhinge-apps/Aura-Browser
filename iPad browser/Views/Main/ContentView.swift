@@ -6,7 +6,11 @@
 //
 
 import SwiftUI
+#if !os(macOS)
 import UIKit
+#else
+import AppKit
+#endif
 import WebKit
 import Combine
 import FaviconFinder
@@ -125,8 +129,13 @@ struct ContentView: View {
                                             }
                                             .sheet(isPresented: $variables.showSettings) {
                                                 NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+#if !os(macOS)
                                                     .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
                                                            height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+                                                #else
+                                                    .frame(width: geo.size.width - 200,
+                                                           height: geo.size.height - 100)
+                                                #endif
                                             }
                                             Spacer()
                                             
@@ -428,7 +437,7 @@ struct ContentView: View {
                                                         }
                                                         if abs(newOffset) > 100 {
                                                             if !variables.arrowImpactOnce {
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                                                                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                                                                 #endif
                                                                 variables.arrowImpactOnce = true
@@ -439,7 +448,7 @@ struct ContentView: View {
                                                             }
                                                         } else {
                                                             if variables.arrowImpactOnce {
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                                                                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                                                                 #endif
                                                                 variables.arrowImpactOnce = false
@@ -581,8 +590,13 @@ struct ContentView: View {
                                             }
                                             .sheet(isPresented: $variables.showSettings) {
                                                 NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                #if !os(macOS)
                                                     .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
                                                            height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+                                                #else
+                                                    .frame(width: geo.size.width - 200,
+                                                           height: geo.size.height - 100)
+                                                #endif
                                             }
                                             Spacer()
                                             
@@ -666,6 +680,7 @@ struct ContentView: View {
                                     
                                     HStack {
                                         //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                        
                                         if UIDevice.current.userInterfaceIdiom != .phone {
                                             VStack {
                                                 ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
@@ -705,8 +720,13 @@ struct ContentView: View {
                                                     }
                                                     .sheet(isPresented: $variables.showSettings) {
                                                         NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                                                            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                                   height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#if !os(macOS)
+    .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
+           height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#else
+    .frame(width: geo.size.width - 200,
+           height: geo.size.height - 100)
+#endif
                                                     }
                                                     Spacer()
                                                     
@@ -828,8 +848,13 @@ struct ContentView: View {
                                                                 }
                                                                 .sheet(isPresented: $variables.showSettings) {
                                                                     NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                                                                        .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                                               height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#if !os(macOS)
+    .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
+           height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#else
+    .frame(width: geo.size.width - 200,
+           height: geo.size.height - 100)
+#endif
                                                                 }
                                                                 Spacer()
                                                                 

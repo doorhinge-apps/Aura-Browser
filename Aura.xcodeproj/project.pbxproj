@@ -77,7 +77,7 @@
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */; };
 		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
-		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; };
+		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; platformFilters = (ios, maccatalyst, xros, ); };
 		B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */; };
 		C1BD7D192BDDF6810078D7B3 /* TabStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BD7D182BDDF6810078D7B3 /* TabStorage.swift */; };
 		C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BD7D1A2BDDF6A30078D7B3 /* SpaceStorage.swift */; };
@@ -816,6 +816,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iOS 18 Icon";
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xros*]" = "Vision Icon";
 				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xrsimulator*]" = "Vision Icon";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -846,7 +847,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.doorhingeapps.browser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -862,6 +864,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iOS 18 Icon";
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xros*]" = "Vision Icon";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
@@ -891,7 +894,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.doorhingeapps.browser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;

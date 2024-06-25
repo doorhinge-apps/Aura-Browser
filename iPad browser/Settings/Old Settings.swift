@@ -50,7 +50,7 @@ struct Settings: View {
                     } label: {
                         Text("Search Engine: \(searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped)")
                     }.buttonStyle(NewButtonStyle(startHex: startHex, endHex: endHex))
-                    
+                    #if !os(macOS)
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         HStack {
                             Text("Hover Effects Absorb Cursor")
@@ -63,6 +63,7 @@ struct Settings: View {
                                 .scaleEffect(0.75)
                         }.padding(20)
                     }
+                    #endif
                     
                     
                     HStack {

@@ -22,7 +22,9 @@ struct General: View {
     @State private var gradientEndPoint: UnitPoint = .topTrailing
     @State private var halfOverlayOpacity: Double = 0.0
     
+#if !os(macOS)
     @StateObject var motionManager = MotionManager()
+    #endif
     private let maxDegrees: Double = 30
     private let rotationScale: Double = 0.5
     
@@ -175,11 +177,13 @@ struct General: View {
                         })
                         .cornerRadius(8)
                         .foregroundStyle(Color.black)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                         .rotation3DEffect(
                             max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                             axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                         )
+                    #elseif os(macOS)
+                    
                     #else
                         .hoverEffect(.lift)
                     #endif
@@ -279,7 +283,10 @@ struct General: View {
                 selectedAppearance = settings.prefferedColorScheme
                 updateAppearance()
             }
-        }.toolbarBackground(.hidden, for: .navigationBar)
+        }
+#if !os(macOS)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        #endif
     }
     
     private func updateAppearance() {

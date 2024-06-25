@@ -32,7 +32,7 @@ struct DropViewDelegate: DropDelegate {
                 if let toIndex, fromIndex != toIndex {
                     withAnimation {
                         self.allTabs.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                         UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                         #endif
                     }

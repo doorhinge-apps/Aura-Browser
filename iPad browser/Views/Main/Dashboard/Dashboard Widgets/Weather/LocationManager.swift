@@ -29,7 +29,9 @@ class LocationDataManager : NSObject, ObservableObject, CLLocationManagerDelegat
         switch manager.authorizationStatus {
         case .authorizedWhenInUse:  // Location services are available.
             // Insert code here of what should happen when Location services are authorized
+#if !os(macOS)
             authorizationStatus = .authorizedWhenInUse
+            #endif
             locationManager.requestLocation()
             print("Location allowed")
             break

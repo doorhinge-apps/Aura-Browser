@@ -22,7 +22,9 @@ struct UISettings: View {
     @State private var gradientEndPoint: UnitPoint = .topTrailing
     @State private var halfOverlayOpacity: Double = 0.0
     
+#if !os(macOS)
     @StateObject var motionManager = MotionManager()
+    #endif
     private let maxDegrees: Double = 30
     private let rotationScale: Double = 0.5
     
