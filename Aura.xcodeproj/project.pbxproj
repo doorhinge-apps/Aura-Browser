@@ -37,6 +37,11 @@
 		B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* Aura_App.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
+		B961B7AD2C2BA38600F43EBF /* TabOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B961B7AC2C2BA38600F43EBF /* TabOverview.swift */; };
+		B961B7AF2C2BA59200F43EBF /* iOS Webview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */; };
+		B961B7B12C2BCDE700F43EBF /* adblock.json in Resources */ = {isa = PBXBuildFile; fileRef = B961B7B02C2BCDE000F43EBF /* adblock.json */; };
+		B961B7B32C2BD9A800F43EBF /* MobileHomepage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */; };
+		B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */; };
 		B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */; };
 		B97724FE2C0094BB00A39E3A /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */; };
 		B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97725002C0116BA00A39E3A /* Space Picker.swift */; };
@@ -118,6 +123,11 @@
 		B95B19E42AABBEE00013AC79 /* Aura_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_App.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B961B7AC2C2BA38600F43EBF /* TabOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOverview.swift; sourceTree = "<group>"; };
+		B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "iOS Webview.swift"; sourceTree = "<group>"; };
+		B961B7B02C2BCDE000F43EBF /* adblock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = adblock.json; sourceTree = "<group>"; };
+		B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileHomepage.swift; sourceTree = "<group>"; };
+		B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteView.swift; sourceTree = "<group>"; };
 		B96DEFD52BDA908A00DB5C32 /* LoadingAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimations.swift; sourceTree = "<group>"; };
 		B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
 		B97725002C0116BA00A39E3A /* Space Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Space Picker.swift"; sourceTree = "<group>"; };
@@ -302,6 +312,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		B961B7AB2C2BA37A00F43EBF /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
+				B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */,
+				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		B97724FF2C0115F600A39E3A /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,6 +444,7 @@
 			children = (
 				B93AE9312C2AA0E9003D0E88 /* visionOS Components */,
 				B9272D3C2C250CDD00B014D8 /* Adaway.json */,
+				B961B7B02C2BCDE000F43EBF /* adblock.json */,
 				B94CA91D2C28C72E00AD3921 /* Boosts */,
 				C1BD7D2C2BDE04FB0078D7B3 /* WebsiteHandling */,
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
@@ -461,6 +483,7 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B961B7AB2C2BA37A00F43EBF /* iOS */,
 				B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */,
 				B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */,
 				B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */,
@@ -594,6 +617,7 @@
 				B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */,
 				B98A32F22BCDB62C00555AB9 /* README.md in Resources */,
 				B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */,
+				B961B7B12C2BCDE700F43EBF /* adblock.json in Resources */,
 				B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */,
 				B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */,
 			);
@@ -619,6 +643,7 @@
 				B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
+				B961B7AF2C2BA59200F43EBF /* iOS Webview.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
 				C1BD7D332BDE05690078D7B3 /* DefaultsStorage.swift in Sources */,
 				B94CA9272C28EB7500AD3921 /* SkewIcon.swift in Sources */,
@@ -634,6 +659,7 @@
 				B9798BFF2BF0B9460012D98E /* Tile Game.swift in Sources */,
 				B9D47D072C27772C0059BE46 /* New Settings.swift in Sources */,
 				B9272D472C26A52300B014D8 /* VGrid.swift in Sources */,
+				B961B7B32C2BD9A800F43EBF /* MobileHomepage.swift in Sources */,
 				B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
@@ -643,6 +669,7 @@
 				B94CA92B2C290E7F00AD3921 /* General.swift in Sources */,
 				B9272D352C240DDD00B014D8 /* MarkdownParser.swift in Sources */,
 				B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */,
+				B961B7AD2C2BA38600F43EBF /* TabOverview.swift in Sources */,
 				B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */,
 				B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */,
 				B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */,
@@ -652,6 +679,7 @@
 				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
+				B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */,
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,

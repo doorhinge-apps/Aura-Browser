@@ -62,1113 +62,1124 @@ struct ContentView: View {
     @State var launchingAnimation = true
     
     var body: some View {
-        GeometryReader { geo in
-            if spaces.count > 0 {
-                ZStack {
-                    ZStack {
+        //NavigationStack {
+            if UIDevice.current.userInterfaceIdiom != .phone {
+                GeometryReader { geo in
+                    if spaces.count > 0 {
+                        ZStack {
+                            ZStack {
 #if !os(visionOS)
-                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
-                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                        }
-                        else {
-                            LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                        }
-                        #endif
-                        
-                        if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
-                            Color.black.opacity(0.5)
-                        }
-                        
-                        
-                        HStack(spacing: 0) {
-                            if settings.sidebarLeft {
-                                if settings.showBorder {
-                                    ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
-                                        .disabled(true)
-                                }
-                                
-                                if settings.swipingSpaces {
-                                    PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
-                                        .environmentObject(variables)
+                                if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                                    LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                 }
                                 else {
-                                    VStack {
-                                        ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
-                                            .padding([.top, .horizontal], 5)
-                                        
-                                        Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
-                                            .environmentObject(variables)
-                                        
-                                        HStack {
-                                            Button {
-                                                variables.showSettings.toggle()
-                                            } label: {
-                                                ZStack {
-                                                    HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
-                                                    
-                                                    Image(systemName: "gearshape")
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .frame(width: 20, height: 20)
-                                                        .foregroundStyle(variables.textColor)
-                                                        .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-                                                    
-                                                }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
-                                                    .hoverEffect(.lift)
-                                                    .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                #endif
-                                                    .onHover(perform: { hovering in
-                                                        if hovering {
-                                                            variables.settingsButtonHover = true
-                                                        }
-                                                        else {
-                                                            variables.settingsButtonHover = false
-                                                        }
-                                                    })
-                                            }
-                                            .sheet(isPresented: $variables.showSettings) {
-                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-#if !os(macOS)
-                                                    .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                           height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-                                                #else
-                                                    .frame(width: geo.size.width - 200,
-                                                           height: geo.size.height - 100)
-                                                #endif
-                                            }
-                                            Spacer()
-                                            
-                                            SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
-                                            
-                                            Button(action: {
-                                                modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                                            }, label: {
-                                                ZStack {
-#if !os(visionOS)
-                                                    Color(.white)
-                                                        .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-                                                    #endif
-                                                    
-                                                    Image(systemName: "plus")
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .frame(width: 20, height: 20)
-                                                        .foregroundStyle(variables.textColor)
-                                                        .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-                                                    
-                                                }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
-                                                    .hoverEffect(.lift)
-                                                    .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                #endif
-                                                    .onHover(perform: { hovering in
-                                                        if hovering {
-                                                            variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                                        }
-                                                        else {
-                                                            variables.hoverSpace = ""
-                                                        }
-                                                    })
-                                            })
-                                        }
-                                    }.frame(width: 300)
+                                    LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                 }
-                            }
-                            
-                            HStack {
-                                GeometryReader { webGeo in
-                                    ZStack {
-                                        Color.white
-                                            .opacity(0.4)
-                                            .cornerRadius(10)
-                                        
-                                        
-                                        //MARK: - WebView
-                                        if variables.selectedTabLocation == "favoriteTabs" {
-                                            ScrollView(showsIndicators: false) {
-                                                WebView(navigationState: variables.favoritesNavigationState, variables: variables)
-                                                    .frame(width: webGeo.size.width, height: webGeo.size.height)
-                                            }
-                                            
-                                            loadingIndicators(for: variables.favoritesNavigationState.selectedWebView?.isLoading)
-                                        }
-                                        if variables.selectedTabLocation == "tabs" {
-                                            ScrollView(showsIndicators: false) {
-                                                WebView(navigationState: variables.navigationState, variables: variables)
-                                                    .frame(width: webGeo.size.width, height: webGeo.size.height)
-                                            }
-                                            .refreshable {
-                                                variables.reloadRotation += 360
-                                                
-                                                variables.navigationState.selectedWebView?.reload()
-                                            }
-                                            
-                                            
-                                            loadingIndicators(for: variables.navigationState.selectedWebView?.isLoading)
-                                        }
-                                        if variables.selectedTabLocation == "pinnedTabs" {
-                                            ScrollView(showsIndicators: false) {
-                                                WebView(navigationState: variables.pinnedNavigationState, variables: variables)
-                                                    .frame(width: webGeo.size.width, height: webGeo.size.height)
-                                            }
-                                            
-                                            
-                                            loadingIndicators(for: variables.pinnedNavigationState.selectedWebView?.isLoading)
-                                        }
-                                        
-                                        if !settings.swipeNavigationDisabled {
-                                            if (variables.selectedTabLocation == "favoriteTabs" && variables.favoritesNavigationState.selectedWebView != nil) ||
-                                                (variables.selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
-                                                (variables.selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
-                                                HStack(alignment: .center, spacing: 0) {
-                                                    navigationButton(imageName: "arrow.left", action: goBack)
-                                                        .padding(.trailing, 30)
-                                                    
-                                                    Spacer()
-                                                        .frame(width: webGeo.size.width)
-                                                    
-                                                    navigationButton(imageName: "arrow.right", action: goForward)
-                                                        .padding(.leading, 30)
-                                                    
-                                                }
-                                                .frame(width: webGeo.size.width)
-                                                .offset(x: variables.navigationOffset)
-                                            }
-                                        }
-                                        
-                                        if variables.auraTab == "dashboard" && variables.selectedTabLocation == "" {
-                                            Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
-                                                .cornerRadius(10)
-                                                .clipped()
-                                        }
-                                        
-                                        Spacer()
-                                            .frame(width: 20)
-                                        
-                                        HStack {
-                                            Button {
-                                                Task {
-                                                    await hideSidebar.toggle()
-                                                }
-                                                
-                                                withAnimation {
-                                                    if !hideSidebar {
-                                                        if variables.selectedTabLocation == "tabs" {
-                                                            Task {
-                                                                await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                            }
-                                                        }
-                                                        else if variables.selectedTabLocation == "pinnedTabs" {
-                                                            Task {
-                                                                await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                            }
-                                                        }
-                                                        else if variables.selectedTabLocation == "favoriteTabs" {
-                                                            Task {
-                                                                await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                            }
-                                                        }
-                                                    } else {
-                                                        if variables.selectedTabLocation == "tabs" {
-                                                            Task {
-                                                                await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
-                                                            }
-                                                        }
-                                                        else if variables.selectedTabLocation == "pinnedTabs" {
-                                                            Task {
-                                                                await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
-                                                            }
-                                                        }
-                                                        else if variables.selectedTabLocation == "favoriteTabs" {
-                                                            Task {
-                                                                await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            } label: {
-
-                                            }.keyboardShortcut("s", modifiers: .command)
-                                                .buttonStyle(.plain)
-                                            
-                                            Button {
-                                                if variables.selectedTabLocation == "tabs" {
-                                                    variables.navigationState.selectedWebView?.goBack()
-                                                }
-                                                else if variables.selectedTabLocation == "pinnedTabs" {
-                                                    variables.pinnedNavigationState.selectedWebView?.goBack()
-                                                }
-                                                else if variables.selectedTabLocation == "favoriteTabs" {
-                                                    variables.favoritesNavigationState.selectedWebView?.goBack()
-                                                }
-                                            } label: {
-                                                
-                                            }.keyboardShortcut("[", modifiers: .command)
-                                                .buttonStyle(.plain)
-                                            
-                                            Button {
-                                                if variables.selectedTabLocation == "tabs" {
-                                                    variables.navigationState.selectedWebView?.goForward()
-                                                }
-                                                else if variables.selectedTabLocation == "pinnedTabs" {
-                                                    variables.pinnedNavigationState.selectedWebView?.goForward()
-                                                }
-                                                else if variables.selectedTabLocation == "favoriteTabs" {
-                                                    variables.favoritesNavigationState.selectedWebView?.goForward()
-                                                }
-                                            } label: {
-
-                                            }.keyboardShortcut("]", modifiers: .command)
-                                                .buttonStyle(.plain)
-                                            
-                                            
-                                            Button {
-                                                variables.reloadRotation += 360
-                                                
-                                                if variables.selectedTabLocation == "tabs" {
-                                                    variables.navigationState.selectedWebView?.reload()
-                                                    variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                    
-                                                    variables.navigationState.selectedWebView = variables.navigationState.selectedWebView
-                                                    //navigationState.currentURL = navigationState.currentURL
-                                                    
-                                                    if let unwrappedURL = variables.navigationState.currentURL {
-                                                        variables.searchInSidebar = unwrappedURL.absoluteString
-                                                    }
-                                                }
-                                                else if variables.selectedTabLocation == "pinnedTabs" {
-                                                    variables.pinnedNavigationState.selectedWebView?.reload()
-                                                    variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                    
-                                                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.selectedWebView
-                                                    
-                                                    if let unwrappedURL = variables.pinnedNavigationState.currentURL {
-                                                        variables.searchInSidebar = unwrappedURL.absoluteString
-                                                    }
-                                                }
-                                                else if variables.selectedTabLocation == "favoriteTabs" {
-                                                    variables.favoritesNavigationState.selectedWebView?.reload()
-                                                    variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                    
-                                                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.selectedWebView
-                                                    
-                                                    if let unwrappedURL = variables.favoritesNavigationState.currentURL {
-                                                        variables.searchInSidebar = unwrappedURL.absoluteString
-                                                    }
-                                                }
-                                            } label: {
-
-                                            }.keyboardShortcut("r", modifiers: .command)
-                                                .buttonStyle(.plain)
-                                            
-                                            
-                                            Button {
-                                                if (variables.navigationState.selectedWebView == nil) && (variables.pinnedNavigationState.selectedWebView == nil) && (variables.favoritesNavigationState.selectedWebView == nil) {
-                                                    variables.tabBarShown.toggle()
-                                                    variables.commandBarShown = false
-                                                    print("Showing Tab Bar")
-                                                }
-                                                else {
-                                                    if variables.selectedTabLocation == "pinnedTabs" {
-                                                        variables.searchInSidebar = unformatURL(url: variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
-                                                    }
-                                                    else if variables.selectedTabLocation == "favoriteTabs" {
-                                                        variables.searchInSidebar = unformatURL(url: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
-                                                    }else {
-                                                        variables.searchInSidebar = unformatURL(url: variables.navigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
-                                                    }
-                                                    variables.commandBarShown.toggle()
-                                                    variables.tabBarShown = false
-                                                    print("Showing Command Bar")
-                                                }
-                                            } label: {
-                                                
-                                            }.keyboardShortcut("l", modifiers: .command)
-                                                .buttonStyle(.plain)
-                                            
-                                            
-                                            Button {
-                                                if variables.selectedTabLocation == "favoriteTabs" {
-                                                    if let index = variables.favoritesNavigationState.webViews.firstIndex(of: variables.favoritesNavigationState.selectedWebView ?? WKWebView()) {
-                                                        favoriteRemoveTab(at: index)
-                                                    }
-                                                }
-                                                else if variables.selectedTabLocation == "pinnedTabs" {
-                                                    if let index = variables.pinnedNavigationState.webViews.firstIndex(of: variables.pinnedNavigationState.selectedWebView ?? WKWebView()) {
-                                                        pinnedRemoveTab(at: index)
-                                                    }
-                                                }
-                                                else if variables.selectedTabLocation == "tabs" {
-                                                    if let index = variables.navigationState.webViews.firstIndex(of: variables.navigationState.selectedWebView ?? WKWebView()) {
-                                                        removeTab(at: index)
-                                                    }
-                                                }
-                                            } label: {
-                                                
-                                            }.keyboardShortcut("w", modifiers: .command)
-                                                .buttonStyle(.plain)
-                                            
-                                            
-                                            Button {
-                                                variables.tabBarShown.toggle()
-                                                variables.commandBarShown = false
-                                            } label: {
-                                                
-                                            }.keyboardShortcut("t", modifiers: .command)
-                                                .buttonStyle(.plain)
-                                            
-                                            
-                                        }
-                                    }
-                                    .gesture(
-                                        DragGesture()
-                                            .onChanged { value in
-                                                if !settings.swipeNavigationDisabled {
-                                                    let startLocation = value.startLocation.x
-                                                    let width = webGeo.size.width
-                                                    
-                                                    if startLocation < 100 || startLocation > (width - 100) {
-                                                        let newOffset = value.translation.width
-                                                        if abs(newOffset) <= 150 {
-                                                            variables.navigationOffset = newOffset
-                                                        } else {
-                                                            variables.navigationOffset = newOffset > 0 ? 150 : -150
-                                                        }
-                                                        if abs(newOffset) > 100 {
-                                                            if !variables.arrowImpactOnce {
-#if !os(visionOS) && !os(macOS)
-                                                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                                                                #endif
-                                                                variables.arrowImpactOnce = true
-                                                            }
-                                                            
-                                                            withAnimation(.linear(duration: 0.3)) {
-                                                                variables.navigationArrowColor = true
-                                                            }
-                                                        } else {
-                                                            if variables.arrowImpactOnce {
-#if !os(visionOS) && !os(macOS)
-                                                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                                                                #endif
-                                                                variables.arrowImpactOnce = false
-                                                            }
-                                                            withAnimation(.linear(duration: 0.3)) {
-                                                                variables.navigationArrowColor = false
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            .onEnded { value in
-                                                if !settings.swipeNavigationDisabled {
-                                                    variables.arrowImpactOnce = false
-                                                    let startLocation = value.startLocation.x
-                                                    let width = webGeo.size.width
-                                                    
-                                                    if startLocation < 150 || startLocation > (width - 150) {
-                                                        if variables.navigationOffset >= 100 {
-                                                            goBack()
-                                                        } else if variables.navigationOffset < -100 {
-                                                            goForward()
-                                                        }
-                                                        
-                                                        withAnimation(.linear(duration: 0.25)) {
-                                                            variables.navigationOffset = 0
-                                                            variables.navigationArrowColor = false
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                    )
-                                    .onChange(of: webGeo.size) {
-                                        variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
-                                        
-                                        variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
-                                        
-                                        variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
-                                    }
-                                }
-                                .cornerRadius(10)
-                                .clipped()
-                                .padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
+#endif
                                 
-                                if variables.delayedBrowseForMe {
-                                    BrowseForMe(searchText: browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
-                                        .frame(width: variables.isBrowseForMe ? 400: 0)
-                                        .cornerRadius(10)
-                                        .clipped()
-                                        .onDisappear() {
-                                            variables.isBrowseForMe = false
-                                            variables.newTabSearch = ""
-                                            variables.commandBarShown = false
-                                            variables.tabBarShown = false
-                                            variables.commandBarSearchSubmitted = false
-                                            variables.commandBarSearchSubmitted2 = false
-                                        }
-                                        .onChange(of: variables.navigationState.selectedWebView, {
-                                            withAnimation(.linear, {
-                                                variables.isBrowseForMe = false
-                                                browseForMeSearch = ""
-                                            })
-                                        })
-                                        .onChange(of: variables.pinnedNavigationState.selectedWebView, {
-                                            withAnimation(.linear, {
-                                                variables.isBrowseForMe = false
-                                                browseForMeSearch = ""
-                                            })
-                                        })
-                                        .onChange(of: variables.favoritesNavigationState.selectedWebView, {
-                                            withAnimation(.linear, {
-                                                variables.isBrowseForMe = false
-                                                browseForMeSearch = ""
-                                            })
-                                        })
-                                }
-                            }.onChange(of: variables.isBrowseForMe, {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                                    withAnimation(.linear, {
-                                        variables.delayedBrowseForMe = true
-                                    })
-                                })
-                            })
-                            .onChange(of: browseForMeSearch, {
-                                variables.delayedBrowseForMe = false
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                    withAnimation(.linear, {
-                                        variables.delayedBrowseForMe = true
-                                    })
-                                })
-                            })
-                            
-                            if !settings.sidebarLeft {
-                                if settings.showBorder {
-                                    ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
-                                        .disabled(true)
+                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                    Color.black.opacity(0.5)
                                 }
                                 
-                                if settings.swipingSpaces {
-                                    PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
-                                        .environmentObject(variables)
-                                }
-                                else {
-                                    VStack {
-                                        ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
-                                            .padding([.top, .horizontal], 5)
-                                        
-                                        Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
-                                            .environmentObject(variables)
-                                        
-                                        HStack {
-                                            Button {
-                                                variables.showSettings.toggle()
-                                            } label: {
-                                                ZStack {
-                                                    HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
-                                                    
-                                                    Image(systemName: "gearshape")
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .frame(width: 20, height: 20)
-                                                        .foregroundStyle(variables.textColor)
-                                                        .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-                                                    
-                                                }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
-                                                    .hoverEffect(.lift)
-                                                    .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                #endif
-                                                    .onHover(perform: { hovering in
-                                                        if hovering {
-                                                            variables.settingsButtonHover = true
-                                                        }
-                                                        else {
-                                                            variables.settingsButtonHover = false
-                                                        }
-                                                    })
-                                            }
-                                            .sheet(isPresented: $variables.showSettings) {
-                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                                                #if !os(macOS)
-                                                    .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                           height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-                                                #else
-                                                    .frame(width: geo.size.width - 200,
-                                                           height: geo.size.height - 100)
-                                                #endif
-                                            }
-                                            Spacer()
-                                            
-                                            SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
-                                            
-                                            Button(action: {
-                                                modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                                            }, label: {
-                                                ZStack {
-#if !os(visionOS)
-                                                    Color(.white)
-                                                        .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-                                                    #endif
-                                                    
-                                                    Image(systemName: "plus")
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .frame(width: 20, height: 20)
-                                                        .foregroundStyle(variables.textColor)
-                                                        .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-                                                    
-                                                }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
-                                                    .hoverEffect(.lift)
-                                                    .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                #endif
-                                                    .onHover(perform: { hovering in
-                                                        if hovering {
-                                                            variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                                        }
-                                                        else {
-                                                            variables.hoverSpace = ""
-                                                        }
-                                                    })
-                                            })
-                                        }
-                                    }.frame(width: 300)
-                                }
-                            }
-                        }
-                        .padding(.trailing, settings.showBorder ? 10: 0)
-                        .padding(.vertical, settings.showBorder ? 25: 0)
-                        .onAppear {
-                            if let savedStartColor = getColor(forKey: "startColorHex") {
-                                variables.startColor = savedStartColor
-                            }
-                            if let savedEndColor = getColor(forKey: "endColorHex") {
-                                variables.endColor = savedEndColor
-                            }
-                            if let savedTextColor = getColor(forKey: "textColorHex") {
-                                variables.textColor = savedTextColor
-                            }
-                            
-                            variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
-                        }
-                        
-                        if variables.tabBarShown || variables.commandBarShown || variables.tapSidebarShown {
-                            Button(action: {
-                                variables.tabBarShown = false
-                                variables.commandBarShown = false
-                                variables.tapSidebarShown = false
-                            }, label: {
-                                Color.white.opacity(0.0001)
-                            }).buttonStyle(.plain)
-                                .hoverEffectDisabled(true)
-                        }
-                        
-                        if hideSidebar {
-                            HStack {
-                                if !settings.sidebarLeft {
-                                    Spacer()
-                                }
                                 
-                                ZStack {
-                                    Color.white.opacity(0.00001)
-                                        .frame(width: 35)
-                                        .onTapGesture {
-                                            variables.tapSidebarShown = true
+                                HStack(spacing: 0) {
+                                    if UIDevice.current.userInterfaceIdiom != .phone {
+                                        if settings.sidebarLeft {
+                                            if settings.showBorder {
+                                                ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
+                                                    .disabled(true)
+                                            }
                                             
-                                        }
-                                    
-                                    HStack {
-                                        //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                        
-                                        if UIDevice.current.userInterfaceIdiom != .phone {
-                                            VStack {
-                                                ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
-                                                    .padding([.top, .horizontal], 5)
-                                                
-                                                //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                                Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                            if settings.swipingSpaces {
+                                                PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
                                                     .environmentObject(variables)
+                                            }
+                                            else {
+                                                VStack {
+                                                    ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                        .padding([.top, .horizontal], 5)
+                                                    
+                                                    Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                        .environmentObject(variables)
+                                                    
+                                                    HStack {
+                                                        Button {
+                                                            variables.showSettings.toggle()
+                                                        } label: {
+                                                            ZStack {
+                                                                HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                                
+                                                                Image(systemName: "gearshape")
+                                                                    .resizable()
+                                                                    .scaledToFit()
+                                                                    .frame(width: 20, height: 20)
+                                                                    .foregroundStyle(variables.textColor)
+                                                                    .opacity(variables.settingsButtonHover ? 1.0: 0.5)
+                                                                
+                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                .hoverEffect(.lift)
+                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                .onHover(perform: { hovering in
+                                                                    if hovering {
+                                                                        variables.settingsButtonHover = true
+                                                                    }
+                                                                    else {
+                                                                        variables.settingsButtonHover = false
+                                                                    }
+                                                                })
+                                                        }
+                                                        .sheet(isPresented: $variables.showSettings) {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+#if !os(macOS)
+                                                                .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
+                                                                       height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#else
+                                                                .frame(width: geo.size.width - 200,
+                                                                       height: geo.size.height - 100)
+#endif
+                                                        }
+                                                        Spacer()
+                                                        
+                                                        SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                        
+                                                        Button(action: {
+                                                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                                                        }, label: {
+                                                            ZStack {
+#if !os(visionOS)
+                                                                Color(.white)
+                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+#endif
+                                                                
+                                                                Image(systemName: "plus")
+                                                                    .resizable()
+                                                                    .scaledToFit()
+                                                                    .frame(width: 20, height: 20)
+                                                                    .foregroundStyle(variables.textColor)
+                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                
+                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                .hoverEffect(.lift)
+                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                .onHover(perform: { hovering in
+                                                                    if hovering {
+                                                                        variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                    }
+                                                                    else {
+                                                                        variables.hoverSpace = ""
+                                                                    }
+                                                                })
+                                                        })
+                                                    }
+                                                }.frame(width: 300)
+                                            }
+                                        }
+                                    }
+                                    HStack {
+                                        GeometryReader { webGeo in
+                                            ZStack {
+                                                Color.white
+                                                    .opacity(0.4)
+                                                    .cornerRadius(10)
+                                                
+                                                
+                                                //MARK: - WebView
+                                                if variables.selectedTabLocation == "favoriteTabs" {
+                                                    ScrollView(showsIndicators: false) {
+                                                        WebView(navigationState: variables.favoritesNavigationState, variables: variables)
+                                                            .frame(width: webGeo.size.width, height: webGeo.size.height)
+                                                    }
+                                                    
+                                                    loadingIndicators(for: variables.favoritesNavigationState.selectedWebView?.isLoading)
+                                                }
+                                                if variables.selectedTabLocation == "tabs" {
+                                                    ScrollView(showsIndicators: false) {
+                                                        WebView(navigationState: variables.navigationState, variables: variables)
+                                                            .frame(width: webGeo.size.width, height: webGeo.size.height)
+                                                    }
+                                                    .refreshable {
+                                                        variables.reloadRotation += 360
+                                                        
+                                                        variables.navigationState.selectedWebView?.reload()
+                                                    }
+                                                    
+                                                    
+                                                    loadingIndicators(for: variables.navigationState.selectedWebView?.isLoading)
+                                                }
+                                                if variables.selectedTabLocation == "pinnedTabs" {
+                                                    ScrollView(showsIndicators: false) {
+                                                        WebView(navigationState: variables.pinnedNavigationState, variables: variables)
+                                                            .frame(width: webGeo.size.width, height: webGeo.size.height)
+                                                    }
+                                                    
+                                                    
+                                                    loadingIndicators(for: variables.pinnedNavigationState.selectedWebView?.isLoading)
+                                                }
+                                                
+                                                if !settings.swipeNavigationDisabled {
+                                                    if (variables.selectedTabLocation == "favoriteTabs" && variables.favoritesNavigationState.selectedWebView != nil) ||
+                                                        (variables.selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
+                                                        (variables.selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
+                                                        HStack(alignment: .center, spacing: 0) {
+                                                            navigationButton(imageName: "arrow.left", action: goBack)
+                                                                .padding(.trailing, 30)
+                                                            
+                                                            Spacer()
+                                                                .frame(width: webGeo.size.width)
+                                                            
+                                                            navigationButton(imageName: "arrow.right", action: goForward)
+                                                                .padding(.leading, 30)
+                                                            
+                                                        }
+                                                        .frame(width: webGeo.size.width)
+                                                        .offset(x: variables.navigationOffset)
+                                                    }
+                                                }
+                                                
+                                                if variables.auraTab == "dashboard" && variables.selectedTabLocation == "" {
+                                                    Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
+                                                        .cornerRadius(10)
+                                                        .clipped()
+                                                }
+                                                
+                                                Spacer()
+                                                    .frame(width: 20)
                                                 
                                                 HStack {
                                                     Button {
-                                                        variables.showSettings.toggle()
+                                                        Task {
+                                                            await hideSidebar.toggle()
+                                                        }
+                                                        
+                                                        withAnimation {
+                                                            if !hideSidebar {
+                                                                if variables.selectedTabLocation == "tabs" {
+                                                                    Task {
+                                                                        await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                                    }
+                                                                }
+                                                                else if variables.selectedTabLocation == "pinnedTabs" {
+                                                                    Task {
+                                                                        await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                                    }
+                                                                }
+                                                                else if variables.selectedTabLocation == "favoriteTabs" {
+                                                                    Task {
+                                                                        await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                if variables.selectedTabLocation == "tabs" {
+                                                                    Task {
+                                                                        await variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                                                    }
+                                                                }
+                                                                else if variables.selectedTabLocation == "pinnedTabs" {
+                                                                    Task {
+                                                                        await variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                                                    }
+                                                                }
+                                                                else if variables.selectedTabLocation == "favoriteTabs" {
+                                                                    Task {
+                                                                        await variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
                                                     } label: {
-                                                        ZStack {
-                                                            HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
-                                                            
-                                                            Image(systemName: "gearshape")
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 20, height: 20)
-                                                                .foregroundStyle(variables.textColor)
-                                                                .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-                                                            
-                                                        }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
-                                                            .hoverEffect(.lift)
-                                                            .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                        #endif
-                                                            .onHover(perform: { hovering in
-                                                                if hovering {
-                                                                    variables.settingsButtonHover = true
-                                                                }
-                                                                else {
-                                                                    variables.settingsButtonHover = false
-                                                                }
-                                                            })
-                                                    }
-                                                    .sheet(isPresented: $variables.showSettings) {
-                                                        NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-#if !os(macOS)
-    .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-           height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-#else
-    .frame(width: geo.size.width - 200,
-           height: geo.size.height - 100)
-#endif
-                                                    }
-                                                    Spacer()
+                                                        
+                                                    }.keyboardShortcut("s", modifiers: .command)
+                                                        .buttonStyle(.plain)
                                                     
-                                                    SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                    Button {
+                                                        if variables.selectedTabLocation == "tabs" {
+                                                            variables.navigationState.selectedWebView?.goBack()
+                                                        }
+                                                        else if variables.selectedTabLocation == "pinnedTabs" {
+                                                            variables.pinnedNavigationState.selectedWebView?.goBack()
+                                                        }
+                                                        else if variables.selectedTabLocation == "favoriteTabs" {
+                                                            variables.favoritesNavigationState.selectedWebView?.goBack()
+                                                        }
+                                                    } label: {
+                                                        
+                                                    }.keyboardShortcut("[", modifiers: .command)
+                                                        .buttonStyle(.plain)
                                                     
-                                                    Button(action: {
-                                                        modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                                                    }, label: {
-                                                        ZStack {
-        #if !os(visionOS)
-                                                            Color(.white)
-                                                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-                                                            #endif
-                                                            
-                                                            Image(systemName: "plus")
-                                                                .resizable()
-                                                                .scaledToFit()
-                                                                .frame(width: 20, height: 20)
-                                                                .foregroundStyle(variables.textColor)
-                                                                .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-                                                            
-                                                        }.frame(width: 40, height: 40).cornerRadius(7)
-        #if !os(visionOS)
-                                                            .hoverEffect(.lift)
-                                                            .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                        #endif
-                                                            .onHover(perform: { hovering in
-                                                                if hovering {
-                                                                    variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                                                }
-                                                                else {
-                                                                    variables.hoverSpace = ""
-                                                                }
-                                                            })
-                                                    })
-                                                }
-                                            }
-                                            .padding(15)
-                                            .frame(width: 300)
-                                            .background(content: {
-#if !os(visionOS)
-                                                if settings.sidebarLeft {
-                                                    LinearGradient(colors: [variables.startColor, Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                                        .opacity(1.0)
-                                                    if selectedSpaceIndex < spaces.count {
-                                                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                                                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: averageHexColor(hex1: spaces[selectedSpaceIndex].startHex, hex2: spaces[selectedSpaceIndex].endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                    Button {
+                                                        if variables.selectedTabLocation == "tabs" {
+                                                            variables.navigationState.selectedWebView?.goForward()
                                                         }
-                                                    }
-                                                } else {
-                                                    LinearGradient(colors: [Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex)), variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                                        .opacity(1.0)
-                                                    if selectedSpaceIndex < spaces.count {
-                                                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                                                            LinearGradient(colors: [Color(hex: averageHexColor(hex1: spaces[selectedSpaceIndex].startHex, hex2: spaces[selectedSpaceIndex].endHex)), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                        else if variables.selectedTabLocation == "pinnedTabs" {
+                                                            variables.pinnedNavigationState.selectedWebView?.goForward()
                                                         }
-                                                    }
-                                                }
-                                                #endif
-                                                
-                                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
-                                                    Color.black.opacity(0.5)
-                                                }
-                                            })
-                                            .cornerRadius(10)
-                                            .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
-                                        }
-                                        else {
-                                            Color.clear
-                                                .sheet(isPresented: $variables.tapSidebarShown) {
-                                                    ZStack {
-#if !os(visionOS)
-                                                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
-                                                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                        else if variables.selectedTabLocation == "favoriteTabs" {
+                                                            variables.favoritesNavigationState.selectedWebView?.goForward()
+                                                        }
+                                                    } label: {
+                                                        
+                                                    }.keyboardShortcut("]", modifiers: .command)
+                                                        .buttonStyle(.plain)
+                                                    
+                                                    
+                                                    Button {
+                                                        variables.reloadRotation += 360
+                                                        
+                                                        if variables.selectedTabLocation == "tabs" {
+                                                            variables.navigationState.selectedWebView?.reload()
+                                                            variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                            
+                                                            variables.navigationState.selectedWebView = variables.navigationState.selectedWebView
+                                                            //navigationState.currentURL = navigationState.currentURL
+                                                            
+                                                            if let unwrappedURL = variables.navigationState.currentURL {
+                                                                variables.searchInSidebar = unwrappedURL.absoluteString
+                                                            }
+                                                        }
+                                                        else if variables.selectedTabLocation == "pinnedTabs" {
+                                                            variables.pinnedNavigationState.selectedWebView?.reload()
+                                                            variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                            
+                                                            variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.selectedWebView
+                                                            
+                                                            if let unwrappedURL = variables.pinnedNavigationState.currentURL {
+                                                                variables.searchInSidebar = unwrappedURL.absoluteString
+                                                            }
+                                                        }
+                                                        else if variables.selectedTabLocation == "favoriteTabs" {
+                                                            variables.favoritesNavigationState.selectedWebView?.reload()
+                                                            variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
+                                                            
+                                                            variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.selectedWebView
+                                                            
+                                                            if let unwrappedURL = variables.favoritesNavigationState.currentURL {
+                                                                variables.searchInSidebar = unwrappedURL.absoluteString
+                                                            }
+                                                        }
+                                                    } label: {
+                                                        
+                                                    }.keyboardShortcut("r", modifiers: .command)
+                                                        .buttonStyle(.plain)
+                                                    
+                                                    
+                                                    Button {
+                                                        if (variables.navigationState.selectedWebView == nil) && (variables.pinnedNavigationState.selectedWebView == nil) && (variables.favoritesNavigationState.selectedWebView == nil) {
+                                                            variables.tabBarShown.toggle()
+                                                            variables.commandBarShown = false
+                                                            print("Showing Tab Bar")
                                                         }
                                                         else {
-                                                            LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                            if variables.selectedTabLocation == "pinnedTabs" {
+                                                                variables.searchInSidebar = unformatURL(url: variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
+                                                            }
+                                                            else if variables.selectedTabLocation == "favoriteTabs" {
+                                                                variables.searchInSidebar = unformatURL(url: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
+                                                            }else {
+                                                                variables.searchInSidebar = unformatURL(url: variables.navigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
+                                                            }
+                                                            variables.commandBarShown.toggle()
+                                                            variables.tabBarShown = false
+                                                            print("Showing Command Bar")
                                                         }
-                                                        #endif
+                                                    } label: {
+                                                        
+                                                    }.keyboardShortcut("l", modifiers: .command)
+                                                        .buttonStyle(.plain)
+                                                    
+                                                    
+                                                    Button {
+                                                        if variables.selectedTabLocation == "favoriteTabs" {
+                                                            if let index = variables.favoritesNavigationState.webViews.firstIndex(of: variables.favoritesNavigationState.selectedWebView ?? WKWebView()) {
+                                                                favoriteRemoveTab(at: index)
+                                                            }
+                                                        }
+                                                        else if variables.selectedTabLocation == "pinnedTabs" {
+                                                            if let index = variables.pinnedNavigationState.webViews.firstIndex(of: variables.pinnedNavigationState.selectedWebView ?? WKWebView()) {
+                                                                pinnedRemoveTab(at: index)
+                                                            }
+                                                        }
+                                                        else if variables.selectedTabLocation == "tabs" {
+                                                            if let index = variables.navigationState.webViews.firstIndex(of: variables.navigationState.selectedWebView ?? WKWebView()) {
+                                                                removeTab(at: index)
+                                                            }
+                                                        }
+                                                    } label: {
+                                                        
+                                                    }.keyboardShortcut("w", modifiers: .command)
+                                                        .buttonStyle(.plain)
+                                                    
+                                                    
+                                                    Button {
+                                                        variables.tabBarShown.toggle()
+                                                        variables.commandBarShown = false
+                                                    } label: {
+                                                        
+                                                    }.keyboardShortcut("t", modifiers: .command)
+                                                        .buttonStyle(.plain)
+                                                    
+                                                    
+                                                }
+                                            }
+                                            .gesture(
+                                                DragGesture()
+                                                    .onChanged { value in
+                                                        if !settings.swipeNavigationDisabled {
+                                                            let startLocation = value.startLocation.x
+                                                            let width = webGeo.size.width
+                                                            
+                                                            if startLocation < 100 || startLocation > (width - 100) {
+                                                                let newOffset = value.translation.width
+                                                                if abs(newOffset) <= 150 {
+                                                                    variables.navigationOffset = newOffset
+                                                                } else {
+                                                                    variables.navigationOffset = newOffset > 0 ? 150 : -150
+                                                                }
+                                                                if abs(newOffset) > 100 {
+                                                                    if !variables.arrowImpactOnce {
+#if !os(visionOS) && !os(macOS)
+                                                                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+#endif
+                                                                        variables.arrowImpactOnce = true
+                                                                    }
+                                                                    
+                                                                    withAnimation(.linear(duration: 0.3)) {
+                                                                        variables.navigationArrowColor = true
+                                                                    }
+                                                                } else {
+                                                                    if variables.arrowImpactOnce {
+#if !os(visionOS) && !os(macOS)
+                                                                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+#endif
+                                                                        variables.arrowImpactOnce = false
+                                                                    }
+                                                                    withAnimation(.linear(duration: 0.3)) {
+                                                                        variables.navigationArrowColor = false
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    .onEnded { value in
+                                                        if !settings.swipeNavigationDisabled {
+                                                            variables.arrowImpactOnce = false
+                                                            let startLocation = value.startLocation.x
+                                                            let width = webGeo.size.width
+                                                            
+                                                            if startLocation < 150 || startLocation > (width - 150) {
+                                                                if variables.navigationOffset >= 100 {
+                                                                    goBack()
+                                                                } else if variables.navigationOffset < -100 {
+                                                                    goForward()
+                                                                }
+                                                                
+                                                                withAnimation(.linear(duration: 0.25)) {
+                                                                    variables.navigationOffset = 0
+                                                                    variables.navigationArrowColor = false
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                            )
+                                            .onChange(of: webGeo.size) {
+                                                variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                                
+                                                variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                                
+                                                variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                            }
+                                        }
+                                        .cornerRadius(10)
+                                        .clipped()
+                                        .padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
+                                        
+                                        if variables.delayedBrowseForMe {
+                                            BrowseForMe(searchText: browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
+                                                .frame(width: variables.isBrowseForMe ? 400: 0)
+                                                .cornerRadius(10)
+                                                .clipped()
+                                                .onDisappear() {
+                                                    variables.isBrowseForMe = false
+                                                    variables.newTabSearch = ""
+                                                    variables.commandBarShown = false
+                                                    variables.tabBarShown = false
+                                                    variables.commandBarSearchSubmitted = false
+                                                    variables.commandBarSearchSubmitted2 = false
+                                                }
+                                                .onChange(of: variables.navigationState.selectedWebView, {
+                                                    withAnimation(.linear, {
+                                                        variables.isBrowseForMe = false
+                                                        browseForMeSearch = ""
+                                                    })
+                                                })
+                                                .onChange(of: variables.pinnedNavigationState.selectedWebView, {
+                                                    withAnimation(.linear, {
+                                                        variables.isBrowseForMe = false
+                                                        browseForMeSearch = ""
+                                                    })
+                                                })
+                                                .onChange(of: variables.favoritesNavigationState.selectedWebView, {
+                                                    withAnimation(.linear, {
+                                                        variables.isBrowseForMe = false
+                                                        browseForMeSearch = ""
+                                                    })
+                                                })
+                                        }
+                                    }.onChange(of: variables.isBrowseForMe, {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                            withAnimation(.linear, {
+                                                variables.delayedBrowseForMe = true
+                                            })
+                                        })
+                                    })
+                                    .onChange(of: browseForMeSearch, {
+                                        variables.delayedBrowseForMe = false
+                                        
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                            withAnimation(.linear, {
+                                                variables.delayedBrowseForMe = true
+                                            })
+                                        })
+                                    })
+                                    if UIDevice.current.userInterfaceIdiom != .phone {
+                                        if !settings.sidebarLeft {
+                                            if settings.showBorder {
+                                                ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
+                                                    .disabled(true)
+                                            }
+                                            
+                                            if settings.swipingSpaces {
+                                                PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
+                                                    .environmentObject(variables)
+                                            }
+                                            else {
+                                                VStack {
+                                                    ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                        .padding([.top, .horizontal], 5)
+                                                    
+                                                    Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                        .environmentObject(variables)
+                                                    
+                                                    HStack {
+                                                        Button {
+                                                            variables.showSettings.toggle()
+                                                        } label: {
+                                                            ZStack {
+                                                                HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                                
+                                                                Image(systemName: "gearshape")
+                                                                    .resizable()
+                                                                    .scaledToFit()
+                                                                    .frame(width: 20, height: 20)
+                                                                    .foregroundStyle(variables.textColor)
+                                                                    .opacity(variables.settingsButtonHover ? 1.0: 0.5)
+                                                                
+                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                .hoverEffect(.lift)
+                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                .onHover(perform: { hovering in
+                                                                    if hovering {
+                                                                        variables.settingsButtonHover = true
+                                                                    }
+                                                                    else {
+                                                                        variables.settingsButtonHover = false
+                                                                    }
+                                                                })
+                                                        }
+                                                        .sheet(isPresented: $variables.showSettings) {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+#if !os(macOS)
+                                                                .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
+                                                                       height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#else
+                                                                .frame(width: geo.size.width - 200,
+                                                                       height: geo.size.height - 100)
+#endif
+                                                        }
+                                                        Spacer()
+                                                        
+                                                        SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                        
+                                                        Button(action: {
+                                                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                                                        }, label: {
+                                                            ZStack {
+#if !os(visionOS)
+                                                                Color(.white)
+                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+#endif
+                                                                
+                                                                Image(systemName: "plus")
+                                                                    .resizable()
+                                                                    .scaledToFit()
+                                                                    .frame(width: 20, height: 20)
+                                                                    .foregroundStyle(variables.textColor)
+                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                
+                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                .hoverEffect(.lift)
+                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                .onHover(perform: { hovering in
+                                                                    if hovering {
+                                                                        variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                    }
+                                                                    else {
+                                                                        variables.hoverSpace = ""
+                                                                    }
+                                                                })
+                                                        })
+                                                    }
+                                                }.frame(width: 300)
+                                            }
+                                        }
+                                    }
+                                }
+                                .padding(.trailing, settings.showBorder ? 10: 0)
+                                .padding(.vertical, settings.showBorder ? 25: 0)
+                                .onAppear {
+                                    if let savedStartColor = getColor(forKey: "startColorHex") {
+                                        variables.startColor = savedStartColor
+                                    }
+                                    if let savedEndColor = getColor(forKey: "endColorHex") {
+                                        variables.endColor = savedEndColor
+                                    }
+                                    if let savedTextColor = getColor(forKey: "textColorHex") {
+                                        variables.textColor = savedTextColor
+                                    }
+                                    
+                                    variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
+                                }
+                                
+                                if variables.tabBarShown || variables.commandBarShown || variables.tapSidebarShown {
+                                    Button(action: {
+                                        variables.tabBarShown = false
+                                        variables.commandBarShown = false
+                                        variables.tapSidebarShown = false
+                                    }, label: {
+                                        Color.white.opacity(0.0001)
+                                    }).buttonStyle(.plain)
+                                        .hoverEffectDisabled(true)
+                                }
+                                
+                                if hideSidebar {
+                                    HStack {
+                                        if !settings.sidebarLeft {
+                                            Spacer()
+                                        }
+                                        
+                                        ZStack {
+                                            Color.white.opacity(0.00001)
+                                                .frame(width: 35)
+                                                .onTapGesture {
+                                                    variables.tapSidebarShown = true
+                                                    
+                                                }
+                                            
+                                            HStack {
+                                                //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                                
+                                                if UIDevice.current.userInterfaceIdiom != .phone {
+                                                    VStack {
+                                                        ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                            .padding([.top, .horizontal], 5)
+                                                        
+                                                        //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                                        Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                            .environmentObject(variables)
+                                                        
+                                                        HStack {
+                                                            Button {
+                                                                variables.showSettings.toggle()
+                                                            } label: {
+                                                                ZStack {
+                                                                    HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                                    
+                                                                    Image(systemName: "gearshape")
+                                                                        .resizable()
+                                                                        .scaledToFit()
+                                                                        .frame(width: 20, height: 20)
+                                                                        .foregroundStyle(variables.textColor)
+                                                                        .opacity(variables.settingsButtonHover ? 1.0: 0.5)
+                                                                    
+                                                                }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                    .hoverEffect(.lift)
+                                                                    .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                    .onHover(perform: { hovering in
+                                                                        if hovering {
+                                                                            variables.settingsButtonHover = true
+                                                                        }
+                                                                        else {
+                                                                            variables.settingsButtonHover = false
+                                                                        }
+                                                                    })
+                                                            }
+                                                            .sheet(isPresented: $variables.showSettings) {
+                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+#if !os(macOS)
+                                                                    .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
+                                                                           height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#else
+                                                                    .frame(width: geo.size.width - 200,
+                                                                           height: geo.size.height - 100)
+#endif
+                                                            }
+                                                            Spacer()
+                                                            
+                                                            SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                                                            
+                                                            Button(action: {
+                                                                modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                                                            }, label: {
+                                                                ZStack {
+#if !os(visionOS)
+                                                                    Color(.white)
+                                                                        .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+#endif
+                                                                    
+                                                                    Image(systemName: "plus")
+                                                                        .resizable()
+                                                                        .scaledToFit()
+                                                                        .frame(width: 20, height: 20)
+                                                                        .foregroundStyle(variables.textColor)
+                                                                        .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                    
+                                                                }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                    .hoverEffect(.lift)
+                                                                    .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                    .onHover(perform: { hovering in
+                                                                        if hovering {
+                                                                            variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                        }
+                                                                        else {
+                                                                            variables.hoverSpace = ""
+                                                                        }
+                                                                    })
+                                                            })
+                                                        }
+                                                    }
+                                                    .padding(15)
+                                                    .frame(width: 300)
+                                                    .background(content: {
+#if !os(visionOS)
+                                                        if settings.sidebarLeft {
+                                                            LinearGradient(colors: [variables.startColor, Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                                .opacity(1.0)
+                                                            if selectedSpaceIndex < spaces.count {
+                                                                if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                                                    LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: averageHexColor(hex1: spaces[selectedSpaceIndex].startHex, hex2: spaces[selectedSpaceIndex].endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                                }
+                                                            }
+                                                        } else {
+                                                            LinearGradient(colors: [Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex)), variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                                .opacity(1.0)
+                                                            if selectedSpaceIndex < spaces.count {
+                                                                if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                                                    LinearGradient(colors: [Color(hex: averageHexColor(hex1: spaces[selectedSpaceIndex].startHex, hex2: spaces[selectedSpaceIndex].endHex)), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                                }
+                                                            }
+                                                        }
+#endif
                                                         
                                                         if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                                                             Color.black.opacity(0.5)
                                                         }
-                                                        
-                                                        VStack {
-                                                            ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
-                                                                .padding([.top, .horizontal], 5)
-                                                            
-                                                            Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
-                                                                .environmentObject(variables)
-                                                            
-                                                            HStack {
-                                                                Button {
-                                                                    variables.showSettings.toggle()
-                                                                } label: {
-                                                                    ZStack {
-                                                                        HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
-                                                                        
-                                                                        Image(systemName: "gearshape")
-                                                                            .resizable()
-                                                                            .scaledToFit()
-                                                                            .frame(width: 20, height: 20)
-                                                                            .foregroundStyle(variables.textColor)
-                                                                            .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-                                                                        
-                                                                    }.frame(width: 40, height: 40).cornerRadius(7)
+                                                    })
+                                                    .cornerRadius(10)
+                                                    .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
+                                                }
+                                                else {
+                                                    Color.clear
+                                                        .sheet(isPresented: $variables.tapSidebarShown) {
+                                                            ZStack {
 #if !os(visionOS)
-                                                                        .hoverEffect(.lift)
-                                                                        .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                                    #endif
-                                                                        .onHover(perform: { hovering in
-                                                                            if hovering {
-                                                                                variables.settingsButtonHover = true
-                                                                            }
-                                                                            else {
-                                                                                variables.settingsButtonHover = false
-                                                                            }
-                                                                        })
+                                                                if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                                                                    LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                                 }
-                                                                .sheet(isPresented: $variables.showSettings) {
-                                                                    NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-#if !os(macOS)
-    .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-           height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-#else
-    .frame(width: geo.size.width - 200,
-           height: geo.size.height - 100)
+                                                                else {
+                                                                    LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                                }
 #endif
+                                                                
+                                                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                                                    Color.black.opacity(0.5)
                                                                 }
-                                                                Spacer()
                                                                 
-                                                                SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
-                                                                
-                                                                Button(action: {
-                                                                    modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                                                                }, label: {
-                                                                    ZStack {
-                    #if !os(visionOS)
-                                                                        Color(.white)
-                                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-                                                                        #endif
+                                                                VStack {
+                                                                    ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
+                                                                        .padding([.top, .horizontal], 5)
+                                                                    
+                                                                    Sidebar(selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                                        .environmentObject(variables)
+                                                                    
+                                                                    HStack {
+                                                                        Button {
+                                                                            variables.showSettings.toggle()
+                                                                        } label: {
+                                                                            ZStack {
+                                                                                HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                                                
+                                                                                Image(systemName: "gearshape")
+                                                                                    .resizable()
+                                                                                    .scaledToFit()
+                                                                                    .frame(width: 20, height: 20)
+                                                                                    .foregroundStyle(variables.textColor)
+                                                                                    .opacity(variables.settingsButtonHover ? 1.0: 0.5)
+                                                                                
+                                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                                .hoverEffect(.lift)
+                                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                                .onHover(perform: { hovering in
+                                                                                    if hovering {
+                                                                                        variables.settingsButtonHover = true
+                                                                                    }
+                                                                                    else {
+                                                                                        variables.settingsButtonHover = false
+                                                                                    }
+                                                                                })
+                                                                        }
+                                                                        .sheet(isPresented: $variables.showSettings) {
+                                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+#if !os(macOS)
+                                                                                .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
+                                                                                       height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
+#else
+                                                                                .frame(width: geo.size.width - 200,
+                                                                                       height: geo.size.height - 100)
+#endif
+                                                                        }
+                                                                        Spacer()
                                                                         
-                                                                        Image(systemName: "plus")
-                                                                            .resizable()
-                                                                            .scaledToFit()
-                                                                            .frame(width: 20, height: 20)
-                                                                            .foregroundStyle(variables.textColor)
-                                                                            .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                        SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
                                                                         
-                                                                    }.frame(width: 40, height: 40).cornerRadius(7)
-                    #if !os(visionOS)
-                                                                        .hoverEffect(.lift)
-                                                                        .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                                                                    #endif
-                                                                        .onHover(perform: { hovering in
-                                                                            if hovering {
-                                                                                variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                                                            }
-                                                                            else {
-                                                                                variables.hoverSpace = ""
-                                                                            }
+                                                                        Button(action: {
+                                                                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                                                                        }, label: {
+                                                                            ZStack {
+#if !os(visionOS)
+                                                                                Color(.white)
+                                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+#endif
+                                                                                
+                                                                                Image(systemName: "plus")
+                                                                                    .resizable()
+                                                                                    .scaledToFit()
+                                                                                    .frame(width: 20, height: 20)
+                                                                                    .foregroundStyle(variables.textColor)
+                                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+                                                                                
+                                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+#if !os(visionOS)
+                                                                                .hoverEffect(.lift)
+                                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+#endif
+                                                                                .onHover(perform: { hovering in
+                                                                                    if hovering {
+                                                                                        variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+                                                                                    }
+                                                                                    else {
+                                                                                        variables.hoverSpace = ""
+                                                                                    }
+                                                                                })
                                                                         })
-                                                                })
+                                                                    }
+                                                                }
+                                                                .padding(15)
+                                                                .frame(width: 300)
+                                                                .cornerRadius(10)
                                                             }
                                                         }
-                                                        .padding(15)
-                                                        .frame(width: 300)
-                                                        .cornerRadius(10)
-                                                    }
                                                 }
-                                        }
+                                                
+                                                Spacer()
+                                            }.padding(40)
+                                                .padding(.leading, 30)
+                                                .frame(width: variables.hoveringSidebar || variables.tapSidebarShown ? 350: 0)
+                                                .offset(x: variables.hoveringSidebar || variables.tapSidebarShown ? 0: settings.sidebarLeft ? -350: 300)
+                                                .clipped()
+                                            
+                                        }.onHover(perform: { hovering in
+                                            if hovering {
+                                                variables.hoveringSidebar = true
+                                            }
+                                            else {
+                                                variables.hoveringSidebar = false
+                                            }
+                                        })
                                         
-                                        Spacer()
-                                    }.padding(40)
-                                        .padding(.leading, 30)
-                                        .frame(width: variables.hoveringSidebar || variables.tapSidebarShown ? 350: 0)
-                                        .offset(x: variables.hoveringSidebar || variables.tapSidebarShown ? 0: settings.sidebarLeft ? -350: 300)
-                                        .clipped()
-                                    
-                                }.onHover(perform: { hovering in
-                                    if hovering {
-                                        variables.hoveringSidebar = true
-                                    }
-                                    else {
-                                        variables.hoveringSidebar = false
-                                    }
-                                })
-                                
-                                if settings.sidebarLeft {
-                                    Spacer()
+                                        if settings.sidebarLeft {
+                                            Spacer()
+                                        }
+                                    }.animation(.default)
                                 }
-                            }.animation(.default)
-                        }
-                    }
-                    .onOpenURL { url in
-                        if url.absoluteString.starts(with: "aura://") {
-                            variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
-                        }
-                        else {
-                            variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
-                        }
-                        print("Url:")
-                        print(url)
-                    }
-                    //MARK: - Tabbar
-                    if variables.tabBarShown {
-                        CommandBar(commandBarText: $variables.newTabSearch, searchSubmitted: $variables.commandBarSearchSubmitted, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
-                            .onChange(of: variables.commandBarSearchSubmitted) { thing in
-                                
-                                browseForMeSearch = variables.newTabSearch
-                                
-                                if !variables.newTabSearch.starts(with: "aura://") {
-                                    variables.auraTab = ""
-                                    variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
+                            }
+                            .onOpenURL { url in
+                                if url.absoluteString.starts(with: "aura://") {
+                                    variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
                                 }
                                 else {
-                                    if variables.newTabSearch.contains("dashboard") {
-                                        variables.navigationState.selectedWebView = nil
-                                        variables.pinnedNavigationState.selectedWebView = nil
-                                        variables.favoritesNavigationState.selectedWebView = nil
-                                        
-                                        variables.auraTab = "dashboard"
-                                        variables.selectedTabLocation = ""
-                                    }
-                                    if variables.newTabSearch.contains("settings") {
-                                        variables.showSettings = true
-                                    }
+                                    variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
                                 }
-                                
-                                variables.tabBarShown = false
-                                variables.commandBarSearchSubmitted = false
-                                variables.newTabSearch = ""
-                                
-                                print("Saving Tabs")
-                                
-                                saveSpaceData()
+                                print("Url:")
+                                print(url)
                             }
-                        //}
-                    }
-                    
-                    //MARK: - Command Bar
-                    else if variables.commandBarShown {
-                        CommandBar(commandBarText: $variables.searchInSidebar, searchSubmitted: $variables.commandBarSearchSubmitted2, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
-                            .onChange(of: variables.navigationState.currentURL, {
-                                if let unwrappedURL = variables.navigationState.currentURL {
-                                    variables.searchInSidebar = unwrappedURL.absoluteString
-                                }
-                                print("Changing searchInSidebar - 1")
-                            })
-                            .onChange(of: variables.pinnedNavigationState.currentURL, {
-                                if let unwrappedURL = variables.pinnedNavigationState.currentURL {
-                                    variables.searchInSidebar = unwrappedURL.absoluteString
-                                }
-                                print("Changing searchInSidebar - 2")
-                            })
-                            .onChange(of: variables.favoritesNavigationState.currentURL, {
-                                if let unwrappedURL = variables.favoritesNavigationState.currentURL {
-                                    variables.searchInSidebar = unwrappedURL.absoluteString
-                                }
-                                print("Changing searchInSidebar - 3")
-                            })
-                            .onChange(of: variables.commandBarSearchSubmitted2) { thing in
-                                
-                                //variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
-                                //variables.navigationState.selectedWebView?.load(URLRequest(url: URL(formatURL(from: newTabSearch))!))
-                                Task {
-                                    await variables.searchInSidebar = formatURL(from: variables.searchInSidebar)
-                                    if let url = URL(string: variables.searchInSidebar) {
-                                        // Create a URLRequest object
-                                        let request = URLRequest(url: url)
+                            //MARK: - Tabbar
+                            if variables.tabBarShown {
+                                CommandBar(commandBarText: $variables.newTabSearch, searchSubmitted: $variables.commandBarSearchSubmitted, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
+                                    .onChange(of: variables.commandBarSearchSubmitted) { thing in
                                         
-                                        if variables.selectedTabLocation == "tabs" {
-                                            await variables.navigationState.selectedWebView?.load(request)
+                                        browseForMeSearch = variables.newTabSearch
+                                        
+                                        if !variables.newTabSearch.starts(with: "aura://") {
+                                            variables.auraTab = ""
+                                            variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
                                         }
-                                        if variables.selectedTabLocation == "pinnedTabs" {
-                                            await variables.pinnedNavigationState.selectedWebView?.load(request)
-                                        }
-                                        if variables.selectedTabLocation == "favoriteTabs" {
-                                            await variables.favoritesNavigationState.selectedWebView?.load(request)
+                                        else {
+                                            if variables.newTabSearch.contains("dashboard") {
+                                                variables.navigationState.selectedWebView = nil
+                                                variables.pinnedNavigationState.selectedWebView = nil
+                                                variables.favoritesNavigationState.selectedWebView = nil
+                                                
+                                                variables.auraTab = "dashboard"
+                                                variables.selectedTabLocation = ""
+                                            }
+                                            if variables.newTabSearch.contains("settings") {
+                                                variables.showSettings = true
+                                            }
                                         }
                                         
-                                        print("Updated URL String")
-                                    } else {
-                                        print("Invalid URL string")
+                                        variables.tabBarShown = false
+                                        variables.commandBarSearchSubmitted = false
+                                        variables.newTabSearch = ""
+                                        
+                                        print("Saving Tabs")
+                                        
+                                        saveSpaceData()
                                     }
-                                    
-                                    saveSpaceData()
-                                }
-                                
-                                
-                                variables.commandBarShown = false
-                                variables.tabBarShown = false
-                                variables.commandBarSearchSubmitted2 = false
-                                variables.newTabSearch = ""
+                                //}
                             }
-                    }
-                    
-                    
-                    if launchingAnimation && settings.launchAnimation {
-                        Launch_Animation()
-                    }
-                }
-                /*.sheet(isPresented: $isBrowseForMe, content: {
-                    VStack {
-                        if UIDevice.current.userInterfaceIdiom != .phone {
-                            BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
-                                .frame(width: geo.size.width * 0.7, height: geo.size.height * 0.9)
-                                .onDisappear() {
-                                    isBrowseForMe = false
-                                    newTabSearch = ""
-                                    commandBarShown = false
-                                    tabBarShown = false
-                                    commandBarSearchSubmitted = false
-                                    commandBarSearchSubmitted2 = false
-                                }
-                        }
-                        else {
-                            BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
-                                .onDisappear() {
-                                    isBrowseForMe = false
-                                    newTabSearch = ""
-                                    commandBarShown = false
-                                    tabBarShown = false
-                                    commandBarSearchSubmitted = false
-                                    commandBarSearchSubmitted2 = false
-                                }
-                        }
-                    }
-                    .interactiveDismissDisabled(true)
-                })*/
-                .onAppear() {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.6, execute: {
-                        
-                    })
-                }
-                .onChange(of: selectedSpaceIndex, {
-                    if variables.initialLoadDone {
-                        variables.navigationState.webViews.removeAll()
-                        
-                        var reloadAuraTabs = variables.auraTab
-                        variables.auraTab = ""
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.00001) {
-                            variables.auraTab = reloadAuraTabs
-                        }
-                        
-                        if selectedSpaceIndex < spaces.count {
-                            if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                                startHex = spaces[selectedSpaceIndex].startHex
-                                endHex = spaces[selectedSpaceIndex].startHex
-                                
-                                variables.startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
-                                variables.endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
-                            }
-                        }
-                        
-                        UserDefaults.standard.setValue(selectedSpaceIndex, forKey: "savedSelectedSpaceIndex")
-                    }
-                })
-                .onChange(of: variables.navigationState.webViews, {
-                    saveSpaceData()
-                    print("Saving navigationState")
-                })
-                .onChange(of: variables.pinnedNavigationState.webViews, {
-                    saveSpaceData()
-                    print("Saving pinnedNavigationState")
-                })
-                .onChange(of: variables.favoritesNavigationState.webViews, {
-                    saveSpaceData()
-                    print("Saving favoritesNavigationState")
-                })
-                .onAppear() {
-                    if UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex") > spaces.count - 1 {
-                        selectedSpaceIndex = 0
-                    }
-                    else {
-                        selectedSpaceIndex = UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex")
-                    }
-                    
-                    if selectedSpaceIndex < spaces.count {
-                        if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
-                            startHex = spaces[selectedSpaceIndex].startHex
-                            endHex = spaces[selectedSpaceIndex].startHex
                             
-                            variables.startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
-                            variables.endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                            //MARK: - Command Bar
+                            else if variables.commandBarShown {
+                                CommandBar(commandBarText: $variables.searchInSidebar, searchSubmitted: $variables.commandBarSearchSubmitted2, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
+                                    .onChange(of: variables.navigationState.currentURL, {
+                                        if let unwrappedURL = variables.navigationState.currentURL {
+                                            variables.searchInSidebar = unwrappedURL.absoluteString
+                                        }
+                                        print("Changing searchInSidebar - 1")
+                                    })
+                                    .onChange(of: variables.pinnedNavigationState.currentURL, {
+                                        if let unwrappedURL = variables.pinnedNavigationState.currentURL {
+                                            variables.searchInSidebar = unwrappedURL.absoluteString
+                                        }
+                                        print("Changing searchInSidebar - 2")
+                                    })
+                                    .onChange(of: variables.favoritesNavigationState.currentURL, {
+                                        if let unwrappedURL = variables.favoritesNavigationState.currentURL {
+                                            variables.searchInSidebar = unwrappedURL.absoluteString
+                                        }
+                                        print("Changing searchInSidebar - 3")
+                                    })
+                                    .onChange(of: variables.commandBarSearchSubmitted2) { thing in
+                                        
+                                        //variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
+                                        //variables.navigationState.selectedWebView?.load(URLRequest(url: URL(formatURL(from: newTabSearch))!))
+                                        Task {
+                                            await variables.searchInSidebar = formatURL(from: variables.searchInSidebar)
+                                            if let url = URL(string: variables.searchInSidebar) {
+                                                // Create a URLRequest object
+                                                let request = URLRequest(url: url)
+                                                
+                                                if variables.selectedTabLocation == "tabs" {
+                                                    await variables.navigationState.selectedWebView?.load(request)
+                                                }
+                                                if variables.selectedTabLocation == "pinnedTabs" {
+                                                    await variables.pinnedNavigationState.selectedWebView?.load(request)
+                                                }
+                                                if variables.selectedTabLocation == "favoriteTabs" {
+                                                    await variables.favoritesNavigationState.selectedWebView?.load(request)
+                                                }
+                                                
+                                                print("Updated URL String")
+                                            } else {
+                                                print("Invalid URL string")
+                                            }
+                                            
+                                            saveSpaceData()
+                                        }
+                                        
+                                        
+                                        variables.commandBarShown = false
+                                        variables.tabBarShown = false
+                                        variables.commandBarSearchSubmitted2 = false
+                                        variables.newTabSearch = ""
+                                    }
+                            }
+                            
+                            
+                            if launchingAnimation && settings.launchAnimation {
+                                Launch_Animation()
+                            }
                         }
-                    }
-                    
-                    for space in spaces {
-                        if space.spaceName == currentSpace {
-                            for tab in space.tabUrls {
-                                variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
-                            }
-                            for tab in space.pinnedUrls {
-                                variables.pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
-                            }
-                            for tab in space.favoritesUrls {
-                                variables.favoritesNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
-                            }
+                        /*.sheet(isPresented: $isBrowseForMe, content: {
+                         VStack {
+                         if UIDevice.current.userInterfaceIdiom != .phone {
+                         BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
+                         .frame(width: geo.size.width * 0.7, height: geo.size.height * 0.9)
+                         .onDisappear() {
+                         isBrowseForMe = false
+                         newTabSearch = ""
+                         commandBarShown = false
+                         tabBarShown = false
+                         commandBarSearchSubmitted = false
+                         commandBarSearchSubmitted2 = false
+                         }
+                         }
+                         else {
+                         BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
+                         .onDisappear() {
+                         isBrowseForMe = false
+                         newTabSearch = ""
+                         commandBarShown = false
+                         tabBarShown = false
+                         commandBarSearchSubmitted = false
+                         commandBarSearchSubmitted2 = false
+                         }
+                         }
+                         }
+                         .interactiveDismissDisabled(true)
+                         })*/
+                        .onAppear() {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4.6, execute: {
+                                
+                            })
                         }
+                        .onChange(of: selectedSpaceIndex, {
+                            if variables.initialLoadDone {
+                                variables.navigationState.webViews.removeAll()
+                                
+                                var reloadAuraTabs = variables.auraTab
+                                variables.auraTab = ""
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.00001) {
+                                    variables.auraTab = reloadAuraTabs
+                                }
+                                
+                                if selectedSpaceIndex < spaces.count {
+                                    if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                        startHex = spaces[selectedSpaceIndex].startHex
+                                        endHex = spaces[selectedSpaceIndex].startHex
+                                        
+                                        variables.startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
+                                        variables.endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                                    }
+                                }
+                                
+                                UserDefaults.standard.setValue(selectedSpaceIndex, forKey: "savedSelectedSpaceIndex")
+                            }
+                        })
+                        .onChange(of: variables.navigationState.webViews, {
+                            saveSpaceData()
+                            print("Saving navigationState")
+                        })
+                        .onChange(of: variables.pinnedNavigationState.webViews, {
+                            saveSpaceData()
+                            print("Saving pinnedNavigationState")
+                        })
+                        .onChange(of: variables.favoritesNavigationState.webViews, {
+                            saveSpaceData()
+                            print("Saving favoritesNavigationState")
+                        })
+                        .onAppear() {
+                            if UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex") > spaces.count - 1 {
+                                selectedSpaceIndex = 0
+                            }
+                            else {
+                                selectedSpaceIndex = UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex")
+                            }
+                            
+                            if selectedSpaceIndex < spaces.count {
+                                if !spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty {
+                                    startHex = spaces[selectedSpaceIndex].startHex
+                                    endHex = spaces[selectedSpaceIndex].startHex
+                                    
+                                    variables.startColor = Color(hex: spaces[selectedSpaceIndex].startHex)
+                                    variables.endColor = Color(hex: spaces[selectedSpaceIndex].endHex)
+                                }
+                            }
+                            
+                            for space in spaces {
+                                if space.spaceName == currentSpace {
+                                    for tab in space.tabUrls {
+                                        variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
+                                    }
+                                    for tab in space.pinnedUrls {
+                                        variables.pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
+                                    }
+                                    for tab in space.favoritesUrls {
+                                        variables.favoritesNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
+                                    }
+                                }
+                            }
+                            variables.navigationState.selectedWebView = nil
+                            variables.pinnedNavigationState.selectedWebView = nil
+                            variables.favoritesNavigationState.selectedWebView = nil
+                            
+                            variables.navigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
+                            variables.pinnedNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
+                            variables.favoritesNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
+                            
+                            //                    for spaceIndex in 0..<spaces.count {
+                            //                        for tab in spaces[spaceIndex].tabUrls {
+                            //                            variables.navigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
+                            //                        }
+                            //                        for tab in spaces[spaceIndex].pinnedUrls {
+                            //                            variables.pinnedNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
+                            //                        }
+                            //                        for tab in spaces[spaceIndex].favoritesUrls {
+                            //                            variables.favoritesNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
+                            //                        }
+                            //                        variables.navigationStateArray[spaceIndex].selectedWebView = nil
+                            //                        variables.pinnedNavigationStateArray[spaceIndex].selectedWebView = nil
+                            //                        variables.favoritesNavigationStateArray[spaceIndex].selectedWebView = nil
+                            //                    }
+                            
+                            variables.initialLoadDone = true
+                        }
+                        
+                        
+                        .ignoresSafeArea()
                     }
-                    variables.navigationState.selectedWebView = nil
-                    variables.pinnedNavigationState.selectedWebView = nil
-                    variables.favoritesNavigationState.selectedWebView = nil
-                    
-                    variables.navigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
-                    variables.pinnedNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
-                    variables.favoritesNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
-
-//                    for spaceIndex in 0..<spaces.count {
-//                        for tab in spaces[spaceIndex].tabUrls {
-//                            variables.navigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
-//                        }
-//                        for tab in spaces[spaceIndex].pinnedUrls {
-//                            variables.pinnedNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
-//                        }
-//                        for tab in spaces[spaceIndex].favoritesUrls {
-//                            variables.favoritesNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
-//                        }
-//                        variables.navigationStateArray[spaceIndex].selectedWebView = nil
-//                        variables.pinnedNavigationStateArray[spaceIndex].selectedWebView = nil
-//                        variables.favoritesNavigationStateArray[spaceIndex].selectedWebView = nil
-//                    }
-                    
-                    variables.initialLoadDone = true
+                }.task {
+                    if spaces.count <= 0 {
+                        await modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                        
+                        //                do {
+                        //                    try await modelContext.save()
+                        //                }
+                        //                catch {
+                        //                    print(error.localizedDescription)
+                        //                }
+                    }
                 }
-                
-                
-                .ignoresSafeArea()
             }
-        }.task {
-            if spaces.count <= 0 {
-                await modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                
-//                do {
-//                    try await modelContext.save()
-//                }
-//                catch {
-//                    print(error.localizedDescription)
-//                }
+            else {
+                NavigationStack {
+                    TabOverview(urls: ["https://apple.com", "https://google.com", "https://arc.net"])
+                }
             }
-        }
+        //}
     }
     
     func saveSpaceData() {

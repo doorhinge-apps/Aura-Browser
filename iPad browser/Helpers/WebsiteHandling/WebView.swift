@@ -68,7 +68,8 @@ struct WebView: UIViewRepresentable {
     }
     
     private func loadContentBlockingRules(_ webView: WKWebView) {
-        guard let filePath = Bundle.main.path(forResource: "Adaway", ofType: "json") else {
+        //guard let filePath = Bundle.main.path(forResource: "Adaway", ofType: "json") else {
+        guard let filePath = Bundle.main.path(forResource: "adblock", ofType: "json") else {
             print("Error: Could not find rules.json file.")
             return
         }
