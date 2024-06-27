@@ -105,7 +105,7 @@ struct ToolbarButtonsView: View {
                         }
                     }, label: {
                         ZStack {
-                            HoverButtonDisabledVision(hoverInteraction: hoverSidebarButton)
+                            HoverButtonDisabledVision(hoverInteraction: $hoverSidebarButton)
                             
                             Image(systemName: "sidebar.left")
                                 .resizable()
@@ -250,7 +250,7 @@ struct ToolbarButtonsView: View {
                     }
                 }, label: {
                     ZStack {
-                        HoverButtonDisabledVision(hoverInteraction: hoverBackwardButton)
+                        HoverButtonDisabledVision(hoverInteraction: $hoverBackwardButton)
                         
                         Image(systemName: "arrow.left")
                             .resizable()
@@ -286,7 +286,7 @@ struct ToolbarButtonsView: View {
                     }
                 }, label: {
                     ZStack {
-                        HoverButtonDisabledVision(hoverInteraction: hoverForwardButton)
+                        HoverButtonDisabledVision(hoverInteraction: $hoverForwardButton)
                         
                         Image(systemName: "arrow.right")
                             .resizable()
@@ -347,7 +347,7 @@ struct ToolbarButtonsView: View {
                     }
                 }, label: {
                     ZStack {
-                        HoverButtonDisabledVision(hoverInteraction: hoverReloadButton)
+                        HoverButtonDisabledVision(hoverInteraction: $hoverReloadButton)
                         
                         Image(systemName: "arrow.clockwise")
                             .resizable()

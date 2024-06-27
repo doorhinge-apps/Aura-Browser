@@ -26,6 +26,8 @@ struct PinnedTab: View {
     
     @AppStorage("faviconShape") var faviconShape = "circle"
     
+    @EnvironmentObject var variables: ObservableVariables
+    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -135,6 +137,17 @@ struct PinnedTab: View {
             }
         }
         .contextMenu {
+            Button {
+                variables.browseForMeSearch = tab.url?.absoluteString ?? ""
+                variables.isBrowseForMe = true
+            } label: {
+                Label("Browse for Me", systemImage: "globe.desk")
+            }
+            Button {
+                UIPasteboard.general.string = tab.url?.absoluteString ?? ""
+            } label: {
+                Label("Copy URL", systemImage: "link")
+            }
             Button {
                 pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: tab.url?.absoluteString ?? ""))!))
             } label: {

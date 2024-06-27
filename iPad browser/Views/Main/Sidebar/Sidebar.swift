@@ -302,7 +302,7 @@ struct Sidebar: View {
                                 presentIcons.toggle()
                             } label: {
                                 ZStack {
-                                    HoverButtonDisabledVision(hoverInteraction: spaceIconHover)
+                                    HoverButtonDisabledVision(hoverInteraction: $spaceIconHover)
                                     
                                     Image(systemName: spaces[selectedSpaceIndex].spaceIcon)
                                         .resizable()
@@ -390,7 +390,7 @@ struct Sidebar: View {
                                 }
                             } label: {
                                 ZStack {
-                                    HoverButtonDisabledVision(hoverInteraction: hoverPaintbrush)
+                                    HoverButtonDisabledVision(hoverInteraction: $hoverPaintbrush)
                                     
                                     Image(systemName: "ellipsis")
                                         .resizable()

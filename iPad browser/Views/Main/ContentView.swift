@@ -106,7 +106,7 @@ struct ContentView: View {
                                                         variables.showSettings.toggle()
                                                     } label: {
                                                         ZStack {
-                                                            HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                            HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
                                                             
                                                             Image(systemName: "gearshape")
                                                                 .resizable()
@@ -519,7 +519,7 @@ struct ContentView: View {
                                                         variables.showSettings.toggle()
                                                     } label: {
                                                         ZStack {
-                                                            HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                            HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
                                                             
                                                             Image(systemName: "gearshape")
                                                                 .resizable()
@@ -652,7 +652,7 @@ struct ContentView: View {
                                                             variables.showSettings.toggle()
                                                         } label: {
                                                             ZStack {
-                                                                HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                                HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
                                                                 
                                                                 Image(systemName: "gearshape")
                                                                     .resizable()
@@ -779,7 +779,7 @@ struct ContentView: View {
                                                                         variables.showSettings.toggle()
                                                                     } label: {
                                                                         ZStack {
-                                                                            HoverButtonDisabledVision(hoverInteraction: variables.settingsButtonHover)
+                                                                            HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
                                                                             
                                                                             Image(systemName: "gearshape")
                                                                                 .resizable()

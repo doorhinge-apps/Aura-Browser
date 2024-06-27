@@ -28,6 +28,8 @@ struct TodayTab: View {
     @ObservedObject var pinnedNavigationState: NavigationState
     @ObservedObject var favoritesNavigationState: NavigationState
     
+    @EnvironmentObject var variables: ObservableVariables
+    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         ZStack {
@@ -99,7 +101,7 @@ struct TodayTab: View {
                 Spacer() // Pushes the delete button to the edge
                 
                 Button(action: {
-                    if let index = navigationState.webViews.firstIndex(of: navigationState.selectedWebView ?? tab) {
+                    if let index = navigationState.webViews.firstIndex(of: tab) {
                         removeTab(at: index)
                     }
                 }) {
@@ -139,6 +141,17 @@ struct TodayTab: View {
             }
         }
         .contextMenu {
+            Button {
+                variables.browseForMeSearch = tab.url?.absoluteString ?? ""
+                variables.isBrowseForMe = true
+            } label: {
+                Label("Browse for Me", systemImage: "globe.desk")
+            }
+            Button {
+                UIPasteboard.general.string = tab.url?.absoluteString ?? ""
+            } label: {
+                Label("Copy URL", systemImage: "link")
+            }
             Button {
                 navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: tab.url?.absoluteString ?? ""))!))
             } label: {

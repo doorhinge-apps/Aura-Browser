@@ -14,6 +14,8 @@ import AppKit
 func heavyHaptics() {
 #if !os(visionOS) && !os(macOS)
     UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+#elseif os(macOS)
+NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)
 #endif
 }
 

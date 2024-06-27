@@ -211,7 +211,7 @@ struct PagedSidebar: View {
                         showSettings.toggle()
                     } label: {
                         ZStack {
-                            HoverButtonDisabledVision(hoverInteraction: settingsButtonHover)
+                            HoverButtonDisabledVision(hoverInteraction: $settingsButtonHover)
                             
                             Image(systemName: "gearshape")
                                 .resizable()
