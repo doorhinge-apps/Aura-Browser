@@ -62,7 +62,7 @@ struct ToolbarButtonsView: View {
                         .frame(width: 65)
                 }
                 
-#if !os(iOS)
+
                     Button(action: {
                         Task {
                             await hideSidebar.toggle()
@@ -128,7 +128,7 @@ struct ToolbarButtonsView: View {
                                 }
                             })
                     })
-                #endif
+                
                     
                 
                 
@@ -375,7 +375,9 @@ struct ToolbarButtonsView: View {
             }
             .onAppear() {
 #if os(iOS)
+                if UIDevice.current.userInterfaceIdiom == .phone {
                     hideSidebar = true
+                }
                 #endif
                 }
         }/*.onAppear {
