@@ -23,13 +23,15 @@ func getChatCompletion(prompt: String) async throws -> String {
     // Serialize parameters to JSON data
     let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
     
+    let apiKey = UserDefaults.standard.string(forKey: "apiKey")
+    
     // Create the request
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.timeoutInterval = 10
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue("application/json", forHTTPHeaderField: "Accept")
-    request.setValue("Bearer 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", forHTTPHeaderField: "Authorization")
+    request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.httpBody = postData
     
     // Perform the request

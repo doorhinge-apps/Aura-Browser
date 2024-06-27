@@ -181,4 +181,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("swipeNavigationDisabled") var swipeNavigationDisabled = false
     
     @AppStorage("launchAnimation") var launchAnimation = true
+    
+    @AppStorage("apiKey") var apiKey = ""
 }

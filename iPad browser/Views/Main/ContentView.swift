@@ -63,7 +63,8 @@ struct ContentView: View {
     
     var body: some View {
         //NavigationStack {
-            if UIDevice.current.userInterfaceIdiom != .phone {
+            //if UIDevice.current.userInterfaceIdiom != .phone {
+        if true {
                 GeometryReader { geo in
                     if spaces.count > 0 {
                         ZStack {
@@ -83,7 +84,8 @@ struct ContentView: View {
                                 
                                 
                                 HStack(spacing: 0) {
-                                    if UIDevice.current.userInterfaceIdiom != .phone {
+                                    //if UIDevice.current.userInterfaceIdiom != .phone {
+                                    if true {
                                         if settings.sidebarLeft {
                                             if settings.showBorder {
                                                 ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
@@ -496,35 +498,27 @@ struct ContentView: View {
                                         .clipped()
                                         .padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
                                         
-                                        if variables.delayedBrowseForMe {
+                                        if variables.delayedBrowseForMe && variables.isBrowseForMe {
                                             BrowseForMe(searchText: browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
                                                 .frame(width: variables.isBrowseForMe ? 400: 0)
                                                 .cornerRadius(10)
                                                 .clipped()
-                                                .onDisappear() {
-                                                    variables.isBrowseForMe = false
-                                                    variables.newTabSearch = ""
-                                                    variables.commandBarShown = false
-                                                    variables.tabBarShown = false
-                                                    variables.commandBarSearchSubmitted = false
-                                                    variables.commandBarSearchSubmitted2 = false
-                                                }
                                                 .onChange(of: variables.navigationState.selectedWebView, {
                                                     withAnimation(.linear, {
                                                         variables.isBrowseForMe = false
-                                                        browseForMeSearch = ""
+                                                        //browseForMeSearch = ""
                                                     })
                                                 })
                                                 .onChange(of: variables.pinnedNavigationState.selectedWebView, {
                                                     withAnimation(.linear, {
                                                         variables.isBrowseForMe = false
-                                                        browseForMeSearch = ""
+                                                        //browseForMeSearch = ""
                                                     })
                                                 })
                                                 .onChange(of: variables.favoritesNavigationState.selectedWebView, {
                                                     withAnimation(.linear, {
                                                         variables.isBrowseForMe = false
-                                                        browseForMeSearch = ""
+                                                        //browseForMeSearch = ""
                                                     })
                                                 })
                                         }
@@ -544,7 +538,8 @@ struct ContentView: View {
                                             })
                                         })
                                     })
-                                    if UIDevice.current.userInterfaceIdiom != .phone {
+                                    //if UIDevice.current.userInterfaceIdiom != .phone {
+                                    if true {
                                         if !settings.sidebarLeft {
                                             if settings.showBorder {
                                                 ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
@@ -685,7 +680,8 @@ struct ContentView: View {
                                             HStack {
                                                 //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                                 
-                                                if UIDevice.current.userInterfaceIdiom != .phone {
+                                                //if UIDevice.current.userInterfaceIdiom != .phone {
+                                                if true {
                                                     VStack {
                                                         ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
                                                             .padding([.top, .horizontal], 5)

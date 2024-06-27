@@ -256,6 +256,28 @@ struct General: View {
                     
                     
                     HStack {
+                        Text("Perplexity API Key")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                    }.padding(20)
+                    
+                    TextField("API Key", text: $settings.apiKey)
+                        .padding(.leading, 20)
+                    
+                    HStack {
+                        Text("Enter your Perplexity API key to use Browse for Me")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Divider()
+                    
+                    
+                    HStack {
                         Text("Swipe Navigation Disabled (touch)")
                             .font(.system(.title3, design: .rounded, weight: .bold))
                             .foregroundStyle(Color.white)
