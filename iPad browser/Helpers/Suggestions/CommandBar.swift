@@ -110,7 +110,9 @@ struct CommandBar: View {
                                                         .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
                                                         .frame(width: selectedSuggestion != -1 ? 00: 40, height: 40)
                                                         .bold()
+#if !os(macOS)
                                                         .hoverEffect(.lift)
+                                                    #endif
                                                         .background(.ultraThinMaterial)
                                                         .cornerRadius(10)
                                                         .padding(.trailing, 20)
@@ -195,7 +197,9 @@ struct CommandBar: View {
                                                     .frame(width: selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? 40: 0): 0, height: 40)
                                                     .bold()
                                                     .clipped()
+#if !os(macOS)
                                                     .hoverEffect(.lift)
+                                                #endif
                                                     .background(.ultraThinMaterial)
                                                     .cornerRadius(10)
                                                     .padding(.trailing, 20)
@@ -274,7 +278,9 @@ struct CommandBar: View {
                                     })
                                     .focused($focusedField, equals: .tabBar)
                                     .autocorrectionDisabled(true)
+#if !os(macOS)
                                     .textInputAutocapitalization(.never)
+                                    #endif
                                     .padding(20)
                                     .onChange(of: commandBarText, perform: { value in
                                         if !searchSubmitted {

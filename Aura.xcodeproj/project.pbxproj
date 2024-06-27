@@ -26,6 +26,9 @@
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
 		B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */; };
 		B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */; };
+		B943038E2C2D330000D787A4 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B943038D2C2D330000D787A4 /* Haptics.swift */; };
+		B94303922C2D347C00D787A4 /* CurrentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94303912C2D347C00D787A4 /* CurrentWebView.swift */; };
+		B94303942C2D34B900D787A4 /* LoadingIndicators.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94303932C2D34B900D787A4 /* LoadingIndicators.swift */; };
 		B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */; };
 		B94CA91C2C28C33100AD3921 /* SwiftUISidebarWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */; };
 		B94CA91F2C28C73E00AD3921 /* BoostStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA91E2C28C73E00AD3921 /* BoostStorage.swift */; };
@@ -78,7 +81,6 @@
 		B9E474332C17EDE80098C7C6 /* Aura_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */; };
 		B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */; };
 		B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */; };
-		B9ED10572C0FAFF4004F2AF3 /* Trackpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */; };
 		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
@@ -111,6 +113,9 @@
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
 		B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pinned Tab.swift"; sourceTree = "<group>"; };
 		B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsURLs.swift; sourceTree = "<group>"; };
+		B943038D2C2D330000D787A4 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		B94303912C2D347C00D787A4 /* CurrentWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWebView.swift; sourceTree = "<group>"; };
+		B94303932C2D34B900D787A4 /* LoadingIndicators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicators.swift; sourceTree = "<group>"; };
 		B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISidebar.swift; sourceTree = "<group>"; };
 		B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISidebarWebView.swift; sourceTree = "<group>"; };
 		B94CA91E2C28C73E00AD3921 /* BoostStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostStorage.swift; sourceTree = "<group>"; };
@@ -167,7 +172,6 @@
 		B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_Tests.swift; sourceTree = "<group>"; };
 		B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayIOS18.swift; sourceTree = "<group>"; };
 		B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObjects.swift; sourceTree = "<group>"; };
-		B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trackpad.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -248,9 +252,46 @@
 		B93D9D2F2BDF35DA0002D01B /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				B93D9D2B2BDF31A80002D01B /* Today Tab.swift */,
 				B93D9D2D2BDF34C90002D01B /* Pinned Tab.swift */,
 			);
 			path = Tabs;
+			sourceTree = "<group>";
+		};
+		B943038A2C2D32E400D787A4 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B943038C2C2D32F400D787A4 /* UI Components */,
+				B943038B2C2D32EF00D787A4 /* Functions */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B943038B2C2D32EF00D787A4 /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				B943038D2C2D330000D787A4 /* Haptics.swift */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
+		B943038C2C2D32F400D787A4 /* UI Components */ = {
+			isa = PBXGroup;
+			children = (
+				B93AE9312C2AA0E9003D0E88 /* visionOS Components */,
+				B94303932C2D34B900D787A4 /* LoadingIndicators.swift */,
+				B9272D462C26A52300B014D8 /* VGrid.swift */,
+			);
+			path = "UI Components";
+			sourceTree = "<group>";
+		};
+		B94303952C2D37FC00D787A4 /* AdBlock */ = {
+			isa = PBXGroup;
+			children = (
+				B961B7B02C2BCDE000F43EBF /* adblock.json */,
+				B9272D3C2C250CDD00B014D8 /* Adaway.json */,
+			);
+			path = AdBlock;
 			sourceTree = "<group>";
 		};
 		B94CA91D2C28C72E00AD3921 /* Boosts */ = {
@@ -328,6 +369,7 @@
 			children = (
 				C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */,
 				B97725022C01292400A39E3A /* PagedSidebar.swift */,
+				B93D9D2F2BDF35DA0002D01B /* Tabs */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B97725002C0116BA00A39E3A /* Space Picker.swift */,
 				B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */,
@@ -367,7 +409,6 @@
 		B98256CA2BD2E2F800F997F5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B9272D462C26A52300B014D8 /* VGrid.swift */,
 				B93AE92E2C2A3EA5003D0E88 /* Launch Screen */,
 				B9230FF92BBD36740032C950 /* TopDomains.json */,
 				B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */,
@@ -442,9 +483,9 @@
 		C1BD7D1C2BDDF8DF0078D7B3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				B93AE9312C2AA0E9003D0E88 /* visionOS Components */,
-				B9272D3C2C250CDD00B014D8 /* Adaway.json */,
-				B961B7B02C2BCDE000F43EBF /* adblock.json */,
+				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
+				B943038A2C2D32E400D787A4 /* Components */,
+				B94303952C2D37FC00D787A4 /* AdBlock */,
 				B94CA91D2C28C72E00AD3921 /* Boosts */,
 				C1BD7D2C2BDE04FB0078D7B3 /* WebsiteHandling */,
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
@@ -483,17 +524,14 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B94303912C2D347C00D787A4 /* CurrentWebView.swift */,
 				B961B7AB2C2BA37A00F43EBF /* iOS */,
-				B9ED10562C0FAFF4004F2AF3 /* Trackpad.swift */,
 				B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */,
 				B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */,
 				B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */,
 				B9272D302C240D5800B014D8 /* Browse for Me */,
 				B9798BFC2BF0B92A0012D98E /* Dashboard */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
-				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
-				B93D9D2B2BDF31A80002D01B /* Today Tab.swift */,
-				B93D9D2F2BDF35DA0002D01B /* Tabs */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -637,6 +675,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B94303942C2D34B900D787A4 /* LoadingIndicators.swift in Sources */,
 				B9272D4A2C26AA7A00B014D8 /* WaveTextEffect.swift in Sources */,
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
@@ -651,6 +690,7 @@
 				B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */,
 				B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */,
 				B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */,
+				B94303922C2D347C00D787A4 /* CurrentWebView.swift in Sources */,
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
 				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */,
@@ -682,6 +722,7 @@
 				B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */,
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
+				B943038E2C2D330000D787A4 /* Haptics.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
 				B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */,
 				B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */,
@@ -697,7 +738,6 @@
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */,
 				B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */,
-				B9ED10572C0FAFF4004F2AF3 /* Trackpad.swift in Sources */,
 				B94CA91F2C28C73E00AD3921 /* BoostStorage.swift in Sources */,
 				C1BD7D2E2BDE05160078D7B3 /* navigationState.swift in Sources */,
 				C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */,

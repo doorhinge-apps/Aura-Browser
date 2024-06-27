@@ -22,7 +22,7 @@ body {
   font-family: -apple-system;
 }
 """
-
+#if !os(macOS)
 struct WebView: UIViewRepresentable {
     
     @ObservedObject var navigationState : NavigationState
@@ -95,3 +95,63 @@ struct WebView: UIViewRepresentable {
         }
     }
 }
+#else
+struct WebView: NSViewRepresentable {
+    
+    @ObservedObject var navigationState: NavigationState
+    
+    @ObservedObject var variables = ObservableVariables()
+    
+    func makeNSView(context: Context) -> NSView {
+        return NSView()
+    }
+    
+    func updateNSView(_ nsView: NSView, context: Context) {
+        guard let webView = navigationState.selectedWebView else {
+            return
+        }
+
+        webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_4_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15"
+        
+        if UserDefaults.standard.bool(forKey: "adBlockEnabled") {
+            loadContentBlockingRules(webView)
+        }
+        
+        // Set the frame again to ensure the webView resizes correctly
+        webView.frame = CGRect(origin: .zero, size: nsView.bounds.size)
+        
+        if webView != nsView.subviews.first {
+            nsView.subviews.forEach { $0.removeFromSuperview() }
+            nsView.addSubview(webView)
+        }
+    }
+    
+    private func loadContentBlockingRules(_ webView: WKWebView) {
+        guard let filePath = Bundle.main.path(forResource: "adblock", ofType: "json") else {
+            print("Error: Could not find adblock.json file.")
+            return
+        }
+        
+        do {
+            let jsonString = try String(contentsOfFile: filePath, encoding: .utf8)
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "ContentBlockingRules", encodedContentRuleList: jsonString) { ruleList, error in
+                if let error = error {
+                    print("Error compiling content rule list: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let ruleList = ruleList else {
+                    print("Error: Rule list is nil.")
+                    return
+                }
+                
+                let configuration = webView.configuration
+                configuration.userContentController.add(ruleList)
+            }
+        } catch {
+            print("Error loading adblock.json file: \(error.localizedDescription)")
+        }
+    }
+}
+
+#endif

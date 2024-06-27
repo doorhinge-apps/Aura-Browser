@@ -116,7 +116,7 @@ struct PinnedTab: View {
                                 .opacity(hoverCloseTab == tab ? 1.0: 0.8)
                             
                         }.frame(width: 35, height: 35)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .cornerRadius(7)
                             .padding(.trailing, 10)
                             .hoverEffect(.lift)

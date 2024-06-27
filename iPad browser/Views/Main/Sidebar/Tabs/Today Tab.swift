@@ -103,7 +103,7 @@ struct TodayTab: View {
                         removeTab(at: index)
                     }
                 }) {
-                    if (hoverTab == tab || navigationState.selectedWebView == tab) || UIDevice.current.userInterfaceIdiom == .vision {
+                    if (hoverTab == tab || navigationState.selectedWebView == tab) {
                         ZStack {
 #if !os(visionOS)
                             Color(.white)
@@ -121,7 +121,9 @@ struct TodayTab: View {
 #if !os(visionOS)
                             .cornerRadius(7)
                             .padding(.trailing, 10)
+#if !os(macOS)
                             .hoverEffect(.lift)
+                        #endif
                         #endif
                             .onHover(perform: { hovering in
                                 if hovering {

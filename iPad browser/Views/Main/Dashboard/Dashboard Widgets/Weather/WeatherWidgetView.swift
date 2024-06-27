@@ -19,6 +19,7 @@ struct WeatherWidgetView: View {
     @State var lowTemp = 1000.0
     
     var body: some View {
+#if !os(macOS)
         if locationDataManager.authorizationStatus == .authorizedWhenInUse {
             GeometryReader { geo in
                 HStack(spacing: 0) {
@@ -207,6 +208,7 @@ struct WeatherWidgetView: View {
         } else {
             Text("Error Loading Location")
         }
+        #endif
     }
     
     func fetchWeatherData() async {

@@ -144,7 +144,10 @@ struct OnboardingView: View {
                     ZStack {
                         Text("Continue")
                     }
-                }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
+                }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
+#if !os(macOS)
+                    .hoverEffect(.lift)
+                #endif
                 
             }
         }
@@ -242,7 +245,10 @@ struct OnboardingView: View {
                                 Text("Continue")
                             }
                         }
-                    }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
+                    }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
+#if !os(macOS)
+                        .hoverEffect(.lift)
+                    #endif
                 }.onChange(of: onboardingIndex) {
                     withAnimation(.default, {
                         rectangle1Size = [((geo.size.height-400)/554)*onboardingInfo[onboardingIndex].rectangle1Size[0], (geo.size.height-400)/554*onboardingInfo[onboardingIndex].rectangle1Size[1]]
@@ -273,7 +279,10 @@ struct OnboardingView: View {
                             ZStack {
                                 Label("Back", systemImage: "chevron.left")
                             }
-                        }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
+                        }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
+#if !os(macOS)
+                            .hoverEffect(.lift)
+                        #endif
                         
                         Spacer()
                         
@@ -287,7 +296,10 @@ struct OnboardingView: View {
                             ZStack {
                                 Text("Skip")
                             }
-                        }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE")).hoverEffect(.lift)
+                        }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
+#if !os(macOS)
+                            .hoverEffect(.lift)
+                        #endif
                     }.padding(.horizontal, 30)
                     
                     Spacer()
@@ -339,12 +351,19 @@ struct OnboardingView: View {
         }
     }
     
-    
+#if !os(macOS)
     func saveColor(color: Color, key: String) {
         let uiColor = UIColor(color)
         let hexString = uiColor.toHex()
         defaults.set(hexString, forKey: key)
     }
+    #else
+    func saveColor(color: Color, key: String) {
+        let uiColor = NSColor(color)
+        let hexString = uiColor.toHex()
+        defaults.set(hexString, forKey: key)
+    }
+#endif
     
     func getColor(forKey key: String) -> Color? {
         guard let hexString = UserDefaults.standard.string(forKey: key) else {
@@ -352,6 +371,7 @@ struct OnboardingView: View {
         }
         return Color(hex: hexString)
     }
+    
 }
 
 

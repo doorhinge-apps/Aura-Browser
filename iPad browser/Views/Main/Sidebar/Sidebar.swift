@@ -312,7 +312,7 @@ struct Sidebar: View {
                                         .opacity(spaceIconHover ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                                     .hoverEffect(.lift)
                                     .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                                 #endif
@@ -335,7 +335,7 @@ struct Sidebar: View {
                                     temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
                                     renameIsFocused = true
                                 }
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                                 .hoverEffect(.lift)
                             #endif
                             
@@ -348,7 +348,7 @@ struct Sidebar: View {
                                         .foregroundStyle(Color.white)
                                         .opacity(0.5)
                                 })
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                                 .hoverEffect(.lift)
                                     .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                                 #endif
@@ -401,7 +401,7 @@ struct Sidebar: View {
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
                             }
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .hoverEffect(.lift)
                                 .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                             #endif

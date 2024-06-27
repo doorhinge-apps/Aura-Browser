@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-func getChatCompletion(prompt: String) async throws -> String {
+func getChatCompletion(prompt: String) async -> String {
     // Define the API endpoint and the model to use
     let url = URL(string: "https://api.perplexity.ai/chat/completions")!
     
@@ -21,9 +21,11 @@ func getChatCompletion(prompt: String) async throws -> String {
     ]
     
     // Serialize parameters to JSON data
-    let postData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+    guard let postData = try? JSONSerialization.data(withJSONObject: parameters, options: []) else {
+        return "Error: Failed to serialize request parameters"
+    }
     
-    let apiKey = UserDefaults.standard.string(forKey: "apiKey")
+    let apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
     
     // Create the request
     var request = URLRequest(url: url)
@@ -34,25 +36,42 @@ func getChatCompletion(prompt: String) async throws -> String {
     request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.httpBody = postData
     
+    print("Perplexity API Key:")
+    print("Bearer \(apiKey)")
+    
     // Perform the request
-    let (data, response) = try await URLSession.shared.data(for: request)
+    guard let (data, response) = try? await URLSession.shared.data(for: request) else {
+        return "Error: Failed to perform the request"
+    }
     
     // Check the HTTP response status code
-    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-        throw URLError(.badServerResponse)
+    guard let httpResponse = response as? HTTPURLResponse else {
+        return "Error: Invalid response from server"
+    }
+    
+    if httpResponse.statusCode != 200 && httpResponse.statusCode != 401 {
+        return "Error: Server responded with status code \(httpResponse.statusCode)"
+    }
+    
+    if httpResponse.statusCode == 401 {
+        return "Error: Unauthorized. Check your API key."
     }
     
     // Decode the JSON response
-    let jsonResponse = try JSONSerialization.jsonObject(with: data, options: [])
+    guard let jsonResponse = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+        return "Error: Failed to parse server response"
+    }
     
     // Extract the assistant's response from the JSON data
-    if let dictionary = jsonResponse as? [String: Any],
-       let choices = dictionary["choices"] as? [[String: Any]],
+    if let choices = jsonResponse["choices"] as? [[String: Any]],
        let firstChoice = choices.first,
        let message = firstChoice["message"] as? [String: Any],
        let content = message["content"] as? String {
         return content
+    } else if let error = jsonResponse["error"] as? [String: Any],
+              let message = error["message"] as? String {
+        return "API Error: \(message)"
     } else {
-        throw URLError(.cannotParseResponse)
+        return "Error: Unexpected response format"
     }
 }

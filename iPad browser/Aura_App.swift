@@ -14,6 +14,7 @@ import UIKit
 import AppKit
 #endif
 
+#if !os(macOS)
 class CustomAppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Set the appearance of UITabBar here
@@ -36,6 +37,11 @@ class CustomAppDelegate: UIResponder, UIApplicationDelegate {
         builder.remove(menu: .toolbar)
     }
 }
+#else
+class CustomAppDelegate: NSResponder, NSApplicationDelegate {
+    
+}
+#endif
 
 extension Notification.Name {
     static let handleIncomingURL = Notification.Name("handleIncomingURL")
@@ -43,8 +49,11 @@ extension Notification.Name {
 
 @main
 struct iPad_browserApp: App {
-    
+#if !os(macOS)
     @UIApplicationDelegateAdaptor(CustomAppDelegate.self) var appDelegate
+    #else
+    @NSApplicationDelegateAdaptor(CustomAppDelegate.self) var appDelegate
+    #endif
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -69,13 +78,11 @@ struct iPad_browserApp: App {
         WindowGroup {
             OnboardingView()
                 .onAppear { hideTitleBarOnCatalyst() }
-//                .onOpenURL { url in
-//                    variables.navigationState.createNewWebView(withRequest: URLRequest(url: url))
-//                    print("Url:")
-//                    print(url)
-//                }
         }
         .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
+        #if os(macOS)
+        .windowStyle(HiddenTitleBarWindowStyle())
+        #endif
     }
     
     func hideTitleBarOnCatalyst() {

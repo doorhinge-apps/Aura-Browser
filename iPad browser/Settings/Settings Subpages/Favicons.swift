@@ -44,12 +44,12 @@ struct Favicons: View {
                             .frame(width: 200, height: 200)
                             .cornerRadius(CGFloat(iconRadius))
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .rotation3DEffect(
                                 max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                                 axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                             )
-#else
+#elseif !os(macOS)
                             .hoverEffect(.lift)
                         #endif
                     }
@@ -60,12 +60,12 @@ struct Favicons: View {
                             .frame(width: 200, height: 200)
                             .cornerRadius(CGFloat(iconRadius))
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .rotation3DEffect(
                                 max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                                 axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                             )
-                        #else
+#elseif !os(macOS)
                             .hoverEffect(.lift)
                         #endif
                     }
@@ -138,7 +138,10 @@ struct Favicons: View {
                 
                 iconRadius = selectedFaviconShape == "square" ? 0: selectedFaviconShape == "squircle" ? 40: 100
             }
-        }.toolbarBackground(.hidden, for: .navigationBar)
+        }
+#if !os(macOS)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        #endif
     }
 }
 

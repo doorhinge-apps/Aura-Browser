@@ -10,10 +10,14 @@ import MarkdownUI
 
 
 struct BrowseForMe: View {
+    @EnvironmentObject var variables: ObservableVariables
+    
     @State var searchText: String
     @State var searchResponse: String
     
     @Binding var closeSheet: Bool
+    
+    //@Binding var buttonSendText: String
     
     @State var searching = false
     
@@ -96,7 +100,11 @@ struct BrowseForMe: View {
                                 
                                 Task {
                                     do {
-                                        let response = try await getChatCompletion(prompt: searchText)
+                                        var buttonSendText = unformatURL(url: variables.selectedTabLocation == "tabs" ? variables.navigationState.selectedWebView?.url?.absoluteString ?? searchText: variables.selectedTabLocation == "pinnedTabs" ? variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? searchText: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? searchText)
+                                        
+                                        searchText = buttonSendText
+                                        
+                                        let response = try await getChatCompletion(prompt: buttonSendText)
                                         searchResponse = response
                                         print("Response: \(response)")
                                     } catch {

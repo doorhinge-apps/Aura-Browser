@@ -21,7 +21,7 @@ class WebViewCoordinator: NSObject, WKNavigationDelegate {
         }
     }
 }
-
+#if !os(macOS)
 struct WebViewMobile: UIViewRepresentable {
     let urlString: String
     @Binding var title: String
@@ -44,3 +44,4 @@ struct WebViewMobile: UIViewRepresentable {
         }
     }
 }
+#endif

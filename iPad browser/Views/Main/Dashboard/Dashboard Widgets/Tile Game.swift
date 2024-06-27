@@ -73,7 +73,7 @@ struct TileGame: View {
                             shuffling = false
                         }
                     #else
-                    Image(uiImage: image)
+                    Image(nsImage: image)
                         .resizable()
                         .scaledToFit()
                         .onTapGesture {
@@ -239,7 +239,7 @@ struct TileGame: View {
                 })
             }))
     }
-    
+#if !os(macOS)
     private func tileImage(for tileIndex: Int) -> UIImage? {
         guard tileIndex < 15 else { return nil }
         
@@ -253,6 +253,22 @@ struct TileGame: View {
         
         return UIImage(cgImage: cgImage, scale: scale, orientation: image.imageOrientation)
     }
+    #else
+    private func tileImage(for tileIndex: Int) -> NSImage? {
+        guard tileIndex < 15 else { return nil }
+        
+        let scale = image.scale
+        let tileSize = CGSize(width: image.size.width / 4, height: image.size.height / 4)
+        let x = CGFloat(tileIndex % 4) * tileSize.width
+        let y = CGFloat(tileIndex / 4) * tileSize.height
+        
+        let cropRect = CGRect(x: x * scale, y: y * scale, width: tileSize.width * scale, height: tileSize.height * scale)
+        guard let cgImage = image.cgImage?.cropping(to: cropRect) else { return nil }
+        
+        return NSImage(cgImage: cgImage, scale: scale, orientation: .up)
+    }
+    
+    #endif
     
     private func moveTile(at index: Int) {
         let canMove = isAdjacent(to: index, emptyIndex)

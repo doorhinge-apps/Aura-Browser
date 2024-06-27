@@ -31,7 +31,9 @@ struct TabOverview: View {
                             NavigationLink(destination: {
                                 if #available(iOS 18.0, *) {
                                     WebsiteView(url: url, parentGeo: geo)
+#if !os(macOS)
                                         .navigationTransition(.zoom(sourceID: url, in: namespace))
+                                    #endif
                                 }
                                 else {
                                     WebsiteView(url: url, parentGeo: geo)
@@ -39,7 +41,9 @@ struct TabOverview: View {
                             }, label: {
                                 if #available(iOS 18.0, *) {
                                     WebPreview(url: url, geo: geo)
+#if !os(macOS)
                                         .matchedTransitionSource(id: url, in: namespace)
+                                    #endif
                                         .rotationEffect(Angle(degrees: tilts[url, default: 0.0]))
                                         .offset(x: offset.width)
                                         .gesture(
@@ -144,6 +148,7 @@ struct WebPreview: View {
     @State var faviconSize = CGFloat(20)
     var body: some View {
         VStack {
+#if !os(macOS)
             ZStack {
                 WebViewMobile(urlString: url, title: $webTitle)
                     .frame(width: geo.size.width - 50, height: 400)
@@ -201,6 +206,7 @@ struct WebPreview: View {
                 
                 Spacer()
             }
+            #endif
         }
     }
 }

@@ -24,6 +24,7 @@ struct WebsiteView: View {
     
     var body: some View {
         GeometryReader { geo in
+#if !os(macOS)
             ZStack {
                 WebViewMobile(urlString: url, title: $webTitle)
                     .ignoresSafeArea()
@@ -83,6 +84,7 @@ struct WebsiteView: View {
             }
             //.frame(height: gestureStarted ? geo.size.height * scale: .infinity)
             .ignoresSafeArea(.container, edges: [.leading, .trailing, .bottom])
+            #endif
         }
     }
 }

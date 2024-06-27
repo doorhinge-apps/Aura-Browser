@@ -62,7 +62,7 @@ struct ToolbarButtonsView: View {
                         .frame(width: 65)
                 }
                 
-                if UIDevice.current.userInterfaceIdiom != .phone {
+#if !os(iOS)
                     Button(action: {
                         Task {
                             await hideSidebar.toggle()
@@ -115,7 +115,7 @@ struct ToolbarButtonsView: View {
                                 .opacity(hoverSidebarButton ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         #endif
@@ -128,7 +128,7 @@ struct ToolbarButtonsView: View {
                                 }
                             })
                     })
-                }
+                #endif
                     
                 
                 
@@ -260,7 +260,7 @@ struct ToolbarButtonsView: View {
                             .opacity(hoverBackwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                         .hoverEffect(.lift)
                         .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                     #endif
@@ -296,7 +296,7 @@ struct ToolbarButtonsView: View {
                             .opacity(hoverForwardButton ? 1.0: 0.5)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                         .hoverEffect(.lift)
                         .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                     #endif
@@ -359,7 +359,7 @@ struct ToolbarButtonsView: View {
                             .animation(.bouncy, value: reloadRotation)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                         .hoverEffect(.lift)
                         .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                     #endif
@@ -374,10 +374,10 @@ struct ToolbarButtonsView: View {
                 })
             }
             .onAppear() {
-                if UIDevice.current.userInterfaceIdiom == .phone {
+#if os(iOS)
                     hideSidebar = true
+                #endif
                 }
-            }
         }/*.onAppear {
             if let savedStartColor = getColor(forKey: "startColorHex") {
                 startColor = savedStartColor

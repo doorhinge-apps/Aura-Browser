@@ -116,12 +116,12 @@ struct UISettings: View {
                     }.frame(width: 300, height: 200)
                         .cornerRadius(8)
                         .foregroundStyle(Color.white)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                         .rotation3DEffect(
                             max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                             axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                         )
-                    #else
+                    #elseif !os(macOS)
                         .hoverEffect(.lift)
                     #endif
                     
@@ -144,7 +144,7 @@ struct UISettings: View {
                     .background(Color.white.opacity(0.5).cornerRadius(7))
                     #endif
                     .padding([.leading, .trailing, .bottom])
-                    
+#if os(iOS)
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         HStack {
                             Text("Hover Effects Absorb Cursor")
@@ -159,6 +159,7 @@ struct UISettings: View {
                         
                         Divider()
                     }
+                    #endif
                     
                     HStack {
                         Text("Show Border")
@@ -240,7 +241,10 @@ struct UISettings: View {
                 selectedAppearance = settings.prefferedColorScheme
                 updateAppearance()
             }
-        }.toolbarBackground(.hidden, for: .navigationBar)
+        }
+#if !os(macOS)
+        .toolbarBackground(.hidden, for: .navigationBar)
+        #endif
     }
     
     private func updateAppearance() {

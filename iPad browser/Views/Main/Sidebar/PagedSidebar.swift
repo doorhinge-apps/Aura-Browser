@@ -221,7 +221,7 @@ struct PagedSidebar: View {
                                 .opacity(settingsButtonHover ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         #endif
@@ -236,8 +236,13 @@ struct PagedSidebar: View {
                     }
                     .sheet(isPresented: $showSettings) {
                         NewSettings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+#if !os(macOS)
                             .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: fullGeo.size.width - 200,
                                    height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: fullGeo.size.height - 100)
+                        #else
+                            .frame(width: fullGeo.size.width - 200,
+                                   height: fullGeo.size.height - 100)
+                        #endif
                     }
                     Spacer()
                     
@@ -260,7 +265,7 @@ struct PagedSidebar: View {
                                 .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS)
+#if !os(visionOS) && !os(macOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
                         #endif
