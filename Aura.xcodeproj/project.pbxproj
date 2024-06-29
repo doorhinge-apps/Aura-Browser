@@ -21,6 +21,7 @@
 		B9272D472C26A52300B014D8 /* VGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D462C26A52300B014D8 /* VGrid.swift */; };
 		B9272D4A2C26AA7A00B014D8 /* WaveTextEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */; };
 		B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */; };
+		B92FDE1B2C2E642900B07703 /* TabLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92FDE1A2C2E642900B07703 /* TabLocations.swift */; };
 		B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */; };
 		B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
@@ -37,6 +38,7 @@
 		B94CA9272C28EB7500AD3921 /* SkewIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9262C28EB7500AD3921 /* SkewIcon.swift */; };
 		B94CA9292C28EB9A00AD3921 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9282C28EB9A00AD3921 /* MotionManager.swift */; };
 		B94CA92B2C290E7F00AD3921 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA92A2C290E7F00AD3921 /* General.swift */; };
+		B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */; };
 		B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* Aura_App.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
@@ -108,6 +110,7 @@
 		B9272D3C2C250CDD00B014D8 /* Adaway.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Adaway.json; sourceTree = "<group>"; };
 		B9272D462C26A52300B014D8 /* VGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGrid.swift; sourceTree = "<group>"; };
 		B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveTextEffect.swift; sourceTree = "<group>"; };
+		B92FDE1A2C2E642900B07703 /* TabLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLocations.swift; sourceTree = "<group>"; };
 		B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Launch Animation.swift"; sourceTree = "<group>"; };
 		B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButtonDisabled.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
@@ -124,6 +127,7 @@
 		B94CA9262C28EB7500AD3921 /* SkewIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkewIcon.swift; sourceTree = "<group>"; };
 		B94CA9282C28EB9A00AD3921 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		B94CA92A2C290E7F00AD3921 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
+		B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSnapshot.swift; sourceTree = "<group>"; };
 		B95B19E12AABBEE00013AC79 /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95B19E42AABBEE00013AC79 /* Aura_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_App.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -357,6 +361,8 @@
 			isa = PBXGroup;
 			children = (
 				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */,
+				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
 				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
 				B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */,
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
@@ -676,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B94303942C2D34B900D787A4 /* LoadingIndicators.swift in Sources */,
+				B92FDE1B2C2E642900B07703 /* TabLocations.swift in Sources */,
 				B9272D4A2C26AA7A00B014D8 /* WaveTextEffect.swift in Sources */,
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
@@ -718,6 +725,7 @@
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
+				B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
 				B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */,
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
@@ -891,7 +899,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -938,7 +946,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 42;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;

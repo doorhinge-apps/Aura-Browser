@@ -61,9 +61,9 @@ struct ContentView: View {
     
     var body: some View {
         //NavigationStack {
-        //if UIDevice.current.userInterfaceIdiom != .phone {
         ZStack {
-        if true {
+        if UIDevice.current.userInterfaceIdiom != .phone {
+        //if true {
             GeometryReader { geo in
                 if spaces.count > 0 {
                     ZStack {
@@ -483,16 +483,7 @@ struct ContentView: View {
                                 }.onChange(of: variables.isBrowseForMe, {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                                         withAnimation(.linear, {
-                                            variables.delayedBrowseForMe = true
-                                        })
-                                    })
-                                })
-                                .onChange(of: variables.browseForMeSearch, {
-                                    variables.delayedBrowseForMe = false
-                                    
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                        withAnimation(.linear, {
-                                            variables.delayedBrowseForMe = true
+                                            variables.delayedBrowseForMe = variables.isBrowseForMe
                                         })
                                     })
                                 })
@@ -1128,7 +1119,8 @@ struct ContentView: View {
         }
         else {
             NavigationStack {
-                TabOverview(urls: ["https://apple.com", "https://google.com", "https://arc.net"])
+                //TabOverview(urls: ["https://apple.com", "https://google.com", "https://arc.net", "https://apple.com"])
+                TabOverview(selectedSpaceIndex: $selectedSpaceIndex)
             }
         }
         //}

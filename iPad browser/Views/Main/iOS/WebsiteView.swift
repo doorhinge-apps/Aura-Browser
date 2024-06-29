@@ -61,7 +61,7 @@ struct WebsiteView: View {
                             
                             let dragY = gesture.translation.height
                             if dragY < 0 { // Only allow upward movement
-                                let slowDragY = dragY * 0.1 // Drag up slower
+                                let slowDragY = dragY * 0.3 // Drag up slower
                                 offset = CGSize(width: dragX, height: slowDragY)
                                 scale = 1 - min(-slowDragY / 200, 0.5)
                             }

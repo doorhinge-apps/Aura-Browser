@@ -9,133 +9,237 @@ import SwiftUI
 import WebKit
 import SDWebImage
 import SDWebImageSwiftUI
+import SwiftData
 
 struct TabOverview: View {
     @Namespace var namespace
-    @State private var offsets: [String: CGSize] = [:] // Track offsets for each item
-    @State private var tilts: [String: Double] = [:]
-    @State private var zIndexes: [String: Double] = [:]
-    @State private var urls: [String] // Make urls a state variable so we can modify it
-
-    init(urls: [String]) {
-        self._urls = State(initialValue: urls) // Initialize the state variable
+    @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
+    @Binding var selectedSpaceIndex: Int
+    @Environment(\.modelContext) private var modelContext
+    
+    @State private var tabs: [(id: UUID, url: String)]
+    @State private var offsets: [UUID: CGSize] = [:]
+    @State private var tilts: [UUID: Double] = [:]
+    @State private var zIndexes: [UUID: Double] = [:]
+    
+    @EnvironmentObject var variables: ObservableVariables
+    @StateObject var settings = SettingsVariables()
+    
+    @State var selectedTabsSection: TabLocations = .tabs
+    
+    init(selectedSpaceIndex: Binding<Int>) {
+        self._selectedSpaceIndex = selectedSpaceIndex
+        self._tabs = State(initialValue: [])
     }
     
     var body: some View {
         GeometryReader { geo in
-            ScrollView {
-                VStack {
-                    LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
-                        ForEach(urls, id: \.self) { url in
-                            let offset = offsets[url, default: .zero]
-                            NavigationLink(destination: {
-                                if #available(iOS 18.0, *) {
-                                    WebsiteView(url: url, parentGeo: geo)
+            ZStack {
+                ScrollView {
+                    VStack {
+                        LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
+                            ForEach(tabs, id: \.id) { tab in
+                                let offset = offsets[tab.id, default: .zero]
+                                NavigationLink(destination: {
+                                    if #available(iOS 18.0, visionOS 2.0, *) {
+                                        WebsiteView(url: tab.url, parentGeo: geo)
 #if !os(macOS)
-                                        .navigationTransition(.zoom(sourceID: url, in: namespace))
-                                    #endif
-                                }
-                                else {
-                                    WebsiteView(url: url, parentGeo: geo)
-                                }
-                            }, label: {
-                                if #available(iOS 18.0, *) {
-                                    WebPreview(url: url, geo: geo)
+                                            .navigationTransition(.zoom(sourceID: tab.id, in: namespace))
+#endif
+                                    }
+                                    else {
+                                        WebsiteView(url: tab.url, parentGeo: geo)
+                                    }
+                                }, label: {
+                                    if #available(iOS 18.0, visionOS 2.0, *) {
+                                        WebPreview(url: tab.url, geo: geo)
 #if !os(macOS)
-                                        .matchedTransitionSource(id: url, in: namespace)
-                                    #endif
-                                        .rotationEffect(Angle(degrees: tilts[url, default: 0.0]))
-                                        .offset(x: offset.width)
-                                        .gesture(
-                                            DragGesture()
-                                                .onChanged { gesture in
-                                                    offsets[url] = gesture.translation
-                                                    zIndexes[url] = 100
-                                                    var tilt = min(Double(abs(gesture.translation.width)) / 20, 15)
-                                                    if gesture.translation.width < 0 {
-                                                        tilt *= -1
+                                            .matchedTransitionSource(id: tab.id, in: namespace)
+#endif
+                                            .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
+                                            .offset(x: offset.width)
+                                            .gesture(
+                                                DragGesture()
+                                                    .onChanged { gesture in
+                                                        handleDragChange(gesture, for: tab.id)
                                                     }
-                                                    tilts[url] = tilt
-                                                }
-                                                .onEnded { gesture in
-                                                    zIndexes[url] = 1
-                                                    if abs(gesture.translation.width) > 50 {
-                                                        withAnimation {
-                                                            if gesture.translation.width < 0 {
-                                                                offsets[url] = CGSize(width: -500, height: 0)
-                                                            } else {
-                                                                offsets[url] = CGSize(width: 500, height: 0)
-                                                            }
-                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                                withAnimation {
-                                                                    removeItem(url)
-                                                                }
-                                                            }
-                                                        }
-                                                    } else {
-                                                        withAnimation {
-                                                            offsets[url] = .zero
-                                                            tilts[url] = 0.0
-                                                        }
+                                                    .onEnded { gesture in
+                                                        handleDragEnd(gesture, for: tab.id)
                                                     }
-                                                }
-                                        )
-                                } else {
-                                    WebPreview(url: url, geo: geo)
-                                        .rotationEffect(Angle(degrees: tilts[url, default: 0.0]))
-                                        .offset(x: offset.width)
-                                        .gesture(
-                                            DragGesture()
-                                                .onChanged { gesture in
-                                                    offsets[url] = gesture.translation
-                                                    zIndexes[url] = 100
-                                                    var tilt = min(Double(abs(gesture.translation.width)) / 20, 15)
-                                                    if gesture.translation.width < 0 {
-                                                        tilt *= -1
+                                            )
+                                    } else {
+                                        WebPreview(url: tab.url, geo: geo)
+                                            .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
+                                            .offset(x: offset.width)
+                                            .gesture(
+                                                DragGesture()
+                                                    .onChanged { gesture in
+                                                        handleDragChange(gesture, for: tab.id)
                                                     }
-                                                    tilts[url] = tilt
-                                                }
-                                                .onEnded { gesture in
-                                                    zIndexes[url] = 1
-                                                    if abs(gesture.translation.width) > 100 {
-                                                        withAnimation {
-                                                            if gesture.translation.width < 0 {
-                                                                offsets[url] = CGSize(width: -500, height: 0)
-                                                            } else {
-                                                                offsets[url] = CGSize(width: 500, height: 0)
-                                                            }
-                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                                                withAnimation {
-                                                                    removeItem(url)
-                                                                }
-                                                            }
-                                                        }
-                                                    } else {
-                                                        withAnimation {
-                                                            offsets[url] = .zero
-                                                            tilts[url] = 0.0
-                                                        }
+                                                    .onEnded { gesture in
+                                                        handleDragEnd(gesture, for: tab.id)
                                                     }
-                                                }
-                                        )
-                                }
-                            })
-                        }
-                    })
-                    .padding(10)
+                                            )
+                                    }
+                                })
+                            }
+                        })
+                        .padding(10)
+                    }
                 }
+                
+                HStack {
+                    Spacer()
+                    
+                    VStack {
+                        Button(action: {
+                            withAnimation {
+                                selectedTabsSection = .favorites
+                            }
+                        }, label: {
+                            Image(systemName: "star")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: selectedTabsSection == .favorites ? 20: 15)
+                                .opacity(selectedTabsSection == .favorites ? 1.0: 0.5)
+                                .foregroundStyle(Color(hex: "4D4D4D"))
+                        })
+                        .padding(.vertical, 5)
+                        
+                        Button(action: {
+                            withAnimation {
+                                selectedTabsSection = .pinned
+                            }
+                        }, label: {
+                            Image(systemName: "pin")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: selectedTabsSection == .pinned ? 20: 15)
+                                .opacity(selectedTabsSection == .pinned ? 1.0: 0.5)
+                                .foregroundStyle(Color(hex: "4D4D4D"))
+                        })
+                        .padding(.vertical, 5)
+                        
+                        Button(action: {
+                            withAnimation {
+                                selectedTabsSection = .tabs
+                            }
+                        }, label: {
+                            Image(systemName: "calendar.day.timeline.left")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: selectedTabsSection == .tabs ? 20: 15)
+                                .opacity(selectedTabsSection == .tabs ? 1.0: 0.5)
+                                .foregroundStyle(Color(hex: "4D4D4D"))
+                        })
+                        .padding(.vertical, 5)
+                    }
+                    .frame(width: 30, height: 100)
+                    .background(
+                        RoundedRectangle(cornerRadius: 50)
+                            .fill(.regularMaterial)
+                    )
+                }.padding(2)
+                
+                VStack {
+                    Spacer()
+                    spaceSelector
+                }
+            }
+        }
+        .onAppear {
+            updateTabs()
+        }
+    }
+    
+    private func tabView(for tab: (id: UUID, url: String), geo: GeometryProxy) -> some View {
+        let offset = offsets[tab.id, default: .zero]
+        
+        return NavigationLink(destination: WebsiteView(url: tab.url, parentGeo: geo)) {
+            WebPreview(url: tab.url, geo: geo)
+                .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
+                .offset(x: offset.width)
+                .gesture(
+                    DragGesture()
+                        .onChanged { gesture in
+                            handleDragChange(gesture, for: tab.id)
+                        }
+                        .onEnded { gesture in
+                            handleDragEnd(gesture, for: tab.id)
+                        }
+                )
+        }
+        .zIndex(zIndexes[tab.id, default: 0])
+    }
+    
+    private var spaceSelector: some View {
+        HStack {
+            ForEach(spaces.indices, id: \.self) { index in
+                Button(action: {
+                    selectedSpaceIndex = index
+                    updateTabs()
+                }) {
+                    Image(systemName: spaces[index].spaceIcon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(selectedSpaceIndex == index ? .blue : .gray)
+                }
+            }
+        }
+        .padding()
+        .background(Color.white.opacity(0.8))
+        .cornerRadius(15)
+        .padding(.bottom)
+    }
+    
+    private func handleDragChange(_ gesture: DragGesture.Value, for id: UUID) {
+        offsets[id] = gesture.translation
+        zIndexes[id] = 100
+        var tilt = min(Double(abs(gesture.translation.width)) / 20, 15)
+        if gesture.translation.width < 0 {
+            tilt *= -1
+        }
+        tilts[id] = tilt
+    }
+    
+    private func handleDragEnd(_ gesture: DragGesture.Value, for id: UUID) {
+        zIndexes[id] = 1
+        if abs(gesture.translation.width) > 50 {
+            withAnimation {
+                if gesture.translation.width < 0 {
+                    offsets[id] = CGSize(width: -500, height: 0)
+                } else {
+                    offsets[id] = CGSize(width: 500, height: 0)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation {
+                        removeItem(id)
+                    }
+                }
+            }
+        } else {
+            withAnimation {
+                offsets[id] = .zero
+                tilts[id] = 0.0
             }
         }
     }
     
-    private func removeItem(_ url: String) {
-        urls.removeAll { $0 == url }
-        offsets.removeValue(forKey: url)
-        tilts.removeValue(forKey: url)
+    private func updateTabs() {
+        tabs = spaces[selectedSpaceIndex].tabUrls.map { (id: UUID(), url: $0) }
+    }
+    
+    private func removeItem(_ id: UUID) {
+        if let index = tabs.firstIndex(where: { $0.id == id }) {
+            tabs.remove(at: index)
+            spaces[selectedSpaceIndex].tabUrls.remove(at: index)
+        }
+        offsets.removeValue(forKey: id)
+        tilts.removeValue(forKey: id)
+        zIndexes.removeValue(forKey: id)
     }
 }
-
-
 
 struct WebPreview: View {
     @State var url: String
@@ -206,11 +310,7 @@ struct WebPreview: View {
                 
                 Spacer()
             }
-            #endif
+#endif
         }
     }
-}
-
-#Preview {
-    TabOverview(urls: ["https://apple.com", "https://google.com", "https://arc.net"])
 }
