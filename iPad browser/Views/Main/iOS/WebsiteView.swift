@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WebsiteView: View {
+    let namespace: Namespace.ID
     @State var url: String
     @State private var offset = CGSize.zero
     @State private var scale: CGFloat = 1.0
@@ -22,6 +23,10 @@ struct WebsiteView: View {
     
     @State private var webTitle: String = ""
     
+    @Binding var fullScreenWebView: Bool
+    
+    @State var tab: (id: UUID, url: String)
+    
     var body: some View {
         GeometryReader { geo in
 #if !os(macOS)
@@ -31,6 +36,7 @@ struct WebsiteView: View {
                     .navigationBarBackButtonHidden(true)
                     .offset(x: offset.width, y: offset.height)
                     .scaleEffect(scale)
+                    .matchedGeometryEffect(id: tab.id, in: namespace)
                 
                 VStack {
                     Spacer()
@@ -72,7 +78,10 @@ struct WebsiteView: View {
                                 gestureStarted = false
                             }
                             if gesture.translation.height < -100 {
-                                self.presentationMode.wrappedValue.dismiss()
+                                //self.presentationMode.wrappedValue.dismiss()
+                                withAnimation {
+                                    fullScreenWebView = false
+                                }
                             } else {
                                 withAnimation(.spring()) {
                                     offset = .zero

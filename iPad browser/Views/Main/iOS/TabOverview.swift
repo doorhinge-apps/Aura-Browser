@@ -18,61 +18,52 @@ struct TabOverview: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var tabs: [(id: UUID, url: String)]
+    @State private var pinnedTabs: [(id: UUID, url: String)]
+    @State private var favoriteTabs: [(id: UUID, url: String)]
     @State private var offsets: [UUID: CGSize] = [:]
     @State private var tilts: [UUID: Double] = [:]
     @State private var zIndexes: [UUID: Double] = [:]
+    
+    @State var selectedTab: (id: UUID, url: String)?
     
     @EnvironmentObject var variables: ObservableVariables
     @StateObject var settings = SettingsVariables()
     
     @State var selectedTabsSection: TabLocations = .tabs
     
+    @State var fullScreenWebView = false
+    
     init(selectedSpaceIndex: Binding<Int>) {
         self._selectedSpaceIndex = selectedSpaceIndex
         self._tabs = State(initialValue: [])
+        self._pinnedTabs = State(initialValue: [])
+        self._favoriteTabs = State(initialValue: [])
     }
     
     var body: some View {
         GeometryReader { geo in
-            ZStack {
-                ScrollView {
-                    VStack {
-                        LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
-                            ForEach(tabs, id: \.id) { tab in
-                                let offset = offsets[tab.id, default: .zero]
-                                NavigationLink(destination: {
-                                    if #available(iOS 18.0, visionOS 2.0, *) {
-                                        WebsiteView(url: tab.url, parentGeo: geo)
-#if !os(macOS)
-                                            .navigationTransition(.zoom(sourceID: tab.id, in: namespace))
-#endif
-                                    }
-                                    else {
-                                        WebsiteView(url: tab.url, parentGeo: geo)
-                                    }
-                                }, label: {
-                                    if #available(iOS 18.0, visionOS 2.0, *) {
-                                        WebPreview(url: tab.url, geo: geo)
-#if !os(macOS)
-                                            .matchedTransitionSource(id: tab.id, in: namespace)
-#endif
+            
+                    ZStack {
+                        ScrollView {
+                            VStack {
+                                LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
+                                    ForEach(selectedTabsSection == .tabs ? tabs: selectedTabsSection == .pinned ? pinnedTabs: favoriteTabs, id: \.id) { tab in
+                                        let offset = offsets[tab.id, default: .zero]
+                                        WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab)
                                             .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
                                             .offset(x: offset.width)
-                                            .gesture(
-                                                DragGesture()
-                                                    .onChanged { gesture in
-                                                        handleDragChange(gesture, for: tab.id)
+                                            .overlay(content: {
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .fill(Color.white.opacity(0.0001))
+                                                    .onTapGesture {
+                                                        withAnimation {
+                                                            selectedTab = tab
+                                                            fullScreenWebView = true
+                                                        }
                                                     }
-                                                    .onEnded { gesture in
-                                                        handleDragEnd(gesture, for: tab.id)
-                                                    }
-                                            )
-                                    } else {
-                                        WebPreview(url: tab.url, geo: geo)
-                                            .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
-                                            .offset(x: offset.width)
-                                            .gesture(
-                                                DragGesture()
+                                            })
+                                            .simultaneousGesture(
+                                                DragGesture(minimumDistance: 20)
                                                     .onChanged { gesture in
                                                         handleDragChange(gesture, for: tab.id)
                                                     }
@@ -82,116 +73,136 @@ struct TabOverview: View {
                                             )
                                     }
                                 })
+                                .padding(10)
                             }
-                        })
-                        .padding(10)
-                    }
-                }
-                
-                HStack {
-                    Spacer()
-                    
-                    VStack {
-                        Button(action: {
-                            withAnimation {
-                                selectedTabsSection = .favorites
-                            }
-                        }, label: {
-                            Image(systemName: "star")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: selectedTabsSection == .favorites ? 20: 15)
-                                .opacity(selectedTabsSection == .favorites ? 1.0: 0.5)
-                                .foregroundStyle(Color(hex: "4D4D4D"))
-                        })
-                        .padding(.vertical, 5)
+                        }
                         
-                        Button(action: {
-                            withAnimation {
-                                selectedTabsSection = .pinned
+                        HStack {
+                            Spacer()
+                            
+                            VStack {
+                                Button(action: {
+                                    withAnimation {
+                                        selectedTabsSection = .favorites
+                                    }
+                                }, label: {
+                                    Image(systemName: "star")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: selectedTabsSection == .favorites ? 30: 20)
+                                        .opacity(selectedTabsSection == .favorites ? 1.0: 0.4)
+                                        .foregroundStyle(Color(hex: "4D4D4D"))
+                                })
+                                .padding(.vertical, 5)
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        selectedTabsSection = .pinned
+                                    }
+                                }, label: {
+                                    Image(systemName: "pin")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: selectedTabsSection == .pinned ? 30: 20)
+                                        .opacity(selectedTabsSection == .pinned ? 1.0: 0.4)
+                                        .foregroundStyle(Color(hex: "4D4D4D"))
+                                })
+                                .padding(.vertical, 5)
+                                
+                                Button(action: {
+                                    withAnimation {
+                                        selectedTabsSection = .tabs
+                                    }
+                                }, label: {
+                                    Image(systemName: "calendar.day.timeline.left")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: selectedTabsSection == .tabs ? 30: 20)
+                                        .opacity(selectedTabsSection == .tabs ? 1.0: 0.4)
+                                        .foregroundStyle(Color(hex: "4D4D4D"))
+                                })
+                                .padding(.vertical, 5)
                             }
-                        }, label: {
-                            Image(systemName: "pin")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: selectedTabsSection == .pinned ? 20: 15)
-                                .opacity(selectedTabsSection == .pinned ? 1.0: 0.5)
-                                .foregroundStyle(Color(hex: "4D4D4D"))
-                        })
-                        .padding(.vertical, 5)
+                            .frame(width: 50, height: 150)
+                            .background(
+                                RoundedRectangle(cornerRadius: 50)
+                                    .fill(.regularMaterial)
+                            )
+                            .padding(.trailing, 5)
+                        }.padding(2)
                         
-                        Button(action: {
-                            withAnimation {
-                                selectedTabsSection = .tabs
-                            }
-                        }, label: {
-                            Image(systemName: "calendar.day.timeline.left")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: selectedTabsSection == .tabs ? 20: 15)
-                                .opacity(selectedTabsSection == .tabs ? 1.0: 0.5)
-                                .foregroundStyle(Color(hex: "4D4D4D"))
-                        })
-                        .padding(.vertical, 5)
+                        VStack {
+                            Spacer()
+                            spaceSelector
+                        }
+                        
+                        if fullScreenWebView {
+                            WebsiteView(namespace: namespace, url: selectedTab!.url, parentGeo: geo, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
+                        }
+                        
                     }
-                    .frame(width: 30, height: 100)
-                    .background(
-                        RoundedRectangle(cornerRadius: 50)
-                            .fill(.regularMaterial)
-                    )
-                }.padding(2)
-                
-                VStack {
-                    Spacer()
-                    spaceSelector
-                }
-            }
+            
+            
         }
         .onAppear {
             updateTabs()
         }
     }
     
-    private func tabView(for tab: (id: UUID, url: String), geo: GeometryProxy) -> some View {
-        let offset = offsets[tab.id, default: .zero]
-        
-        return NavigationLink(destination: WebsiteView(url: tab.url, parentGeo: geo)) {
-            WebPreview(url: tab.url, geo: geo)
-                .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
-                .offset(x: offset.width)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            handleDragChange(gesture, for: tab.id)
-                        }
-                        .onEnded { gesture in
-                            handleDragEnd(gesture, for: tab.id)
-                        }
-                )
-        }
-        .zIndex(zIndexes[tab.id, default: 0])
-    }
-    
     private var spaceSelector: some View {
-        HStack {
-            ForEach(spaces.indices, id: \.self) { index in
-                Button(action: {
-                    selectedSpaceIndex = index
-                    updateTabs()
-                }) {
-                    Image(systemName: spaces[index].spaceIcon)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(selectedSpaceIndex == index ? .blue : .gray)
+        GeometryReader { geometry in
+            ScrollView(.horizontal, showsIndicators: false) {
+                ScrollViewReader { proxy in
+                    HStack(spacing: 10) {
+                        ForEach(spaces.indices, id: \.self) { index in
+                            Button(action: {
+                                withAnimation {
+                                    selectedSpaceIndex = index
+                                    updateTabs()
+                                }
+                            }) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(.regularMaterial)
+                                        .frame(width: geometry.size.width - 50, height: 50)
+                                    
+                                    HStack {
+                                        Image(systemName: spaces[index].spaceIcon)
+                                        Text(spaces[index].spaceName)
+                                    }
+                                    .foregroundStyle(Color(hex: "4D4D4D"))
+                                    .font(.system(size: 16, weight: .bold))
+                                    .opacity(selectedSpaceIndex == index ? 1.0 : 0.4)
+                                    .padding(.horizontal, 15)
+                                }
+                                .frame(width: geometry.size.width / 2, height: 50)
+                                .background(Color.white.opacity(0.8))
+                                .cornerRadius(15)
+                                .contentShape(Rectangle())
+                                .id(index) // Identify each item by its index
+                                .onAppear {
+                                    if selectedSpaceIndex == index {
+                                        proxy.scrollTo(index, anchor: .center) // Snap to center on appear
+                                    }
+                                }
+                                .onTapGesture {
+                                    withAnimation {
+                                        selectedSpaceIndex = index
+                                        updateTabs()
+                                        proxy.scrollTo(index, anchor: .center) // Snap to center on tap
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 25)
                 }
             }
-        }
-        .padding()
-        .background(Color.white.opacity(0.8))
-        .cornerRadius(15)
-        .padding(.bottom)
+            .background(Color.white.opacity(0.8))
+            .padding(.bottom)
+        }.frame(height: 75)
     }
+
     
     private func handleDragChange(_ gesture: DragGesture.Value, for id: UUID) {
         offsets[id] = gesture.translation
@@ -227,7 +238,10 @@ struct TabOverview: View {
     }
     
     private func updateTabs() {
-        tabs = spaces[selectedSpaceIndex].tabUrls.map { (id: UUID(), url: $0) }
+        var temporaryTabs = spaces[selectedSpaceIndex].tabUrls.map { (id: UUID(), url: $0) }
+        tabs = temporaryTabs.reversed()
+        pinnedTabs = spaces[selectedSpaceIndex].pinnedUrls.map { (id: UUID(), url: $0) }
+        favoriteTabs = spaces[selectedSpaceIndex].favoritesUrls.map { (id: UUID(), url: $0) }
     }
     
     private func removeItem(_ id: UUID) {
@@ -242,6 +256,7 @@ struct TabOverview: View {
 }
 
 struct WebPreview: View {
+    let namespace: Namespace.ID
     @State var url: String
     @State private var webTitle: String = ""
     
@@ -250,20 +265,24 @@ struct WebPreview: View {
     var geo: GeometryProxy
     
     @State var faviconSize = CGFloat(20)
+    
+    @State var tab: (id: UUID, url: String)
+    
     var body: some View {
         VStack {
 #if !os(macOS)
             ZStack {
-                WebViewMobile(urlString: url, title: $webTitle)
-                    .frame(width: geo.size.width - 50, height: 400)
-                    .scaleEffect(0.5)
-                    .disabled(true)
-                
                 Color.white.opacity(0.0001)
                 
-            }.frame(width: geo.size.width / 2 - 25, height: 200)
-                .clipped()
-                .cornerRadius(15)
+                WebViewMobile(urlString: url, title: $webTitle)
+                    .frame(width: geo.size.width - 50, height: 400)
+                    .disabled(true)
+                
+            }
+            .scaleEffect(0.5)
+            .frame(width: geo.size.width / 2 - 25, height: 200) // Small size for tappable area
+            .clipped()
+            .cornerRadius(15)
             
             HStack {
                 if settings.faviconLoadingStyle {
@@ -280,11 +299,10 @@ struct WebPreview: View {
                             .padding(.leading, 5)
                     }
                     .onSuccess { image, data, cacheType in
-                        // Success
-                        // Note: Data exist only when queried from disk cache or network. Use `.queryMemoryData` if you really need data
+                        
                     }
-                    .indicator(.activity) // Activity Indicator
-                    .transition(.fade(duration: 0.5)) // Fade Transition with duration
+                    .indicator(.activity)
+                    .transition(.fade(duration: 0.5))
                     .scaledToFit()
                     
                 } else {
@@ -311,6 +329,6 @@ struct WebPreview: View {
                 Spacer()
             }
 #endif
-        }
+        }.matchedGeometryEffect(id: tab.id, in: namespace)
     }
 }
