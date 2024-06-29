@@ -39,6 +39,8 @@ struct TabOverview: View {
     @State var suggestions = [] as [String]
     @State var xmlString = ""
     
+    @State var offsetTest = 0 as CGFloat
+    
     init(selectedSpaceIndex: Binding<Int>) {
         self._selectedSpaceIndex = selectedSpaceIndex
         self._tabs = State(initialValue: [])
@@ -125,10 +127,25 @@ struct TabOverview: View {
                                     Image(systemName: "star")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: selectedTabsSection == .favorites ? 30: 20)
+                                        .frame(width: selectedTabsSection == .favorites ? 30: 20, height: selectedTabsSection == .favorites ? 30: 20)
                                         .opacity(selectedTabsSection == .favorites ? 1.0: 0.4)
                                         .foregroundStyle(Color(hex: "4D4D4D"))
                                 })
+                                .highPriorityGesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            let dragHeight = value.translation.height
+                                            if dragHeight > 120 {
+                                                selectedTabsSection = .tabs
+                                            } else if dragHeight > 60 {
+                                                selectedTabsSection = .pinned
+                                            }
+                                            else {
+                                                selectedTabsSection = .favorites
+                                            }
+                                        }
+                                )
+                                .frame(height: 30)
                                 .padding(.vertical, 5)
                                 
                                 Button(action: {
@@ -139,10 +156,25 @@ struct TabOverview: View {
                                     Image(systemName: "pin")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: selectedTabsSection == .pinned ? 30: 20)
+                                        .frame(width: selectedTabsSection == .pinned ? 30: 20, height: selectedTabsSection == .pinned ? 30: 20)
                                         .opacity(selectedTabsSection == .pinned ? 1.0: 0.4)
                                         .foregroundStyle(Color(hex: "4D4D4D"))
                                 })
+                                .highPriorityGesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            let dragHeight = value.translation.height
+                                            if dragHeight > 60 {
+                                                selectedTabsSection = .tabs
+                                            } else if dragHeight < -60 {
+                                                selectedTabsSection = .favorites
+                                            }
+                                            else {
+                                                selectedTabsSection = .pinned
+                                            }
+                                        }
+                                )
+                                .frame(height: 30)
                                 .padding(.vertical, 5)
                                 
                                 Button(action: {
@@ -153,10 +185,25 @@ struct TabOverview: View {
                                     Image(systemName: "calendar.day.timeline.left")
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: selectedTabsSection == .tabs ? 30: 20)
+                                        .frame(width: selectedTabsSection == .tabs ? 30: 20, height: selectedTabsSection == .tabs ? 30: 20)
                                         .opacity(selectedTabsSection == .tabs ? 1.0: 0.4)
                                         .foregroundStyle(Color(hex: "4D4D4D"))
                                 })
+                                .highPriorityGesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            let dragHeight = value.translation.height
+                                            if dragHeight < -120 {
+                                                selectedTabsSection = .favorites
+                                            } else if dragHeight < -60 {
+                                                selectedTabsSection = .pinned
+                                            }
+                                            else {
+                                                selectedTabsSection = .tabs
+                                            }
+                                        }
+                                )
+                                .frame(height: 30)
                                 .padding(.vertical, 5)
                             }
                             .frame(width: 50, height: 150)
