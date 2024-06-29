@@ -68,6 +68,7 @@
 		B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */; };
 		B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */; };
 		B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = B98A32FA2BD05CF000555AB9 /* FaviconFinder */; };
+		B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */; };
 		B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */; };
 		B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */; };
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
@@ -160,6 +161,7 @@
 		B98A32F12BCDB62C00555AB9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlFormatter.swift; sourceTree = "<group>"; };
 		B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPicker.swift; sourceTree = "<group>"; };
+		B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonStyle.swift; sourceTree = "<group>"; };
 		B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClock.swift; sourceTree = "<group>"; };
 		B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClock.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
 				B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */,
 				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
 				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
@@ -699,6 +702,7 @@
 				B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */,
 				B94303922C2D347C00D787A4 /* CurrentWebView.swift in Sources */,
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
+				B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */,
 				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */,
 				C1BD7D232BDDF9C80078D7B3 /* ContentViewColor.swift in Sources */,

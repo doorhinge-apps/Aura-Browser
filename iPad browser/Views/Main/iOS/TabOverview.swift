@@ -31,7 +31,13 @@ struct TabOverview: View {
     
     @State var selectedTabsSection: TabLocations = .tabs
     
+    @FocusState var newTabFocus: Bool
+    @State var newTabSearch = ""
+    
     @State var fullScreenWebView = false
+    
+    @State var suggestions = [] as [String]
+    @State var xmlString = ""
     
     init(selectedSpaceIndex: Binding<Int>) {
         self._selectedSpaceIndex = selectedSpaceIndex
@@ -42,8 +48,16 @@ struct TabOverview: View {
     
     var body: some View {
         GeometryReader { geo in
-            
                     ZStack {
+                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                .animation(.linear)
+                        }
+                        else {
+                            LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                .animation(.linear)
+                        }
+                        
                         ScrollView {
                             VStack {
                                 LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
@@ -56,26 +70,48 @@ struct TabOverview: View {
                                                 RoundedRectangle(cornerRadius: 15)
                                                     .fill(Color.white.opacity(0.0001))
                                                     .onTapGesture {
-                                                        withAnimation {
-                                                            selectedTab = tab
-                                                            fullScreenWebView = true
+                                                        if newTabFocus {
+                                                            newTabFocus = false
+                                                        }
+                                                        else {
+                                                            withAnimation {
+                                                                selectedTab = tab
+                                                                fullScreenWebView = true
+                                                            }
                                                         }
                                                     }
                                             })
                                             .simultaneousGesture(
                                                 DragGesture(minimumDistance: 20)
                                                     .onChanged { gesture in
-                                                        handleDragChange(gesture, for: tab.id)
+                                                        if newTabFocus {
+                                                            newTabFocus = false
+                                                        }
+                                                        else {
+                                                            handleDragChange(gesture, for: tab.id)
+                                                        }
                                                     }
                                                     .onEnded { gesture in
-                                                        handleDragEnd(gesture, for: tab.id)
+                                                        if newTabFocus {
+                                                            newTabFocus = false
+                                                        }
+                                                        else {
+                                                            handleDragEnd(gesture, for: tab.id)
+                                                        }
                                                     }
                                             )
                                     }
                                 })
                                 .padding(10)
+                                
+                                Spacer()
+                                    .frame(height: 120)
                             }
-                        }
+                        }.onTapGesture(perform: {
+                            if newTabFocus {
+                                newTabFocus = false
+                            }
+                        })
                         
                         HStack {
                             Spacer()
@@ -133,8 +169,126 @@ struct TabOverview: View {
                         
                         VStack {
                             Spacer()
-                            spaceSelector
-                        }
+                            
+                            ScrollView(showsIndicators: false) {
+                                VStack {
+                                    if newTabFocus {
+                                        ForEach(Array(suggestions.prefix(5)), id:\.self) { suggestion in
+                                            Button(action: {
+                                                withAnimation {
+                                                    newTabFocus = false
+                                                    createTab(url: formatURL(from: suggestion))
+                                                    newTabSearch = ""
+                                                    //fullScreenWebView = true
+                                                }
+                                            }, label: {
+                                                ZStack {
+                                                    ZStack {
+                                                        Capsule()
+                                                            .fill(
+                                                                .white.gradient.shadow(.inner(color: .black.opacity(0.2), radius: 10, x: 0, y: -3))
+                                                            )
+                                                            .animation(.default, value: newTabFocus)
+                                                    }
+                                                    
+                                                    HStack {
+                                                        Text(suggestion)
+                                                            .animation(.default)
+                                                            .foregroundColor(Color(hex: "4D4D4D"))
+                                                            .font(.system(.headline, design: .rounded, weight: .bold))
+                                                            .padding(.horizontal, 10)
+                                                        
+                                                        Spacer()
+                                                    }
+                                                    
+                                                }.frame(height: 50)
+                                                    .padding(.horizontal, 10)
+                                            })
+                                        }
+                                    }
+                                }.rotationEffect(Angle(degrees: 180))
+                                .onChange(of: newTabSearch, perform: { value in
+                                    Task {
+                                        await fetchXML(searchRequest: newTabSearch)
+                                    }
+                                    
+                                    Task {
+                                        await suggestions = formatXML(from: xmlString)
+                                    }
+                                })
+                                .onChange(of: newTabFocus, perform: { newValue in
+                                    if !newTabFocus {
+                                        suggestions.removeAll()
+                                    }
+                                })
+                            }.rotationEffect(Angle(degrees: 180))
+                            
+                            ZStack {
+                                Rectangle()
+                                    .fill(.thinMaterial)
+                                    .frame(height: newTabFocus ? 75: 150)
+                                
+                                VStack {
+                                    
+                                    HStack {
+                                        ZStack {
+                                            ZStack {
+                                                Capsule()
+                                                    .fill(.white)
+                                                    .animation(.default, value: newTabFocus)
+                                            }
+                                            
+                                            TextField("Search or enter url", text: $newTabSearch)
+                                                .focused($newTabFocus)
+                                                .opacity(newTabFocus ? 1.0: 0.0)
+                                                .keyboardType(.webSearch)
+                                                .textInputAutocapitalization(.never)
+                                                .autocorrectionDisabled(true)
+                                                .submitLabel(.search)
+                                                .scrollDismissesKeyboard(.interactively)
+                                                .tint(Color(.systemBlue))
+                                                .animation(.default, value: newTabFocus)
+                                                .foregroundColor(Color(hex: "4D4D4D"))
+                                                .font(.system(.headline, design: .rounded, weight: .bold))
+                                                .padding(.horizontal, newTabFocus ? 10: 0)
+                                                .onSubmit({
+                                                    withAnimation {
+                                                        newTabFocus = false
+                                                        createTab(url: formatURL(from: newTabSearch))
+                                                        newTabSearch = ""
+                                                        //fullScreenWebView = true
+                                                    }
+                                                })
+                                            
+                                        }.frame(width: newTabFocus ? .infinity: 0, height: 50)
+                                        
+                                        
+                                        Button(action: {
+                                            if !newTabFocus {
+                                                withAnimation {
+                                                    newTabFocus = true
+                                                }
+                                            } else {
+                                                withAnimation {
+                                                    newTabFocus = false
+                                                    createTab(url: formatURL(from: newTabSearch))
+                                                    newTabSearch = ""
+                                                    //fullScreenWebView = true
+                                                }
+                                            }
+                                        }, label: {
+                                            Image(systemName: newTabFocus ? "magnifyingglass": "plus")
+                                        }).buttonStyle(PlusButtonStyle())
+                                        
+                                    }.padding(.leading, newTabFocus ? 10: 0)
+                                    
+                                    
+                                    if !newTabFocus {
+                                        spaceSelector
+                                    }
+                                }
+                            }
+                        }.ignoresSafeArea(.container, edges: .all)
                         
                         if fullScreenWebView {
                             WebsiteView(namespace: namespace, url: selectedTab!.url, parentGeo: geo, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
@@ -157,8 +311,11 @@ struct TabOverview: View {
                         ForEach(spaces.indices, id: \.self) { index in
                             Button(action: {
                                 withAnimation {
-                                    selectedSpaceIndex = index
-                                    updateTabs()
+                                    withAnimation {
+                                        selectedSpaceIndex = index
+                                        updateTabs()
+                                        proxy.scrollTo(index, anchor: .center) // Snap to center on tap
+                                    }
                                 }
                             }) {
                                 ZStack {
@@ -179,17 +336,10 @@ struct TabOverview: View {
                                 .background(Color.white.opacity(0.8))
                                 .cornerRadius(15)
                                 .contentShape(Rectangle())
-                                .id(index) // Identify each item by its index
+                                .id(index)
                                 .onAppear {
                                     if selectedSpaceIndex == index {
-                                        proxy.scrollTo(index, anchor: .center) // Snap to center on appear
-                                    }
-                                }
-                                .onTapGesture {
-                                    withAnimation {
-                                        selectedSpaceIndex = index
-                                        updateTabs()
-                                        proxy.scrollTo(index, anchor: .center) // Snap to center on tap
+                                        proxy.scrollTo(index, anchor: .center)
                                     }
                                 }
                             }
@@ -198,7 +348,6 @@ struct TabOverview: View {
                     .padding(.horizontal, 25)
                 }
             }
-            .background(Color.white.opacity(0.8))
             .padding(.bottom)
         }.frame(height: 75)
     }
@@ -245,13 +394,98 @@ struct TabOverview: View {
     }
     
     private func removeItem(_ id: UUID) {
-        if let index = tabs.firstIndex(where: { $0.id == id }) {
-            tabs.remove(at: index)
-            spaces[selectedSpaceIndex].tabUrls.remove(at: index)
+        switch selectedTabsSection {
+        case .tabs:
+            if let index = tabs.firstIndex(where: { $0.id == id }) {
+                tabs.remove(at: index)
+                spaces[selectedSpaceIndex].tabUrls.remove(at: index)
+            }
+        case .pinned:
+            if let index = pinnedTabs.firstIndex(where: { $0.id == id }) {
+                pinnedTabs.remove(at: index)
+                spaces[selectedSpaceIndex].pinnedUrls.remove(at: index)
+            }
+        case .favorites:
+            if let index = favoriteTabs.firstIndex(where: { $0.id == id }) {
+                favoriteTabs.remove(at: index)
+                spaces[selectedSpaceIndex].favoritesUrls.remove(at: index)
+            }
         }
-        offsets.removeValue(forKey: id)
-        tilts.removeValue(forKey: id)
-        zIndexes.removeValue(forKey: id)
+
+        // Clean up UI elements associated with the tab
+        withAnimation {
+            offsets.removeValue(forKey: id)
+            tilts.removeValue(forKey: id)
+            zIndexes.removeValue(forKey: id)
+        }
+    }
+    
+    private func createTab(url: String) {
+        let newTab = (id: UUID(), url: url)
+        
+        switch selectedTabsSection {
+        case .tabs:
+            tabs.append(newTab)
+            spaces[selectedSpaceIndex].tabUrls.append(url)
+        case .pinned:
+            pinnedTabs.append(newTab)
+            spaces[selectedSpaceIndex].pinnedUrls.append(url)
+        case .favorites:
+            favoriteTabs.append(newTab)
+            spaces[selectedSpaceIndex].favoritesUrls.append(url)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            withAnimation {
+                selectedTab = newTab
+                fullScreenWebView = true
+            }
+        })
+    }
+    
+    func fetchXML(searchRequest: String) {
+        guard let url = URL(string: "https://toolbarqueries.google.com/complete/search?q=\(searchRequest.replacingOccurrences(of: " ", with: "+"))&output=toolbar&hl=en") else {
+            print("Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            if let xmlContent = String(data: data, encoding: .utf8) {
+                DispatchQueue.main.async {
+                    self.xmlString = xmlContent
+                }
+            } else {
+                print("Unable to convert data to string")
+            }
+        }.resume()
+    }
+    
+    func formatXML(from input: String) -> [String] {
+        var results = [String]()
+        
+        // Find all occurrences of 'data="' in the XML string
+        var currentIndex = xmlString.startIndex
+        while let startIndex = xmlString[currentIndex...].range(of: "data=\"")?.upperBound {
+            let remainingSubstring = xmlString[startIndex...]
+            
+            // Find the end of the attribute value enclosed in quotation marks
+            if let endIndex = remainingSubstring.range(of: "\"")?.lowerBound {
+                let attributeValue = xmlString[startIndex..<endIndex]
+                results.append(String(attributeValue))
+                
+                // Move to the next character after the found attribute value
+                currentIndex = endIndex
+            } else {
+                break
+            }
+        }
+        
+        return results
     }
 }
 
@@ -268,13 +502,15 @@ struct WebPreview: View {
     
     @State var tab: (id: UUID, url: String)
     
+    @State var webViewBackgroundColor: UIColor? = UIColor.white
+    
     var body: some View {
         VStack {
 #if !os(macOS)
             ZStack {
                 Color.white.opacity(0.0001)
                 
-                WebViewMobile(urlString: url, title: $webTitle)
+                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor)
                     .frame(width: geo.size.width - 50, height: 400)
                     .disabled(true)
                 

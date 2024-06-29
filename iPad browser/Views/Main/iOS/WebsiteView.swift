@@ -22,6 +22,7 @@ struct WebsiteView: View {
     @State var exponentialThing = 1.0
     
     @State private var webTitle: String = ""
+    @State var webViewBackgroundColor: UIColor? = UIColor.white
     
     @Binding var fullScreenWebView: Bool
     
@@ -31,8 +32,12 @@ struct WebsiteView: View {
         GeometryReader { geo in
 #if !os(macOS)
             ZStack {
-                WebViewMobile(urlString: url, title: $webTitle)
+                Color(uiColor: webViewBackgroundColor!)
                     .ignoresSafeArea()
+                    .offset(x: offset.width, y: offset.height)
+                    .scaleEffect(scale)
+                
+                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor)
                     .navigationBarBackButtonHidden(true)
                     .offset(x: offset.width, y: offset.height)
                     .scaleEffect(scale)
