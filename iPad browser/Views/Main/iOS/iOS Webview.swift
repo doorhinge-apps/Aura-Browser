@@ -11,10 +11,12 @@ import WebKit
 class WebViewCoordinator: NSObject, WKNavigationDelegate {
     @Binding var title: String
     @Binding var webViewBackgroundColor: UIColor?
-    
-    init(title: Binding<String>, webViewBackgroundColor: Binding<UIColor?>) {
+    @Binding var currentURLString: String
+
+    init(title: Binding<String>, webViewBackgroundColor: Binding<UIColor?>, currentURLString: Binding<String>) {
         _title = title
         _webViewBackgroundColor = webViewBackgroundColor
+        _currentURLString = currentURLString
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -24,16 +26,19 @@ class WebViewCoordinator: NSObject, WKNavigationDelegate {
         if let webViewBackgroundColor = webView.underPageBackgroundColor {
             self.webViewBackgroundColor = webViewBackgroundColor
         }
+        self.currentURLString = webView.url?.absoluteString ?? ""
     }
 }
+
 #if !os(macOS)
 struct WebViewMobile: UIViewRepresentable {
     let urlString: String
     @Binding var title: String
     @Binding var webViewBackgroundColor: UIColor?
+    @Binding var currentURLString: String
     
     func makeCoordinator() -> WebViewCoordinator {
-        WebViewCoordinator(title: $title, webViewBackgroundColor: $webViewBackgroundColor)
+        WebViewCoordinator(title: $title, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $currentURLString)
     }
     
     func makeUIView(context: Context) -> WKWebView {

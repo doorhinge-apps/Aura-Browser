@@ -48,7 +48,12 @@ struct TabOverview: View {
     
     @State var exponentialThing = 1.0
     
+    @State var newTabFromTab = false
+    
     @State var gestureStarted = false
+    
+    @State var webURL = ""
+    @State var displayWebURL = ""
     
     init(selectedSpaceIndex: Binding<Int>) {
         self._selectedSpaceIndex = selectedSpaceIndex
@@ -86,6 +91,7 @@ struct TabOverview: View {
                                                         }
                                                         else {
                                                             withAnimation {
+                                                                webURL = tab.url
                                                                 selectedTab = tab
                                                                 fullScreenWebView = true
                                                             }
@@ -224,15 +230,16 @@ struct TabOverview: View {
                         }.padding(2)
                         
                         if fullScreenWebView {
-                            WebsiteView(namespace: namespace, url: selectedTab!.url, parentGeo: geo, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
+                            WebsiteView(namespace: namespace, url: $webURL, parentGeo: geo, webURL: $webURL, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
                                 .offset(x: tabOffset.width, y: tabOffset.height)
                                 .scaleEffect(tabScale)
                         }
                         
                         VStack {
                             Spacer()
-                                .offset(x: tabOffset.width, y: tabOffset.height)
-                                .scaleEffect(tabScale)
+//                                .frame(height: geo.size.height - (newTabFocus ? 75: 150))
+//                                .offset(x: tabOffset.width, y: tabOffset.height)
+//                                .scaleEffect(tabScale)
                             
                             ScrollView(showsIndicators: false) {
                                 VStack {
@@ -291,6 +298,11 @@ struct TabOverview: View {
                                 Rectangle()
                                     .fill(.thinMaterial)
                                     .frame(height: newTabFocus ? 75: 150)
+                                    .onChange(of: webURL, {
+                                        if fullScreenWebView, let selectedTab = selectedTab {
+                                            updateTabURL(for: selectedTab.id, with: webURL)
+                                        }
+                                    })
                                 
                                 VStack {
                                     
@@ -359,56 +371,52 @@ struct TabOverview: View {
                                                     .fill(.white)
                                                     .frame(height: 50)
                                                     .padding(.horizontal, 15)
-                                                    .offset(x: tabOffset.width, y: tabOffset.height)
-                                                    .scaleEffect(tabScale)
-                                                    .gesture(
-                                                        DragGesture()
-                                                            .onChanged { gesture in
-                                                                withAnimation {
-                                                                    gestureStarted = true
-                                                                }
-                                                                exponentialThing = exponentialThing * 0.99
-                                                                var dragX = min(max(gesture.translation.width, -50), 50)
-                                                                dragX *= exponentialThing
-                                                                
-                                                                let dragY = gesture.translation.height
-                                                                if dragY < 0 { // Only allow upward movement
-                                                                    let slowDragY = dragY * 0.3 // Drag up slower
-                                                                    tabOffset = CGSize(width: dragX, height: slowDragY)
-                                                                    tabScale = 1 - min(-slowDragY / 200, 0.5)
-                                                                }
-                                                            }
-                                                            .onEnded { gesture in
-                                                                exponentialThing = 1
-                                                                withAnimation {
-                                                                    gestureStarted = false
-                                                                }
-                                                                if gesture.translation.height < -100 {
-                                                                    //self.presentationMode.wrappedValue.dismiss()
-                                                                    withAnimation {
-                                                                        fullScreenWebView = false
-                                                                    }
-                                                                }
-                                                                    withAnimation(.spring()) {
-                                                                        tabOffset = .zero
-                                                                        tabScale = 1.0
-                                                                    }
-                                                                
-                                                            }
-                                                    )
                                                 
-                                                //Text(webViewModel.currentURL?.absoluteString ?? "")
-                                            }
+                                                Text(unformatURL(url: webURL))
+                                                    .lineLimit(1)
+                                            }.offset(x: tabOffset.width, y: tabOffset.height * 3)
+                                                .scaleEffect(tabScale)
+                                                .gesture(
+                                                    DragGesture()
+                                                        .onChanged { gesture in
+                                                            withAnimation {
+                                                                gestureStarted = true
+                                                            }
+                                                            exponentialThing = exponentialThing * 0.99
+                                                            var dragX = min(max(gesture.translation.width, -50), 50)
+                                                            dragX *= exponentialThing
+                                                            
+                                                            let dragY = gesture.translation.height
+                                                            if dragY < 0 { // Only allow upward movement
+                                                                let slowDragY = dragY * 0.3 // Drag up slower
+                                                                tabOffset = CGSize(width: dragX, height: slowDragY)
+                                                                tabScale = 1 - min(-slowDragY / 200, 0.5)
+                                                            }
+                                                        }
+                                                        .onEnded { gesture in
+                                                            exponentialThing = 1
+                                                            withAnimation {
+                                                                gestureStarted = false
+                                                            }
+                                                            if gesture.translation.height < -100 {
+                                                                //self.presentationMode.wrappedValue.dismiss()
+                                                                withAnimation {
+                                                                    fullScreenWebView = false
+                                                                    webURL = ""
+                                                                }
+                                                            }
+                                                                withAnimation(.spring()) {
+                                                                    tabOffset = .zero
+                                                                    tabScale = 1.0
+                                                                }
+                                                            
+                                                        }
+                                                )
                                         }
                                     }
                                 }
                             }
                         }.ignoresSafeArea(.container, edges: .all)
-                        
-                        /*if fullScreenWebView {
-                            WebsiteView(namespace: namespace, url: selectedTab!.url, parentGeo: geo, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
-                        }*/
-                        
                     }
             
             
@@ -535,6 +543,27 @@ struct TabOverview: View {
         }
     }
     
+    private func updateTabURL(for id: UUID, with newURL: String) {
+        switch selectedTabsSection {
+        case .tabs:
+            if let index = tabs.firstIndex(where: { $0.id == id }) {
+                tabs[index].url = newURL
+                spaces[selectedSpaceIndex].tabUrls[index] = newURL
+            }
+        case .pinned:
+            if let index = pinnedTabs.firstIndex(where: { $0.id == id }) {
+                pinnedTabs[index].url = newURL
+                spaces[selectedSpaceIndex].pinnedUrls[index] = newURL
+            }
+        case .favorites:
+            if let index = favoriteTabs.firstIndex(where: { $0.id == id }) {
+                favoriteTabs[index].url = newURL
+                spaces[selectedSpaceIndex].favoritesUrls[index] = newURL
+            }
+        }
+    }
+
+    
     private func createTab(url: String) {
         let newTab = (id: UUID(), url: url)
         
@@ -608,6 +637,7 @@ struct WebPreview: View {
     let namespace: Namespace.ID
     @State var url: String
     @State private var webTitle: String = ""
+    @State var webURL = ""
     
     @StateObject var settings = SettingsVariables()
     //@StateObject private var webViewModel = WebViewModel()
@@ -626,7 +656,7 @@ struct WebPreview: View {
             ZStack {
                 Color.white.opacity(0.0001)
                 
-                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor)
+                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL)
                     .frame(width: geo.size.width - 50, height: 400)
                     .disabled(true)
                 

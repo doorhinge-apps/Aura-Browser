@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WebsiteView: View {
     let namespace: Namespace.ID
-    @State var url: String
+    @Binding var url: String
     @State private var offset = CGSize.zero
     @State private var scale: CGFloat = 1.0
     
@@ -23,6 +23,8 @@ struct WebsiteView: View {
     
     @State private var webTitle: String = ""
     @State var webViewBackgroundColor: UIColor? = UIColor.white
+    //@State var webURL = ""
+    @Binding var webURL: String
     
     @Binding var fullScreenWebView: Bool
     
@@ -37,7 +39,7 @@ struct WebsiteView: View {
                     //.offset(x: offset.width, y: offset.height)
                     //.scaleEffect(scale)
                 
-                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor)
+                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL)
                     .navigationBarBackButtonHidden(true)
                     //.offset(x: offset.width, y: offset.height)
                     //.scaleEffect(scale)
