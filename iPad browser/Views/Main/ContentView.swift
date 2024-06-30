@@ -130,14 +130,12 @@ struct ContentView: View {
                                                             })
                                                     }
                                                     .sheet(isPresented: $variables.showSettings) {
-                                                        NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-#if !os(macOS)
-                                                            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                                   height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-#else
-                                                            .frame(width: geo.size.width - 200,
-                                                                   height: geo.size.height - 100)
-#endif
+                                                        if #available(iOS 18.0, *) {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                                .presentationSizing(.form)
+                                                        } else {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                        }
                                                     }
                                                     Spacer()
                                                     
@@ -534,14 +532,12 @@ struct ContentView: View {
                                                             })
                                                     }
                                                     .sheet(isPresented: $variables.showSettings) {
-                                                        NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-#if !os(macOS)
-                                                            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                                   height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-#else
-                                                            .frame(width: geo.size.width - 200,
-                                                                   height: geo.size.height - 100)
-#endif
+                                                        if #available(iOS 18.0, *) {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                                .presentationSizing(.form)
+                                                        } else {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                        }
                                                     }
                                                     Spacer()
                                                     
@@ -667,14 +663,12 @@ struct ContentView: View {
                                                                 })
                                                         }
                                                         .sheet(isPresented: $variables.showSettings) {
-                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-#if !os(macOS)
-                                                                .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                                       height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-#else
-                                                                .frame(width: geo.size.width - 200,
-                                                                       height: geo.size.height - 100)
-#endif
+                                                            if #available(iOS 18.0, *) {
+                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                                    .presentationSizing(.form)
+                                                            } else {
+                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                            }
                                                         }
                                                         Spacer()
                                                         
@@ -794,14 +788,12 @@ struct ContentView: View {
                                                                             })
                                                                     }
                                                                     .sheet(isPresented: $variables.showSettings) {
-                                                                        NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-#if !os(macOS)
-                                                                            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.width - 200,
-                                                                                   height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: geo.size.height - 100)
-#else
-                                                                            .frame(width: geo.size.width - 200,
-                                                                                   height: geo.size.height - 100)
-#endif
+                                                                        if #available(iOS 18.0, *) {
+                                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                                                .presentationSizing(.form)
+                                                                        } else {
+                                                                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                                                                        }
                                                                     }
                                                                     Spacer()
                                                                     
