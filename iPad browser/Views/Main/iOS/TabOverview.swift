@@ -293,6 +293,12 @@ struct TabOverview: View {
                                     }
                                 })
                             }.rotationEffect(Angle(degrees: 180))
+                                .onTapGesture(perform: {
+                                    if newTabFocus {
+                                        newTabFocus = false
+                                        newTabSearch = ""
+                                    }
+                                })
                             
                             ZStack {
                                 Rectangle()
@@ -341,7 +347,10 @@ struct TabOverview: View {
                                             
                                             
                                             Button(action: {
-                                                if !newTabFocus {
+                                                if newTabSearch == "" && newTabFocus {
+                                                    newTabFocus = false
+                                                }
+                                                else if !newTabFocus {
                                                     withAnimation {
                                                         newTabFocus = true
                                                     }
@@ -354,11 +363,22 @@ struct TabOverview: View {
                                                     }
                                                 }
                                             }, label: {
-                                                Image(systemName: newTabFocus ? "magnifyingglass": "plus")
+                                                if newTabSearch == "" && newTabFocus {
+                                                    Image(systemName: "xmark")
+                                                }
+                                                else {
+                                                    Image(systemName: newTabFocus ? "magnifyingglass": "plus")
+                                                }
                                             }).buttonStyle(PlusButtonStyle())
                                             
                                         }.padding(.leading, newTabFocus ? 10: 0)
-                                        
+                                            .onChange(of: newTabSearch, {
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                    if newTabSearch == "" {
+                                                        suggestions.removeAll()
+                                                    }
+                                                })
+                                            })
                                         
                                         if !newTabFocus {
                                             spaceSelector
@@ -416,7 +436,7 @@ struct TabOverview: View {
                                     }
                                 }
                             }
-                        }.ignoresSafeArea(.container, edges: .all)
+                        }.ignoresSafeArea(newTabFocus ? .container: .all, edges: .all)
                     }
             
             
@@ -582,6 +602,7 @@ struct TabOverview: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             withAnimation {
                 selectedTab = newTab
+                webURL = newTab.url
                 fullScreenWebView = true
             }
         })
