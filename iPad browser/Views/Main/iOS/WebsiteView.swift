@@ -34,16 +34,16 @@ struct WebsiteView: View {
             ZStack {
                 Color(uiColor: webViewBackgroundColor!)
                     .ignoresSafeArea()
-                    .offset(x: offset.width, y: offset.height)
-                    .scaleEffect(scale)
+                    //.offset(x: offset.width, y: offset.height)
+                    //.scaleEffect(scale)
                 
                 WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor)
                     .navigationBarBackButtonHidden(true)
-                    .offset(x: offset.width, y: offset.height)
-                    .scaleEffect(scale)
+                    //.offset(x: offset.width, y: offset.height)
+                    //.scaleEffect(scale)
                     .matchedGeometryEffect(id: tab.id, in: namespace)
                 
-                VStack {
+                /*VStack {
                     Spacer()
                     
                     ZStack {
@@ -94,7 +94,7 @@ struct WebsiteView: View {
                                 }
                             }
                         }
-                )
+                )*/
             }
             //.frame(height: gestureStarted ? geo.size.height * scale: .infinity)
             .ignoresSafeArea(.container, edges: [.leading, .trailing, .bottom])

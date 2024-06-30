@@ -29,6 +29,8 @@ struct TabOverview: View {
     @EnvironmentObject var variables: ObservableVariables
     @StateObject var settings = SettingsVariables()
     
+    //@StateObject private var webViewModel = WebViewModel()
+    
     @State var selectedTabsSection: TabLocations = .tabs
     
     @FocusState var newTabFocus: Bool
@@ -40,6 +42,13 @@ struct TabOverview: View {
     @State var xmlString = ""
     
     @State var offsetTest = 0 as CGFloat
+    
+    @State var tabOffset = CGSize.zero
+    @State var tabScale: CGFloat = 1.0
+    
+    @State var exponentialThing = 1.0
+    
+    @State var gestureStarted = false
     
     init(selectedSpaceIndex: Binding<Int>) {
         self._selectedSpaceIndex = selectedSpaceIndex
@@ -214,8 +223,16 @@ struct TabOverview: View {
                             .padding(.trailing, 5)
                         }.padding(2)
                         
+                        if fullScreenWebView {
+                            WebsiteView(namespace: namespace, url: selectedTab!.url, parentGeo: geo, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
+                                .offset(x: tabOffset.width, y: tabOffset.height)
+                                .scaleEffect(tabScale)
+                        }
+                        
                         VStack {
                             Spacer()
+                                .offset(x: tabOffset.width, y: tabOffset.height)
+                                .scaleEffect(tabScale)
                             
                             ScrollView(showsIndicators: false) {
                                 VStack {
@@ -277,69 +294,120 @@ struct TabOverview: View {
                                 
                                 VStack {
                                     
-                                    HStack {
-                                        ZStack {
+                                    if !fullScreenWebView {
+                                        HStack {
                                             ZStack {
-                                                Capsule()
-                                                    .fill(.white)
+                                                ZStack {
+                                                    Capsule()
+                                                        .fill(.white)
+                                                        .animation(.default, value: newTabFocus)
+                                                }
+                                                
+                                                TextField("Search or enter url", text: $newTabSearch)
+                                                    .focused($newTabFocus)
+                                                    .opacity(newTabFocus ? 1.0: 0.0)
+                                                    .keyboardType(.webSearch)
+                                                    .textInputAutocapitalization(.never)
+                                                    .autocorrectionDisabled(true)
+                                                    .submitLabel(.search)
+                                                    .scrollDismissesKeyboard(.interactively)
+                                                    .tint(Color(.systemBlue))
                                                     .animation(.default, value: newTabFocus)
-                                            }
+                                                    .foregroundColor(Color(hex: "4D4D4D"))
+                                                    .font(.system(.headline, design: .rounded, weight: .bold))
+                                                    .padding(.horizontal, newTabFocus ? 10: 0)
+                                                    .onSubmit({
+                                                        withAnimation {
+                                                            newTabFocus = false
+                                                            createTab(url: formatURL(from: newTabSearch))
+                                                            newTabSearch = ""
+                                                            //fullScreenWebView = true
+                                                        }
+                                                    })
+                                                
+                                            }.frame(width: newTabFocus ? .infinity: 0, height: 50)
                                             
-                                            TextField("Search or enter url", text: $newTabSearch)
-                                                .focused($newTabFocus)
-                                                .opacity(newTabFocus ? 1.0: 0.0)
-                                                .keyboardType(.webSearch)
-                                                .textInputAutocapitalization(.never)
-                                                .autocorrectionDisabled(true)
-                                                .submitLabel(.search)
-                                                .scrollDismissesKeyboard(.interactively)
-                                                .tint(Color(.systemBlue))
-                                                .animation(.default, value: newTabFocus)
-                                                .foregroundColor(Color(hex: "4D4D4D"))
-                                                .font(.system(.headline, design: .rounded, weight: .bold))
-                                                .padding(.horizontal, newTabFocus ? 10: 0)
-                                                .onSubmit({
+                                            
+                                            Button(action: {
+                                                if !newTabFocus {
+                                                    withAnimation {
+                                                        newTabFocus = true
+                                                    }
+                                                } else {
                                                     withAnimation {
                                                         newTabFocus = false
                                                         createTab(url: formatURL(from: newTabSearch))
                                                         newTabSearch = ""
                                                         //fullScreenWebView = true
                                                     }
-                                                })
+                                                }
+                                            }, label: {
+                                                Image(systemName: newTabFocus ? "magnifyingglass": "plus")
+                                            }).buttonStyle(PlusButtonStyle())
                                             
-                                        }.frame(width: newTabFocus ? .infinity: 0, height: 50)
+                                        }.padding(.leading, newTabFocus ? 10: 0)
                                         
                                         
-                                        Button(action: {
-                                            if !newTabFocus {
-                                                withAnimation {
-                                                    newTabFocus = true
-                                                }
-                                            } else {
-                                                withAnimation {
-                                                    newTabFocus = false
-                                                    createTab(url: formatURL(from: newTabSearch))
-                                                    newTabSearch = ""
-                                                    //fullScreenWebView = true
-                                                }
+                                        if !newTabFocus {
+                                            spaceSelector
+                                        }
+                                    }
+                                    else {
+                                        VStack {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .fill(.white)
+                                                    .frame(height: 50)
+                                                    .padding(.horizontal, 15)
+                                                    .offset(x: tabOffset.width, y: tabOffset.height)
+                                                    .scaleEffect(tabScale)
+                                                    .gesture(
+                                                        DragGesture()
+                                                            .onChanged { gesture in
+                                                                withAnimation {
+                                                                    gestureStarted = true
+                                                                }
+                                                                exponentialThing = exponentialThing * 0.99
+                                                                var dragX = min(max(gesture.translation.width, -50), 50)
+                                                                dragX *= exponentialThing
+                                                                
+                                                                let dragY = gesture.translation.height
+                                                                if dragY < 0 { // Only allow upward movement
+                                                                    let slowDragY = dragY * 0.3 // Drag up slower
+                                                                    tabOffset = CGSize(width: dragX, height: slowDragY)
+                                                                    tabScale = 1 - min(-slowDragY / 200, 0.5)
+                                                                }
+                                                            }
+                                                            .onEnded { gesture in
+                                                                exponentialThing = 1
+                                                                withAnimation {
+                                                                    gestureStarted = false
+                                                                }
+                                                                if gesture.translation.height < -100 {
+                                                                    //self.presentationMode.wrappedValue.dismiss()
+                                                                    withAnimation {
+                                                                        fullScreenWebView = false
+                                                                    }
+                                                                }
+                                                                    withAnimation(.spring()) {
+                                                                        tabOffset = .zero
+                                                                        tabScale = 1.0
+                                                                    }
+                                                                
+                                                            }
+                                                    )
+                                                
+                                                //Text(webViewModel.currentURL?.absoluteString ?? "")
                                             }
-                                        }, label: {
-                                            Image(systemName: newTabFocus ? "magnifyingglass": "plus")
-                                        }).buttonStyle(PlusButtonStyle())
-                                        
-                                    }.padding(.leading, newTabFocus ? 10: 0)
-                                    
-                                    
-                                    if !newTabFocus {
-                                        spaceSelector
+                                        }
                                     }
                                 }
                             }
                         }.ignoresSafeArea(.container, edges: .all)
                         
-                        if fullScreenWebView {
+                        /*if fullScreenWebView {
                             WebsiteView(namespace: namespace, url: selectedTab!.url, parentGeo: geo, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
-                        }
+                        }*/
                         
                     }
             
@@ -412,7 +480,7 @@ struct TabOverview: View {
     
     private func handleDragEnd(_ gesture: DragGesture.Value, for id: UUID) {
         zIndexes[id] = 1
-        if abs(gesture.translation.width) > 50 {
+        if abs(gesture.translation.width) > 100 {
             withAnimation {
                 if gesture.translation.width < 0 {
                     offsets[id] = CGSize(width: -500, height: 0)
@@ -542,6 +610,7 @@ struct WebPreview: View {
     @State private var webTitle: String = ""
     
     @StateObject var settings = SettingsVariables()
+    //@StateObject private var webViewModel = WebViewModel()
     
     var geo: GeometryProxy
     
