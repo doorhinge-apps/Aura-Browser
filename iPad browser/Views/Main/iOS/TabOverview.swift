@@ -344,11 +344,16 @@ struct TabOverview: View {
                                                 TextField("Search or enter url", text: $newTabSearch)
                                                     .focused($newTabFocus)
                                                     .opacity(newTabFocus ? 1.0: 0.0)
+                                                    .textFieldStyle(.plain)
+#if !os(macOS)
                                                     .keyboardType(.webSearch)
                                                     .textInputAutocapitalization(.never)
+                                                #endif
                                                     .autocorrectionDisabled(true)
                                                     .submitLabel(.search)
+                                                #if !os(visionOS) && !os(macOS)
                                                     .scrollDismissesKeyboard(.interactively)
+                                                #endif
                                                     .tint(Color(.systemBlue))
                                                     .animation(.default, value: newTabFocus)
                                                     .foregroundColor(Color(hex: "4D4D4D"))
@@ -758,7 +763,11 @@ struct WebPreview: View {
     
     @State var tab: (id: UUID, url: String)
     
+#if !os(macOS)
     @State var webViewBackgroundColor: UIColor? = UIColor.white
+    #else
+    @State var webViewBackgroundColor: NSColor? = NSColor.white
+    #endif
     
     var body: some View {
         VStack {

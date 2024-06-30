@@ -75,7 +75,7 @@ struct TabBar: View {
                                     })
                                 
                             }
-                        }
+                        }.buttonStyle(.plain)
                     }.contextMenu {
                         Button {
                             //

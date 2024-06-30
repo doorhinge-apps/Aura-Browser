@@ -233,9 +233,9 @@ struct PagedSidebar: View {
                                     settingsButtonHover = false
                                 }
                             })
-                    }
+                    }.buttonStyle(.plain)
                     .sheet(isPresented: $showSettings) {
-                        if #available(iOS 18.0, *) {
+                        if #available(iOS 18.0, visionOS 2.0, *) {
                             NewSettings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
                                 .presentationSizing(.form)
                         } else {
@@ -282,7 +282,7 @@ struct PagedSidebar: View {
                                     variables.hoverSpace = ""
                                 }
                             })
-                    })
+                    }).buttonStyle(.plain)
                 }
             }
         }.ignoresSafeArea()

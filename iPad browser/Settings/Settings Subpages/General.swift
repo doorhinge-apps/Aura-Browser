@@ -264,6 +264,7 @@ struct General: View {
                     }.padding(20)
                     
                     TextField("API Key", text: $settings.apiKey)
+                        .textFieldStyle(.plain)
                         .padding(.leading, 20)
                     
                     HStack {

@@ -137,7 +137,7 @@ struct TodayTab: View {
                             })
                         
                     }
-                }
+                }.buttonStyle(.plain)
             }
         }
         .contextMenu {
@@ -147,11 +147,13 @@ struct TodayTab: View {
             } label: {
                 Label("Browse for Me", systemImage: "globe.desk")
             }
+#if !os(macOS)
             Button {
                 UIPasteboard.general.string = tab.url?.absoluteString ?? ""
             } label: {
                 Label("Copy URL", systemImage: "link")
             }
+            #endif
             Button {
                 navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: tab.url?.absoluteString ?? ""))!))
             } label: {

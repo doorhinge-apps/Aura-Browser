@@ -23,7 +23,11 @@ struct WebsiteView: View {
     @State var exponentialThing = 1.0
     
     @State private var webTitle: String = ""
+    #if !os(macOS)
     @State var webViewBackgroundColor: UIColor? = UIColor.white
+    #else
+    @State var webViewBackgroundColor: NSColor? = NSColor.white
+    #endif
     @Binding var webURL: String
     @Binding var fullScreenWebView: Bool
     

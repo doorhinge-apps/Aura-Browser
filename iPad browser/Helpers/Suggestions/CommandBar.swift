@@ -104,7 +104,9 @@ struct CommandBar: View {
                                                             .foregroundStyle(Color.white)
 #endif
                                                         
-                                                    }.animation(.linear)
+                                                    }
+                                                    .buttonStyle(.plain)
+                                                    .animation(.linear)
                                                     
                                                     Image(systemName: "arrow.right")
                                                         .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
@@ -120,7 +122,7 @@ struct CommandBar: View {
                                                     
                                                 }
                                             }
-                                        })
+                                        }).buttonStyle(.plain)
                                     }.id("veryLongStringForUnlikelySearchID")
                                 }
                                 
@@ -188,7 +190,9 @@ struct CommandBar: View {
                                                     #else
                                                         .foregroundStyle(Color.white)
                                                     #endif
-                                                }.animation(.linear)
+                                                }
+                                                .buttonStyle(.plain)
+                                                .animation(.linear)
 
                                                 
                                                 
@@ -220,7 +224,7 @@ struct CommandBar: View {
                                                     hoverSuggestion = ""
                                                 }
                                             })
-                                    })
+                                    }).buttonStyle(.plain)
                                 }
                             }.frame(width: 600)
                             
@@ -276,6 +280,7 @@ struct CommandBar: View {
                                         
                                         return KeyPress.Result.handled
                                     })
+                                    .textFieldStyle(.plain)
                                     .focused($focusedField, equals: .tabBar)
                                     .autocorrectionDisabled(true)
 #if !os(macOS)

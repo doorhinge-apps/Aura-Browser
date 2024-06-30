@@ -10,15 +10,27 @@ import WebKit
 
 class WebViewCoordinator: NSObject, WKNavigationDelegate {
     @Binding var title: String
+#if !os(macOS)
     @Binding var webViewBackgroundColor: UIColor?
+    #else
+    @Binding var webViewBackgroundColor: NSColor?
+    #endif
     @Binding var currentURLString: String
     var webView: WKWebView?
     
+#if !os(macOS)
     init(title: Binding<String>, webViewBackgroundColor: Binding<UIColor?>, currentURLString: Binding<String>) {
         _title = title
         _webViewBackgroundColor = webViewBackgroundColor
         _currentURLString = currentURLString
     }
+    #else
+    init(title: Binding<String>, webViewBackgroundColor: Binding<NSColor?>, currentURLString: Binding<String>) {
+        _title = title
+        _webViewBackgroundColor = webViewBackgroundColor
+        _currentURLString = currentURLString
+    }
+    #endif
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         if let title = webView.title {

@@ -62,6 +62,13 @@ struct ToolbarButtonsView: View {
                         .frame(width: 65)
                 }
                 
+                #if os(macOS)
+                if !hideSidebar && sidebarLeft {
+                    Spacer()
+                        .frame(width: 65)
+                }
+                #endif
+                
 
                     Button(action: {
                         Task {
@@ -127,7 +134,7 @@ struct ToolbarButtonsView: View {
                                     hoverSidebarButton = false
                                 }
                             })
-                    })
+                    }).buttonStyle(.plain)
                 
                     
                 
@@ -272,7 +279,7 @@ struct ToolbarButtonsView: View {
                                 hoverBackwardButton = false
                             }
                         })
-                })
+                }).buttonStyle(.plain)
                 
                 Button(action: {
                     if selectedTabLocation == "tabs" {
@@ -308,7 +315,7 @@ struct ToolbarButtonsView: View {
                                 hoverForwardButton = false
                             }
                         })
-                })
+                }).buttonStyle(.plain)
                 
                 
                 Button(action: {
@@ -371,7 +378,7 @@ struct ToolbarButtonsView: View {
                                 hoverReloadButton = false
                             }
                         })
-                })
+                }).buttonStyle(.plain)
             }
             .onAppear() {
 #if os(iOS)

@@ -34,7 +34,7 @@ struct ThreeDots: View {
 #if !os(visionOS) && !os(macOS)
                         .hoverEffect(.highlight)
                     #endif
-                }
+                }.buttonStyle(.plain)
             }
             
             

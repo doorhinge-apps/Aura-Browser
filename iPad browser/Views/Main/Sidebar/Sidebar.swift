@@ -125,7 +125,7 @@ struct Sidebar: View {
                             hoverSidebarSearchField = false
                         }
                     })
-                }
+                }.buttonStyle(.plain)
                 
                 
                 // Tabs
@@ -273,6 +273,7 @@ struct Sidebar: View {
                             
                             ZStack {
                                 TextField("", text: $temporaryRenameSpace)
+                                    .textFieldStyle(.plain)
                                     .foregroundStyle(textColor)
                                     .opacity(renameIsFocused ? 0.75: 0)
                                     .tint(Color.white)
@@ -324,7 +325,7 @@ struct Sidebar: View {
                                             spaceIconHover = false
                                         }
                                     })
-                            }
+                            }.buttonStyle(.plain)
                             
                             Text(!renameIsFocused ? spaces[selectedSpaceIndex].spaceName: temporaryRenameSpace)
                                 .foregroundStyle(textColor)
@@ -523,7 +524,7 @@ struct Sidebar: View {
                                 hoverNewTabSection = false
                             }
                         })
-                    }
+                    }.buttonStyle(.plain)
                     .onAppear() {
                         if settings.commandBarOnLaunch {
                             tabBarShown = true

@@ -67,6 +67,7 @@ struct BrowseForMe: View {
                     TextField("Browse for me", text: $searchText, axis: .vertical)
                         .lineLimit(3)
                         .padding(15)
+                        .textFieldStyle(.plain)
                         .font(.system(.largeTitle, design: .rounded, weight: .bold))
                         .underline(!searchResponse.isEmpty)
                         .onSubmit {

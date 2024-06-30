@@ -49,6 +49,7 @@ struct IconsPicker: View {
                 ZStack {
                     TextField("Search for an Icon", text: $iconSearch)
                         .padding(15)
+                        .textFieldStyle(.plain)
                         .background(
                             RoundedRectangle(cornerRadius: 15)
                                 .stroke(Color.white, lineWidth: 3)
