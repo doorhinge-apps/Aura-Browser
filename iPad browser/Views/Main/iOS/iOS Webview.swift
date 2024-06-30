@@ -12,7 +12,8 @@ class WebViewCoordinator: NSObject, WKNavigationDelegate {
     @Binding var title: String
     @Binding var webViewBackgroundColor: UIColor?
     @Binding var currentURLString: String
-
+    var webView: WKWebView?
+    
     init(title: Binding<String>, webViewBackgroundColor: Binding<UIColor?>, currentURLString: Binding<String>) {
         _title = title
         _webViewBackgroundColor = webViewBackgroundColor
@@ -28,32 +29,82 @@ class WebViewCoordinator: NSObject, WKNavigationDelegate {
         }
         self.currentURLString = webView.url?.absoluteString ?? ""
     }
+    
+    func goBack() {
+        webView?.goBack()
+    }
+    
+    func goForward() {
+        webView?.goForward()
+    }
 }
 
 #if !os(macOS)
 struct WebViewMobile: UIViewRepresentable {
-    let urlString: String
+    var urlString: String
     @Binding var title: String
     @Binding var webViewBackgroundColor: UIColor?
     @Binding var currentURLString: String
-    
-    func makeCoordinator() -> WebViewCoordinator {
-        WebViewCoordinator(title: $title, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $currentURLString)
-    }
+    @ObservedObject var webViewManager: WebViewManager
     
     func makeUIView(context: Context) -> WKWebView {
-        let webView = WKWebView()
-        webView.navigationDelegate = context.coordinator
-        webView.allowsBackForwardNavigationGestures = true
-        webView.underPageBackgroundColor
-        return webView
+        webViewManager.webView.navigationDelegate = context.coordinator
+        return webViewManager.webView
     }
     
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
-            uiView.load(request)
+        webViewManager.load(urlString: urlString)
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, WKNavigationDelegate {
+        var parent: WebViewMobile
+        
+        init(_ parent: WebViewMobile) {
+            self.parent = parent
+        }
+        
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            parent.title = webView.title ?? ""
+            parent.currentURLString = webView.url?.absoluteString ?? ""
+            parent.webViewBackgroundColor = webView.backgroundColor
         }
     }
 }
 #endif
+
+
+
+class WebViewManager: ObservableObject {
+    @Published var webView: WKWebView = WKWebView()
+    
+    func goBack() {
+        webView.goBack()
+    }
+    
+    func goForward() {
+        webView.goForward()
+    }
+    
+    func reload() {
+        webView.reload()
+    }
+    
+    func canGoBack() -> Bool {
+        return webView.canGoBack
+    }
+    
+    func canGoForward() -> Bool {
+        return webView.canGoForward
+    }
+    
+    func load(urlString: String) {
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
+    }
+}

@@ -28,6 +28,7 @@ struct TabOverview: View {
     
     @EnvironmentObject var variables: ObservableVariables
     @StateObject var settings = SettingsVariables()
+    @StateObject var webViewManager = WebViewManager()
     
     //@StateObject private var webViewModel = WebViewModel()
     
@@ -86,6 +87,8 @@ struct TabOverview: View {
                                                 RoundedRectangle(cornerRadius: 15)
                                                     .fill(Color.white.opacity(0.0001))
                                                     .onTapGesture {
+                                                        newTabFromTab = false
+                                                        
                                                         if newTabFocus {
                                                             newTabFocus = false
                                                         }
@@ -125,6 +128,8 @@ struct TabOverview: View {
                                     .frame(height: 120)
                             }
                         }.onTapGesture(perform: {
+                            newTabFromTab = false
+                            
                             if newTabFocus {
                                 newTabFocus = false
                             }
@@ -230,7 +235,7 @@ struct TabOverview: View {
                         }.padding(2)
                         
                         if fullScreenWebView {
-                            WebsiteView(namespace: namespace, url: $webURL, parentGeo: geo, webURL: $webURL, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
+                            WebsiteView(namespace: namespace, url: $webURL, webViewManager: webViewManager, parentGeo: geo, webURL: $webURL, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
                                 .offset(x: tabOffset.width, y: tabOffset.height)
                                 .scaleEffect(tabScale)
                         }
@@ -288,12 +293,17 @@ struct TabOverview: View {
                                     }
                                 })
                                 .onChange(of: newTabFocus, perform: { newValue in
+                                    if newTabFromTab && !newTabFocus {
+                                        newTabFromTab = false
+                                    }
                                     if !newTabFocus {
                                         suggestions.removeAll()
                                     }
                                 })
                             }.rotationEffect(Angle(degrees: 180))
                                 .onTapGesture(perform: {
+                                    newTabFromTab = false
+                                    
                                     if newTabFocus {
                                         newTabFocus = false
                                         newTabSearch = ""
@@ -312,7 +322,7 @@ struct TabOverview: View {
                                 
                                 VStack {
                                     
-                                    if !fullScreenWebView {
+                                    if !fullScreenWebView || newTabFromTab {
                                         HStack {
                                             ZStack {
                                                 ZStack {
@@ -336,6 +346,7 @@ struct TabOverview: View {
                                                     .padding(.horizontal, newTabFocus ? 10: 0)
                                                     .onSubmit({
                                                         withAnimation {
+                                                            newTabFromTab = false
                                                             newTabFocus = false
                                                             createTab(url: formatURL(from: newTabSearch))
                                                             newTabSearch = ""
@@ -349,6 +360,7 @@ struct TabOverview: View {
                                             Button(action: {
                                                 if newTabSearch == "" && newTabFocus {
                                                     newTabFocus = false
+                                                    newTabFromTab = false
                                                 }
                                                 else if !newTabFocus {
                                                     withAnimation {
@@ -356,6 +368,7 @@ struct TabOverview: View {
                                                     }
                                                 } else {
                                                     withAnimation {
+                                                        newTabFromTab = false
                                                         newTabFocus = false
                                                         createTab(url: formatURL(from: newTabSearch))
                                                         newTabSearch = ""
@@ -392,8 +405,9 @@ struct TabOverview: View {
                                                     .frame(height: 50)
                                                     .padding(.horizontal, 15)
                                                 
-                                                Text(unformatURL(url: webURL))
+                                                Text(unformatURL(url: webURL).prefix(30))
                                                     .lineLimit(1)
+                                                
                                             }.offset(x: tabOffset.width, y: tabOffset.height * 3)
                                                 .scaleEffect(tabScale)
                                                 .gesture(
@@ -432,6 +446,68 @@ struct TabOverview: View {
                                                             
                                                         }
                                                 )
+                                            
+                                            
+                                            HStack {
+                                                Button(action: {
+                                                    webViewManager.goBack()
+                                                }, label: {
+                                                    Image(systemName: "chevron.left")
+                                                })
+                                                .disabled(!webViewManager.canGoBack())
+                                                .foregroundStyle(!webViewManager.canGoBack() ? Color.gray: Color(.systemBlue))
+                                                .shadow(color: .white.opacity(0.5), radius: 2, x: 0, y: 0)
+                                                
+                                                Spacer()
+                                                
+                                                Button(action: {
+                                                    webViewManager.goForward()
+                                                }, label: {
+                                                    Image(systemName: "chevron.right")
+                                                })
+                                                .disabled(!webViewManager.canGoForward())
+                                                .foregroundStyle(!webViewManager.canGoForward() ? Color.gray: Color(.systemBlue))
+                                                .shadow(color: .white.opacity(0.5), radius: 5, x: 0, y: 0)
+                                                
+                                                Spacer()
+                                                
+                                                Button(action: {
+                                                    newTabFromTab = true
+                                                    
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                        newTabFromTab = true
+                                                        
+                                                        if !newTabFocus {
+                                                            withAnimation {
+                                                                newTabFocus = true
+                                                            }
+                                                        } else {
+                                                            withAnimation {
+                                                                newTabFocus = false
+                                                                createTab(url: formatURL(from: newTabSearch))
+                                                                newTabSearch = ""
+                                                            }
+                                                        }
+                                                    })
+                                                }, label: {
+                                                    Image(systemName: "plus")
+                                                })
+                                                
+                                                Spacer()
+                                                
+                                                Button(action: {
+                                                    withAnimation {
+                                                        fullScreenWebView = false
+                                                    }
+                                                }, label: {
+                                                    Image(systemName: "square.on.square")
+                                                })
+                                            }
+                                            .font(.system(.title2, design: .rounded, weight: .regular))
+                                            .foregroundStyle(Color(.systemBlue))
+                                            .opacity(Double(tabScale))
+                                            .padding(.horizontal, 20)
+                                            .padding(.vertical, 10)
                                         }
                                     }
                                 }
@@ -531,7 +607,8 @@ struct TabOverview: View {
     
     private func updateTabs() {
         var temporaryTabs = spaces[selectedSpaceIndex].tabUrls.map { (id: UUID(), url: $0) }
-        tabs = temporaryTabs.reversed()
+        //tabs = temporaryTabs.reversed()
+        tabs = temporaryTabs
         pinnedTabs = spaces[selectedSpaceIndex].pinnedUrls.map { (id: UUID(), url: $0) }
         favoriteTabs = spaces[selectedSpaceIndex].favoritesUrls.map { (id: UUID(), url: $0) }
     }
@@ -663,6 +740,8 @@ struct WebPreview: View {
     @StateObject var settings = SettingsVariables()
     //@StateObject private var webViewModel = WebViewModel()
     
+    @StateObject private var webViewManager = WebViewManager()
+    
     var geo: GeometryProxy
     
     @State var faviconSize = CGFloat(20)
@@ -677,7 +756,7 @@ struct WebPreview: View {
             ZStack {
                 Color.white.opacity(0.0001)
                 
-                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL)
+                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
                     .frame(width: geo.size.width - 50, height: 400)
                     .disabled(true)
                 
