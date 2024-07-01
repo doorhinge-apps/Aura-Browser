@@ -17,6 +17,8 @@ struct TabOverview: View {
     @Binding var selectedSpaceIndex: Int
     @Environment(\.modelContext) private var modelContext
     
+    @State var browseForMeTabs = [] as [String]
+    
     @State private var tabs: [(id: UUID, url: String)]
     @State private var pinnedTabs: [(id: UUID, url: String)]
     @State private var favoriteTabs: [(id: UUID, url: String)]
@@ -80,7 +82,7 @@ struct TabOverview: View {
                                 LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
                                     ForEach(selectedTabsSection == .tabs ? tabs: selectedTabsSection == .pinned ? pinnedTabs: favoriteTabs, id: \.id) { tab in
                                         let offset = offsets[tab.id, default: .zero]
-                                        WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab)
+                                        WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab, browseForMeTabs: $browseForMeTabs)
                                             .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
                                             .offset(x: offset.width)
                                             .overlay(content: {
@@ -139,7 +141,7 @@ struct TabOverview: View {
                                 variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
                             }
                             else {
-                                createTab(url: url.absoluteString)
+                                createTab(url: url.absoluteString, isBrowseForMeTab: false)
                             }
                             print("Url:")
                             print(url)
@@ -245,7 +247,7 @@ struct TabOverview: View {
                         }.padding(2)
                         
                         if fullScreenWebView {
-                            WebsiteView(namespace: namespace, url: $webURL, webViewManager: webViewManager, parentGeo: geo, webURL: $webURL, fullScreenWebView: $fullScreenWebView, tab: selectedTab!)
+                            WebsiteView(namespace: namespace, url: $webURL, webViewManager: webViewManager, parentGeo: geo, webURL: $webURL, fullScreenWebView: $fullScreenWebView, tab: selectedTab!, browseForMeTabs: $browseForMeTabs)
                                 .offset(x: tabOffset.width, y: tabOffset.height)
                                 .scaleEffect(tabScale)
                         }
@@ -260,36 +262,47 @@ struct TabOverview: View {
                                 VStack {
                                     if newTabFocus {
                                         ForEach(Array(suggestions.prefix(5)), id:\.self) { suggestion in
-                                            Button(action: {
-                                                withAnimation {
-                                                    newTabFocus = false
-                                                    createTab(url: formatURL(from: suggestion))
-                                                    newTabSearch = ""
-                                                    //fullScreenWebView = true
-                                                }
-                                            }, label: {
-                                                ZStack {
+                                            HStack {
+                                                Button(action: {
+                                                    withAnimation {
+                                                        newTabFocus = false
+                                                        createTab(url: formatURL(from: suggestion), isBrowseForMeTab: false)
+                                                        newTabSearch = ""
+                                                    }
+                                                }, label: {
                                                     ZStack {
-                                                        Capsule()
-                                                            .fill(
-                                                                .white.gradient.shadow(.inner(color: .black.opacity(0.2), radius: 10, x: 0, y: -3))
-                                                            )
-                                                            .animation(.default, value: newTabFocus)
-                                                    }
-                                                    
-                                                    HStack {
-                                                        Text(suggestion)
-                                                            .animation(.default)
-                                                            .foregroundColor(Color(hex: "4D4D4D"))
-                                                            .font(.system(.headline, design: .rounded, weight: .bold))
-                                                            .padding(.horizontal, 10)
+                                                        ZStack {
+                                                            Capsule()
+                                                                .fill(
+                                                                    .white.gradient.shadow(.inner(color: .black.opacity(0.2), radius: 10, x: 0, y: -3))
+                                                                )
+                                                                .animation(.default, value: newTabFocus)
+                                                        }
                                                         
-                                                        Spacer()
-                                                    }
-                                                    
-                                                }.frame(height: 50)
-                                                    .padding(.horizontal, 10)
-                                            })
+                                                        HStack {
+                                                            Text(suggestion)
+                                                                .animation(.default)
+                                                                .foregroundColor(Color(hex: "4D4D4D"))
+                                                                .font(.system(.headline, design: .rounded, weight: .bold))
+                                                                .padding(.horizontal, 10)
+                                                            
+                                                            Spacer()
+                                                            
+                                                            Button(action: {
+                                                                withAnimation {
+                                                                    newTabFocus = false
+                                                                    createTab(url: formatURL(from: suggestion), isBrowseForMeTab: true)
+                                                                    newTabSearch = ""
+                                                                }
+                                                            }, label: {
+                                                                
+                                                            }).buttonStyle(BrowseForMeButtonStyle())
+                                                        }
+                                                        
+                                                    }.frame(height: 50)
+                                                        .padding(.horizontal, 10)
+                                                })
+                                            }
                                         }
                                     }
                                 }.rotationEffect(Angle(degrees: 180))
@@ -363,13 +376,34 @@ struct TabOverview: View {
                                                         withAnimation {
                                                             newTabFromTab = false
                                                             newTabFocus = false
-                                                            createTab(url: formatURL(from: newTabSearch))
+                                                            createTab(url: formatURL(from: newTabSearch), isBrowseForMeTab: false)
                                                             newTabSearch = ""
                                                             //fullScreenWebView = true
                                                         }
                                                     })
                                                 
                                             }.frame(width: newTabFocus ? .infinity: 0, height: 50)
+                                            
+                                            
+                                            if !newTabFocus {
+                                                Button(action: {
+                                                    variables.showSettings = true
+                                                }, label: {
+                                                    Image(systemName: "gearshape")
+                                                    
+                                                }).buttonStyle(PlusButtonStyle())
+                                                    .sheet(isPresented: $variables.showSettings, content: {
+                                                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: spaces[selectedSpaceIndex].startHex, endHex: spaces[selectedSpaceIndex].endHex)
+                                                        }
+                                                        else {
+                                                            NewSettings(presentSheet: $variables.showSettings, startHex: variables.startHex, endHex: variables.endHex)
+                                                        }
+                                                    })
+                                                
+                                                Spacer()
+                                                    .frame(width: 100)
+                                            }
                                             
                                             
                                             Button(action: {
@@ -385,7 +419,7 @@ struct TabOverview: View {
                                                     withAnimation {
                                                         newTabFromTab = false
                                                         newTabFocus = false
-                                                        createTab(url: formatURL(from: newTabSearch))
+                                                        createTab(url: formatURL(from: newTabSearch), isBrowseForMeTab: false)
                                                         newTabSearch = ""
                                                         //fullScreenWebView = true
                                                     }
@@ -499,7 +533,7 @@ struct TabOverview: View {
                                                         } else {
                                                             withAnimation {
                                                                 newTabFocus = false
-                                                                createTab(url: formatURL(from: newTabSearch))
+                                                                createTab(url: formatURL(from: newTabSearch), isBrowseForMeTab: false)
                                                                 newTabSearch = ""
                                                             }
                                                         }
@@ -641,6 +675,8 @@ struct TabOverview: View {
     }
     
     private func removeItem(_ id: UUID) {
+        browseForMeTabs.removeAll { $0 == id.description }
+        
         switch selectedTabsSection {
         case .tabs:
             if let index = tabs.firstIndex(where: { $0.id == id }) {
@@ -688,7 +724,7 @@ struct TabOverview: View {
     }
 
     
-    private func createTab(url: String) {
+    private func createTab(url: String, isBrowseForMeTab: Bool) {
         let newTab = (id: UUID(), url: url)
         
         switch selectedTabsSection {
@@ -701,6 +737,10 @@ struct TabOverview: View {
         case .favorites:
             favoriteTabs.append(newTab)
             spaces[selectedSpaceIndex].favoritesUrls.append(url)
+        }
+        
+        if isBrowseForMeTab {
+            browseForMeTabs.append(newTab.id.description)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
@@ -775,6 +815,14 @@ struct WebPreview: View {
     
     @State var tab: (id: UUID, url: String)
     
+    @Binding var browseForMeTabs: [String]
+    
+    @State var colors1 = [
+        Color(hex: "EA96FF"), .purple, .indigo,
+        Color(hex: "FAE8FF"), Color(hex: "F1C0FD"), Color(hex: "A6A6D6"),
+        .indigo, .purple, Color(hex: "EA96FF")
+    ]
+    
 #if !os(macOS)
     @State var webViewBackgroundColor: UIColor? = UIColor.white
     #else
@@ -787,9 +835,36 @@ struct WebPreview: View {
             ZStack {
                 Color.white.opacity(0.0001)
                 
-                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
-                    .frame(width: geo.size.width - 50, height: 400)
-                    .disabled(true)
+                if browseForMeTabs.contains(tab.id.description) {
+                    ZStack {
+                        if #available(iOS 18.0, visionOS 2.0, *) {
+                            MeshGradient(width: 3, height: 3, points: [
+                                .init(0, 0), .init(0.5, 0), .init(1, 0),
+                                .init(0, 0.5), .init(0.5, 0.5), .init(1, 0.5),
+                                .init(0, 1), .init(0.5, 1), .init(1, 1)
+                            ], colors: colors1)
+                        }
+                        else {
+                            LinearGradient(colors: Array(colors1.prefix(4)), startPoint: .top, endPoint: .bottom)
+                        }
+                        
+                        VStack {
+                            Text("Browse for Me:")
+                                .lineLimit(2)
+                            
+                            Text(unformatURL(url: url))
+                                .lineLimit(1)
+                        }
+                        .scaleEffect(2.0)
+                        .foregroundStyle(Color.white)
+                            .font(.system(.body, design: .rounded, weight: .bold))
+                    }.frame(width: geo.size.width - 50, height: 400)
+                }
+                else {
+                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+                        .frame(width: geo.size.width - 50, height: 400)
+                        .disabled(true)
+                }
                 
             }
             .scaleEffect(0.5)
@@ -797,49 +872,57 @@ struct WebPreview: View {
             .clipped()
             .cornerRadius(15)
             
-            HStack {
-                if settings.faviconLoadingStyle {
-                    WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: faviconSize, height: faviconSize)
-                            .cornerRadius(settings.faviconShape == "square" ? 0: settings.faviconShape == "squircle" ? 5: 100)
-                            .padding(.leading, 5)
-                        
-                    } placeholder: {
-                        LoadingAnimations(size: Int(faviconSize), borderWidth: 5.0)
-                            .padding(.leading, 5)
-                    }
-                    .onSuccess { image, data, cacheType in
-                        
-                    }
-                    .indicator(.activity)
-                    .transition(.fade(duration: 0.5))
-                    .scaledToFit()
-                    
-                } else {
-                    AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: faviconSize, height: faviconSize)
-                            .cornerRadius(settings.faviconShape == "square" ? 0: settings.faviconShape == "squircle" ? 5: 100)
-                            .padding(.leading, 5)
-                        
-                    } placeholder: {
-                        LoadingAnimations(size: Int(faviconSize), borderWidth: 5.0)
-                            .padding(.leading, 5)
-                    }
-                    
-                }
-                
-                Text(webTitle)
+            if browseForMeTabs.contains(tab.id.description) {
+                Text(unformatURL(url: url))
                     .foregroundStyle(Color.black)
                     .font(.system(.body, design: .rounded, weight: .regular))
                     .lineLimit(1)
-                
-                Spacer()
+            }
+            else {
+                HStack {
+                    if settings.faviconLoadingStyle {
+                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: faviconSize, height: faviconSize)
+                                .cornerRadius(settings.faviconShape == "square" ? 0: settings.faviconShape == "squircle" ? 5: 100)
+                                .padding(.leading, 5)
+                            
+                        } placeholder: {
+                            LoadingAnimations(size: Int(faviconSize), borderWidth: 5.0)
+                                .padding(.leading, 5)
+                        }
+                        .onSuccess { image, data, cacheType in
+                            
+                        }
+                        .indicator(.activity)
+                        .transition(.fade(duration: 0.5))
+                        .scaledToFit()
+                        
+                    } else {
+                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: faviconSize, height: faviconSize)
+                                .cornerRadius(settings.faviconShape == "square" ? 0: settings.faviconShape == "squircle" ? 5: 100)
+                                .padding(.leading, 5)
+                            
+                        } placeholder: {
+                            LoadingAnimations(size: Int(faviconSize), borderWidth: 5.0)
+                                .padding(.leading, 5)
+                        }
+                        
+                    }
+                    
+                    Text(webTitle)
+                        .foregroundStyle(Color.black)
+                        .font(.system(.body, design: .rounded, weight: .regular))
+                        .lineLimit(1)
+                    
+                    Spacer()
+                }
             }
 #endif
         }.matchedGeometryEffect(id: tab.id, in: namespace)

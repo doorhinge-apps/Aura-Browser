@@ -33,6 +33,11 @@ struct WebsiteView: View {
     
     @State var tab: (id: UUID, url: String)
     
+    @Binding var browseForMeTabs: [String]
+    
+    @State var searchText = ""
+    @State var searchResponse = ""
+    
     var body: some View {
         GeometryReader { geo in
 #if !os(macOS)
@@ -40,9 +45,15 @@ struct WebsiteView: View {
                 Color(uiColor: webViewBackgroundColor ?? UIColor(.white))
                     .ignoresSafeArea()
                 
-                WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
-                    .navigationBarBackButtonHidden(true)
-                    .matchedGeometryEffect(id: tab.id, in: namespace)
+                if browseForMeTabs.contains(tab.id.description) {
+                    BrowseForMeMobile(searchText: unformatURL(url: url), searchResponse: searchResponse)
+                        .matchedGeometryEffect(id: tab.id, in: namespace)
+                }
+                else {
+                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+                        .navigationBarBackButtonHidden(true)
+                        .matchedGeometryEffect(id: tab.id, in: namespace)
+                }
             }
             .ignoresSafeArea(.container, edges: [.leading, .trailing, .bottom])
 #endif

@@ -9,8 +9,6 @@ import SwiftUI
 
 
 struct OnboardingView: View {
-//    @EnvironmentObject var variables: ObservableVariables
-    
     @State private var startColor: Color = Color.purple
     @State private var endColor: Color = Color.pink
     
@@ -35,12 +33,12 @@ struct OnboardingView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                if onboardingDone || onboardingComplete {
                     ContentView()
                     //SwiftUITabBar()
 //                        .environmentObject(variables)
-                }
-                else {
+                
+                //if !onboardingDone && !onboardingComplete {
+                if !onboardingDone {
                     HStack(spacing: 0) {
                         page1
                             .frame(width: geo.size.width, height: geo.size.height)
@@ -107,9 +105,10 @@ struct OnboardingView: View {
                             
                             return .handled
                         }
+                        .offset(x: onboarding == 1 ? 0: -geo.size.width)
                 }
                 
-            }.offset(x: onboarding == 1 ? 0: -geo.size.width)
+            }
         }
     }
     
@@ -135,16 +134,37 @@ struct OnboardingView: View {
                 
                 SizedSpacer(height: 100)
                 
+                Text("It looks like you're on mobile. Onboarding isn't ready for mobile yet. You can proceed anyway or skip.")
+                    .foregroundColor(Color(.white))
+                    .font(.system(.body, design: .rounded, weight: .bold))
+                    .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
                 
-                Button {
-                    withAnimation {
-                        onboarding = 2
+                
+                HStack {
+                    if UIDevice.current.userInterfaceIdiom == .phone {
+                        Button {
+                            withAnimation(.linear(duration: 0)) {
+                                onboardingDone = true
+                            }
+                            
+                            onboardingComplete = true
+                        } label: {
+                            ZStack {
+                                Text("Skip")
+                            }
+                        }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
                     }
-                } label: {
-                    ZStack {
-                        Text("Continue")
-                    }
-                }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
+                    
+                    Button {
+                        withAnimation {
+                            onboarding = 2
+                        }
+                    } label: {
+                        ZStack {
+                            Text("Continue")
+                        }
+                    }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
+                }
 #if !os(macOS)
                     .hoverEffect(.lift)
                 #endif
@@ -226,10 +246,13 @@ struct OnboardingView: View {
                     
                     Button {
                             if onboardingIndex >= 6 {
-                                onboardingComplete = true
                                 withAnimation(.linear(duration: 0)) {
                                     onboardingDone = true
                                 }
+                                
+                                onboardingComplete = true
+                                
+                                onboardingIndex += 1
                             }
                             else {
                                 withAnimation {
