@@ -621,11 +621,23 @@ struct TabOverview: View {
     }
     
     private func updateTabs() {
-        var temporaryTabs = spaces[selectedSpaceIndex].tabUrls.map { (id: UUID(), url: $0) }
-        //tabs = temporaryTabs.reversed()
-        tabs = temporaryTabs
-        pinnedTabs = spaces[selectedSpaceIndex].pinnedUrls.map { (id: UUID(), url: $0) }
-        favoriteTabs = spaces[selectedSpaceIndex].favoritesUrls.map { (id: UUID(), url: $0) }
+        if UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex") > spaces.count - 1 {
+            selectedSpaceIndex = 0
+        }
+        
+        Task {
+            if spaces.count <= 0 {
+                await modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+            }
+        }
+        
+        if spaces.count > selectedSpaceIndex {
+            var temporaryTabs = spaces[selectedSpaceIndex].tabUrls.map { (id: UUID(), url: $0) }
+            //tabs = temporaryTabs.reversed()
+            tabs = temporaryTabs
+            pinnedTabs = spaces[selectedSpaceIndex].pinnedUrls.map { (id: UUID(), url: $0) }
+            favoriteTabs = spaces[selectedSpaceIndex].favoritesUrls.map { (id: UUID(), url: $0) }
+        }
     }
     
     private func removeItem(_ id: UUID) {
