@@ -134,7 +134,16 @@ struct TabOverview: View {
                                                 self.draggedTab = tab
                                                 return NSItemProvider(object: tab.url as NSString)
                                             }
-                                            .onDrop(of: [.text], delegate: AlternateDropViewDelegate(destinationItem: tab, allTabs: $tabs, draggedItem: $draggedTab))
+                                            .onDrop(of: [.text], delegate: AlternateDropViewDelegate(destinationItem: tab, allTabs: selectedTabsSection == .tabs ? $tabs: selectedTabsSection == .pinned ? $pinnedTabs: $favoriteTabs, draggedItem: $draggedTab))
+                                            .onChange(of: tabs.map { $0.url }, {
+                                                saveTabs()
+                                            })
+                                            .onChange(of: pinnedTabs.map { $0.url }, {
+                                                saveTabs()
+                                            })
+                                            .onChange(of: favoriteTabs.map { $0.url }, {
+                                                saveTabs()
+                                            })
                                         
                                     }
                                 })
@@ -692,6 +701,24 @@ struct TabOverview: View {
             tabs = temporaryTabs
             pinnedTabs = spaces[selectedSpaceIndex].pinnedUrls.map { (id: UUID(), url: $0) }
             favoriteTabs = spaces[selectedSpaceIndex].favoritesUrls.map { (id: UUID(), url: $0) }
+        }
+    }
+    
+    private func saveTabs() {
+        if UserDefaults.standard.integer(forKey: "savedSelectedSpaceIndex") > spaces.count - 1 {
+            selectedSpaceIndex = 0
+        }
+        
+        if spaces.count > selectedSpaceIndex {
+            // Extracting URLs from tabs, pinnedTabs, and favoriteTabs arrays
+            let extractedTabUrls = tabs.map { $0.url }
+            let extractedPinnedUrls = pinnedTabs.map { $0.url }
+            let extractedFavoriteUrls = favoriteTabs.map { $0.url }
+
+            // Updating the corresponding space with the extracted URLs
+            spaces[selectedSpaceIndex].tabUrls = extractedTabUrls
+            spaces[selectedSpaceIndex].pinnedUrls = extractedPinnedUrls
+            spaces[selectedSpaceIndex].favoritesUrls = extractedFavoriteUrls
         }
     }
     
