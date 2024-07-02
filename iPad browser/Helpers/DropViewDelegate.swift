@@ -39,3 +39,41 @@ struct DropViewDelegate: DropDelegate {
         }
     }
 }
+
+
+
+struct AlternateDropViewDelegate: DropDelegate {
+    let destinationItem: (id: UUID, url: String)
+    @Binding var allTabs: [(id: UUID, url: String)]
+    @Binding var draggedItem: (id: UUID, url: String)?
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        return DropProposal(operation: .move)
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        guard let dragged = draggedItem else { return false }
+        guard let fromIndex = allTabs.firstIndex(where: { $0.id == dragged.id }) else { return false }
+        guard let toIndex = allTabs.firstIndex(where: { $0.id == destinationItem.id }) else { return false }
+        if fromIndex != toIndex {
+            withAnimation {
+                allTabs.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? toIndex + 1 : toIndex))
+            }
+        }
+        draggedItem = nil
+        return true
+    }
+
+    func dropEntered(info: DropInfo) {
+        guard let dragged = draggedItem else { return }
+        guard let fromIndex = allTabs.firstIndex(where: { $0.id == dragged.id }) else { return }
+        guard let toIndex = allTabs.firstIndex(where: { $0.id == destinationItem.id }) else { return }
+
+        if fromIndex != toIndex {
+            withAnimation {
+                allTabs.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: toIndex > fromIndex ? toIndex + 1 : toIndex)
+            }
+        }
+    }
+}
+

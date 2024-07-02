@@ -27,6 +27,7 @@ struct TabOverview: View {
     @State private var zIndexes: [UUID: Double] = [:]
     
     @State var selectedTab: (id: UUID, url: String)?
+    @State var draggedTab: (id: UUID, url: String)?
     
     @EnvironmentObject var variables: ObservableVariables
     @StateObject var settings = SettingsVariables()
@@ -129,6 +130,12 @@ struct TabOverview: View {
                                                     Label("Copy URL", systemImage: "link")
                                                 })
                                             })
+                                            .onDrag {
+                                                self.draggedTab = tab
+                                                return NSItemProvider(object: tab.url as NSString)
+                                            }
+                                            .onDrop(of: [.text], delegate: AlternateDropViewDelegate(destinationItem: tab, allTabs: $tabs, draggedItem: $draggedTab))
+                                        
                                     }
                                 })
                                 .padding(10)
