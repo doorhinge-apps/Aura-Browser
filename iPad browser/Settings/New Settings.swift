@@ -198,6 +198,7 @@ struct NewSettings: View {
                             
                             
                             Button(action: {
+                                presentSheet = false
                                 settings.email = ""
                                 settings.onboardingDone = false
                             }, label: {

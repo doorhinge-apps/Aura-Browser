@@ -90,7 +90,6 @@
 		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
 		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; platformFilters = (ios, maccatalyst, xros, ); };
 		B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */; };
-		C1BD7D192BDDF6810078D7B3 /* TabStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BD7D182BDDF6810078D7B3 /* TabStorage.swift */; };
 		C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BD7D1A2BDDF6A30078D7B3 /* SpaceStorage.swift */; };
 		C1BD7D232BDDF9C80078D7B3 /* ContentViewColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BD7D222BDDF9C80078D7B3 /* ContentViewColor.swift */; };
 		C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */; };
@@ -183,7 +182,6 @@
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		C1BD7D182BDDF6810078D7B3 /* TabStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStorage.swift; sourceTree = "<group>"; };
 		C1BD7D1A2BDDF6A30078D7B3 /* SpaceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceStorage.swift; sourceTree = "<group>"; };
 		C1BD7D222BDDF9C80078D7B3 /* ContentViewColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewColor.swift; sourceTree = "<group>"; };
 		C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
@@ -214,6 +212,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B90294522C3337A5005DB4CA /* WebViews */ = {
+			isa = PBXGroup;
+			children = (
+				C1BD7D2F2BDE052F0078D7B3 /* WebView.swift */,
+				C1BD7D2D2BDE05160078D7B3 /* navigationState.swift */,
+				B94303912C2D347C00D787A4 /* CurrentWebView.swift */,
+				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
+				B94303952C2D37FC00D787A4 /* AdBlock */,
+				B94CA91D2C28C72E00AD3921 /* Boosts */,
+				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
+			);
+			path = WebViews;
+			sourceTree = "<group>";
+		};
+		B90294532C333825005DB4CA /* Tile Game */ = {
+			isa = PBXGroup;
+			children = (
+				B9798BFE2BF0B9460012D98E /* Tile Game.swift */,
+			);
+			path = "Tile Game";
+			sourceTree = "<group>";
+		};
+		B90294542C333831005DB4CA /* Pinned Tabs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Pinned Tabs";
+			sourceTree = "<group>";
+		};
+		B90294552C333839005DB4CA /* Chat-GPT */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Chat-GPT";
+			sourceTree = "<group>";
+		};
+		B90294562C333AA3005DB4CA /* Sidebar Adaptable Test */ = {
+			isa = PBXGroup;
+			children = (
+				B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */,
+				B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */,
+			);
+			path = "Sidebar Adaptable Test";
+			sourceTree = "<group>";
+		};
 		B9230FFD2BBDC06A0032C950 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +383,7 @@
 				B98256C72BD2A87200F997F5 /* iPad browser.entitlements */,
 				B98953A42AABD71300EE3B42 /* iPad-browser-Info.plist */,
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
+				B90294522C3337A5005DB4CA /* WebViews */,
 				C1BD7D172BDDF65F0078D7B3 /* Data Models */,
 				C1BD7D2A2BDE04AB0078D7B3 /* Views */,
 				B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */,
@@ -371,7 +415,6 @@
 				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
 				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
 				B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */,
-				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -385,6 +428,7 @@
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B97725002C0116BA00A39E3A /* Space Picker.swift */,
 				B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */,
+				B90294562C333AA3005DB4CA /* Sidebar Adaptable Test */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -401,7 +445,9 @@
 		B9798BFD2BF0B9350012D98E /* Dashboard Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				B9798BFE2BF0B9460012D98E /* Tile Game.swift */,
+				B90294552C333839005DB4CA /* Chat-GPT */,
+				B90294542C333831005DB4CA /* Pinned Tabs */,
+				B90294532C333825005DB4CA /* Tile Game */,
 				B9C0ED7E2C0A532700AF6E31 /* Clock */,
 				B9798C002BF1CEDB0012D98E /* Weather */,
 			);
@@ -485,7 +531,6 @@
 		C1BD7D172BDDF65F0078D7B3 /* Data Models */ = {
 			isa = PBXGroup;
 			children = (
-				C1BD7D182BDDF6810078D7B3 /* TabStorage.swift */,
 				C1BD7D1A2BDDF6A30078D7B3 /* SpaceStorage.swift */,
 				B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */,
 			);
@@ -497,14 +542,11 @@
 			children = (
 				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
 				B943038A2C2D32E400D787A4 /* Components */,
-				B94303952C2D37FC00D787A4 /* AdBlock */,
-				B94CA91D2C28C72E00AD3921 /* Boosts */,
 				C1BD7D2C2BDE04FB0078D7B3 /* WebsiteHandling */,
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
 				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
 				B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */,
-				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
 				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
 				B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */,
 				B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */,
@@ -536,14 +578,11 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
-				B94303912C2D347C00D787A4 /* CurrentWebView.swift */,
+				B97724FF2C0115F600A39E3A /* Sidebar */,
 				B961B7AB2C2BA37A00F43EBF /* iOS */,
-				B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */,
-				B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */,
 				B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */,
 				B9272D302C240D5800B014D8 /* Browse for Me */,
 				B9798BFC2BF0B92A0012D98E /* Dashboard */,
-				B97724FF2C0115F600A39E3A /* Sidebar */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -551,8 +590,6 @@
 		C1BD7D2C2BDE04FB0078D7B3 /* WebsiteHandling */ = {
 			isa = PBXGroup;
 			children = (
-				C1BD7D2D2BDE05160078D7B3 /* navigationState.swift */,
-				C1BD7D2F2BDE052F0078D7B3 /* WebView.swift */,
 			);
 			path = WebsiteHandling;
 			sourceTree = "<group>";
@@ -758,7 +795,6 @@
 				C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */,
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
-				C1BD7D192BDDF6810078D7B3 /* TabStorage.swift in Sources */,
 				B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
 			);

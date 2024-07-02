@@ -122,6 +122,13 @@ struct TabOverview: View {
                                                         }
                                                     }
                                             )
+                                            .contextMenu(menuItems: {
+                                                Button(action: {
+                                                    UIPasteboard.general.string = tab.url
+                                                }, label: {
+                                                    Label("Copy URL", systemImage: "link")
+                                                })
+                                            })
                                     }
                                 })
                                 .padding(10)
@@ -432,6 +439,13 @@ struct TabOverview: View {
                                                     Image(systemName: newTabFocus ? "magnifyingglass": "plus")
                                                 }
                                             }).buttonStyle(PlusButtonStyle())
+                                                .onAppear() {
+                                                    if settings.commandBarOnLaunch {
+                                                        withAnimation {
+                                                            newTabFocus = true
+                                                        }
+                                                    }
+                                                }
                                             
                                         }.padding(.leading, newTabFocus ? 10: 0)
                                             .onChange(of: newTabSearch, {
