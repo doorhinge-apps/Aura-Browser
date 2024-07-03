@@ -200,7 +200,7 @@ struct ContentView: View {
                                                     }
                                                 })
                                             
-                                            if !settings.swipeNavigationDisabled {
+                                            /*if !settings.swipeNavigationDisabled {
                                                 if (variables.selectedTabLocation == "favoriteTabs" && variables.favoritesNavigationState.selectedWebView != nil) ||
                                                     (variables.selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
                                                     (variables.selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
@@ -218,7 +218,7 @@ struct ContentView: View {
                                                     .frame(width: webGeo.size.width)
                                                     .offset(x: variables.navigationOffset)
                                                 }
-                                            }
+                                            }*/
                                             
                                             if variables.auraTab == "dashboard" && variables.selectedTabLocation == "" {
                                                 Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)

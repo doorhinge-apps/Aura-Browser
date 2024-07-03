@@ -87,6 +87,11 @@ struct Sidebar: View {
     
     @State private var textRect = CGRect()
     
+    @State private var draggedItem: String?
+    @State private var draggedItemIndex: Int?
+    @State private var currentHoverIndex: Int?
+    @State var reorderingTabs: [String] = []
+    
     var body: some View {
             VStack {
                 // Sidebar Searchbar
@@ -292,202 +297,245 @@ struct Sidebar: View {
                     }.padding(10)
                     
                     ForEach(0..<spaces[selectedSpaceIndex].pinnedUrls.count, id: \.self) { tabIndex in
-                        ZStack {
-                            if reloadTitles {
-                                Color.white.opacity(0.0)
+                        VStack {
+                            if currentHoverIndex ?? 0 > tabIndex {
+                                if currentHoverIndex == tabIndex && manager.dragTabLocation == .pinned {
+                                    HStack(spacing: 0) {
+                                        Circle()
+                                            .stroke(Color(hex: "181F5B"), lineWidth: 2)
+                                            .frame(height: 8)
+                                        
+                                        Color(hex: "181F5B")
+                                            .frame(height: 2)
+                                            .cornerRadius(10)
+                                            .offset(x: -2)
+                                    }.padding(.horizontal, 10)
+                                }
                             }
-                            
-                            RoundedRectangle(cornerRadius: 20)
-                                .foregroundStyle(Color(.white).opacity((tabIndex == manager.selectedTabIndex && manager.selectedTabLocation == .pinned) ? 0.5 : (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .pinned) ? 0.2: 0.0001))
-                                .frame(height: 50)
-                            
-                            HStack {
-                                if faviconLoadingStyle {
-                                    WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 25, height: 25)
-                                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
-                                            .padding(.leading, 5)
-                                        
-                                    } placeholder: {
-                                        LoadingAnimations(size: 25, borderWidth: 5.0)
-                                            .padding(.leading, 5)
-                                    }
-                                    .onSuccess { image, data, cacheType in
-                                        
-                                    }
-                                    .indicator(.activity)
-                                    .transition(.fade(duration: 0.5))
-                                    .scaledToFit()
-                                    
-                                } else {
-                                    AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 25, height: 25)
-                                            .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
-                                            .padding(.leading, 5)
-                                        
-                                    } placeholder: {
-                                        LoadingAnimations(size: 25, borderWidth: 5.0)
-                                            .padding(.leading, 5)
-                                    }
+                            ZStack {
+                                if reloadTitles {
+                                    Color.white.opacity(0.0)
                                 }
                                 
+                                RoundedRectangle(cornerRadius: 20)
+                                    .foregroundStyle(Color(.white).opacity((tabIndex == manager.selectedTabIndex && manager.selectedTabLocation == .pinned) ? 0.5 : (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .pinned) ? 0.2: 0.0001))
+                                    .frame(height: 50)
                                 
-                                Text(manager.linksWithTitles[spaces[selectedSpaceIndex].pinnedUrls[tabIndex]] ?? spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
-                                    .lineLimit(1)
-                                    .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                    .padding(.leading, 5)
-                                    .onReceive(timer) { _ in
-                                        reloadTitles.toggle()
-                                    }
-                                
-                                Spacer()
-                                
-                                Button(action: {
-                                    pinnedRemoveTab(at: tabIndex)
-                                }) {
-                                    if (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .pinned) || (manager.selectedTabLocation == .pinned && manager.selectedTabIndex  == tabIndex) {
-                                        ZStack {
-#if !os(visionOS)
-                                            Color(.white)
-                                                .opacity(manager.hoverCloseTabIndex == tabIndex ? 0.3: 0.0)
-#endif
-                                            Image(systemName: "xmark")
+                                HStack {
+                                    if faviconLoadingStyle {
+                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(width: 15, height: 15)
-                                                .foregroundStyle(Color.white)
-                                                .opacity(manager.hoverCloseTabIndex == tabIndex ? 1.0: 0.8)
+                                                .frame(width: 25, height: 25)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
+                                                .padding(.leading, 5)
                                             
-                                        }.frame(width: 35, height: 35)
-                                            .onHover(perform: { hovering in
-                                                if hovering {
-                                                    manager.hoverCloseTabIndex = tabIndex
-                                                    manager.hoverTabLocation = .pinned
-                                                }
-                                                else {
-                                                    manager.hoverCloseTabIndex = -1
-                                                }
-                                            })
-                #if !os(visionOS) && !os(macOS)
-                                            .cornerRadius(7)
-                                            .padding(.trailing, 10)
-                                            .hoverEffect(.lift)
-                                        #endif
+                                        } placeholder: {
+                                            LoadingAnimations(size: 25, borderWidth: 5.0)
+                                                .padding(.leading, 5)
+                                        }
+                                        .onSuccess { image, data, cacheType in
+                                            
+                                        }
+                                        .indicator(.activity)
+                                        .transition(.fade(duration: 0.5))
+                                        .scaledToFit()
                                         
+                                    } else {
+                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 25, height: 25)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
+                                                .padding(.leading, 5)
+                                            
+                                        } placeholder: {
+                                            LoadingAnimations(size: 25, borderWidth: 5.0)
+                                                .padding(.leading, 5)
+                                        }
                                     }
-                                }.buttonStyle(.plain)
-                            }
-                            .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                    let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
-                                    searchInSidebar = newUrl
                                     
-                                    spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
                                     
-                                    manager.fetchTitlesIfNeeded(for: spaces[selectedSpaceIndex].pinnedUrls)
-                                })
+                                    Text(manager.linksWithTitles[spaces[selectedSpaceIndex].pinnedUrls[tabIndex]] ?? spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                        .lineLimit(1)
+                                        .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                        .padding(.leading, 5)
+                                        .onReceive(timer) { _ in
+                                            reloadTitles.toggle()
+                                        }
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        pinnedRemoveTab(at: tabIndex)
+                                    }) {
+                                        if (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .pinned) || (manager.selectedTabLocation == .pinned && manager.selectedTabIndex  == tabIndex) {
+                                            ZStack {
+#if !os(visionOS)
+                                                Color(.white)
+                                                    .opacity(manager.hoverCloseTabIndex == tabIndex ? 0.3: 0.0)
+#endif
+                                                Image(systemName: "xmark")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 15, height: 15)
+                                                    .foregroundStyle(Color.white)
+                                                    .opacity(manager.hoverCloseTabIndex == tabIndex ? 1.0: 0.8)
+                                                
+                                            }.frame(width: 35, height: 35)
+                                                .onHover(perform: { hovering in
+                                                    if hovering {
+                                                        manager.hoverCloseTabIndex = tabIndex
+                                                        manager.hoverTabLocation = .pinned
+                                                    }
+                                                    else {
+                                                        manager.hoverCloseTabIndex = -1
+                                                    }
+                                                })
+#if !os(visionOS) && !os(macOS)
+                                                .cornerRadius(7)
+                                                .padding(.trailing, 10)
+                                                .hoverEffect(.lift)
+#endif
+                                            
+                                        }
+                                    }.buttonStyle(.plain)
+                                }
+                                .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                        let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
+                                        searchInSidebar = newUrl
+                                        
+                                        spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
+                                        
+                                        manager.fetchTitlesIfNeeded(for: spaces[selectedSpaceIndex].pinnedUrls)
+                                    })
+                                }
                             }
-                        }
-                        .contextMenu {
-                            Button {
-                                variables.browseForMeSearch = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
-                                variables.isBrowseForMe = true
-                            } label: {
-                                Label("Browse for Me", systemImage: "globe.desk")
-                            }
-                #if !os(macOS)
-                            Button {
-                                UIPasteboard.general.string = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
-                            } label: {
-                                Label("Copy URL", systemImage: "link")
-                            }
-                            #endif
-                            Button {
-                                spaces[selectedSpaceIndex].pinnedUrls.insert(spaces[selectedSpaceIndex].pinnedUrls[tabIndex], at: tabIndex + 1)
-                            } label: {
-                                Label("Duplicate", systemImage: "plus.square.on.square")
-                            }
-                            
-                            Button {
-                                spaces[selectedSpaceIndex].tabUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                            .contextMenu {
+                                Button {
+                                    variables.browseForMeSearch = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
+                                    variables.isBrowseForMe = true
+                                } label: {
+                                    Label("Browse for Me", systemImage: "globe.desk")
+                                }
+#if !os(macOS)
+                                Button {
+                                    UIPasteboard.general.string = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
+                                } label: {
+                                    Label("Copy URL", systemImage: "link")
+                                }
+#endif
+                                Button {
+                                    spaces[selectedSpaceIndex].pinnedUrls.insert(spaces[selectedSpaceIndex].pinnedUrls[tabIndex], at: tabIndex + 1)
+                                } label: {
+                                    Label("Duplicate", systemImage: "plus.square.on.square")
+                                }
                                 
-                                pinnedRemoveTab(at: tabIndex)
+                                Button {
+                                    spaces[selectedSpaceIndex].tabUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                    
+                                    pinnedRemoveTab(at: tabIndex)
+                                    
+                                } label: {
+                                    Label("Unpin", systemImage: "pin.fill")
+                                }
                                 
-                            } label: {
-                                Label("Unpin", systemImage: "pin.fill")
-                            }
-                            
-                            Button {
-                                spaces[selectedSpaceIndex].favoritesUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                Button {
+                                    spaces[selectedSpaceIndex].favoritesUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                    
+                                    pinnedRemoveTab(at: tabIndex)
+                                    
+                                } label: {
+                                    Label("Favorite", systemImage: "star")
+                                }
                                 
-                                pinnedRemoveTab(at: tabIndex)
+                                Button {
+                                    pinnedRemoveTab(at: tabIndex)
+                                } label: {
+                                    Label("Close Tab", systemImage: "xmark")
+                                }
                                 
-                            } label: {
-                                Label("Favorite", systemImage: "star")
                             }
-                            
-                            Button {
-                                pinnedRemoveTab(at: tabIndex)
-                            } label: {
-                                Label("Close Tab", systemImage: "xmark")
+                            .onAppear() {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    hoverTab = WKWebView()
+                                }
                             }
+                            .onHover(perform: { hovering in
+                                if hovering {
+                                    manager.hoverTabIndex = tabIndex
+                                    manager.hoverTabLocation = .pinned
+                                }
+                                else {
+                                    manager.hoverTabIndex = -1
+                                }
+                            })
+                            .onTapGesture {
+                                //variables.navigationState.selectedWebView = nil
+                                //variables.navigationState.currentURL = nil
+                                
+                                //variables.favoritesNavigationState.selectedWebView = nil
+                                //variables.favoritesNavigationState.currentURL = nil
+                                
+                                manager.selectedTabIndex = tabIndex
+                                
+                                manager.selectedTabLocation = .pinned
+                                
+                                //                            Task {
+                                //                                await pinnedNavigationState.selectedWebView = tab
+                                //                                await pinnedNavigationState.currentURL = tab.url
+                                //                            }
+                                
+                                //                            if let unwrappedURL = spaces[selectedSpaceIndex].pinnedUrls[tabIndex] {
+                                //                                searchInSidebar = unwrappedURL.absoluteString
+                                //                            }
+                                manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                
+                                searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                            }
+                            .onDrag {
+                                self.draggedItem = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
+                                self.draggedItemIndex = tabIndex
+                                reorderingTabs = spaces[selectedSpaceIndex].pinnedUrls
+                                
+                                manager.dragTabLocation = .pinned
+                                
+                                currentHoverIndex = -1
+                                
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].pinnedUrls[tabIndex] as NSString)
+                            }
+                            .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+                                destinationIndex: tabIndex,
+                                allItems: $reorderingTabs,
+                                draggedItem: $draggedItem,
+                                draggedItemIndex: $draggedItemIndex,
+                                currentHoverIndex: $currentHoverIndex,
+                                onDropAction: {
+                                    withAnimation {
+                                        spaces[selectedSpaceIndex].pinnedUrls = reorderingTabs
+                                    }
+                                    currentHoverIndex = -1
+                                }
+                            ))
                             
+                            if currentHoverIndex ?? 0 < tabIndex {
+                                if currentHoverIndex == tabIndex && manager.dragTabLocation == .pinned {
+                                    HStack(spacing: 0) {
+                                        Circle()
+                                            .stroke(Color(hex: "181F5B"), lineWidth: 2)
+                                            .frame(height: 8)
+                                        
+                                        Color(hex: "181F5B")
+                                            .frame(height: 2)
+                                            .cornerRadius(10)
+                                            .offset(x: -2)
+                                    }.padding(.horizontal, 10)
+                                }
+                            }
                         }
-                        .onAppear() {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                hoverTab = WKWebView()
-                            }
-                        }
-                        .onHover(perform: { hovering in
-                            if hovering {
-                                manager.hoverTabIndex = tabIndex
-                                manager.hoverTabLocation = .pinned
-                            }
-                            else {
-                                manager.hoverTabIndex = -1
-                            }
-                        })
-                        .onTapGesture {
-                            //variables.navigationState.selectedWebView = nil
-                            //variables.navigationState.currentURL = nil
-                            
-                            //variables.favoritesNavigationState.selectedWebView = nil
-                            //variables.favoritesNavigationState.currentURL = nil
-                            
-                            manager.selectedTabIndex = tabIndex
-                            
-                            manager.selectedTabLocation = .pinned
-                            
-//                            Task {
-//                                await pinnedNavigationState.selectedWebView = tab
-//                                await pinnedNavigationState.currentURL = tab.url
-//                            }
-                            
-//                            if let unwrappedURL = spaces[selectedSpaceIndex].pinnedUrls[tabIndex] {
-//                                searchInSidebar = unwrappedURL.absoluteString
-//                            }
-                            manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
-                            
-                            searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
-                        }
-                        .onDrag {
-                            self.manager.draggedIndex = tabIndex
-                            return NSItemProvider(object: String(tabIndex) as NSString)
-                        }
-                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
-                            destinationIndex: tabIndex,
-                            allStrings: spaces[selectedSpaceIndex].pinnedUrls,
-                            draggedIndex: $manager.draggedIndex,
-                            onSuccessfulDrop: {
-                                print("String moved successfully.")
-                            }
-                        ))
                     }
                     .onAppear() {
                         manager.fetchTitles(for: spaces[selectedSpaceIndex].pinnedUrls)
@@ -742,8 +790,254 @@ struct Sidebar: View {
                         }
                     }
                     
-                    ForEach(variables.navigationState.webViews.reversed(), id: \.self) { tab in
-                        TodayTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState)
+                    ForEach(Array(stride(from: spaces[selectedSpaceIndex].tabUrls.count-1, to: 0, by: -1)), id: \.self) { tabIndex in
+                        VStack {
+                            
+                            if tabIndex > draggedItemIndex ?? 0 {
+                                if currentHoverIndex == tabIndex && manager.dragTabLocation == .tabs {
+                                    HStack(spacing: 0) {
+                                        Circle()
+                                            .stroke(Color(hex: "181F5B"), lineWidth: 2)
+                                            .frame(height: 8)
+                                        
+                                        Color(hex: "181F5B")
+                                            .frame(height: 2)
+                                            .cornerRadius(10)
+                                            .offset(x: -2)
+                                    }.padding(.horizontal, 10)
+                                }
+                            }
+                            ZStack {
+                                if reloadTitles {
+                                    Color.white.opacity(0.0)
+                                }
+                                
+                                RoundedRectangle(cornerRadius: 20)
+                                    .foregroundStyle(Color(.white).opacity((tabIndex == manager.selectedTabIndex && manager.selectedTabLocation == .tabs) ? 0.5 : (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .tabs) ? 0.2: 0.0001))
+                                    .frame(height: 50)
+                                
+                                HStack {
+                                    if faviconLoadingStyle {
+                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].tabUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 25, height: 25)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
+                                                .padding(.leading, 5)
+                                            
+                                        } placeholder: {
+                                            LoadingAnimations(size: 25, borderWidth: 5.0)
+                                                .padding(.leading, 5)
+                                        }
+                                        .onSuccess { image, data, cacheType in
+                                            
+                                        }
+                                        .indicator(.activity)
+                                        .transition(.fade(duration: 0.5))
+                                        .scaledToFit()
+                                        
+                                    } else {
+                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].tabUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 25, height: 25)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
+                                                .padding(.leading, 5)
+                                            
+                                        } placeholder: {
+                                            LoadingAnimations(size: 25, borderWidth: 5.0)
+                                                .padding(.leading, 5)
+                                        }
+                                    }
+                                    
+                                    
+                                    Text(manager.linksWithTitles[spaces[selectedSpaceIndex].tabUrls[tabIndex]] ?? spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                        .lineLimit(1)
+                                        .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                        .padding(.leading, 5)
+                                        .onReceive(timer) { _ in
+                                            reloadTitles.toggle()
+                                        }
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        pinnedRemoveTab(at: tabIndex)
+                                    }) {
+                                        if (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .tabs) || (manager.selectedTabLocation == .tabs && manager.selectedTabIndex  == tabIndex) {
+                                            ZStack {
+#if !os(visionOS)
+                                                Color(.white)
+                                                    .opacity(manager.hoverCloseTabIndex == tabIndex ? 0.3: 0.0)
+#endif
+                                                Image(systemName: "xmark")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 15, height: 15)
+                                                    .foregroundStyle(Color.white)
+                                                    .opacity(manager.hoverCloseTabIndex == tabIndex ? 1.0: 0.8)
+                                                
+                                            }.frame(width: 35, height: 35)
+                                                .onHover(perform: { hovering in
+                                                    if hovering {
+                                                        manager.hoverCloseTabIndex = tabIndex
+                                                        manager.hoverTabLocation = .tabs
+                                                    }
+                                                    else {
+                                                        manager.hoverCloseTabIndex = -1
+                                                    }
+                                                })
+#if !os(visionOS) && !os(macOS)
+                                                .cornerRadius(7)
+                                                .padding(.trailing, 10)
+                                                .hoverEffect(.lift)
+#endif
+                                            
+                                        }
+                                    }.buttonStyle(.plain)
+                                }
+                                .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                        let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
+                                        searchInSidebar = newUrl
+                                        
+                                        spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
+                                        
+                                        manager.fetchTitlesIfNeeded(for: spaces[selectedSpaceIndex].tabUrls)
+                                    })
+                                }
+                            }
+                            .contextMenu {
+                                Button {
+                                    variables.browseForMeSearch = spaces[selectedSpaceIndex].tabUrls[tabIndex]
+                                    variables.isBrowseForMe = true
+                                } label: {
+                                    Label("Browse for Me", systemImage: "globe.desk")
+                                }
+#if !os(macOS)
+                                Button {
+                                    UIPasteboard.general.string = spaces[selectedSpaceIndex].tabUrls[tabIndex]
+                                } label: {
+                                    Label("Copy URL", systemImage: "link")
+                                }
+#endif
+                                Button {
+                                    spaces[selectedSpaceIndex].tabUrls.insert(spaces[selectedSpaceIndex].tabUrls[tabIndex], at: tabIndex + 1)
+                                } label: {
+                                    Label("Duplicate", systemImage: "plus.square.on.square")
+                                }
+                                
+                                Button {
+                                    spaces[selectedSpaceIndex].pinnedUrls.append(spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                    
+                                    removeTab(at: tabIndex)
+                                    
+                                } label: {
+                                    Label("Pin", systemImage: "pin")
+                                }
+                                
+                                Button {
+                                    spaces[selectedSpaceIndex].favoritesUrls.append(spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                    
+                                    removeTab(at: tabIndex)
+                                    
+                                } label: {
+                                    Label("Favorite", systemImage: "star")
+                                }
+                                
+                                Button {
+                                    removeTab(at: tabIndex)
+                                } label: {
+                                    Label("Close Tab", systemImage: "xmark")
+                                }
+                                
+                            }
+                            .onAppear() {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    hoverTab = WKWebView()
+                                }
+                            }
+                            .onHover(perform: { hovering in
+                                if hovering {
+                                    manager.hoverTabIndex = tabIndex
+                                    manager.hoverTabLocation = .tabs
+                                }
+                                else {
+                                    manager.hoverTabIndex = -1
+                                }
+                            })
+                            .onTapGesture {
+                                //variables.navigationState.selectedWebView = nil
+                                //variables.navigationState.currentURL = nil
+                                
+                                //variables.favoritesNavigationState.selectedWebView = nil
+                                //variables.favoritesNavigationState.currentURL = nil
+                                
+                                manager.selectedTabIndex = tabIndex
+                                
+                                manager.selectedTabLocation = .tabs
+                                
+                                //                            Task {
+                                //                                await pinnedNavigationState.selectedWebView = tab
+                                //                                await pinnedNavigationState.currentURL = tab.url
+                                //                            }
+                                
+                                //                            if let unwrappedURL = spaces[selectedSpaceIndex].pinnedUrls[tabIndex] {
+                                //                                searchInSidebar = unwrappedURL.absoluteString
+                                //                            }
+                                manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                
+                                searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                            }
+                            .onDrag {
+                                draggedItem = spaces[selectedSpaceIndex].tabUrls[tabIndex]
+                                draggedItemIndex = tabIndex
+                                reorderingTabs = spaces[selectedSpaceIndex].tabUrls
+                                
+                                manager.dragTabLocation = .tabs
+                                
+                                //currentHoverIndex = -1
+                                
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].tabUrls[tabIndex] as NSString)
+                            }
+                            
+                            if tabIndex < draggedItemIndex ?? 0 {
+                            //if tabIndex != draggedItemIndex {
+                                if currentHoverIndex == tabIndex && manager.dragTabLocation == .tabs {
+                                    HStack(spacing: 0) {
+                                        Circle()
+                                            .stroke(Color(hex: "181F5B"), lineWidth: 2)
+                                            .frame(height: 8)
+                                        
+                                        Color(hex: "181F5B")
+                                            .frame(height: 2)
+                                            .cornerRadius(10)
+                                            .offset(x: -2)
+                                    }.padding(.horizontal, 10)
+                                }
+                            }
+                        }
+                        .background(
+                            Color.white.opacity(0.0001)
+                        )
+                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+                            destinationIndex: tabIndex,
+                            allItems: $reorderingTabs,
+                            draggedItem: $draggedItem,
+                            draggedItemIndex: $draggedItemIndex,
+                            currentHoverIndex: $currentHoverIndex,
+                            onDropAction: {
+                                withAnimation {
+                                    spaces[selectedSpaceIndex].tabUrls = reorderingTabs
+                                }
+                                currentHoverIndex = -1
+                            }
+                        ))
+                    }
+                    .onAppear() {
+                        manager.fetchTitles(for: spaces[selectedSpaceIndex].tabUrls)
                     }
                 }
                 
