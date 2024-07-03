@@ -78,6 +78,7 @@
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
+		B9D000312C34FAF8008767C5 /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9D000302C34FAF8008767C5 /* WebViewSwiftUI */; };
 		B9D47D072C27772C0059BE46 /* New Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D062C27772C0059BE46 /* New Settings.swift */; };
 		B9D47D0A2C27806C0059BE46 /* Favicons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D092C27806C0059BE46 /* Favicons.swift */; };
 		B9D47D0C2C282A150059BE46 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D0B2C282A150059BE46 /* UISettings.swift */; };
@@ -198,6 +199,7 @@
 				B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */,
 				B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
+				B9D000312C34FAF8008767C5 /* WebViewSwiftUI in Frameworks */,
 				B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -624,6 +626,7 @@
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
 				B9272D3A2C250A9D00B014D8 /* MarkdownUI */,
 				B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */,
+				B9D000302C34FAF8008767C5 /* WebViewSwiftUI */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -680,6 +683,7 @@
 				B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */,
 				B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
+				B9D0002F2C34FAF8008767C5 /* XCRemoteSwiftPackageReference "ios-webViewSwiftUI" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -1127,6 +1131,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		B9D0002F2C34FAF8008767C5 /* XCRemoteSwiftPackageReference "ios-webViewSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hassanvfx/ios-webViewSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
 		B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gualtierofrigerio/WKDownloadHelper";
@@ -1160,6 +1172,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
 			productName = FaviconFinder;
+		};
+		B9D000302C34FAF8008767C5 /* WebViewSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9D0002F2C34FAF8008767C5 /* XCRemoteSwiftPackageReference "ios-webViewSwiftUI" */;
+			productName = WebViewSwiftUI;
 		};
 		B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

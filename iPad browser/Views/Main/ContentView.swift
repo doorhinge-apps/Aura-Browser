@@ -34,6 +34,8 @@ struct ContentView: View {
     @StateObject var settings = SettingsVariables()
     @StateObject private var boostStore = BoostStore()
     
+    @StateObject var manager =  WebsiteManager()
+    
     @AppStorage("currentSpace") var currentSpace = "Untitled"
 
         let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -1074,21 +1076,6 @@ struct ContentView: View {
                         variables.navigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
                         variables.pinnedNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
                         variables.favoritesNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
-                        
-                        //                    for spaceIndex in 0..<spaces.count {
-                        //                        for tab in spaces[spaceIndex].tabUrls {
-                        //                            variables.navigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
-                        //                        }
-                        //                        for tab in spaces[spaceIndex].pinnedUrls {
-                        //                            variables.pinnedNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
-                        //                        }
-                        //                        for tab in spaces[spaceIndex].favoritesUrls {
-                        //                            variables.favoritesNavigationStateArray[spaceIndex].createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
-                        //                        }
-                        //                        variables.navigationStateArray[spaceIndex].selectedWebView = nil
-                        //                        variables.pinnedNavigationStateArray[spaceIndex].selectedWebView = nil
-                        //                        variables.favoritesNavigationStateArray[spaceIndex].selectedWebView = nil
-                        //                    }
                         
                         variables.initialLoadDone = true
                     }
@@ -2151,6 +2138,8 @@ struct ContentView: View {
             
         //}
     }.environmentObject(variables)
+            .environmentObject(manager)
+        
     }
     
     func saveSpaceData() {

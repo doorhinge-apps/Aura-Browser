@@ -22,6 +22,8 @@ struct TodayTab: View {
     @Binding var selectedTabLocation: String
     @Binding var draggedTab: WKWebView?
     
+    @EnvironmentObject var manager: WebsiteManager
+    
     @AppStorage("faviconShape") var faviconShape = "circle"
     
     @ObservedObject var navigationState: NavigationState
@@ -205,6 +207,8 @@ struct TodayTab: View {
             favoritesNavigationState.currentURL = nil
             
             selectedTabLocation = "tabs"
+            
+            manager.selectedTabLocation = .tabs
             
             Task {
                 await navigationState.selectedWebView = tab

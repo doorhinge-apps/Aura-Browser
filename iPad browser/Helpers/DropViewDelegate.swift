@@ -77,3 +77,39 @@ struct AlternateDropViewDelegate: DropDelegate {
     }
 }
 
+
+
+struct IndexDropViewDelegate: DropDelegate {
+    let destinationIndex: Int
+    @State var allStrings: [String]
+    @Binding var draggedIndex: Int?
+    var onSuccessfulDrop: () -> Void  // Closure to call on successful drop
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        return DropProposal(operation: .move)
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        guard let dragged = draggedIndex else { return false }
+        if dragged != destinationIndex {
+            withAnimation {
+                allStrings.move(fromOffsets: IndexSet(integer: dragged), toOffset: destinationIndex > dragged ? destinationIndex + 1 : destinationIndex)
+            }
+            draggedIndex = nil
+            onSuccessfulDrop()  // Call the closure after successful drop
+            return true
+        }
+        draggedIndex = nil
+        return false
+    }
+
+    func dropEntered(info: DropInfo) {
+        guard let dragged = draggedIndex else { return }
+        if dragged != destinationIndex {
+            withAnimation {
+                allStrings.move(fromOffsets: IndexSet(integer: dragged), toOffset: destinationIndex > dragged ? destinationIndex + 1 : destinationIndex)
+            }
+        }
+    }
+}
+

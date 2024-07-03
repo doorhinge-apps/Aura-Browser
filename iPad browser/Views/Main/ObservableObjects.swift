@@ -7,6 +7,9 @@
 
 import SwiftUI
 import WebKit
+import WebViewSwiftUI
+import LinkPresentation
+
 
 class ObservableVariables: ObservableObject {
     @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
@@ -143,6 +146,127 @@ class ObservableVariables: ObservableObject {
     @Published var navigationOffset: CGFloat = 0
     @Published var navigationArrowColor = false
     @Published var arrowImpactOnce = false
+}
+
+
+class WebsiteManager: ObservableObject {
+    @Published var webViewStores: [String: WebViewStore] = [:]
+    
+    @Published var selectedWebView: WebViewStore?
+    
+    func addWebViewStore(id: String, webViewStore: WebViewStore) {
+        webViewStores[id] = webViewStore
+    }
+    
+    func getWebViewStore(id: String) -> WebViewStore? {
+        return webViewStores[id]
+    }
+    
+    func selectOrAddWebView(urlString: String) {
+        if let existingStore = webViewStores.values.first(where: { $0.webView.url?.absoluteString == urlString }) {
+            // Set the found WebViewStore as the selected WebView
+            selectedWebView = existingStore
+        } else {
+            // Create a new WebViewStore if not found and add it to the dictionary
+            let newWebViewStore = WebViewStore()
+            newWebViewStore.loadIfNeeded(url: URL(string: urlString)!)
+            webViewStores[urlString] = newWebViewStore
+            selectedWebView = newWebViewStore
+        }
+        
+        if webViewStores.count > 15 {
+            webViewStores = Dictionary(webViewStores.keys.prefix(15).map { ($0, webViewStores[$0]!) }, uniquingKeysWith: { first, _ in first })
+        }
+    }
+    
+    @Published var linksWithTitles: [String: String] = [:]
+    
+    func fetchTitles(for urls: [String]) {
+        for urlString in urls {
+            guard let url = URL(string: urlString) else { continue }
+            
+            let metadataProvider = LPMetadataProvider() // Create a new instance for each URL
+            metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
+                guard error == nil, let title = metadata?.title else {
+                    print("Failed to fetch metadata for url: \(urlString)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.linksWithTitles[urlString] = title
+                }
+            }
+        }
+    }
+    
+    func fetchTitlesIfNeeded(for urls: [String]) {
+        for urlString in urls {
+            if linksWithTitles[urlString] == nil {
+                guard let url = URL(string: urlString) else { continue }
+                
+                let metadataProvider = LPMetadataProvider() // Create a new instance for each URL
+                metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
+                    guard error == nil, let title = metadata?.title else {
+                        print("Failed to fetch metadata for url: \(urlString)")
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.linksWithTitles[urlString] = title
+                    }
+                }
+            }
+        }
+    }
+    
+    @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
+    
+    @Published var hoverTab = ""
+    
+    @Published var selectedTabIndex = -1
+    @Published var hoverTabIndex = -1
+    @Published var hoverCloseTabIndex = -1
+    
+    @Published var draggedIndex: Int?
+    
+    @Published var selectedTabLocation: TabLocations = .tabs
+    @Published var hoverTabLocation: TabLocations = .tabs
+}
+
+
+class LinkViewModel: ObservableObject {
+    let metadataProvider = LPMetadataProvider()
+    
+    @Published var metadata: LPLinkMetadata?
+    @Published var image: UIImage?
+    
+    init(link: String) {
+        guard let url = URL(string: link) else {
+            return
+        }
+        metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
+            guard error == nil else {
+                assertionFailure("Error")
+                return
+            }
+            DispatchQueue.main.async {
+                self.metadata = metadata
+            }
+            guard let imageProvider = metadata?.imageProvider else { return }
+            imageProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                guard error == nil else {
+                    // handle error
+                    return
+                }
+                if let image = image as? UIImage {
+                    // do something with image
+                    DispatchQueue.main.async {
+                        self.image = image
+                    }
+                } else {
+                    print("no image available")
+                }
+            }
+        }
+    }
 }
 
 
