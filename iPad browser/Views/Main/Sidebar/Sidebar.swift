@@ -91,7 +91,19 @@ struct Sidebar: View {
             VStack {
                 // Sidebar Searchbar
                 Button {
-                    if ((variables.navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
+//                    if ((variables.navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
+//                        tabBarShown.toggle()
+//                        commandBarShown = false
+//                    }
+//                    else {
+//                        commandBarShown.toggle()
+//                        tabBarShown = false
+//                    }
+                    if manager.selectedWebView != nil && manager.selectedTabLocation == .pinned {
+                        tabBarShown = false
+                        commandBarShown.toggle()
+                    }
+                    else if ((variables.navigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.pinnedNavigationState.currentURL?.absoluteString.isEmpty) == nil) && ((variables.favoritesNavigationState.currentURL?.absoluteString.isEmpty) == nil) {
                         tabBarShown.toggle()
                         commandBarShown = false
                     }
@@ -106,9 +118,24 @@ struct Sidebar: View {
                             .foregroundStyle(Color(.white).opacity(hoverSidebarSearchField ? 0.3 : 0.15))
                         #endif
                         
-                        HStack {
+                        HStack(spacing: 0) {
+                            if manager.selectedWebView != nil {
+                                if manager.selectedWebView?.webView.hasOnlySecureContent ?? false {
+                                    Image(systemName: "lock.fill")
+                                        .foregroundStyle(Color.white)
+                                        .font(.system(.body, design: .rounded, weight: .bold))
+                                        .padding(.horizontal, 5)
+                                }
+                                else {
+                                    Image(systemName: "lock.open.fill")
+                                        .foregroundStyle(Color.red)
+                                        .font(.system(.body, design: .rounded, weight: .bold))
+                                        .padding(.horizontal, 5)
+                                }
+                            }
+                            
                             //Text(unformatURL(url: selectedTabLocation == "tabs" ? variables.navigationState.selectedWebView?.url?.absoluteString ?? "": selectedTabLocation == "pinnedTabs" ? variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? "": variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? ""))
-                            Text(searchInSidebar)
+                            Text(unformatURL(url: searchInSidebar))
                                 .padding(.leading, 5)
                                 .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                                 .lineLimit(1)
@@ -265,8 +292,6 @@ struct Sidebar: View {
                     }.padding(10)
                     
                     ForEach(0..<spaces[selectedSpaceIndex].pinnedUrls.count, id: \.self) { tabIndex in
-                        //PinnedTab(reloadTitles: $reloadTitles, tab: tab, hoverTab: $hoverTab, faviconLoadingStyle: $faviconLoadingStyle, searchInSidebar: $searchInSidebar, hoverCloseTab: $hoverCloseTab, selectedTabLocation: $selectedTabLocation, draggedTab: $draggedTab, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState)
-                        
                         ZStack {
                             if reloadTitles {
                                 Color.white.opacity(0.0)
@@ -310,7 +335,6 @@ struct Sidebar: View {
                                         LoadingAnimations(size: 25, borderWidth: 5.0)
                                             .padding(.leading, 5)
                                     }
-                                    
                                 }
                                 
                                 
@@ -329,10 +353,10 @@ struct Sidebar: View {
                                 }) {
                                     if (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .pinned) || (manager.selectedTabLocation == .pinned && manager.selectedTabIndex  == tabIndex) {
                                         ZStack {
-                #if !os(visionOS)
+#if !os(visionOS)
                                             Color(.white)
                                                 .opacity(manager.hoverCloseTabIndex == tabIndex ? 0.3: 0.0)
-                                            #endif
+#endif
                                             Image(systemName: "xmark")
                                                 .resizable()
                                                 .scaledToFit()
@@ -358,6 +382,16 @@ struct Sidebar: View {
                                         
                                     }
                                 }.buttonStyle(.plain)
+                            }
+                            .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                    let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
+                                    searchInSidebar = newUrl
+                                    
+                                    spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
+                                    
+                                    manager.fetchTitlesIfNeeded(for: spaces[selectedSpaceIndex].pinnedUrls)
+                                })
                             }
                         }
                         .contextMenu {

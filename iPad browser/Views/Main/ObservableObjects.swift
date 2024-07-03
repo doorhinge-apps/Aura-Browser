@@ -169,7 +169,10 @@ class WebsiteManager: ObservableObject {
         } else {
             // Create a new WebViewStore if not found and add it to the dictionary
             let newWebViewStore = WebViewStore()
-            newWebViewStore.loadIfNeeded(url: URL(string: urlString)!)
+            newWebViewStore.webView.allowsBackForwardNavigationGestures = true
+            
+            
+            newWebViewStore.loadIfNeeded(url: URL(string: urlString) ?? URL(string: "https://example.com")!)
             webViewStores[urlString] = newWebViewStore
             selectedWebView = newWebViewStore
         }
@@ -178,6 +181,7 @@ class WebsiteManager: ObservableObject {
             webViewStores = Dictionary(webViewStores.keys.prefix(15).map { ($0, webViewStores[$0]!) }, uniquingKeysWith: { first, _ in first })
         }
     }
+    
     
     @Published var linksWithTitles: [String: String] = [:]
     
