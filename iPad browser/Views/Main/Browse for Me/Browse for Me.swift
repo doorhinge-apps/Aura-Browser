@@ -21,6 +21,8 @@ struct BrowseForMe: View {
     
     @State var searching = false
     
+    @AppStorage("apiKey") var apiKey = ""
+    
     @State var alternateColors = 1
     
     @State var colors1 = [
@@ -153,24 +155,29 @@ struct BrowseForMe: View {
                         }
 
                     }
-                    
-                    if searching {
-                        if #available(iOS 18.0, visionOS 2.0, *) {
-                            Text("Searching...")
-                                .font(.system(.title2, design: .rounded, weight: .bold))
-                                .textRenderer(AnimatedSineWaveOffsetRender(timeOffset: offset))
-                                .onReceive(waveTimer) { _ in
-                                    withAnimation(.linear(duration: 0.5), {
-                                        if offset > 1_000_000_000_000 {
-                                            offset = 0
-                                        }
-                                        offset += 10
-                                    })
-                                }
-                        }
-                        else {
-                            Text("Searching...")
-                                .font(.system(.title2, design: .rounded, weight: .bold))
+                    if apiKey.isEmpty {
+                        Text("Please enter your API key in settings to use Browse for Me")
+                            .font(.system(.title2, design: .rounded, weight: .bold))
+                    }
+                    else {
+                        if searching {
+                            if #available(iOS 18.0, visionOS 2.0, *) {
+                                Text("Searching...")
+                                    .font(.system(.title2, design: .rounded, weight: .bold))
+                                    .textRenderer(AnimatedSineWaveOffsetRender(timeOffset: offset))
+                                    .onReceive(waveTimer) { _ in
+                                        withAnimation(.linear(duration: 0.5), {
+                                            if offset > 1_000_000_000_000 {
+                                                offset = 0
+                                            }
+                                            offset += 10
+                                        })
+                                    }
+                            }
+                            else {
+                                Text("Searching...")
+                                    .font(.system(.title2, design: .rounded, weight: .bold))
+                            }
                         }
                     }
                     
