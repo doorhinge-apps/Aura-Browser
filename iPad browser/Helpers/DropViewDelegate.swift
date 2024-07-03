@@ -79,37 +79,56 @@ struct AlternateDropViewDelegate: DropDelegate {
 
 
 
+
 struct IndexDropViewDelegate: DropDelegate {
     let destinationIndex: Int
-    @State var allStrings: [String]
-    @Binding var draggedIndex: Int?
-    var onSuccessfulDrop: () -> Void  // Closure to call on successful drop
-
+    @Binding var allItems: [String]
+    @Binding var draggedItem: String?
+    @Binding var draggedItemIndex: Int?
+    @Binding var currentHoverIndex: Int?
+    var onDropAction: () -> Void
+    
     func dropUpdated(info: DropInfo) -> DropProposal? {
+        // Update current hover index
+        currentHoverIndex = destinationIndex
         return DropProposal(operation: .move)
     }
-
+    
     func performDrop(info: DropInfo) -> Bool {
-        guard let dragged = draggedIndex else { return false }
-        if dragged != destinationIndex {
-            withAnimation {
-                allStrings.move(fromOffsets: IndexSet(integer: dragged), toOffset: destinationIndex > dragged ? destinationIndex + 1 : destinationIndex)
-            }
-            draggedIndex = nil
-            onSuccessfulDrop()  // Call the closure after successful drop
-            return true
-        }
-        draggedIndex = nil
-        return false
+        currentHoverIndex = nil
+        draggedItem = nil
+        draggedItemIndex = nil
+        
+        onDropAction()
+        
+        return true
     }
-
+    
     func dropEntered(info: DropInfo) {
-        guard let dragged = draggedIndex else { return }
-        if dragged != destinationIndex {
-            withAnimation {
-                allStrings.move(fromOffsets: IndexSet(integer: dragged), toOffset: destinationIndex > dragged ? destinationIndex + 1 : destinationIndex)
+        // Swap Items
+        if let draggedItem, let draggedItemIndex {
+            if draggedItemIndex != destinationIndex {
+                withAnimation {
+                    self.allItems.move(fromOffsets: IndexSet(integer: draggedItemIndex), toOffset: (destinationIndex > draggedItemIndex ? (destinationIndex + 1) : destinationIndex))
+                    softHaptics()
+                }
             }
         }
     }
 }
+
+
+
+    extension Array {
+        mutating func move(fromOffsets source: IndexSet, toOffset destination: Int) {
+            let reversedSource = source.sorted(by: >)
+            for index in reversedSource {
+                if index < destination {
+                    self.insert(self.remove(at: index), at: destination - 1)
+                } else {
+                    self.insert(self.remove(at: index), at: destination)
+                }
+            }
+        }
+    }
 

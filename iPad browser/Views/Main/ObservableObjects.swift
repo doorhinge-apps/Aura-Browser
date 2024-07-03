@@ -166,11 +166,11 @@ class WebsiteManager: ObservableObject {
         if let existingStore = webViewStores.values.first(where: { $0.webView.url?.absoluteString == urlString }) {
             // Set the found WebViewStore as the selected WebView
             selectedWebView = existingStore
+            selectedWebView?.webView.allowsBackForwardNavigationGestures = true
         } else {
             // Create a new WebViewStore if not found and add it to the dictionary
             let newWebViewStore = WebViewStore()
             newWebViewStore.webView.allowsBackForwardNavigationGestures = true
-            
             
             newWebViewStore.loadIfNeeded(url: URL(string: urlString) ?? URL(string: "https://example.com")!)
             webViewStores[urlString] = newWebViewStore
@@ -233,6 +233,7 @@ class WebsiteManager: ObservableObject {
     
     @Published var selectedTabLocation: TabLocations = .tabs
     @Published var hoverTabLocation: TabLocations = .tabs
+    @Published var dragTabLocation: TabLocations = .tabs
 }
 
 
