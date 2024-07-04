@@ -163,8 +163,8 @@ struct Sidebar: View {
                 // Tabs
                 ScrollView {
                     // Favorite Tabs
-                    VGrid(variables.favoritesNavigationState.webViews, numberOfColumns: 4) { tab in
-                            ZStack {
+                    IntVGrid(itemCount: spaces[selectedSpaceIndex].favoritesUrls.count, numberOfColumns: 4) { tabIndex in
+                            /*ZStack {
                                 RoundedRectangle(cornerRadius: 20)
                                     .stroke(textColor.opacity(tab == variables.favoritesNavigationState.selectedWebView ? 1.0 : hoverTab == tab ? 0.6: 0.2), lineWidth: 3)
                                     .fill(textColor.opacity(tab == variables.favoritesNavigationState.selectedWebView ? 0.5 : hoverTab == tab ? 0.15: 0.0001))
@@ -293,12 +293,180 @@ struct Sidebar: View {
                                 return NSItemProvider()
                             }
                             .onDrop(of: [.text], delegate: DropViewDelegate(destinationItem: tab, allTabs: $variables.favoritesNavigationState.webViews, draggedItem: $draggedTab))
+                             */
+                        
+                        VStack {
+                            ZStack {
+                                if reloadTitles {
+                                    Color.white.opacity(0.0)
+                                }
+                                
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 2)
+                                    .fill(Color(.white).opacity((tabIndex == manager.selectedTabIndex && manager.selectedTabLocation == .favorites) ? 0.5 : (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .favorites) ? 0.2: 0.0001))
+                                    .frame(height: 75)
+                                
+                                if favoritesStyle {
+                                    if faviconLoadingStyle {
+                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].favoritesUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 30, height: 30)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
+                                                .padding(.leading, 5)
+                                            
+                                        } placeholder: {
+                                            LoadingAnimations(size: 30, borderWidth: 5.0)
+                                                .padding(.leading, 5)
+                                        }
+                                        .onSuccess { image, data, cacheType in
+                                            
+                                        }
+                                        .indicator(.activity)
+                                        .transition(.fade(duration: 0.5))
+                                        .scaledToFit()
+                                        
+                                    } else {
+                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].favoritesUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 30, height: 30)
+                                                .cornerRadius(faviconShape == "square" ? 0: faviconShape == "squircle" ? 5: 100)
+                                                .padding(.leading, 5)
+                                            
+                                        } placeholder: {
+                                            LoadingAnimations(size: 30, borderWidth: 5.0)
+                                                .padding(.leading, 5)
+                                        }
+                                    }
+                                }
+                                else {
+                                    if spaces[selectedSpaceIndex].favoritesUrls.count > tabIndex {
+                                        Text(manager.linksWithTitles[spaces[selectedSpaceIndex].favoritesUrls[tabIndex]] ?? spaces[selectedSpaceIndex].favoritesUrls[tabIndex])
+                                            .lineLimit(1)
+                                            .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                            .padding(.leading, 5)
+                                            .onReceive(timer) { _ in
+                                                reloadTitles.toggle()
+                                            }
+                                    }
+                                }
+                                
+                            }
+                            .contextMenu {
+                                Button {
+                                    variables.browseForMeSearch = spaces[selectedSpaceIndex].favoritesUrls[tabIndex]
+                                    variables.isBrowseForMe = true
+                                } label: {
+                                    Label("Browse for Me", systemImage: "globe.desk")
+                                }
+#if !os(macOS)
+                                Button {
+                                    UIPasteboard.general.string = spaces[selectedSpaceIndex].favoritesUrls[tabIndex]
+                                } label: {
+                                    Label("Copy URL", systemImage: "link")
+                                }
+#endif
+                                Button {
+                                    var temporaryUrls = spaces[selectedSpaceIndex].favoritesUrls
+                                    temporaryUrls.insert(spaces[selectedSpaceIndex].favoritesUrls[tabIndex], at: tabIndex + 1)
+                                    
+                                    spaces[selectedSpaceIndex].favoritesUrls = temporaryUrls
+                                } label: {
+                                    Label("Duplicate", systemImage: "plus.square.on.square")
+                                }
+                                
+                                Button {
+                                    var temporaryUrls = spaces[selectedSpaceIndex].pinnedUrls
+                                    temporaryUrls.append(spaces[selectedSpaceIndex].favoritesUrls[tabIndex])
+                                    
+                                    spaces[selectedSpaceIndex].pinnedUrls = temporaryUrls
+                                    
+                                    favoriteRemoveTab(at: tabIndex)
+                                    
+                                } label: {
+                                    Label("Pin", systemImage: "pin.fill")
+                                }
+                                
+                                Button {
+                                    var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
+                                    temporaryUrls.append(spaces[selectedSpaceIndex].favoritesUrls[tabIndex])
+                                    
+                                    spaces[selectedSpaceIndex].tabUrls = temporaryUrls
+                                    
+                                    favoriteRemoveTab(at: tabIndex)
+                                    
+                                } label: {
+                                    Label("Unfavorite", systemImage: "star")
+                                }
+                                
+                                Button {
+                                    favoriteRemoveTab(at: tabIndex)
+                                } label: {
+                                    Label("Close Tab", systemImage: "xmark")
+                                }
+                                
+                            }
+                            .onAppear() {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    hoverTab = WKWebView()
+                                }
+                            }
+                            .onHover(perform: { hovering in
+                                if hovering {
+                                    manager.hoverTabIndex = tabIndex
+                                    manager.hoverTabLocation = .favorites
+                                }
+                                else {
+                                    manager.hoverTabIndex = -1
+                                }
+                            })
+                            .onTapGesture {
+                                manager.selectedTabIndex = tabIndex
+                                
+                                manager.selectedTabLocation = .favorites
+                                
+                                manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].favoritesUrls[tabIndex])
+                                
+                                searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].favoritesUrls[tabIndex])
+                            }
+                            .onDrag {
+                                draggedItem = spaces[selectedSpaceIndex].favoritesUrls[tabIndex]
+                                draggedItemIndex = tabIndex
+                                reorderingTabs = spaces[selectedSpaceIndex].favoritesUrls
+                                
+                                manager.dragTabLocation = .favorites
+                                
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].favoritesUrls[tabIndex] as NSString)
+                            }
+                        }
+                        .background(
+                            Color.white.opacity(0.0001)
+                        )
+                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+                            destinationIndex: tabIndex,
+                            allItems: $reorderingTabs,
+                            draggedItem: $draggedItem,
+                            draggedItemIndex: $draggedItemIndex,
+                            currentHoverIndex: $currentHoverIndex,
+                            onDropAction: {
+                                withAnimation {
+                                    spaces[selectedSpaceIndex].favoritesUrls = reorderingTabs
+                                }
+                                
+                                manager.selectedTabIndex = tabIndex
+                                
+                                currentHoverIndex = -1
+                            }
+                        ))
                         
                     }.padding(10)
                     
                     ForEach(0..<spaces[selectedSpaceIndex].pinnedUrls.count, id: \.self) { tabIndex in
                         VStack {
-                            if currentHoverIndex ?? 0 > tabIndex {
+                            if tabIndex < draggedItemIndex ?? 0 {
                                 if currentHoverIndex == tabIndex && manager.dragTabLocation == .pinned {
                                     HStack(spacing: 0) {
                                         Circle()
@@ -403,16 +571,6 @@ struct Sidebar: View {
                                         }
                                     }.buttonStyle(.plain)
                                 }
-                                .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                        let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
-                                        searchInSidebar = newUrl
-                                        
-                                        spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
-                                        
-                                        manager.fetchTitlesIfNeeded(for: spaces[selectedSpaceIndex].pinnedUrls)
-                                    })
-                                }
                             }
                             .contextMenu {
                                 Button {
@@ -429,13 +587,19 @@ struct Sidebar: View {
                                 }
 #endif
                                 Button {
-                                    spaces[selectedSpaceIndex].pinnedUrls.insert(spaces[selectedSpaceIndex].pinnedUrls[tabIndex], at: tabIndex + 1)
+                                    var temporaryUrls = spaces[selectedSpaceIndex].pinnedUrls
+                                    temporaryUrls.insert(spaces[selectedSpaceIndex].pinnedUrls[tabIndex], at: tabIndex + 1)
+                                    
+                                    spaces[selectedSpaceIndex].pinnedUrls = temporaryUrls
                                 } label: {
                                     Label("Duplicate", systemImage: "plus.square.on.square")
                                 }
                                 
                                 Button {
-                                    spaces[selectedSpaceIndex].tabUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                    var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
+                                    temporaryUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                    
+                                    spaces[selectedSpaceIndex].tabUrls = temporaryUrls
                                     
                                     pinnedRemoveTab(at: tabIndex)
                                     
@@ -444,7 +608,10 @@ struct Sidebar: View {
                                 }
                                 
                                 Button {
-                                    spaces[selectedSpaceIndex].favoritesUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                    var temporaryUrls = spaces[selectedSpaceIndex].favoritesUrls
+                                    temporaryUrls.append(spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
+                                    
+                                    spaces[selectedSpaceIndex].favoritesUrls = temporaryUrls
                                     
                                     pinnedRemoveTab(at: tabIndex)
                                     
@@ -474,54 +641,28 @@ struct Sidebar: View {
                                 }
                             })
                             .onTapGesture {
-                                //variables.navigationState.selectedWebView = nil
-                                //variables.navigationState.currentURL = nil
-                                
-                                //variables.favoritesNavigationState.selectedWebView = nil
-                                //variables.favoritesNavigationState.currentURL = nil
-                                
                                 manager.selectedTabIndex = tabIndex
                                 
                                 manager.selectedTabLocation = .pinned
                                 
-                                //                            Task {
-                                //                                await pinnedNavigationState.selectedWebView = tab
-                                //                                await pinnedNavigationState.currentURL = tab.url
-                                //                            }
-                                
-                                //                            if let unwrappedURL = spaces[selectedSpaceIndex].pinnedUrls[tabIndex] {
-                                //                                searchInSidebar = unwrappedURL.absoluteString
-                                //                            }
                                 manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
                                 
                                 searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].pinnedUrls[tabIndex])
                             }
                             .onDrag {
-                                self.draggedItem = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
-                                self.draggedItemIndex = tabIndex
+                                draggedItem = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
+                                draggedItemIndex = tabIndex
                                 reorderingTabs = spaces[selectedSpaceIndex].pinnedUrls
                                 
                                 manager.dragTabLocation = .pinned
                                 
-                                currentHoverIndex = -1
+                                //currentHoverIndex = -1
                                 
                                 return NSItemProvider(object: spaces[selectedSpaceIndex].pinnedUrls[tabIndex] as NSString)
                             }
-                            .onDrop(of: [.text], delegate: IndexDropViewDelegate(
-                                destinationIndex: tabIndex,
-                                allItems: $reorderingTabs,
-                                draggedItem: $draggedItem,
-                                draggedItemIndex: $draggedItemIndex,
-                                currentHoverIndex: $currentHoverIndex,
-                                onDropAction: {
-                                    withAnimation {
-                                        spaces[selectedSpaceIndex].pinnedUrls = reorderingTabs
-                                    }
-                                    currentHoverIndex = -1
-                                }
-                            ))
                             
-                            if currentHoverIndex ?? 0 < tabIndex {
+                            if tabIndex > draggedItemIndex ?? 0 {
+                            //if tabIndex != draggedItemIndex {
                                 if currentHoverIndex == tabIndex && manager.dragTabLocation == .pinned {
                                     HStack(spacing: 0) {
                                         Circle()
@@ -536,7 +677,22 @@ struct Sidebar: View {
                                 }
                             }
                         }
-                    }
+                        .background(
+                            Color.white.opacity(0.0001)
+                        )
+                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+                            destinationIndex: tabIndex,
+                            allItems: $reorderingTabs,
+                            draggedItem: $draggedItem,
+                            draggedItemIndex: $draggedItemIndex,
+                            currentHoverIndex: $currentHoverIndex,
+                            onDropAction: {
+                                withAnimation {
+                                    spaces[selectedSpaceIndex].pinnedUrls = reorderingTabs
+                                }
+                                currentHoverIndex = -1
+                            }
+                        ))                    }
                     .onAppear() {
                         manager.fetchTitles(for: spaces[selectedSpaceIndex].pinnedUrls)
                     }
@@ -789,6 +945,26 @@ struct Sidebar: View {
                             tabBarShown = true
                         }
                     }
+                    .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                            let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
+                            searchInSidebar = newUrl
+                            
+                            if manager.selectedTabLocation == .pinned {
+                                spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
+                            }
+                            else if manager.selectedTabLocation == .tabs {
+                                spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
+                            }
+                            else if manager.selectedTabLocation == .favorites {
+                                spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = newUrl
+                            }
+                            
+                            let fetchTitlesArrays = spaces[selectedSpaceIndex].tabUrls + spaces[selectedSpaceIndex].pinnedUrls + spaces[selectedSpaceIndex].favoritesUrls
+                            
+                            manager.fetchTitlesIfNeeded(for: fetchTitlesArrays)
+                        })
+                    }
                     
                     ForEach(Array(stride(from: spaces[selectedSpaceIndex].tabUrls.count-1, to: 0, by: -1)), id: \.self) { tabIndex in
                         VStack {
@@ -864,7 +1040,7 @@ struct Sidebar: View {
                                     Spacer()
                                     
                                     Button(action: {
-                                        pinnedRemoveTab(at: tabIndex)
+                                        removeTab(at: tabIndex)
                                     }) {
                                         if (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .tabs) || (manager.selectedTabLocation == .tabs && manager.selectedTabIndex  == tabIndex) {
                                             ZStack {
@@ -898,16 +1074,6 @@ struct Sidebar: View {
                                         }
                                     }.buttonStyle(.plain)
                                 }
-                                .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                        let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
-                                        searchInSidebar = newUrl
-                                        
-                                        spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
-                                        
-                                        manager.fetchTitlesIfNeeded(for: spaces[selectedSpaceIndex].tabUrls)
-                                    })
-                                }
                             }
                             .contextMenu {
                                 Button {
@@ -924,22 +1090,31 @@ struct Sidebar: View {
                                 }
 #endif
                                 Button {
-                                    spaces[selectedSpaceIndex].tabUrls.insert(spaces[selectedSpaceIndex].tabUrls[tabIndex], at: tabIndex + 1)
+                                    var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
+                                    temporaryUrls.insert(spaces[selectedSpaceIndex].tabUrls[tabIndex], at: tabIndex + 1)
+                                    
+                                    spaces[selectedSpaceIndex].tabUrls = temporaryUrls
                                 } label: {
                                     Label("Duplicate", systemImage: "plus.square.on.square")
                                 }
                                 
                                 Button {
-                                    spaces[selectedSpaceIndex].pinnedUrls.append(spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                    var temporaryUrls = spaces[selectedSpaceIndex].pinnedUrls
+                                    temporaryUrls.append(spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                    
+                                    spaces[selectedSpaceIndex].pinnedUrls = temporaryUrls
                                     
                                     removeTab(at: tabIndex)
                                     
                                 } label: {
-                                    Label("Pin", systemImage: "pin")
+                                    Label("Pin", systemImage: "pin.fill")
                                 }
                                 
                                 Button {
-                                    spaces[selectedSpaceIndex].favoritesUrls.append(spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                    var temporaryUrls = spaces[selectedSpaceIndex].favoritesUrls
+                                    temporaryUrls.append(spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                    
+                                    spaces[selectedSpaceIndex].favoritesUrls = temporaryUrls
                                     
                                     removeTab(at: tabIndex)
                                     
@@ -1046,64 +1221,70 @@ struct Sidebar: View {
     }
     
     func favoriteRemoveTab(at index: Int) {
-        // If the deleted tab is the currently selected one
-        if variables.favoritesNavigationState.selectedWebView == variables.favoritesNavigationState.webViews[index] {
-            if variables.favoritesNavigationState.webViews.count > 1 { // Check if there's more than one tab
+        var temporaryUrls = spaces[selectedSpaceIndex].favoritesUrls
+        
+        if index == manager.selectedTabIndex && manager.selectedTabLocation == .favorites {
+            if temporaryUrls.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[1]
+                    manager.selectedTabIndex = 1
                 } else { // Otherwise, select the previous one
-                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[index - 1]
+                    manager.selectedTabIndex = index - 1
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                variables.favoritesNavigationState.selectedWebView = nil
+                manager.selectedWebView = nil
+                manager.selectedTabIndex = -1
             }
         }
         
-        variables.favoritesNavigationState.webViews.remove(at: index)
+        temporaryUrls.remove(at: index)
+        
+        spaces[selectedSpaceIndex].favoritesUrls = temporaryUrls
         
         saveSpaceData()
     }
     
     func pinnedRemoveTab(at index: Int) {
-        // If the deleted tab is the currently selected one
-        if variables.pinnedNavigationState.selectedWebView == variables.pinnedNavigationState.webViews[index] {
-            if variables.pinnedNavigationState.webViews.count > 1 { // Check if there's more than one tab
+        var temporaryUrls = spaces[selectedSpaceIndex].pinnedUrls
+        
+        if index == manager.selectedTabIndex && manager.selectedTabLocation == .pinned {
+            if temporaryUrls.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[1]
+                    manager.selectedTabIndex = 1
                 } else { // Otherwise, select the previous one
-                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[index - 1]
+                    manager.selectedTabIndex = index - 1
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                variables.pinnedNavigationState.selectedWebView = nil
+                manager.selectedWebView = nil
+                manager.selectedTabIndex = -1
             }
         }
         
-        variables.pinnedNavigationState.webViews.remove(at: index)
+        temporaryUrls.remove(at: index)
+        
+        spaces[selectedSpaceIndex].pinnedUrls = temporaryUrls
         
         saveSpaceData()
     }
     
     func removeTab(at index: Int) {
-        // If the deleted tab is the currently selected one
-        if variables.navigationState.selectedWebView == variables.navigationState.webViews[index] {
-            if variables.navigationState.webViews.count > 1 { // Check if there's more than one tab
-                if index == 0 { // If the first tab is being deleted, select the next one
-                    variables.navigationState.selectedWebView = variables.navigationState.webViews[1]
-                } else { // Otherwise, select the previous one
-                    variables.navigationState.selectedWebView = variables.navigationState.webViews[index - 1]
+        var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
+                
+        if index == manager.selectedTabIndex && manager.selectedTabLocation == .tabs {
+                    if temporaryUrls.count > 1 { // Check if there's more than one tab
+                        if index == 0 { // If the first tab is being deleted, select the next one
+                            manager.selectedTabIndex = 1
+                        } else { // Otherwise, select the previous one
+                            manager.selectedTabIndex = index - 1
+                        }
+                    } else { // If it's the only tab, set the selectedWebView to nil
+                        manager.selectedWebView = nil
+                        manager.selectedTabIndex = -1
+                    }
                 }
-            } else { // If it's the only tab, set the selectedWebView to nil
-                variables.navigationState.selectedWebView = nil
-            }
-        }
-        
-        variables.navigationState.webViews.remove(at: index)
-        
-        do {
-            try modelContext.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+                
+                temporaryUrls.remove(at: index)
+                
+        spaces[selectedSpaceIndex].tabUrls = temporaryUrls
         
         saveSpaceData()
     }

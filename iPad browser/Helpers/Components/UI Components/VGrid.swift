@@ -48,3 +48,30 @@ struct VGrid<Element, GridCell>: View where GridCell: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
+
+struct IntVGrid<GridCell>: View where GridCell: View {
+    
+    private var itemCount: Int
+    private var numberOfColumns: Int
+    private var gridCell: (_ index: Int) -> GridCell
+    
+    init(itemCount: Int, numberOfColumns: Int, @ViewBuilder gridCell: @escaping (_ index: Int) -> GridCell) {
+        self.itemCount = itemCount
+        self.numberOfColumns = numberOfColumns
+        self.gridCell = gridCell
+    }
+    
+    var body: some View {
+        Grid {
+            ForEach(Array(stride(from: 0, to: self.itemCount, by: self.numberOfColumns)), id: \.self) { rowIndex in
+                GridRow {
+                    ForEach(rowIndex..<min(rowIndex + self.numberOfColumns, self.itemCount), id: \.self) { columnIndex in
+                        self.gridCell(columnIndex)
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
