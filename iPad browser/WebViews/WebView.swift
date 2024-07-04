@@ -8,20 +8,7 @@
 import SwiftUI
 import WebKit
 
-let testcss = """
-html, body {
-  overflow-x: hidden;
-}
 
-body {
-  background-color: #333333;
-  line-height: 1.5;
-  color: white;
-  padding: 10;
-  font-weight: 600;
-  font-family: -apple-system;
-}
-"""
 #if !os(macOS)
 struct WebView: UIViewRepresentable {
     
