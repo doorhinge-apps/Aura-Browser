@@ -16,7 +16,19 @@ struct CurrentWebView: View {
     var webGeo: GeometryProxy
     
     var body: some View {
-        if manager.selectedTabLocation == .pinned {
+        if manager.selectedWebView != nil {
+            ScrollView(showsIndicators: false) {
+                BrowserView(webViewStore: manager.selectedWebView ?? WebViewStore())
+                    .frame(width: webGeo.size.width, height: webGeo.size.height)
+            }
+            .refreshable {
+                variables.reloadRotation += 360
+                
+                manager.selectedWebView?.reload()
+            }
+        }
+        
+        /*if manager.selectedTabLocation == .pinned || manager.selectedTabLocation == .tabs {
             ScrollView(showsIndicators: false) {
                 BrowserView(webViewStore: manager.selectedWebView ?? WebViewStore())
                     .frame(width: webGeo.size.width, height: webGeo.size.height)
@@ -59,7 +71,7 @@ struct CurrentWebView: View {
                 
                 //loadingIndicators(for: variables.pinnedNavigationState.selectedWebView?.isLoading)
             }
-        }
+        }*/
     }
 }
 
