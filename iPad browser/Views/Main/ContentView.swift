@@ -867,7 +867,9 @@ struct ContentView: View {
                                 variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
                             }
                             else {
-                                variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
+                                //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
+                                
+                                spaces[selectedSpaceIndex].tabUrls.append(url.absoluteString)
                             }
                             print("Url:")
                             print(url)

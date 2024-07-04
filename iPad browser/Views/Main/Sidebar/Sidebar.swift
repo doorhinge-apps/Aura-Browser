@@ -1240,7 +1240,11 @@ struct Sidebar: View {
         
         spaces[selectedSpaceIndex].favoritesUrls = temporaryUrls
         
-        saveSpaceData()
+        do {
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func pinnedRemoveTab(at index: Int) {
@@ -1263,30 +1267,42 @@ struct Sidebar: View {
         
         spaces[selectedSpaceIndex].pinnedUrls = temporaryUrls
         
-        saveSpaceData()
+        do {
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func removeTab(at index: Int) {
         var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
                 
         if index == manager.selectedTabIndex && manager.selectedTabLocation == .tabs {
-                    if temporaryUrls.count > 1 { // Check if there's more than one tab
-                        if index == 0 { // If the first tab is being deleted, select the next one
-                            manager.selectedTabIndex = 1
-                        } else { // Otherwise, select the previous one
-                            manager.selectedTabIndex = index - 1
-                        }
-                    } else { // If it's the only tab, set the selectedWebView to nil
-                        manager.selectedWebView = nil
-                        manager.selectedTabIndex = -1
-                    }
+            if temporaryUrls.count > 1 { // Check if there's more than one tab
+                if index == 0 { // If the first tab is being deleted, select the next one
+                    manager.selectedTabIndex = 1
+                } else { // Otherwise, select the previous one
+                    manager.selectedTabIndex = index - 1
                 }
-                
-                temporaryUrls.remove(at: index)
-                
+            } else { // If it's the only tab, set the selectedWebView to nil
+                manager.selectedWebView = nil
+                manager.selectedTabIndex = -1
+            }
+        }
+        
+        Task {
+            await temporaryUrls.remove(at: index)
+        }
+        
         spaces[selectedSpaceIndex].tabUrls = temporaryUrls
         
-        saveSpaceData()
+        do {
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        //saveSpaceData()
     }
     
     func saveSpaceData() {
