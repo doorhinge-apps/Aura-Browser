@@ -55,6 +55,8 @@ struct TabOverview: View {
     @State var newTabFromTab = false
     
     @State var gestureStarted = false
+    @State var closeTabScrollDisabled = false
+    @State var closeTabScrollDisabledCounter = 0
     
     @State var webURL = ""
     @State var displayWebURL = ""
@@ -180,6 +182,7 @@ struct TabOverview: View {
                             print("Url:")
                             print(url)
                         }
+                        .scrollDisabled(closeTabScrollDisabledCounter > 50)
                         
                         HStack {
                             Spacer()
@@ -670,6 +673,8 @@ struct TabOverview: View {
             tilt *= -1
         }
         tilts[id] = tilt
+        
+        closeTabScrollDisabledCounter = abs(Int(gesture.translation.width))
     }
     
     private func handleDragEnd(_ gesture: DragGesture.Value, for id: UUID) {
@@ -693,6 +698,8 @@ struct TabOverview: View {
                 tilts[id] = 0.0
             }
         }
+        
+        closeTabScrollDisabledCounter = 0
     }
     
     private func updateTabs() {
