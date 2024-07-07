@@ -15,6 +15,8 @@ struct ToolbarButtonsView: View {
     
     @StateObject var variables = ObservableVariables()
     
+    @EnvironmentObject var manager: WebsiteManager
+    
     @Binding var selectedTabLocation: String
     @ObservedObject var navigationState: NavigationState
     @ObservedObject var pinnedNavigationState: NavigationState
@@ -246,15 +248,7 @@ struct ToolbarButtonsView: View {
                 
                 
                 Button(action: {
-                    if selectedTabLocation == "tabs" {
-                        navigationState.selectedWebView?.goBack()
-                    }
-                    else if selectedTabLocation == "pinnedTabs" {
-                        pinnedNavigationState.selectedWebView?.goBack()
-                    }
-                    else if selectedTabLocation == "favoriteTabs" {
-                        favoritesNavigationState.selectedWebView?.goBack()
-                    }
+                    manager.selectedWebView?.webView.goBack()
                 }, label: {
                     ZStack {
                         HoverButtonDisabledVision(hoverInteraction: $hoverBackwardButton)
@@ -280,17 +274,10 @@ struct ToolbarButtonsView: View {
                             }
                         })
                 }).buttonStyle(.plain)
+                    //.disabled(manager.selectedWebView?.webView.canGoBack ?? false)
                 
                 Button(action: {
-                    if selectedTabLocation == "tabs" {
-                        navigationState.selectedWebView?.goForward()
-                    }
-                    else if selectedTabLocation == "pinnedTabs" {
-                        pinnedNavigationState.selectedWebView?.goForward()
-                    }
-                    else if selectedTabLocation == "favoriteTabs" {
-                        favoritesNavigationState.selectedWebView?.goForward()
-                    }
+                    manager.selectedWebView?.webView.goForward()
                 }, label: {
                     ZStack {
                         HoverButtonDisabledVision(hoverInteraction: $hoverForwardButton)
@@ -316,42 +303,13 @@ struct ToolbarButtonsView: View {
                             }
                         })
                 }).buttonStyle(.plain)
-                
+                    //.disabled(manager.selectedWebView?.webView.canGoForward ?? false)
                 
                 Button(action: {
                     reloadRotation += 360
                     
-                    if selectedTabLocation == "tabs" {
-                        navigationState.selectedWebView?.reload()
-                        navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        
-                        navigationState.selectedWebView = navigationState.selectedWebView
-                        //navigationState.currentURL = navigationState.currentURL
-                        
-                        if let unwrappedURL = navigationState.currentURL {
-                            searchInSidebar = unwrappedURL.absoluteString
-                        }
-                    }
-                    else if selectedTabLocation == "pinnedTabs" {
-                        pinnedNavigationState.selectedWebView?.reload()
-                        pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        
-                        pinnedNavigationState.selectedWebView = pinnedNavigationState.selectedWebView
-                        
-                        if let unwrappedURL = pinnedNavigationState.currentURL {
-                            searchInSidebar = unwrappedURL.absoluteString
-                        }
-                    }
-                    else if selectedTabLocation == "favoriteTabs" {
-                        favoritesNavigationState.selectedWebView?.reload()
-                        favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                        
-                        favoritesNavigationState.selectedWebView = favoritesNavigationState.selectedWebView
-                        
-                        if let unwrappedURL = favoritesNavigationState.currentURL {
-                            searchInSidebar = unwrappedURL.absoluteString
-                        }
-                    }
+                    searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? searchInSidebar
+                    manager.selectedWebView?.reload()
                 }, label: {
                     ZStack {
                         HoverButtonDisabledVision(hoverInteraction: $hoverReloadButton)

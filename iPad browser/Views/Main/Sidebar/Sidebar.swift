@@ -966,7 +966,8 @@ struct Sidebar: View {
                         })
                     }
                     
-                    ForEach(Array(stride(from: spaces[selectedSpaceIndex].tabUrls.count-1, to: 0, by: -1)), id: \.self) { tabIndex in
+                    ForEach(Array(stride(from: spaces[selectedSpaceIndex].tabUrls.count-1, through: 0, by: -1)), id: \.self) { tabIndex in
+                    //ForEach(0..<spaces[selectedSpaceIndex].tabUrls.count, id: \.self) { tabIndex in
                         VStack {
                             
                             if tabIndex > draggedItemIndex ?? 0 {
@@ -1250,6 +1251,10 @@ struct Sidebar: View {
     func pinnedRemoveTab(at index: Int) {
         var temporaryUrls = spaces[selectedSpaceIndex].pinnedUrls
         
+        temporaryUrls.remove(at: index)
+        
+        spaces[selectedSpaceIndex].pinnedUrls = temporaryUrls
+        
         if index == manager.selectedTabIndex && manager.selectedTabLocation == .pinned {
             if temporaryUrls.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
@@ -1263,10 +1268,6 @@ struct Sidebar: View {
             }
         }
         
-        temporaryUrls.remove(at: index)
-        
-        spaces[selectedSpaceIndex].pinnedUrls = temporaryUrls
-        
         do {
             try modelContext.save()
         } catch {
@@ -1276,7 +1277,18 @@ struct Sidebar: View {
     
     func removeTab(at index: Int) {
         var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
-                
+        
+        print("Removing Tab:")
+        print(temporaryUrls)
+        
+        temporaryUrls.remove(at: index)
+        
+        print(temporaryUrls)
+        
+        spaces[selectedSpaceIndex].tabUrls = temporaryUrls
+        
+        print(spaces[selectedSpaceIndex].tabUrls)
+        
         if index == manager.selectedTabIndex && manager.selectedTabLocation == .tabs {
             if temporaryUrls.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
@@ -1289,18 +1301,17 @@ struct Sidebar: View {
                 manager.selectedTabIndex = -1
             }
         }
-        
-        Task {
-            await temporaryUrls.remove(at: index)
-        }
-        
-        spaces[selectedSpaceIndex].tabUrls = temporaryUrls
+//        if manager.selectedTabIndex > spaces[selectedSpaceIndex].tabUrls.count {
+//            manager.selectedTabIndex = spaces[selectedSpaceIndex].tabUrls.count-1
+//        }
         
         do {
             try modelContext.save()
         } catch {
             print(error.localizedDescription)
         }
+        
+        print("Done")
         
         //saveSpaceData()
     }
