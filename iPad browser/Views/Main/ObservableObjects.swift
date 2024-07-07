@@ -177,8 +177,8 @@ class WebsiteManager: ObservableObject {
             selectedWebView = newWebViewStore
         }
         
-        if webViewStores.count > 15 {
-            webViewStores = Dictionary(webViewStores.keys.prefix(15).map { ($0, webViewStores[$0]!) }, uniquingKeysWith: { first, _ in first })
+        if webViewStores.count > Int(UserDefaults.standard.double(forKey: "preloadingWebsites")) {
+            webViewStores = Dictionary(webViewStores.keys.prefix(Int(UserDefaults.standard.double(forKey: "preloadingWebsites"))).map { ($0, webViewStores[$0]!) }, uniquingKeysWith: { first, _ in first })
         }
     }
     
@@ -275,11 +275,6 @@ class LinkViewModel: ObservableObject {
 }
 
 
-class SidebarTabStorageUpdate: ObservableObject {
-    
-}
-
-
 class SettingsVariables: ObservableObject {
     @AppStorage("email") var email = ""
     
@@ -312,4 +307,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("launchAnimation") var launchAnimation = true
     
     @AppStorage("apiKey") var apiKey = ""
+    
+    @AppStorage("preloadingWebsites") var preloadingWebsites = 15.0
 }

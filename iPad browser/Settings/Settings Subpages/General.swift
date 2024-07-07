@@ -248,6 +248,32 @@ struct General: View {
                     }
                     
                     HStack {
+                        Text("Background Loading")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                    }.padding(20)
+                    
+                    HStack {
+                        Text(Int(settings.preloadingWebsites).description)
+                            .foregroundStyle(Color.white)
+                        
+                        Slider(value: $settings.preloadingWebsites, in: 1...30, step: 1)
+                    }
+                    .padding(.horizontal, 10)
+                    
+                    HStack {
+                        Text("Change how many websites stay loaded in the background. Higher numbers mean faster website loading but could lower app performance.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
                         Text("Ad Block")
                             .font(.system(.title3, design: .rounded, weight: .bold))
                             .foregroundStyle(Color.white)
@@ -279,6 +305,7 @@ struct General: View {
                     TextField("API Key", text: $settings.apiKey)
                         .textFieldStyle(.plain)
                         .padding(.leading, 20)
+                        .foregroundStyle(Color.white)
                     
                     HStack {
                         Text("Enter your Perplexity API key to use Browse for Me")
