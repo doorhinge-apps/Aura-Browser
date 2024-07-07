@@ -40,7 +40,6 @@ struct BrowseForMe: View {
     var body: some View {
         ZStack {
             ZStack {
-                //if #available(iOS 18.0, *) {
                 if #available(iOS 18.0, visionOS 2.0, *) {
                     MeshGradient(width: 3, height: 3, points: [
                         .init(0, 0), .init(0.5, 0), .init(1, 0),
