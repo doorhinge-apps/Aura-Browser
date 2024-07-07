@@ -1,5 +1,5 @@
 {
-  "originHash" : "d6c8f28a728e3f54f0de1ee18693a8f3c34cb40d79a56f34a7479180ac31829f",
+  "originHash" : "eda11c458f836b17207ba8c62f7317445db703e5dfbeec953b90b54161f0766b",
   "pins" : [
     {
       "identity" : "faviconfinder",
@@ -26,15 +26,6 @@
       "state" : {
         "revision" : "3e330f8c0b3877cbed5ae9d6a6ae25bc10910a02",
         "version" : "1.2.7"
-      }
-    },
-    {
-      "identity" : "ios-webviewswiftui",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/hassanvfx/ios-webViewSwiftUI",
-      "state" : {
-        "revision" : "eb61b15c79fa1561b471a0fbe64dfa269e855c60",
-        "version" : "1.2.1"
       }
     },
     {
@@ -80,6 +71,15 @@
       "state" : {
         "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
         "version" : "2.7.2"
+      }
+    },
+    {
+      "identity" : "webviewswiftui-aura",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/doorhinge-apps/WebViewSwiftUI-Aura",
+      "state" : {
+        "branch" : "main",
+        "revision" : "1570b9f3b5bba5a183b98de802127a1354d2d250"
       }
     },
     {
