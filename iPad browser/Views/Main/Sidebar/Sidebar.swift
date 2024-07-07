@@ -306,7 +306,7 @@ struct Sidebar: View {
                                     .fill(Color(.white).opacity((tabIndex == manager.selectedTabIndex && manager.selectedTabLocation == .favorites) ? 0.5 : (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .favorites) ? 0.2: 0.0001))
                                     .frame(height: 75)
                                 
-                                if favoritesStyle {
+                                if !favoritesStyle {
                                     if faviconLoadingStyle {
                                         WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[selectedSpaceIndex].favoritesUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                                             image

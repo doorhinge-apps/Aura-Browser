@@ -189,15 +189,7 @@ struct ContentView: View {
                                             //MARK: - WebView
                                             CurrentWebView(webGeo: webGeo)
                                                 .overlay(content: {
-                                                    if variables.selectedTabLocation == "tabs" {
-                                                        loadingIndicators(for: variables.navigationState.selectedWebView?.isLoading)
-                                                    }
-                                                    else if variables.selectedTabLocation == "pinnedTabs" {
-                                                        loadingIndicators(for: variables.pinnedNavigationState.selectedWebView?.isLoading)
-                                                    }
-                                                    else {
-                                                        loadingIndicators(for: variables.favoritesNavigationState.selectedWebView?.isLoading)
-                                                    }
+                                                    loadingIndicators(for: manager.selectedWebView?.webView.isLoading ?? false)
                                                 })
                                             
                                             /*if !settings.swipeNavigationDisabled {
@@ -883,7 +875,21 @@ struct ContentView: View {
                                     
                                     if !variables.newTabSearch.starts(with: "aura://") {
                                         variables.auraTab = ""
-                                        variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
+                                        //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
+                                        
+                                        var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
+                                        
+                                        Task {
+                                            await temporaryUrls.append(formatURL(from: variables.newTabSearch))
+                                            
+                                            await spaces[selectedSpaceIndex].tabUrls = temporaryUrls
+                                        }
+                                        
+                                        do {
+                                            try modelContext.save()
+                                        } catch {
+                                            print(error.localizedDescription)
+                                        }
                                     }
                                     else {
                                         if variables.newTabSearch.contains("dashboard") {
