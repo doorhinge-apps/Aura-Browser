@@ -871,25 +871,41 @@ struct ContentView: View {
                             CommandBar(commandBarText: $variables.newTabSearch, searchSubmitted: $variables.commandBarSearchSubmitted, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
                                 .onChange(of: variables.commandBarSearchSubmitted) { thing in
                                     
+                                    print("Search submitted")
+                                    
                                     variables.browseForMeSearch = variables.newTabSearch
                                     
                                     if !variables.newTabSearch.starts(with: "aura://") {
                                         variables.auraTab = ""
                                         //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
                                         
+                                        print(variables.newTabSearch)
+                                        
                                         var temporaryUrls = spaces[selectedSpaceIndex].tabUrls
                                         
-                                        Task {
-                                            await temporaryUrls.append(formatURL(from: variables.newTabSearch))
-                                            
-                                            await spaces[selectedSpaceIndex].tabUrls = temporaryUrls
-                                        }
+                                        print("temporaryUrls:")
+                                        print(temporaryUrls)
+                                        
+                                        var formattedUrl = formatURL(from: variables.newTabSearch)
+                                        
+                                        print("formattedUrl:")
+                                        print(formattedUrl)
+                                        
+                                        temporaryUrls.append(formattedUrl)
+                                        
+                                        print("temporaryUrls - changed:")
+                                        print(temporaryUrls)
+                                        spaces[selectedSpaceIndex].tabUrls = temporaryUrls
+                                        
+                                        print("tabUrls:")
+                                        print(spaces[selectedSpaceIndex].tabUrls)
                                         
                                         do {
                                             try modelContext.save()
                                         } catch {
                                             print(error.localizedDescription)
                                         }
+                                        print(spaces[selectedSpaceIndex].tabUrls)
                                     }
                                     else {
                                         if variables.newTabSearch.contains("dashboard") {
@@ -911,7 +927,7 @@ struct ContentView: View {
                                     
                                     print("Saving Tabs")
                                     
-                                    saveSpaceData()
+                                    //saveSpaceData()
                                 }
                             //}
                         }
