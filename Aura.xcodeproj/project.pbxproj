@@ -82,11 +82,16 @@
 		B9D47D072C27772C0059BE46 /* New Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D062C27772C0059BE46 /* New Settings.swift */; };
 		B9D47D0A2C27806C0059BE46 /* Favicons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D092C27806C0059BE46 /* Favicons.swift */; };
 		B9D47D0C2C282A150059BE46 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D0B2C282A150059BE46 /* UISettings.swift */; };
+		B9DDD2672C3C2AD900BC0CA4 /* WebsiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD2662C3C2AD900BC0CA4 /* WebsiteManager.swift */; };
+		B9DDD2692C3C2AF300BC0CA4 /* ObservableVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD2682C3C2AF300BC0CA4 /* ObservableVariables.swift */; };
+		B9DDD26B2C3C2B0D00BC0CA4 /* LinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD26A2C3C2B0D00BC0CA4 /* LinkViewModel.swift */; };
+		B9DDD26D2C3C2B2600BC0CA4 /* SettingsVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD26C2C3C2B2600BC0CA4 /* SettingsVariables.swift */; };
 		B9E474202C17EA800098C7C6 /* TestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */; };
 		B9E474332C17EDE80098C7C6 /* Aura_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */; };
 		B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */; };
-		B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
+		B9FA63BD2C3C2E1D00D492E6 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */; };
+		B9FA63BF2C3C2E2400D492E6 /* BoostDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA63BE2C3C2E2400D492E6 /* BoostDataStorage.swift */; };
 		B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */; };
 		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
 		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; platformFilters = (ios, maccatalyst, xros, ); };
@@ -175,11 +180,16 @@
 		B9D47D062C27772C0059BE46 /* New Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New Settings.swift"; sourceTree = "<group>"; };
 		B9D47D092C27806C0059BE46 /* Favicons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favicons.swift; sourceTree = "<group>"; };
 		B9D47D0B2C282A150059BE46 /* UISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettings.swift; sourceTree = "<group>"; };
+		B9DDD2662C3C2AD900BC0CA4 /* WebsiteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteManager.swift; sourceTree = "<group>"; };
+		B9DDD2682C3C2AF300BC0CA4 /* ObservableVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableVariables.swift; sourceTree = "<group>"; };
+		B9DDD26A2C3C2B0D00BC0CA4 /* LinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkViewModel.swift; sourceTree = "<group>"; };
+		B9DDD26C2C3C2B2600BC0CA4 /* SettingsVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVariables.swift; sourceTree = "<group>"; };
 		B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		B9E474302C17EDE80098C7C6 /* Aura Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aura Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_Tests.swift; sourceTree = "<group>"; };
 		B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayIOS18.swift; sourceTree = "<group>"; };
-		B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObjects.swift; sourceTree = "<group>"; };
+		B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
+		B9FA63BE2C3C2E2400D492E6 /* BoostDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostDataStorage.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -513,6 +523,19 @@
 			path = "Settings Subpages";
 			sourceTree = "<group>";
 		};
+		B9DDD2652C3C2AC600BC0CA4 /* Observable Objects */ = {
+			isa = PBXGroup;
+			children = (
+				B9DDD2662C3C2AD900BC0CA4 /* WebsiteManager.swift */,
+				B9DDD2682C3C2AF300BC0CA4 /* ObservableVariables.swift */,
+				B9DDD26A2C3C2B0D00BC0CA4 /* LinkViewModel.swift */,
+				B9DDD26C2C3C2B2600BC0CA4 /* SettingsVariables.swift */,
+				B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */,
+				B9FA63BE2C3C2E2400D492E6 /* BoostDataStorage.swift */,
+			);
+			path = "Observable Objects";
+			sourceTree = "<group>";
+		};
 		B9E474312C17EDE80098C7C6 /* Aura Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -582,7 +605,7 @@
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
 				B961B7AB2C2BA37A00F43EBF /* iOS */,
-				B9ED10512C0E6ED0004F2AF3 /* ObservableObjects.swift */,
+				B9DDD2652C3C2AC600BC0CA4 /* Observable Objects */,
 				B9272D302C240D5800B014D8 /* Browse for Me */,
 				B9798BFC2BF0B92A0012D98E /* Dashboard */,
 			);
@@ -743,6 +766,7 @@
 				B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */,
 				B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */,
 				B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */,
+				B9FA63BF2C3C2E2400D492E6 /* BoostDataStorage.swift in Sources */,
 				B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */,
 				B94303922C2D347C00D787A4 /* CurrentWebView.swift in Sources */,
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
@@ -760,6 +784,7 @@
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
 				B918673C2BCB0AFD00C159AB /* Old Settings.swift in Sources */,
 				B9272D342C240DDD00B014D8 /* Browse for Me.swift in Sources */,
+				B9DDD26D2C3C2B2600BC0CA4 /* SettingsVariables.swift in Sources */,
 				B94CA91C2C28C33100AD3921 /* SwiftUISidebarWebView.swift in Sources */,
 				B94CA92B2C290E7F00AD3921 /* General.swift in Sources */,
 				B9272D352C240DDD00B014D8 /* MarkdownParser.swift in Sources */,
@@ -777,11 +802,14 @@
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
 				B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */,
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
+				B9FA63BD2C3C2E1D00D492E6 /* KeyboardShortcuts.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
 				B943038E2C2D330000D787A4 /* Haptics.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
+				B9DDD26B2C3C2B0D00BC0CA4 /* LinkViewModel.swift in Sources */,
 				B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */,
 				B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */,
+				B9DDD2692C3C2AF300BC0CA4 /* ObservableVariables.swift in Sources */,
 				B94CA9292C28EB9A00AD3921 /* MotionManager.swift in Sources */,
 				B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */,
 				B9C0ED8A2C0CC0F200AF6E31 /* DynamicTextField.swift in Sources */,
@@ -791,6 +819,7 @@
 				B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */,
 				B94CA9212C28C78200AD3921 /* BoostEditor.swift in Sources */,
 				B97725032C01292400A39E3A /* PagedSidebar.swift in Sources */,
+				B9DDD2672C3C2AD900BC0CA4 /* WebsiteManager.swift in Sources */,
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */,
 				B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */,
@@ -799,7 +828,6 @@
 				C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */,
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
-				B9ED10522C0E6ED0004F2AF3 /* ObservableObjects.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

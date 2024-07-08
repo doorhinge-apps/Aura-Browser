@@ -32,7 +32,8 @@ func unformatURL(url: String) -> String {
     var formattedUrl = url
     if url.starts(with: searchEngine) {
         formattedUrl = formattedUrl.replacingOccurrences(of: searchEngine, with: "")
-        formattedUrl.removeEverythingAfter(str: "&")
+        //formattedUrl.removeEverythingAfter(str: "&")
+        formattedUrl = formattedUrl.components(separatedBy: "&")[0]
         if formattedUrl.last == "/" {
             formattedUrl.removeLast()
         }
