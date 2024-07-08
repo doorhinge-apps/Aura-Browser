@@ -1,5 +1,5 @@
 {
-  "originHash" : "eda11c458f836b17207ba8c62f7317445db703e5dfbeec953b90b54161f0766b",
+  "originHash" : "a7c467f3cb6f4446ac22d356e8d75b42600c4698be2f417c4fcc9b6dfd8e2fe0",
   "pins" : [
     {
       "identity" : "faviconfinder",
@@ -20,15 +20,6 @@
       }
     },
     {
-      "identity" : "ios-vendor-lux",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/hassanvfx/ios-vendor-Lux",
-      "state" : {
-        "revision" : "3e330f8c0b3877cbed5ae9d6a6ae25bc10910a02",
-        "version" : "1.2.7"
-      }
-    },
-    {
       "identity" : "networkimage",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/NetworkImage",
@@ -42,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImage.git",
       "state" : {
-        "revision" : "5642d1ffe3dbe628592443bd14154e31929727b4",
-        "version" : "5.19.2"
+        "revision" : "be0bcd7823ce56629948491f2eaeaa19979514f7",
+        "version" : "5.19.4"
       }
     },
     {
@@ -51,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI",
       "state" : {
-        "revision" : "b7af5e6bd9c2987e41730400d1baad13d74a141a",
-        "version" : "3.0.4"
+        "revision" : "5d462f7530677ae0c2b9510c26383aa25ba48751",
+        "version" : "3.1.1"
       }
     },
     {
@@ -79,7 +70,7 @@
       "location" : "https://github.com/doorhinge-apps/WebViewSwiftUI-Aura",
       "state" : {
         "branch" : "main",
-        "revision" : "1570b9f3b5bba5a183b98de802127a1354d2d250"
+        "revision" : "6c2259dba3756bf8c8d84411e0792fc779c636a9"
       }
     },
     {
