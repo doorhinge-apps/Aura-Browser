@@ -62,7 +62,6 @@ struct ContentView: View {
     @State var launchingAnimation = true
     
     var body: some View {
-        //NavigationStack {
         ZStack {
 #if !os(macOS)
         if UIDevice.current.userInterfaceIdiom != .phone {
@@ -192,25 +191,27 @@ struct ContentView: View {
                                                     loadingIndicators(for: manager.selectedWebView?.webView.isLoading ?? false)
                                                 })
                                             
-                                            /*if !settings.swipeNavigationDisabled {
-                                                if (variables.selectedTabLocation == "favoriteTabs" && variables.favoritesNavigationState.selectedWebView != nil) ||
-                                                    (variables.selectedTabLocation == "pinnedTabs" && variables.pinnedNavigationState.selectedWebView != nil) ||
-                                                    (variables.selectedTabLocation == "tabs" && variables.navigationState.selectedWebView != nil) {
+                                            if !settings.swipeNavigationDisabled {
+                                                if manager.selectedWebView != nil {
                                                     HStack(alignment: .center, spacing: 0) {
-                                                        navigationButton(imageName: "arrow.left", action: goBack)
+                                                        navigationButton(imageName: "arrow.left", action: {
+                                                            manager.selectedWebView?.webView.goBack()
+                                                        })
                                                             .padding(.trailing, 30)
                                                         
                                                         Spacer()
                                                             .frame(width: webGeo.size.width)
                                                         
-                                                        navigationButton(imageName: "arrow.right", action: goForward)
+                                                        navigationButton(imageName: "arrow.right", action: {
+                                                            manager.selectedWebView?.webView.goForward()
+                                                        })
                                                             .padding(.leading, 30)
                                                         
                                                     }
                                                     .frame(width: webGeo.size.width)
                                                     .offset(x: variables.navigationOffset)
                                                 }
-                                            }*/
+                                            }
                                             
                                             if variables.auraTab == "dashboard" && variables.selectedTabLocation == "" {
                                                 Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
@@ -856,7 +857,7 @@ struct ContentView: View {
                         }
                         .onOpenURL { url in
                             if url.absoluteString.starts(with: "aura://") {
-                                variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
+                                //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
                             }
                             else {
                                 //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
@@ -977,8 +978,6 @@ struct ContentView: View {
                                         } else {
                                             print("Invalid URL string")
                                         }
-                                        
-                                        saveSpaceData()
                                     }
                                     
                                     
@@ -1080,7 +1079,7 @@ struct ContentView: View {
                             }
                         }
                         
-                        for space in spaces {
+                        /*for space in spaces {
                             if space.spaceName == currentSpace {
                                 for tab in space.tabUrls {
                                     variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
@@ -1100,6 +1099,7 @@ struct ContentView: View {
                         variables.navigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
                         variables.pinnedNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
                         variables.favoritesNavigationStateArray = Array(repeating: NavigationState(), count: spaces.count)
+                        */
                         
                         variables.initialLoadDone = true
                     }
@@ -2160,14 +2160,13 @@ struct ContentView: View {
             
             #endif
             
-        //}
     }.environmentObject(variables)
             .environmentObject(manager)
         
     }
     
     func saveSpaceData() {
-        let savingTodayTabs = variables.navigationState.webViews.compactMap { $0.url?.absoluteString }
+        /*let savingTodayTabs = variables.navigationState.webViews.compactMap { $0.url?.absoluteString }
         let savingPinnedTabs = variables.pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
         let savingFavoriteTabs = variables.favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
         
@@ -2180,7 +2179,7 @@ struct ContentView: View {
         }
         else {
             modelContext.insert(SpaceStorage(spaceIndex: 0, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
-        }
+        }*/
         
         Task {
             do {
@@ -2278,23 +2277,11 @@ struct ContentView: View {
     }
 
     private func goBack() {
-        if variables.selectedTabLocation == "tabs" {
-            variables.navigationState.selectedWebView?.goBack()
-        } else if variables.selectedTabLocation == "pinnedTabs" {
-            variables.pinnedNavigationState.selectedWebView?.goBack()
-        } else if variables.selectedTabLocation == "favoriteTabs" {
-            variables.favoritesNavigationState.selectedWebView?.goBack()
-        }
+        manager.selectedWebView?.webView.goBack()
     }
 
     private func goForward() {
-        if variables.selectedTabLocation == "tabs" {
-            variables.navigationState.selectedWebView?.goForward()
-        } else if variables.selectedTabLocation == "pinnedTabs" {
-            variables.pinnedNavigationState.selectedWebView?.goForward()
-        } else if variables.selectedTabLocation == "favoriteTabs" {
-            variables.favoritesNavigationState.selectedWebView?.goForward()
-        }
+        manager.selectedWebView?.webView.goForward()
     }
     
     func favoriteRemoveTab(at index: Int) {

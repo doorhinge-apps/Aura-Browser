@@ -175,6 +175,10 @@ class WebsiteManager: ObservableObject {
             newWebViewStore.loadIfNeeded(url: URL(string: urlString) ?? URL(string: "https://example.com")!)
             webViewStores[urlString] = newWebViewStore
             selectedWebView = newWebViewStore
+            
+            if UserDefaults.standard.bool(forKey: "adBlockEnabled") {
+                loadContentBlockingRules(selectedWebView?.webView ?? WKWebView())
+            }
         }
         
         if webViewStores.count > Int(UserDefaults.standard.double(forKey: "preloadingWebsites")) {
@@ -218,6 +222,34 @@ class WebsiteManager: ObservableObject {
                     }
                 }
             }
+        }
+    }
+    
+    private func loadContentBlockingRules(_ webView: WKWebView) {
+        //guard let filePath = Bundle.main.path(forResource: "Adaway", ofType: "json") else {
+        guard let filePath = Bundle.main.path(forResource: "adblock", ofType: "json") else {
+            print("Error: Could not find rules.json file.")
+            return
+        }
+        
+        do {
+            let jsonString = try String(contentsOfFile: filePath, encoding: .utf8)
+            WKContentRuleListStore.default().compileContentRuleList(forIdentifier: "ContentBlockingRules", encodedContentRuleList: jsonString) { ruleList, error in
+                if let error = error {
+                    print("Error compiling content rule list: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let ruleList = ruleList else {
+                    print("Error: Rule list is nil.")
+                    return
+                }
+                
+                let configuration = webView.configuration
+                configuration.userContentController.add(ruleList)
+            }
+        } catch {
+            print("Error loading rules.json file: \(error.localizedDescription)")
         }
     }
     
