@@ -156,7 +156,7 @@ struct PagedSidebar: View {
                                     
                                     selectedSpaceIndex = Int((abs(horizontalScrollPosition.x)/100).rounded(.toNearestOrAwayFromZero) * 100 / 300)
                                     
-                                    Task {
+                                    /*Task {
                                         await navigationState.webViews.removeAll()
                                         await pinnedNavigationState.webViews.removeAll()
                                         await favoritesNavigationState.webViews.removeAll()
@@ -193,7 +193,7 @@ struct PagedSidebar: View {
                                         await navigationState.selectedWebView = nil
                                         await pinnedNavigationState.selectedWebView = nil
                                         await favoritesNavigationState.selectedWebView = nil
-                                    }
+                                    }*/
                                     
                                     scrollLimiter = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
