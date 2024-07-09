@@ -1,6 +1,15 @@
 {
-  "originHash" : "a7c467f3cb6f4446ac22d356e8d75b42600c4698be2f417c4fcc9b6dfd8e2fe0",
+  "originHash" : "cb7d9ba9fd1fc5f276acc5299cfb736cd23c5d2105f676e5387fe443484702d9",
   "pins" : [
+    {
+      "identity" : "codeeditor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ZeeZide/CodeEditor",
+      "state" : {
+        "revision" : "f5c076b94f4ceb05abff88ba91d75a8d57143f0c",
+        "version" : "1.2.6"
+      }
+    },
     {
       "identity" : "faviconfinder",
       "kind" : "remoteSourceControl",
@@ -17,6 +26,15 @@
       "state" : {
         "revision" : "c6a115f5b44c99634d4361cff04db1e9e7ac0baa",
         "version" : "1.0.1"
+      }
+    },
+    {
+      "identity" : "highlightr",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/helje5/Highlightr",
+      "state" : {
+        "revision" : "bd0358056ff1f12ea83833a9fc1b3b5a396a9da0",
+        "version" : "3.0.2"
       }
     },
     {
@@ -70,7 +88,7 @@
       "location" : "https://github.com/doorhinge-apps/WebViewSwiftUI-Aura",
       "state" : {
         "branch" : "main",
-        "revision" : "6c2259dba3756bf8c8d84411e0792fc779c636a9"
+        "revision" : "63e16e0d755d239228d8c0a33ce752d0c8030185"
       }
     },
     {
