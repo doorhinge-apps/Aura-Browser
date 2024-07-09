@@ -73,6 +73,9 @@
 		B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = B98A32FA2BD05CF000555AB9 /* FaviconFinder */; };
 		B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */; };
 		B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */; };
+		B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */; };
+		B9AFB6612C3CF4EE009B89C5 /* AIBoostGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */; };
+		B9AFB6642C3CF58C009B89C5 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B9AFB6632C3CF58C009B89C5 /* OpenAI */; };
 		B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */; };
 		B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */; };
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
@@ -89,7 +92,6 @@
 		B9DDD26B2C3C2B0D00BC0CA4 /* LinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD26A2C3C2B0D00BC0CA4 /* LinkViewModel.swift */; };
 		B9DDD26D2C3C2B2600BC0CA4 /* SettingsVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD26C2C3C2B2600BC0CA4 /* SettingsVariables.swift */; };
 		B9E474202C17EA800098C7C6 /* TestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */; };
-		B9E474332C17EDE80098C7C6 /* Aura_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */; };
 		B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FA63BD2C3C2E1D00D492E6 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */; };
@@ -172,6 +174,8 @@
 		B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPicker.swift; sourceTree = "<group>"; };
 		B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonStyle.swift; sourceTree = "<group>"; };
 		B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveHead.swift; sourceTree = "<group>"; };
+		B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHTMLforAI.swift; sourceTree = "<group>"; };
+		B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIBoostGenerator.swift; sourceTree = "<group>"; };
 		B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClock.swift; sourceTree = "<group>"; };
 		B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClock.swift; sourceTree = "<group>"; };
@@ -188,7 +192,6 @@
 		B9DDD26A2C3C2B0D00BC0CA4 /* LinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkViewModel.swift; sourceTree = "<group>"; };
 		B9DDD26C2C3C2B2600BC0CA4 /* SettingsVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVariables.swift; sourceTree = "<group>"; };
 		B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
-		B9E474302C17EDE80098C7C6 /* Aura Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Aura Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_Tests.swift; sourceTree = "<group>"; };
 		B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayIOS18.swift; sourceTree = "<group>"; };
 		B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
@@ -213,15 +216,9 @@
 				B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
 				B92098832C3B41E600783D58 /* WebViewSwiftUI in Frameworks */,
+				B9AFB6642C3CF58C009B89C5 /* OpenAI in Frameworks */,
 				B92652E62C3C9E3700DA2241 /* CodeEditor in Frameworks */,
 				B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B9E4742D2C17EDE80098C7C6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +365,8 @@
 				B94CA91E2C28C73E00AD3921 /* BoostStorage.swift */,
 				B94CA9202C28C78200AD3921 /* BoostEditor.swift */,
 				B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */,
+				B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */,
+				B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */,
 			);
 			path = Boosts;
 			sourceTree = "<group>";
@@ -388,7 +387,6 @@
 			isa = PBXGroup;
 			children = (
 				B95B19E12AABBEE00013AC79 /* Aura.app */,
-				B9E474302C17EDE80098C7C6 /* Aura Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -656,27 +654,11 @@
 				B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */,
 				B92098822C3B41E600783D58 /* WebViewSwiftUI */,
 				B92652E52C3C9E3700DA2241 /* CodeEditor */,
+				B9AFB6632C3CF58C009B89C5 /* OpenAI */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
 			productType = "com.apple.product-type.application";
-		};
-		B9E4742F2C17EDE80098C7C6 /* Aura Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B9E474342C17EDE80098C7C6 /* Build configuration list for PBXNativeTarget "Aura Tests" */;
-			buildPhases = (
-				B9E4742C2C17EDE80098C7C6 /* Sources */,
-				B9E4742D2C17EDE80098C7C6 /* Frameworks */,
-				B9E4742E2C17EDE80098C7C6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Aura Tests";
-			productName = "Aura Tests";
-			productReference = B9E474302C17EDE80098C7C6 /* Aura Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -690,9 +672,6 @@
 				TargetAttributes = {
 					B95B19E02AABBEE00013AC79 = {
 						CreatedOnToolsVersion = 15.0;
-					};
-					B9E4742F2C17EDE80098C7C6 = {
-						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -714,13 +693,13 @@
 				B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				B92098812C3B41E600783D58 /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */,
 				B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */,
+				B9AFB6622C3CF58C009B89C5 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				B95B19E02AABBEE00013AC79 /* Aura */,
-				B9E4742F2C17EDE80098C7C6 /* Aura Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -741,13 +720,6 @@
 				B961B7B12C2BCDE700F43EBF /* adblock.json in Resources */,
 				B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */,
 				B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B9E4742E2C17EDE80098C7C6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +778,7 @@
 				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
 				B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */,
+				B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */,
 				B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
 				B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */,
@@ -828,6 +801,7 @@
 				B94CA9212C28C78200AD3921 /* BoostEditor.swift in Sources */,
 				B97725032C01292400A39E3A /* PagedSidebar.swift in Sources */,
 				B9DDD2672C3C2AD900BC0CA4 /* WebsiteManager.swift in Sources */,
+				B9AFB6612C3CF4EE009B89C5 /* AIBoostGenerator.swift in Sources */,
 				B98953AA2AAD686100EE3B42 /* LoginView.swift in Sources */,
 				B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */,
 				B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */,
@@ -837,14 +811,6 @@
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B9E4742C2C17EDE80098C7C6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B9E474332C17EDE80098C7C6 /* Aura_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1068,40 +1034,6 @@
 			};
 			name = Release;
 		};
-		B9E474352C17EDE80098C7C6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 47J6H2LHDD;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.doorhingeapps.Aura-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		B9E474362C17EDE80098C7C6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 47J6H2LHDD;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.doorhingeapps.Aura-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1119,15 +1051,6 @@
 			buildConfigurations = (
 				B95B19F02AABBEE10013AC79 /* Debug */,
 				B95B19F12AABBEE10013AC79 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B9E474342C17EDE80098C7C6 /* Build configuration list for PBXNativeTarget "Aura Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B9E474352C17EDE80098C7C6 /* Debug */,
-				B9E474362C17EDE80098C7C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1183,6 +1106,14 @@
 				minimumVersion = 5.0.2;
 			};
 		};
+		B9AFB6622C3CF58C009B89C5 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI";
+			requirement = {
+				kind = exactVersion;
+				version = 0.2.6;
+			};
+		};
 		B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gualtierofrigerio/WKDownloadHelper";
@@ -1226,6 +1157,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
 			productName = FaviconFinder;
+		};
+		B9AFB6632C3CF58C009B89C5 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9AFB6622C3CF58C009B89C5 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 		B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

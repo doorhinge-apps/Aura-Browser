@@ -42,6 +42,7 @@ class SettingsVariables: ObservableObject {
     @AppStorage("launchAnimation") var launchAnimation = true
     
     @AppStorage("apiKey") var apiKey = ""
+    @AppStorage("openAPIKey") var openAPIKey = ""
     
     @AppStorage("preloadingWebsites") var preloadingWebsites = 15.0
     

@@ -46,6 +46,8 @@ struct ContentView: View {
     
     @State var boostEditor = true
     @State var currentBoostText = ""
+    @State var currentPassedClassesString = ""
+    @State var generateAICSS = false
     
     @AppStorage("hideSidebar") var hideSidebar = false
     
@@ -65,6 +67,13 @@ struct ContentView: View {
     @State var webInspectorHeight: CGFloat = 300.0
     
     @State var inspectCodeString = ""
+    @State var customAIBoostInstructions = ""
+    
+    @State var cssTimeout = false
+    
+    @State var inspectorTab = 0
+    
+    @State var aiGenerationPopover = false
     
     var body: some View {
         ZStack {
@@ -463,67 +472,144 @@ struct ContentView: View {
                                                             }
                                                     )
                                                 
+                                                
                                                 VStack {
-                                                    //CodeEditor(source: $currentBoostText, language: .css)
-                                                    
-                                                    VStack {
-                                                        //CodeEditor(source: $currentBoostText, language: .css, flags: [.selectable, .smartIndent], autoPairs: ["{":"}", "'":"'", "(":")"], theme: .default, fontSize: .constant(15), indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                    ZStack {
+                                                        AIBoostGenerator(customInstructions: $customAIBoostInstructions, passedClasses: $currentPassedClassesString, text: $currentBoostText, generate: $generateAICSS)
+                                                            .opacity(0.0)
                                                         
                                                         CodeEditor(source: $currentBoostText, language: .css, theme: .agate, fontSize: .constant(15), flags: [.selectable, .editable, .smartIndent], indentStyle: .softTab(width: 4), autoPairs: ["{":"}", "'":"'", "(":")"], allowsUndo: true)
                                                         
                                                         
-                                                        HStack {
-                                                            Color.black
-                                                                .opacity(0.0001)
-                                                            
-                                                            Color.gray
-                                                                .opacity(0.8)
-                                                                .cornerRadius(50)
-                                                                .frame(width: 30)
-                                                            
-                                                            Color.black
-                                                                .opacity(0.0001)
-                                                            
-                                                        }.frame(height: 10)
-                                                            .gesture(
-                                                                DragGesture()
-                                                                    .onChanged { value in
-                                                                        var changedHeight = webInspectorHeight - value.translation.height
+                                                        
+                                                        
+                                                        VStack {
+                                                            HStack {
+                                                                Spacer()
+                                                                
+                                                                Button {
+                                                                    aiGenerationPopover = true
+                                                                } label: {
+                                                                    Text("AI")
+                                                                }
+                                    #if !os(visionOS)
+                                                                .buttonStyle(PlusButtonStyle())
+                                                                #endif
+                                                                    .padding(15)
+                                                                
+                                                            }.popover(isPresented: $aiGenerationPopover, content: {
+                                                                ZStack {
+#if !os(visionOS)
+                                if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                                    LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                }
+                                else {
+                                    LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                }
+#endif
+                                
+                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                    Color.black.opacity(0.5)
+                                }
+                                                                    
+                                                                    VStack {
+                                                                        Text("Options")
                                                                         
-                                                                        webInspectorHeight = max(100, changedHeight)
+                                                                        TextField("Custom Instructions", text: $customAIBoostInstructions)
+                                                                        
+                                                                        Button(action: {
+                                                                            print("Style the boost like this \(customAIBoostInstructions). These are your items to style: \(parseHTMLAI(from: removeHeadContent(from: inspectCodeString)).joined(separator: "\n"))")
+                                                                            
+                                                                            currentPassedClassesString = parseHTMLAI(from: removeHeadContent(from: inspectCodeString)).joined(separator: "\n")
+                                                                            
+                                                                            print("currentPassedClassesString:")
+                                                                            print(currentPassedClassesString)
+                                                                            
+                                                                            generateAICSS.toggle()
+                                                                        }, label: {
+                                                                            Text("Generate CSS")
+                                                                        })
+#if !os(visionOS)
+                                                                        .buttonStyle(PlusButtonStyle())
+#endif
                                                                     }
-                                                            )
+                                                                }
+                                                            })
+                                                            
+                                                            Spacer()
+                                                        }
+                                                    }
+                                                    
+                                                    
+                                                    HStack {
+                                                        Color.black
+                                                            .opacity(0.0001)
                                                         
+                                                        Color.gray
+                                                            .opacity(0.8)
+                                                            .cornerRadius(50)
+                                                            .frame(width: 30)
                                                         
+                                                        Color.black
+                                                            .opacity(0.0001)
+                                                        
+                                                    }.frame(height: 10)
+                                                        .gesture(
+                                                            DragGesture()
+                                                                .onChanged { value in
+                                                                    var changedHeight = webInspectorHeight - value.translation.height
+                                                                    
+                                                                    webInspectorHeight = max(100, changedHeight)
+                                                                }
+                                                        )
+                                                    
+                                                    Picker("", selection: $inspectorTab) {
+                                                        Text("Inspector").tag(0)
+                                                        Text("Classes").tag(1)
+                                                    }
+                                                    .pickerStyle(.segmented)
+                                                    
+                                                    if inspectorTab == 0 {
                                                         CodeEditor(source: removeHeadContent(from: inspectCodeString), language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
                                                             .frame(height: webInspectorHeight)
                                                     }
-                                                    .scrollContentBackground(.hidden)
-                                                    .tint(.white)
+                                                    else if inspectorTab == 1 {
+                                                        CodeEditor(source: currentPassedClassesString, language: .markdown, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                            .frame(height: webInspectorHeight)
+                                                    }
                                                 }
+                                                .scrollContentBackground(.hidden)
+                                                .tint(.white)
                                                 .frame(width: boostWindowWidth)
                                             }
                                         }
                                     }
                                     .onChange(of: currentBoostText) { updatedText in
-                                        if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
-                                           let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
-                                            
-                                            print("Text Changed:")
-                                            print("Key: \(key)")
-                                            print("Updated Text: \(currentBoostText)")
-                                            
-                                            variables.boosts.keyValuePairs[key] = currentBoostText
-                                            
-                                            let jsToInjectCSS = """
+                                        if !cssTimeout {
+                                            if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
+                                               let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
+                                                
+                                                print("Text Changed:")
+                                                print("Key: \(key)")
+                                                print("Updated Text: \(currentBoostText)")
+                                                
+                                                variables.boosts.keyValuePairs[key] = currentBoostText
+                                                
+                                                let jsToInjectCSS = """
                                         (function() {
                                           var style = document.createElement('style');
                                           style.textContent = `\(currentBoostText)`;
                                           document.head.appendChild(style);
                                         })();
                                         """
-                                            manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                            }
+                                            
+                                            cssTimeout = true
                                         }
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                                            cssTimeout = false
+                                        })
                                     }
                                     .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") { _ in
                                         
