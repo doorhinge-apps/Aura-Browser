@@ -321,6 +321,30 @@ struct General: View {
                     
                     
                     HStack {
+                        Text("ChatGPT API Key")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                    }.padding(20)
+                    
+                    TextField("API Key", text: $settings.openAPIKey)
+                        .textFieldStyle(.plain)
+                        .padding(.leading, 20)
+                        .foregroundStyle(Color.white)
+                    
+                    HStack {
+                        Text("Enter your ChatGPT API key use AI powered features.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Divider()
+                    
+                    
+                    HStack {
                         Text("Swipe Navigation Disabled (touch)")
                             .font(.system(.title3, design: .rounded, weight: .bold))
                             .foregroundStyle(Color.white)
