@@ -16,8 +16,7 @@ import Combine
 import SDWebImage
 import SDWebImageSwiftUI
 import SwiftData
-
-
+import CodeEditor
 
 
 let defaults = UserDefaults.standard
@@ -45,7 +44,8 @@ struct ContentView: View {
     @AppStorage("textColorHex") var textHex = "ffffff"
     
     
-    @State var boostEditor = false
+    @State var boostEditor = true
+    @State var currentBoostText = ""
     
     @AppStorage("hideSidebar") var hideSidebar = false
     
@@ -59,6 +59,12 @@ struct ContentView: View {
     }
     
     @State var launchingAnimation = true
+    
+    @State var changingBoost = false
+    @State var boostWindowWidth: CGFloat = 300.0
+    @State var webInspectorHeight: CGFloat = 300.0
+    
+    @State var inspectCodeString = ""
     
     var body: some View {
         ZStack {
@@ -83,7 +89,6 @@ struct ContentView: View {
                                 
                                 HStack(spacing: 0) {
                                     //if UIDevice.current.userInterfaceIdiom != .phone {
-                                    if true {
                                         if settings.sidebarLeft {
                                             if settings.showBorder {
                                                 ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
@@ -174,7 +179,6 @@ struct ContentView: View {
                                                 }.frame(width: 300)
                                             }
                                         }
-                                    }
                                     HStack {
                                         GeometryReader { webGeo in
                                             ZStack {
@@ -432,7 +436,124 @@ struct ContentView: View {
                                             })
                                         })
                                     })
-                                    //if UIDevice.current.userInterfaceIdiom != .phone {
+                                    
+                                    ZStack {
+                                        if variables.boostEditor {
+                                            HStack(spacing: 0) {
+                                                VStack {
+                                                    Color.black
+                                                        .opacity(0.0001)
+                                                    
+                                                    Color.gray
+                                                        .opacity(0.8)
+                                                        .cornerRadius(50)
+                                                        .frame(height: 30)
+                                                    
+                                                    Color.black
+                                                        .opacity(0.0001)
+                                                    
+                                                }.frame(width: 10)
+                                                    .padding(.trailing, 10)
+                                                    .gesture(
+                                                        DragGesture()
+                                                            .onChanged { value in
+                                                                var changedWidth = boostWindowWidth - value.translation.width
+                                                                
+                                                                boostWindowWidth = max(200, changedWidth)
+                                                            }
+                                                    )
+                                                
+                                                VStack {
+                                                    //CodeEditor(source: $currentBoostText, language: .css)
+                                                    
+                                                    VStack {
+                                                        //CodeEditor(source: $currentBoostText, language: .css, flags: [.selectable, .smartIndent], autoPairs: ["{":"}", "'":"'", "(":")"], theme: .default, fontSize: .constant(15), indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                        
+                                                        CodeEditor(source: $currentBoostText, language: .css, theme: .agate, fontSize: .constant(15), flags: [.selectable, .editable, .smartIndent], indentStyle: .softTab(width: 4), autoPairs: ["{":"}", "'":"'", "(":")"], allowsUndo: true)
+                                                        
+                                                        
+                                                        HStack {
+                                                            Color.black
+                                                                .opacity(0.0001)
+                                                            
+                                                            Color.gray
+                                                                .opacity(0.8)
+                                                                .cornerRadius(50)
+                                                                .frame(width: 30)
+                                                            
+                                                            Color.black
+                                                                .opacity(0.0001)
+                                                            
+                                                        }.frame(height: 10)
+                                                            .gesture(
+                                                                DragGesture()
+                                                                    .onChanged { value in
+                                                                        var changedHeight = webInspectorHeight - value.translation.height
+                                                                        
+                                                                        webInspectorHeight = max(100, changedHeight)
+                                                                    }
+                                                            )
+                                                        
+                                                        
+                                                        CodeEditor(source: inspectCodeString, language: .markdown, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                            .frame(height: webInspectorHeight)
+                                                    }
+                                                    .scrollContentBackground(.hidden)
+                                                    .tint(.white)
+                                                }
+                                                .frame(width: boostWindowWidth)
+                                            }
+                                        }
+                                    }
+                                    .onChange(of: currentBoostText) { updatedText in
+                                        if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
+                                           let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
+                                            
+                                            print("Text Changed:")
+                                            print("Key: \(key)")
+                                            print("Updated Text: \(currentBoostText)")
+                                            
+                                            variables.boosts.keyValuePairs[key] = currentBoostText
+                                            
+                                            let jsToInjectCSS = """
+                                        (function() {
+                                          var style = document.createElement('style');
+                                          style.textContent = `\(currentBoostText)`;
+                                          document.head.appendChild(style);
+                                        })();
+                                        """
+                                            manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                        }
+                                    }
+                                    .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") { _ in
+                                        
+                                        manager.selectedWebView?.getHTML { thing in
+                                            inspectCodeString = thing ?? "Error"
+                                        }
+                                        
+                                        currentBoostText = ""
+                                        
+                                        if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
+                                           let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first,
+                                           let savedCSS = variables.boosts.getValue(forKey: key) {
+                                            
+                                            print("URL Changed:")
+                                            print("Key: \(key)")
+                                            
+                                            currentBoostText = savedCSS
+                                            
+                                            // Inject saved CSS when the URL changes
+                                            let jsToInjectCSS = """
+                                            (function() {
+                                              var style = document.createElement('style');
+                                              style.textContent = `\(savedCSS)`;
+                                              document.head.appendChild(style);
+                                            })();
+                                            """
+                                            manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                        }
+                                    }
+                                    
                                     if true {
                                         if !settings.sidebarLeft {
                                             if settings.showBorder {
@@ -1067,7 +1188,6 @@ struct ContentView: View {
             }
             else {
                 NavigationStack {
-                    //TabOverview(urls: ["https://apple.com", "https://google.com", "https://arc.net", "https://apple.com"])
                     TabOverview(selectedSpaceIndex: $selectedSpaceIndex)
                 }
             }
@@ -1079,21 +1199,6 @@ struct ContentView: View {
     }
     
     func saveSpaceData() {
-        /*let savingTodayTabs = variables.navigationState.webViews.compactMap { $0.url?.absoluteString }
-         let savingPinnedTabs = variables.pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
-         let savingFavoriteTabs = variables.favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
-         
-         if !spaces.isEmpty {
-         print("Saving Today Tabs: \(savingTodayTabs)")
-         spaces[selectedSpaceIndex].tabUrls = savingTodayTabs
-         print(spaces[selectedSpaceIndex].tabUrls)
-         spaces[selectedSpaceIndex].pinnedUrls = savingPinnedTabs
-         spaces[selectedSpaceIndex].favoritesUrls = savingFavoriteTabs
-         }
-         else {
-         modelContext.insert(SpaceStorage(spaceIndex: 0, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
-         }*/
-        
         Task {
             do {
                 try await modelContext.save()

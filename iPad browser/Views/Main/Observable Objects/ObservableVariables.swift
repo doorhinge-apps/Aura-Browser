@@ -146,5 +146,8 @@ class ObservableVariables: ObservableObject {
     @Published var navigationArrowColor = false
     @Published var arrowImpactOnce = false
     
+    @Published var boostEditor = false
+    
     @StateObject var shortcuts = KeyboardShortcuts()
+    @StateObject var boosts = BoostDataStorage()
 }

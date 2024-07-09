@@ -15,6 +15,7 @@
 		B92098832C3B41E600783D58 /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B92098822C3B41E600783D58 /* WebViewSwiftUI */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
+		B92652E62C3C9E3700DA2241 /* CodeEditor in Frameworks */ = {isa = PBXBuildFile; productRef = B92652E52C3C9E3700DA2241 /* CodeEditor */; };
 		B9272D342C240DDD00B014D8 /* Browse for Me.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D312C240DDD00B014D8 /* Browse for Me.swift */; };
 		B9272D352C240DDD00B014D8 /* MarkdownParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D332C240DDD00B014D8 /* MarkdownParser.swift */; };
 		B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D322C240DDD00B014D8 /* PerplexityRequest.swift */; };
@@ -210,6 +211,7 @@
 				B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
 				B92098832C3B41E600783D58 /* WebViewSwiftUI in Frameworks */,
+				B92652E62C3C9E3700DA2241 /* CodeEditor in Frameworks */,
 				B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -650,6 +652,7 @@
 				B9272D3A2C250A9D00B014D8 /* MarkdownUI */,
 				B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */,
 				B92098822C3B41E600783D58 /* WebViewSwiftUI */,
+				B92652E52C3C9E3700DA2241 /* CodeEditor */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -707,6 +710,7 @@
 				B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				B92098812C3B41E600783D58 /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */,
+				B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -975,7 +979,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -1023,7 +1027,7 @@
 				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 47;
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
@@ -1135,6 +1139,14 @@
 				kind = branch;
 			};
 		};
+		B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZeeZide/CodeEditor";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.6;
+			};
+		};
 		B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
@@ -1190,6 +1202,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B92098812C3B41E600783D58 /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */;
 			productName = WebViewSwiftUI;
+		};
+		B92652E52C3C9E3700DA2241 /* CodeEditor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */;
+			productName = CodeEditor;
 		};
 		B9272D3A2C250A9D00B014D8 /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;

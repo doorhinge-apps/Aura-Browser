@@ -52,3 +52,19 @@ func unformatURL(url: String) -> String {
     
     return formattedUrl
 }
+
+
+func unformatPlainURL(url: String) -> String {
+    var formattedUrl = url
+    
+        formattedUrl = formattedUrl.replacingOccurrences(of: "https://", with: "")
+        formattedUrl = formattedUrl.replacingOccurrences(of: "http://", with: "")
+        formattedUrl = formattedUrl.replacingOccurrences(of: "www.", with: "")
+        if formattedUrl.last == "/" {
+            formattedUrl.removeLast()
+        }
+    
+    
+    
+    return formattedUrl
+}

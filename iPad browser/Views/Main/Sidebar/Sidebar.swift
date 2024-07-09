@@ -797,7 +797,16 @@ struct Sidebar: View {
                                     Button(action: {
                                         changeColorSheet.toggle()
                                     }, label: {
-                                        Label("Edit Theme", systemImage: "paintbrush.pointed")
+                                        //Label("Edit Theme", systemImage: "paintbrush.pointed")
+                                        Label("Edit Theme", systemImage: "paintpalette")
+                                    })
+                                    
+                                    Button(action: {
+                                        withAnimation {
+                                            variables.boostEditor.toggle()
+                                        }
+                                    }, label: {
+                                        Label("Boost Editor", systemImage: "paintbrush")
                                     })
                                     
                                     Button(action: {
