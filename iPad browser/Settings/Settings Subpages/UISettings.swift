@@ -48,10 +48,12 @@ struct UISettings: View {
                             .scaledToFit()
                             .cornerRadius(15)
                             .frame(width: 150)
+                        #if !os(visionOS)
                             .rotation3DEffect(
                                 max(min(Angle.radians(motionManager.magnitude * rotationScale), Angle.degrees(maxDegrees)), Angle.degrees(-maxDegrees)),
                                 axis: (x: CGFloat(UIDevice.current.orientation == .portrait ? motionManager.x: -motionManager.y), y: CGFloat(UIDevice.current.orientation == .portrait ? -motionManager.y: -motionManager.x), z: 0.0)
                             )
+                        #endif
                     }
                     else {
                         ZStack {

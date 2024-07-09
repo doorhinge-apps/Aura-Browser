@@ -797,7 +797,6 @@ struct Sidebar: View {
                                     Button(action: {
                                         changeColorSheet.toggle()
                                     }, label: {
-                                        //Label("Edit Theme", systemImage: "paintbrush.pointed")
                                         Label("Edit Theme", systemImage: "paintpalette")
                                     })
                                     
