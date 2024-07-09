@@ -495,7 +495,7 @@ struct ContentView: View {
                                                             )
                                                         
                                                         
-                                                        CodeEditor(source: inspectCodeString, language: .markdown, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                        CodeEditor(source: removeHeadContent(from: inspectCodeString), language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
                                                             .frame(height: webInspectorHeight)
                                                     }
                                                     .scrollContentBackground(.hidden)

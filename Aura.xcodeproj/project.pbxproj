@@ -72,6 +72,7 @@
 		B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */; };
 		B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = B98A32FA2BD05CF000555AB9 /* FaviconFinder */; };
 		B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */; };
+		B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */; };
 		B9C0ED802C0A532F00AF6E31 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */; };
 		B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */; };
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
@@ -170,6 +171,7 @@
 		B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlFormatter.swift; sourceTree = "<group>"; };
 		B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPicker.swift; sourceTree = "<group>"; };
 		B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonStyle.swift; sourceTree = "<group>"; };
+		B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveHead.swift; sourceTree = "<group>"; };
 		B9C0ED7F2C0A532F00AF6E31 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClock.swift; sourceTree = "<group>"; };
 		B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClock.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 			children = (
 				B94CA91E2C28C73E00AD3921 /* BoostStorage.swift */,
 				B94CA9202C28C78200AD3921 /* BoostEditor.swift */,
+				B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */,
 			);
 			path = Boosts;
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
 				B90213752AB0174F00AB708D /* Functions.swift in Sources */,
+				B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */,
 				B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
 				B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */,
