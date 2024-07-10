@@ -43,7 +43,6 @@ struct ContentView: View {
     @AppStorage("endColorHex") var endHex = "84F5FE"
     @AppStorage("textColorHex") var textHex = "ffffff"
     
-    
     @State var boostEditor = true
     @State var currentBoostText = ""
     @State var currentPassedClassesString = ""
@@ -245,7 +244,18 @@ struct ContentView: View {
                                                     .buttonStyle(.plain)
                                                     
                                                     Button {
-                                                        manager.selectedWebView?.webView.goBack()
+                                                        if manager.selectedWebView?.webView.canGoBack ?? true {
+                                                            withAnimation(.bouncy, {
+                                                                variables.backArrowPulse = true
+                                                            })
+                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                                                withAnimation(.bouncy, {
+                                                                    variables.backArrowPulse = false
+                                                                })
+                                                            })
+                                                            
+                                                            manager.selectedWebView?.webView.goBack()
+                                                        }
                                                     } label: {
                                                         
                                                     }
@@ -253,7 +263,17 @@ struct ContentView: View {
                                                     .buttonStyle(.plain)
                                                     
                                                     Button {
-                                                        manager.selectedWebView?.webView.goForward()
+                                                        if manager.selectedWebView?.webView.canGoForward ?? true {
+                                                            withAnimation(.bouncy, {
+                                                                variables.forwardArrowPulse = true
+                                                            })
+                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                                                                withAnimation(.bouncy, {
+                                                                    variables.forwardArrowPulse = false
+                                                                })
+                                                            })
+                                                            manager.selectedWebView?.webView.goForward()
+                                                        }
                                                     } label: {
                                                         
                                                     }
