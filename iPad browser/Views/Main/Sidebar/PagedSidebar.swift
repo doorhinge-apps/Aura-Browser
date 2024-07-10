@@ -125,7 +125,9 @@ struct PagedSidebar: View {
                                 }
                             }
                             .onChange(of: selectedSpaceIndex, {
-                                proxy.scrollTo(selectedSpaceIndex.description)
+                                withAnimation {
+                                    proxy.scrollTo(selectedSpaceIndex.description)
+                                }
                             })
                             .background(GeometryReader { geometry in
                                 Color.clear
