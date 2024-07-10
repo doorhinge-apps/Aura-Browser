@@ -381,7 +381,7 @@
 			children = (
 				B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */,
 				B98A32F12BCDB62C00555AB9 /* README.md */,
-				B95B19E32AABBEE00013AC79 /* iPad browser */,
+				B95B19E32AABBEE00013AC79 /* Aura */,
 				B9E474312C17EDE80098C7C6 /* Aura Tests */,
 				B95B19E22AABBEE00013AC79 /* Products */,
 				B9230FFD2BBDC06A0032C950 /* Frameworks */,
@@ -396,7 +396,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B95B19E32AABBEE00013AC79 /* iPad browser */ = {
+		B95B19E32AABBEE00013AC79 /* Aura */ = {
 			isa = PBXGroup;
 			children = (
 				B95B19E42AABBEE00013AC79 /* Aura_App.swift */,
@@ -416,7 +416,7 @@
 				B95B19E82AABBEE10013AC79 /* Assets.xcassets */,
 				B95B19EA2AABBEE10013AC79 /* Preview Content */,
 			);
-			path = "iPad browser";
+			path = Aura;
 			sourceTree = "<group>";
 		};
 		B95B19EA2AABBEE10013AC79 /* Preview Content */ = {
@@ -980,11 +980,10 @@
 				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xrsimulator*]" = "Vision Icon";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 50;
-				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1028,11 +1027,10 @@
 				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xros*]" = "Vision Icon";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
-				CODE_SIGN_ENTITLEMENTS = "iPad browser/iPad browser.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 50;
-				DEVELOPMENT_ASSET_PATHS = "\"iPad browser/Preview Content\"";
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

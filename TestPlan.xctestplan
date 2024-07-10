@@ -12,13 +12,7 @@
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
-    {
-      "target" : {
-        "containerPath" : "container:Aura.xcodeproj",
-        "identifier" : "B9E4742F2C17EDE80098C7C6",
-        "name" : "Aura Tests"
-      }
-    }
+
   ],
   "version" : 1
 }
