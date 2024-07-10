@@ -74,6 +74,8 @@ struct ContentView: View {
     
     @State var aiGenerationPopover = false
     
+    @State var htmlInspectTimeoutCounter = 0
+    
     var body: some View {
         ZStack {
             if UIDevice.current.userInterfaceIdiom != .phone {
@@ -563,7 +565,7 @@ struct ContentView: View {
                                                     .pickerStyle(.segmented)
                                                     
                                                     if inspectorTab == 0 {
-                                                        CodeEditor(source: removeHeadContent(from: inspectCodeString), language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                        CodeEditor(source: inspectCodeString, language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
                                                             .frame(height: webInspectorHeight)
                                                     }
                                                     else if inspectorTab == 1 {
@@ -607,7 +609,7 @@ struct ContentView: View {
                                     .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") { _ in
                                         
                                         manager.selectedWebView?.getHTML { thing in
-                                            inspectCodeString = thing ?? "Error"
+                                            validateHTMLResult(thing: thing ?? "Error")
                                         }
                                         
                                         currentBoostText = ""
@@ -1285,6 +1287,21 @@ struct ContentView: View {
             } catch {
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    
+    func validateHTMLResult(thing: String) {
+        if removeHeadContent(from: thing) == "<html><body></body></html>" {
+            if htmlInspectTimeoutCounter <= 5 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                    htmlInspectTimeoutCounter += 1
+                    validateHTMLResult(thing: thing)
+                })
+            }
+        }
+        else {
+            inspectCodeString = removeHeadContent(from: thing)
         }
     }
     
