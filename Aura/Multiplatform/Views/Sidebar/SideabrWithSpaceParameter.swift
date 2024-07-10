@@ -960,14 +960,16 @@ struct SidebarSpaceParameter: View {
                             let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
                             searchInSidebar = newUrl
                             
-                            if manager.selectedTabLocation == .pinned {
-                                spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
-                            }
-                            else if manager.selectedTabLocation == .tabs {
-                                spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
-                            }
-                            else if manager.selectedTabLocation == .favorites {
-                                spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = newUrl
+                            if manager.selectedWebView != nil {
+                                if manager.selectedTabLocation == .pinned {
+                                    spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
+                                }
+                                else if manager.selectedTabLocation == .tabs {
+                                    spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
+                                }
+                                else if manager.selectedTabLocation == .favorites {
+                                    spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = newUrl
+                                }
                             }
                             
                             let fetchTitlesArrays = spaces[selectedSpaceIndex].tabUrls + spaces[selectedSpaceIndex].pinnedUrls + spaces[selectedSpaceIndex].favoritesUrls
@@ -1307,13 +1309,10 @@ struct SidebarSpaceParameter: View {
                     manager.selectedTabIndex = index - 1
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
+                
                 manager.selectedWebView = nil
-                manager.selectedTabIndex = -1
             }
         }
-//        if manager.selectedTabIndex > spaces[currentSelectedSpaceIndex].tabUrls.count {
-//            manager.selectedTabIndex = spaces[currentSelectedSpaceIndex].tabUrls.count-1
-//        }
         
         do {
             try modelContext.save()

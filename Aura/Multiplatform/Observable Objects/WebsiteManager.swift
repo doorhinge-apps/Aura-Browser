@@ -142,7 +142,7 @@ class WebsiteManager: ObservableObject {
     
     @Published var hoverTab = ""
     
-    @Published var selectedTabIndex = -1
+    @Published var selectedTabIndex: Int = -1
     @Published var hoverTabIndex = -1
     @Published var hoverCloseTabIndex = -1
     
