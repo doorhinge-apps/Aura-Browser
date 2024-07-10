@@ -287,7 +287,6 @@ struct ToolbarButtonsView: View {
                         })
                 }).buttonStyle(.plain)
                     .disabled((manager.selectedWebView?.webView.canGoBack ?? true) ? false: true)
-                    //.disabled(manager.selectedWebView?.webView.canGoBack ?? false)
                 
                 Button(action: {
                     if manager.selectedWebView?.webView.canGoForward ?? true {
@@ -329,7 +328,6 @@ struct ToolbarButtonsView: View {
                         })
                 }).buttonStyle(.plain)
                     .disabled((manager.selectedWebView?.webView.canGoForward ?? true) ? false: true)
-                    //.disabled(manager.selectedWebView?.webView.canGoForward ?? false)
                 
                 Button(action: {
                     withAnimation(.bouncy, {
