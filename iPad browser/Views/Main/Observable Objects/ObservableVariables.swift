@@ -150,4 +150,7 @@ class ObservableVariables: ObservableObject {
     
     @StateObject var shortcuts = KeyboardShortcuts()
     @StateObject var boosts = BoostDataStorage()
+    
+    @Published var forwardArrowPulse = false
+    @Published var backArrowPulse = false
 }

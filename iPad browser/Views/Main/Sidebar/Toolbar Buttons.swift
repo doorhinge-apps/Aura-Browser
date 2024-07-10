@@ -248,7 +248,18 @@ struct ToolbarButtonsView: View {
                 
                 
                 Button(action: {
-                    manager.selectedWebView?.webView.goBack()
+                    if manager.selectedWebView?.webView.canGoBack ?? true {
+                        withAnimation(.bouncy, {
+                            variables.backArrowPulse = true
+                        })
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                            withAnimation(.bouncy, {
+                                variables.backArrowPulse = false
+                            })
+                        })
+                        
+                        manager.selectedWebView?.webView.goBack()
+                    }
                 }, label: {
                     ZStack {
                         HoverButtonDisabledVision(hoverInteraction: $hoverBackwardButton)
@@ -259,6 +270,7 @@ struct ToolbarButtonsView: View {
                             .frame(width: 20, height: 20)
                             .foregroundStyle(textColor)
                             .opacity(hoverBackwardButton ? 1.0: 0.5)
+                            .offset(x: variables.backArrowPulse ? -8: 0)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
 #if !os(visionOS) && !os(macOS)
@@ -274,10 +286,22 @@ struct ToolbarButtonsView: View {
                             }
                         })
                 }).buttonStyle(.plain)
+                    .disabled((manager.selectedWebView?.webView.canGoBack ?? true) ? false: true)
                     //.disabled(manager.selectedWebView?.webView.canGoBack ?? false)
                 
                 Button(action: {
-                    manager.selectedWebView?.webView.goForward()
+                    if manager.selectedWebView?.webView.canGoForward ?? true {
+                        withAnimation(.bouncy, {
+                            variables.forwardArrowPulse = true
+                        })
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                            withAnimation(.bouncy, {
+                                variables.forwardArrowPulse = false
+                            })
+                        })
+                        
+                        manager.selectedWebView?.webView.goForward()
+                    }
                 }, label: {
                     ZStack {
                         HoverButtonDisabledVision(hoverInteraction: $hoverForwardButton)
@@ -288,6 +312,7 @@ struct ToolbarButtonsView: View {
                             .frame(width: 20, height: 20)
                             .foregroundStyle(textColor)
                             .opacity(hoverForwardButton ? 1.0: 0.5)
+                            .offset(x: variables.forwardArrowPulse ? 8: 0)
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
 #if !os(visionOS) && !os(macOS)
@@ -303,6 +328,7 @@ struct ToolbarButtonsView: View {
                             }
                         })
                 }).buttonStyle(.plain)
+                    .disabled((manager.selectedWebView?.webView.canGoForward ?? true) ? false: true)
                     //.disabled(manager.selectedWebView?.webView.canGoForward ?? false)
                 
                 Button(action: {
