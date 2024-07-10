@@ -262,39 +262,12 @@ struct ContentView: View {
                                                     
                                                     
                                                     Button {
-                                                        variables.reloadRotation += 360
+                                                        withAnimation(.bouncy, {
+                                                            variables.reloadRotation += 360
+                                                        })
                                                         
-                                                        if variables.selectedTabLocation == "tabs" {
-                                                            variables.navigationState.selectedWebView?.reload()
-                                                            variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                            
-                                                            variables.navigationState.selectedWebView = variables.navigationState.selectedWebView
-                                                            //navigationState.currentURL = navigationState.currentURL
-                                                            
-                                                            if let unwrappedURL = variables.navigationState.currentURL {
-                                                                variables.searchInSidebar = unwrappedURL.absoluteString
-                                                            }
-                                                        }
-                                                        else if variables.selectedTabLocation == "pinnedTabs" {
-                                                            variables.pinnedNavigationState.selectedWebView?.reload()
-                                                            variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                            
-                                                            variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.selectedWebView
-                                                            
-                                                            if let unwrappedURL = variables.pinnedNavigationState.currentURL {
-                                                                variables.searchInSidebar = unwrappedURL.absoluteString
-                                                            }
-                                                        }
-                                                        else if variables.selectedTabLocation == "favoriteTabs" {
-                                                            variables.favoritesNavigationState.selectedWebView?.reload()
-                                                            variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                                            
-                                                            variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.selectedWebView
-                                                            
-                                                            if let unwrappedURL = variables.favoritesNavigationState.currentURL {
-                                                                variables.searchInSidebar = unwrappedURL.absoluteString
-                                                            }
-                                                        }
+                                                        variables.searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? variables.searchInSidebar
+                                                        manager.selectedWebView?.reload()
                                                     } label: {
                                                         
                                                     }
