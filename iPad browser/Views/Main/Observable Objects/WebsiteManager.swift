@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import WebKit
 import WebViewSwiftUI
 import LinkPresentation
@@ -36,6 +37,28 @@ class WebsiteManager: ObservableObject {
             
             newWebViewStore.loadIfNeeded(url: URL(string: urlString) ?? URL(string: "https://example.com")!)
             webViewStores[urlString] = newWebViewStore
+            
+            //selectedWebView?.webView.uiDelegate?.webView(<#T##WKWebView#>, contextMenuConfigurationForElement: <#T##WKContextMenuElementInfo#>, completionHandler: <#T##(UIContextMenuConfiguration?) -> Void#>)
+            
+//            var menuBuilder = UIMenuBuilder.self
+            
+//            selectedWebView?.webView.buildMenu { builder in
+//                
+//            }
+            
+            //var menuBuilder = UIMenuBuilder
+            
+            let customMenu = UIMenu(title: "Custom Actions", image: nil, identifier: UIMenu.Identifier("com.yourapp.customMenu"), options: .displayInline, children: [
+                UIAction(title: "Custom Action 1", image: UIImage(systemName: "star"), handler: { _ in
+                    // Handle custom action 1
+                    print("Custom action 1 tapped")
+                }),
+                UIAction(title: "Custom Action 2", image: UIImage(systemName: "heart"), handler: { _ in
+                    // Handle custom action 2
+                    print("Custom action 2 tapped")
+                })
+            ])
+            
             selectedWebView = newWebViewStore
             
             if UserDefaults.standard.bool(forKey: "adBlockEnabled") {
