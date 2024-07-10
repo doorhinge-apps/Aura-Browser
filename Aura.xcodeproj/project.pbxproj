@@ -35,6 +35,7 @@
 		B94ADB1E2C3EDFB60054899D /* averageHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94ADB1D2C3EDFB60054899D /* averageHex.swift */; };
 		B94ADB212C3EE0060054899D /* hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94ADB202C3EE0060054899D /* hexString.swift */; };
 		B94ADB242C3EE0780054899D /* InnerShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94ADB232C3EE0780054899D /* InnerShadow.swift */; };
+		B94ADB282C3EFCE00054899D /* Icons Arrays.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94ADB272C3EFCE00054899D /* Icons Arrays.swift */; };
 		B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */; };
 		B94CA91C2C28C33100AD3921 /* SwiftUISidebarWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */; };
 		B94CA91F2C28C73E00AD3921 /* BoostStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA91E2C28C73E00AD3921 /* BoostStorage.swift */; };
@@ -86,7 +87,6 @@
 		B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */; };
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
 		B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */; };
-		B9C0ED8A2C0CC0F200AF6E31 /* DynamicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */; };
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
 		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
@@ -140,6 +140,7 @@
 		B94ADB1D2C3EDFB60054899D /* averageHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = averageHex.swift; sourceTree = "<group>"; };
 		B94ADB202C3EE0060054899D /* hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hexString.swift; sourceTree = "<group>"; };
 		B94ADB232C3EE0780054899D /* InnerShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerShadow.swift; sourceTree = "<group>"; };
+		B94ADB272C3EFCE00054899D /* Icons Arrays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Icons Arrays.swift"; sourceTree = "<group>"; };
 		B94CA9192C28C27500AD3921 /* SwiftUISidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISidebar.swift; sourceTree = "<group>"; };
 		B94CA91B2C28C33100AD3921 /* SwiftUISidebarWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUISidebarWebView.swift; sourceTree = "<group>"; };
 		B94CA91E2C28C73E00AD3921 /* BoostStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostStorage.swift; sourceTree = "<group>"; };
@@ -190,7 +191,6 @@
 		B9C0ED812C0A60A800AF6E31 /* DigitalClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClock.swift; sourceTree = "<group>"; };
 		B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClock.swift; sourceTree = "<group>"; };
 		B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedTabbedSidebar.swift; sourceTree = "<group>"; };
-		B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTextField.swift; sourceTree = "<group>"; };
 		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
 		B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidgetStorage.swift; sourceTree = "<group>"; };
@@ -314,14 +314,6 @@
 			path = "Launch Screen";
 			sourceTree = "<group>";
 		};
-		B93AE9312C2AA0E9003D0E88 /* visionOS Components */ = {
-			isa = PBXGroup;
-			children = (
-				B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */,
-			);
-			path = "visionOS Components";
-			sourceTree = "<group>";
-		};
 		B93D9D2F2BDF35DA0002D01B /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -335,23 +327,13 @@
 			isa = PBXGroup;
 			children = (
 				B943038C2C2D32F400D787A4 /* UI Components */,
-				B943038B2C2D32EF00D787A4 /* Functions */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		B943038B2C2D32EF00D787A4 /* Functions */ = {
-			isa = PBXGroup;
-			children = (
-				B943038D2C2D330000D787A4 /* Haptics.swift */,
-			);
-			path = Functions;
 			sourceTree = "<group>";
 		};
 		B943038C2C2D32F400D787A4 /* UI Components */ = {
 			isa = PBXGroup;
 			children = (
-				B93AE9312C2AA0E9003D0E88 /* visionOS Components */,
 				B94303932C2D34B900D787A4 /* LoadingIndicators.swift */,
 				B9272D462C26A52300B014D8 /* VGrid.swift */,
 			);
@@ -382,6 +364,12 @@
 			isa = PBXGroup;
 			children = (
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
+				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
+				B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */,
+				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
+				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
+				B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -389,6 +377,7 @@
 		B94ADB1A2C3EDF020054899D /* VisionOS */ = {
 			isa = PBXGroup;
 			children = (
+				B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */,
 			);
 			path = VisionOS;
 			sourceTree = "<group>";
@@ -396,10 +385,9 @@
 		B94ADB1B2C3EDF0A0054899D /* Multiplatform */ = {
 			isa = PBXGroup;
 			children = (
-				B90294522C3337A5005DB4CA /* WebViews */,
+				C1BD7D2A2BDE04AB0078D7B3 /* Views */,
 				C1BD7D172BDDF65F0078D7B3 /* Data Models */,
 				B9DDD2652C3C2AC600BC0CA4 /* Observable Objects */,
-				C1BD7D2A2BDE04AB0078D7B3 /* Views */,
 				B9D47D052C276C8E0059BE46 /* Settings */,
 				C1BD7D1C2BDDF8DF0078D7B3 /* Helpers */,
 				B9FE8D162BDD87FA00BBF221 /* Animations */,
@@ -437,6 +425,25 @@
 				B94ADB232C3EE0780054899D /* InnerShadow.swift */,
 			);
 			path = "Button Styles";
+			sourceTree = "<group>";
+		};
+		B94ADB252C3EFBE80054899D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B94ADB262C3EFBFC0054899D /* Icons Picker */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B94ADB262C3EFBFC0054899D /* Icons Picker */ = {
+			isa = PBXGroup;
+			children = (
+				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
+				B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */,
+				B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */,
+				B94ADB272C3EFCE00054899D /* Icons Arrays.swift */,
+			);
+			path = "Icons Picker";
 			sourceTree = "<group>";
 		};
 		B94CA91D2C28C72E00AD3921 /* Boosts */ = {
@@ -492,19 +499,6 @@
 				B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		B961B7AB2C2BA37A00F43EBF /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
-				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
-				B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */,
-				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
-				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
-				B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */,
-			);
-			path = iOS;
 			sourceTree = "<group>";
 		};
 		B97724FF2C0115F600A39E3A /* Sidebar */ = {
@@ -657,16 +651,13 @@
 			isa = PBXGroup;
 			children = (
 				B94ADB1C2C3EDF470054899D /* URL Handling */,
-				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
 				B943038A2C2D32E400D787A4 /* Components */,
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
 				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
+				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
+				B943038D2C2D330000D787A4 /* Haptics.swift */,
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
-				B9C0ED892C0CC0F200AF6E31 /* DynamicTextField.swift */,
-				B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */,
 				B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */,
-				B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */,
-				B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -685,8 +676,9 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B94ADB252C3EFBE80054899D /* Components */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
-				B961B7AB2C2BA37A00F43EBF /* iOS */,
+				B90294522C3337A5005DB4CA /* WebViews */,
 				B9272D302C240D5800B014D8 /* Browse for Me */,
 				B9798BFC2BF0B92A0012D98E /* Dashboard */,
 				C1BD7D312BDE05550078D7B3 /* LoginView */,
@@ -826,6 +818,7 @@
 				B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */,
 				B94303922C2D347C00D787A4 /* CurrentWebView.swift in Sources */,
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
+				B94ADB282C3EFCE00054899D /* Icons Arrays.swift in Sources */,
 				B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */,
 				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */,
@@ -870,7 +863,6 @@
 				B9DDD2692C3C2AF300BC0CA4 /* ObservableVariables.swift in Sources */,
 				B94CA9292C28EB9A00AD3921 /* MotionManager.swift in Sources */,
 				B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */,
-				B9C0ED8A2C0CC0F200AF6E31 /* DynamicTextField.swift in Sources */,
 				C1BD7D302BDE052F0078D7B3 /* WebView.swift in Sources */,
 				B9D47D0A2C27806C0059BE46 /* Favicons.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,

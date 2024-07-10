@@ -15,8 +15,6 @@ struct CustomToggleSlider: View {
     @State var startHex: String
     @State var endHex: String
     
-    //@AppStorage("startColorHex") var startHex = "8A3CEF"
-    //@AppStorage("endColorHex") var endHex = "84F5FE"
     var body: some View {
         ZStack {
             Color(hex: toggle ? averageHexColor(hex1: startHex, hex2: endHex): "B8B8B8")
@@ -60,22 +58,5 @@ struct CustomToggleSlider: View {
                 }
             }
         })
-    }
-}
-
-struct afdasdfkjnasd: View {
-    @State var toggleThing = true
-    @AppStorage("startColorHex") var startHex = "8A3CEF"
-    @AppStorage("endColorHex") var endHex = "84F5FE"
-    var body: some View {
-        CustomToggleSlider(toggle: $toggleThing, startHex: startHex, endHex: endHex)
-    }
-}
-
-
-
-struct previewtaierf: PreviewProvider {
-    static var previews: some View {
-        afdasdfkjnasd()
     }
 }

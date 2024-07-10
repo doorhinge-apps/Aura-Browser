@@ -74,8 +74,6 @@ struct ContentView: View {
     
     @State var aiGenerationPopover = false
     
-    @State var htmlInspectTimeoutCounter = 0
-    
     var body: some View {
         ZStack {
             if UIDevice.current.userInterfaceIdiom != .phone {
@@ -298,13 +296,23 @@ struct ContentView: View {
                                                     
                                                     
                                                     Button {
-                                                        if manager.selectedWebView != nil {
-                                                            variables.tabBarShown = false
-                                                            variables.commandBarShown.toggle()
+                                                        if (variables.navigationState.selectedWebView == nil) && (variables.pinnedNavigationState.selectedWebView == nil) && (variables.favoritesNavigationState.selectedWebView == nil) {
+                                                            variables.tabBarShown.toggle()
+                                                            variables.commandBarShown = false
+                                                            print("Showing Tab Bar")
                                                         }
                                                         else {
+                                                            if variables.selectedTabLocation == "pinnedTabs" {
+                                                                variables.searchInSidebar = unformatURL(url: variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
+                                                            }
+                                                            else if variables.selectedTabLocation == "favoriteTabs" {
+                                                                variables.searchInSidebar = unformatURL(url: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
+                                                            }else {
+                                                                variables.searchInSidebar = unformatURL(url: variables.navigationState.selectedWebView?.url?.absoluteString ?? variables.searchInSidebar)
+                                                            }
                                                             variables.commandBarShown.toggle()
                                                             variables.tabBarShown = false
+                                                            print("Showing Command Bar")
                                                         }
                                                     } label: {
                                                         
@@ -314,14 +322,19 @@ struct ContentView: View {
                                                     
                                                     
                                                     Button {
-                                                        if manager.selectedWebView != nil {
-                                                            switch manager.selectedTabLocation {
-                                                            case .pinned:
-                                                                pinnedRemoveTab(at: manager.selectedTabIndex)
-                                                            case .favorites:
-                                                                favoriteRemoveTab(at: manager.selectedTabIndex)
-                                                            case .tabs:
-                                                                removeTab(at: manager.selectedTabIndex)
+                                                        if variables.selectedTabLocation == "favoriteTabs" {
+                                                            if let index = variables.favoritesNavigationState.webViews.firstIndex(of: variables.favoritesNavigationState.selectedWebView ?? WKWebView()) {
+                                                                favoriteRemoveTab(at: index)
+                                                            }
+                                                        }
+                                                        else if variables.selectedTabLocation == "pinnedTabs" {
+                                                            if let index = variables.pinnedNavigationState.webViews.firstIndex(of: variables.pinnedNavigationState.selectedWebView ?? WKWebView()) {
+                                                                pinnedRemoveTab(at: index)
+                                                            }
+                                                        }
+                                                        else if variables.selectedTabLocation == "tabs" {
+                                                            if let index = variables.navigationState.webViews.firstIndex(of: variables.navigationState.selectedWebView ?? WKWebView()) {
+                                                                removeTab(at: index)
                                                             }
                                                         }
                                                     } label: {
@@ -550,7 +563,7 @@ struct ContentView: View {
                                                     .pickerStyle(.segmented)
                                                     
                                                     if inspectorTab == 0 {
-                                                        CodeEditor(source: inspectCodeString, language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                        CodeEditor(source: removeHeadContent(from: inspectCodeString), language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
                                                             .frame(height: webInspectorHeight)
                                                     }
                                                     else if inspectorTab == 1 {
@@ -594,7 +607,7 @@ struct ContentView: View {
                                     .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") { _ in
                                         
                                         manager.selectedWebView?.getHTML { thing in
-                                            validateHTMLResult(thing: thing ?? "Error")
+                                            inspectCodeString = thing ?? "Error"
                                         }
                                         
                                         currentBoostText = ""
@@ -1275,21 +1288,6 @@ struct ContentView: View {
         }
     }
     
-    
-    func validateHTMLResult(thing: String) {
-        if removeHeadContent(from: thing) == "<html><body></body></html>" {
-            if htmlInspectTimeoutCounter <= 5 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                    htmlInspectTimeoutCounter += 1
-                    validateHTMLResult(thing: thing)
-                })
-            }
-        }
-        else {
-            inspectCodeString = removeHeadContent(from: thing)
-        }
-    }
-    
     private func loadingIndicators(for isLoading: Bool?) -> some View {
         Group {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -1384,85 +1382,58 @@ struct ContentView: View {
     }
     
     func favoriteRemoveTab(at index: Int) {
-        var temporaryUrls = spaces[manager.selectedSpaceIndex].favoritesUrls
-        
-        if index == manager.selectedTabIndex && manager.selectedTabLocation == .favorites {
-            if temporaryUrls.count > 1 { // Check if there's more than one tab
+        // If the deleted tab is the currently selected one
+        if variables.favoritesNavigationState.selectedWebView == variables.favoritesNavigationState.webViews[index] {
+            if variables.favoritesNavigationState.webViews.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    manager.selectedTabIndex = 1
+                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[1]
                 } else { // Otherwise, select the previous one
-                    manager.selectedTabIndex = index - 1
+                    variables.favoritesNavigationState.selectedWebView = variables.favoritesNavigationState.webViews[index - 1]
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                manager.selectedWebView = nil
-                manager.selectedTabIndex = -1
+                variables.favoritesNavigationState.selectedWebView = nil
             }
         }
         
-        temporaryUrls.remove(at: index)
+        variables.favoritesNavigationState.webViews.remove(at: index)
         
-        spaces[manager.selectedSpaceIndex].favoritesUrls = temporaryUrls
-        
-        do {
-            try modelContext.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+        saveSpaceData()
     }
     
     func pinnedRemoveTab(at index: Int) {
-        var temporaryUrls = spaces[manager.selectedSpaceIndex].pinnedUrls
-        
-        temporaryUrls.remove(at: index)
-        
-        spaces[manager.selectedSpaceIndex].pinnedUrls = temporaryUrls
-        
-        if index == manager.selectedTabIndex && manager.selectedTabLocation == .pinned {
-            if temporaryUrls.count > 1 { // Check if there's more than one tab
+        // If the deleted tab is the currently selected one
+        if variables.pinnedNavigationState.selectedWebView == variables.pinnedNavigationState.webViews[index] {
+            if variables.pinnedNavigationState.webViews.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    manager.selectedTabIndex = 1
+                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[1]
                 } else { // Otherwise, select the previous one
-                    manager.selectedTabIndex = index - 1
+                    variables.pinnedNavigationState.selectedWebView = variables.pinnedNavigationState.webViews[index - 1]
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                manager.selectedWebView = nil
-                manager.selectedTabIndex = -1
+                variables.pinnedNavigationState.selectedWebView = nil
             }
         }
         
-        do {
-            try modelContext.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+        variables.pinnedNavigationState.webViews.remove(at: index)
+        
+        saveSpaceData()
     }
     
     func removeTab(at index: Int) {
-        var temporaryUrls = spaces[manager.selectedSpaceIndex].tabUrls
-        
-        print("Removing Tab:")
-        print(temporaryUrls)
-        
-        temporaryUrls.remove(at: index)
-        
-        print(temporaryUrls)
-        
-        spaces[manager.selectedSpaceIndex].tabUrls = temporaryUrls
-        
-        print(spaces[manager.selectedSpaceIndex].tabUrls)
-        
-        if index == manager.selectedTabIndex && manager.selectedTabLocation == .tabs {
-            if temporaryUrls.count > 1 { // Check if there's more than one tab
+        // If the deleted tab is the currently selected one
+        if variables.navigationState.selectedWebView == variables.navigationState.webViews[index] {
+            if variables.navigationState.webViews.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
-                    manager.selectedTabIndex = 1
+                    variables.navigationState.selectedWebView = variables.navigationState.webViews[1]
                 } else { // Otherwise, select the previous one
-                    manager.selectedTabIndex = index - 1
+                    variables.navigationState.selectedWebView = variables.navigationState.webViews[index - 1]
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                
-                manager.selectedWebView = nil
+                variables.navigationState.selectedWebView = nil
             }
         }
+        
+        variables.navigationState.webViews.remove(at: index)
         
         do {
             try modelContext.save()
@@ -1470,8 +1441,6 @@ struct ContentView: View {
             print(error.localizedDescription)
         }
         
-        print("Done")
-        
-        //saveSpaceData()
+        saveSpaceData()
     }
 }

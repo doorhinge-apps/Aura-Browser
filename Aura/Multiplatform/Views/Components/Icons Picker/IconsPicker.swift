@@ -187,11 +187,7 @@ struct IconsPicker: View {
                 #endif
                 
                 ScrollView {
-                    if allIcons {
-                        //SymbolsPicker(selection: $currentIcon, title: "Pick an Icon", autoDismiss: false)
-                    }
-                    else {
-                        LazyVGrid(columns: [GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem(), GridItem()]) {
+                    LazyVGrid(columns: Array(repeating: GridItem(), count: 8)) {
                             ForEach(sfNewIconOptions.filter { icon in
                                 if filterApplied == .all {
                                     return true
@@ -249,7 +245,6 @@ struct IconsPicker: View {
                                 }
                             }
                         }
-                    }
                 }.scrollIndicators(.hidden)
                 
             }
