@@ -435,13 +435,13 @@ struct SidebarSpaceParameter: View {
                                 searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])
                             }
                             .onDrag {
-                                draggedItem = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
+                                draggedItem = spaces[selectedSpaceIndex].favoritesUrls[tabIndex]
                                 draggedItemIndex = tabIndex
-                                reorderingTabs = spaces[currentSelectedSpaceIndex].favoritesUrls
+                                reorderingTabs = spaces[selectedSpaceIndex].favoritesUrls
                                 
                                 manager.dragTabLocation = .favorites
                                 
-                                return NSItemProvider(object: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex] as NSString)
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].favoritesUrls[tabIndex] as NSString)
                             }
                         }
                         .background(
@@ -455,7 +455,7 @@ struct SidebarSpaceParameter: View {
                             currentHoverIndex: $currentHoverIndex,
                             onDropAction: {
                                 withAnimation {
-                                    spaces[currentSelectedSpaceIndex].favoritesUrls = reorderingTabs
+                                    spaces[selectedSpaceIndex].favoritesUrls = reorderingTabs
                                 }
                                 
                                 manager.selectedTabIndex = tabIndex
@@ -652,15 +652,15 @@ struct SidebarSpaceParameter: View {
                                 searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])
                             }
                             .onDrag {
-                                draggedItem = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
+                                draggedItem = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
                                 draggedItemIndex = tabIndex
-                                reorderingTabs = spaces[currentSelectedSpaceIndex].pinnedUrls
+                                reorderingTabs = spaces[selectedSpaceIndex].pinnedUrls
                                 
                                 manager.dragTabLocation = .pinned
                                 
                                 //currentHoverIndex = -1
                                 
-                                return NSItemProvider(object: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex] as NSString)
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].pinnedUrls[tabIndex] as NSString)
                             }
                             
                             if tabIndex > draggedItemIndex ?? 0 {
@@ -690,7 +690,7 @@ struct SidebarSpaceParameter: View {
                             currentHoverIndex: $currentHoverIndex,
                             onDropAction: {
                                 withAnimation {
-                                    spaces[currentSelectedSpaceIndex].pinnedUrls = reorderingTabs
+                                    spaces[selectedSpaceIndex].pinnedUrls = reorderingTabs
                                 }
                                 currentHoverIndex = -1
                             }
@@ -713,7 +713,7 @@ struct SidebarSpaceParameter: View {
                                     .font(.system(.caption, design: .rounded, weight: .medium))
                                     .focused($renameIsFocused)
                                     .onSubmit {
-                                        spaces[currentSelectedSpaceIndex].spaceName = temporaryRenameSpace
+                                        spaces[selectedSpaceIndex].spaceName = temporaryRenameSpace
                                         
                                         Task {
                                             do {
@@ -871,7 +871,7 @@ struct SidebarSpaceParameter: View {
                                         let uiColor1 = UIColor(newValue)
                                         let hexString1 = uiColor1.toHex()
                                         
-                                        spaces[currentSelectedSpaceIndex].startHex = hexString1 ?? "858585"
+                                        spaces[selectedSpaceIndex].startHex = hexString1 ?? "858585"
                                     }
                                 
                                 ColorPicker("End Color", selection: $endColor)
@@ -881,7 +881,7 @@ struct SidebarSpaceParameter: View {
                                         let uiColor2 = UIColor(newValue)
                                         let hexString2 = uiColor2.toHex()
                                         
-                                        spaces[currentSelectedSpaceIndex].endHex = hexString2 ?? "ADADAD"
+                                        spaces[selectedSpaceIndex].endHex = hexString2 ?? "ADADAD"
                                     }
                                 
                                 ColorPicker("Text Color", selection: $textColor)
@@ -911,7 +911,7 @@ struct SidebarSpaceParameter: View {
                             //IconsPicker(currentIcon: $changingIcon)
                             IconsPicker(currentIcon: $changingIcon, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, selectedSpaceIndex: $currentSelectedSpaceIndex)
                                 .onChange(of: changingIcon) {
-                                    spaces[currentSelectedSpaceIndex].spaceIcon = changingIcon
+                                    spaces[selectedSpaceIndex].spaceIcon = changingIcon
                                     do {
                                         try modelContext.save()
                                     }
@@ -961,16 +961,16 @@ struct SidebarSpaceParameter: View {
                             searchInSidebar = newUrl
                             
                             if manager.selectedTabLocation == .pinned {
-                                spaces[currentSelectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
+                                spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
                             }
                             else if manager.selectedTabLocation == .tabs {
-                                spaces[currentSelectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
+                                spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
                             }
                             else if manager.selectedTabLocation == .favorites {
-                                spaces[currentSelectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = newUrl
+                                spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = newUrl
                             }
                             
-                            let fetchTitlesArrays = spaces[currentSelectedSpaceIndex].tabUrls + spaces[currentSelectedSpaceIndex].pinnedUrls + spaces[currentSelectedSpaceIndex].favoritesUrls
+                            let fetchTitlesArrays = spaces[selectedSpaceIndex].tabUrls + spaces[selectedSpaceIndex].pinnedUrls + spaces[selectedSpaceIndex].favoritesUrls
                             
                             manager.fetchTitlesIfNeeded(for: fetchTitlesArrays)
                         })
@@ -1178,15 +1178,15 @@ struct SidebarSpaceParameter: View {
                                 searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
                             }
                             .onDrag {
-                                draggedItem = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
+                                draggedItem = spaces[selectedSpaceIndex].tabUrls[tabIndex]
                                 draggedItemIndex = tabIndex
-                                reorderingTabs = spaces[currentSelectedSpaceIndex].tabUrls
+                                reorderingTabs = spaces[selectedSpaceIndex].tabUrls
                                 
                                 manager.dragTabLocation = .tabs
                                 
                                 //currentHoverIndex = -1
                                 
-                                return NSItemProvider(object: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex] as NSString)
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].tabUrls[tabIndex] as NSString)
                             }
                             
                             if tabIndex < draggedItemIndex ?? 0 {
@@ -1216,7 +1216,7 @@ struct SidebarSpaceParameter: View {
                             currentHoverIndex: $currentHoverIndex,
                             onDropAction: {
                                 withAnimation {
-                                    spaces[currentSelectedSpaceIndex].tabUrls = reorderingTabs
+                                    spaces[selectedSpaceIndex].tabUrls = reorderingTabs
                                 }
                                 currentHoverIndex = -1
                             }
