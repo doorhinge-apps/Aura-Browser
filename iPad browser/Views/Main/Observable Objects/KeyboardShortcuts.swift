@@ -17,6 +17,16 @@ class KeyboardShortcuts: ObservableObject {
     @AppStorage("reload - Shortcut") var reload = "⌘, r"
     @AppStorage("copyUrl - Shortcut") var copyUrl = "⌘, ⇧, c"
     
+    func resetShortcuts() {
+        toggleSidebar = "⌘, s"
+        newTab = "⌘, t"
+        commandBar = "⌘, l"
+        goBack = "⌘, ["
+        goForward = "⌘, ]"
+        reload = "⌘, r"
+        copyUrl = "⌘, ⇧, c"
+    }
+    
     
     func parseShortcut(shortcut: String) -> KeyboardShortcut {
         var array: [String] = []

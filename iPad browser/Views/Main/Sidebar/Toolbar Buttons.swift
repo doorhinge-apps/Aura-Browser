@@ -13,7 +13,7 @@ struct ToolbarButtonsView: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
-    @StateObject var variables = ObservableVariables()
+    @EnvironmentObject var variables: ObservableVariables
     
     @EnvironmentObject var manager: WebsiteManager
     
@@ -306,7 +306,9 @@ struct ToolbarButtonsView: View {
                     //.disabled(manager.selectedWebView?.webView.canGoForward ?? false)
                 
                 Button(action: {
-                    reloadRotation += 360
+                    withAnimation(.bouncy, {
+                        variables.reloadRotation += 360
+                    })
                     
                     searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? searchInSidebar
                     manager.selectedWebView?.reload()
@@ -320,8 +322,7 @@ struct ToolbarButtonsView: View {
                             .frame(width: 20, height: 20)
                             .foregroundStyle(textColor)
                             .opacity(hoverReloadButton ? 1.0: 0.5)
-                            .rotationEffect(Angle(degrees: Double(reloadRotation)))
-                            .animation(.bouncy, value: reloadRotation)
+                            .rotationEffect(Angle(degrees: Double(variables.reloadRotation)))
                         
                     }.frame(width: 40, height: 40).cornerRadius(7)
 #if !os(visionOS) && !os(macOS)

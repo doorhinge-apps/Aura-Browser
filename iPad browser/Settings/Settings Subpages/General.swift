@@ -275,6 +275,12 @@ struct General: View {
                     
                     Divider()
                     
+                    Button(action: {
+                        settings.shortcuts.resetShortcuts()
+                    }, label: {
+                        Text("Reset shortcuts")
+                    })
+                    
                     HStack {
                         Text("Ad Block")
                             .font(.system(.title3, design: .rounded, weight: .bold))
