@@ -60,11 +60,12 @@ struct AIBoostGenerator: View {
         print(inputMessages)
         
         // Call the chat API to get a response
-        /*openAI.chats(query: query) { result in
+        openAI?.chats(query: query) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let chatResult):
                     if let assistantMessage = chatResult.choices.first?.message.content {
+                        text = assistantMessage
                         completion(assistantMessage)
                     } else {
                         completion("Untitled")
@@ -74,9 +75,9 @@ struct AIBoostGenerator: View {
                     completion("Untitled")
                 }
             }
-        }*/
+        }
         
-        openAI?.chatsStream(query: query) { partialResult in
+        /*openAI?.chatsStream(query: query) { partialResult in
             
             switch partialResult {
             case .success(let result):
@@ -89,7 +90,7 @@ struct AIBoostGenerator: View {
             }
         } completion: { error in
             print("Error streaming chat")
-        }
+        }*/
     }
 }
 

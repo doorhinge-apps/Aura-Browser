@@ -106,8 +106,7 @@ struct PagedSidebar: View {
                         HStack(spacing: 0) {
                             ForEach(0..<spaces.count, id:\.self) { space in
                                 VStack {
-                                    //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                    Sidebar(selectedTabLocation: $selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                    SidebarSpaceParameter(currentSelectedSpaceIndex: space, selectedTabLocation: $selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                         .environmentObject(variables)
                                         .id(space.description)
                                         .padding(.horizontal, 10)
@@ -116,7 +115,6 @@ struct PagedSidebar: View {
                                     //Text(horizontalScrollPosition.x.description)
                                 }
                                 .containerRelativeFrame(.horizontal)
-                                //.containerRelativeFrame(.horizontal, count: 5, span: 2, spacing: 10)
                                 .animation(.easeOut)
                                 .frame(width: hideSidebar ? 0: 300)
                             }

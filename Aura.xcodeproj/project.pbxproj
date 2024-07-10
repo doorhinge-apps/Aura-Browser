@@ -12,7 +12,6 @@
 		B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90294502C325C07005DB4CA /* Browse for Me Mobile.swift */; };
 		B918673C2BCB0AFD00C159AB /* Old Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B918673B2BCB0AFD00C159AB /* Old Settings.swift */; };
 		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
-		B92098832C3B41E600783D58 /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B92098822C3B41E600783D58 /* WebViewSwiftUI */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
 		B92652E62C3C9E3700DA2241 /* CodeEditor in Frameworks */ = {isa = PBXBuildFile; productRef = B92652E52C3C9E3700DA2241 /* CodeEditor */; };
@@ -59,6 +58,10 @@
 		B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C402BF28EEB0012D98E /* WeatherManager.swift */; };
 		B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C422BF28F100012D98E /* WeatherWidgetView.swift */; };
 		B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C442BF2908B0012D98E /* LocationManager.swift */; };
+		B97A80752C3E51AA00DB523B /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B97A80742C3E51AA00DB523B /* WebViewSwiftUI */; };
+		B97A80782C3E542800DB523B /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B97A80772C3E542800DB523B /* WebViewSwiftUI */; };
+		B97A807B2C3E544800DB523B /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B97A807A2C3E544800DB523B /* WebViewSwiftUI */; };
+		B97A80802C3E5B6E00DB523B /* SideabrWithSpaceParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97A807F2C3E5B6E00DB523B /* SideabrWithSpaceParameter.swift */; };
 		B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */; };
 		B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */; };
 		B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */; };
@@ -158,6 +161,7 @@
 		B9798C402BF28EEB0012D98E /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		B9798C422BF28F100012D98E /* WeatherWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidgetView.swift; sourceTree = "<group>"; };
 		B9798C442BF2908B0012D98E /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		B97A807F2C3E5B6E00DB523B /* SideabrWithSpaceParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideabrWithSpaceParameter.swift; sourceTree = "<group>"; };
 		B98256C72BD2A87200F997F5 /* iPad browser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iPad browser.entitlements"; sourceTree = "<group>"; };
 		B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDots.swift; sourceTree = "<group>"; };
@@ -213,10 +217,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */,
+				B97A80752C3E51AA00DB523B /* WebViewSwiftUI in Frameworks */,
+				B97A80782C3E542800DB523B /* WebViewSwiftUI in Frameworks */,
 				B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
-				B92098832C3B41E600783D58 /* WebViewSwiftUI in Frameworks */,
 				B9AFB6642C3CF58C009B89C5 /* OpenAI in Frameworks */,
+				B97A807B2C3E544800DB523B /* WebViewSwiftUI in Frameworks */,
 				B92652E62C3C9E3700DA2241 /* CodeEditor in Frameworks */,
 				B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */,
 			);
@@ -228,10 +234,9 @@
 		B90294522C3337A5005DB4CA /* WebViews */ = {
 			isa = PBXGroup;
 			children = (
-				C1BD7D2F2BDE052F0078D7B3 /* WebView.swift */,
-				C1BD7D2D2BDE05160078D7B3 /* navigationState.swift */,
 				B94303912C2D347C00D787A4 /* CurrentWebView.swift */,
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
+				B97A807C2C3E5A5A00DB523B /* Old Files */,
 				B94303952C2D37FC00D787A4 /* AdBlock */,
 				B94CA91D2C28C72E00AD3921 /* Boosts */,
 				B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */,
@@ -400,6 +405,7 @@
 				B98953A22AABCF7200EE3B42 /* GoogleService-Info.plist */,
 				B90294522C3337A5005DB4CA /* WebViews */,
 				C1BD7D172BDDF65F0078D7B3 /* Data Models */,
+				B97A807D2C3E5A8900DB523B /* Data Storage */,
 				C1BD7D2A2BDE04AB0078D7B3 /* Views */,
 				B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */,
 				B91FBF942BC8EB0C001C317C /* Tab Bar.swift */,
@@ -438,12 +444,12 @@
 			isa = PBXGroup;
 			children = (
 				C1BD7D282BDDFDF70078D7B3 /* Sidebar.swift */,
+				B97A807F2C3E5B6E00DB523B /* SideabrWithSpaceParameter.swift */,
 				B97725022C01292400A39E3A /* PagedSidebar.swift */,
 				B93D9D2F2BDF35DA0002D01B /* Tabs */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B97725002C0116BA00A39E3A /* Space Picker.swift */,
-				B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */,
-				B90294562C333AA3005DB4CA /* Sidebar Adaptable Test */,
+				B97A807E2C3E5AA700DB523B /* Sidebar Experiments */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -477,6 +483,31 @@
 				B9798C442BF2908B0012D98E /* LocationManager.swift */,
 			);
 			path = Weather;
+			sourceTree = "<group>";
+		};
+		B97A807C2C3E5A5A00DB523B /* Old Files */ = {
+			isa = PBXGroup;
+			children = (
+				C1BD7D2D2BDE05160078D7B3 /* navigationState.swift */,
+				C1BD7D2F2BDE052F0078D7B3 /* WebView.swift */,
+			);
+			path = "Old Files";
+			sourceTree = "<group>";
+		};
+		B97A807D2C3E5A8900DB523B /* Data Storage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Data Storage";
+			sourceTree = "<group>";
+		};
+		B97A807E2C3E5AA700DB523B /* Sidebar Experiments */ = {
+			isa = PBXGroup;
+			children = (
+				B90294562C333AA3005DB4CA /* Sidebar Adaptable Test */,
+				B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */,
+			);
+			path = "Sidebar Experiments";
 			sourceTree = "<group>";
 		};
 		B98256CA2BD2E2F800F997F5 /* Extensions */ = {
@@ -652,9 +683,11 @@
 				B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */,
 				B9272D3A2C250A9D00B014D8 /* MarkdownUI */,
 				B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */,
-				B92098822C3B41E600783D58 /* WebViewSwiftUI */,
 				B92652E52C3C9E3700DA2241 /* CodeEditor */,
 				B9AFB6632C3CF58C009B89C5 /* OpenAI */,
+				B97A80742C3E51AA00DB523B /* WebViewSwiftUI */,
+				B97A80772C3E542800DB523B /* WebViewSwiftUI */,
+				B97A807A2C3E544800DB523B /* WebViewSwiftUI */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -691,9 +724,9 @@
 				B9ED10532C0F9FFC004F2AF3 /* XCRemoteSwiftPackageReference "WKDownloadHelper" */,
 				B9272D392C250A9D00B014D8 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
-				B92098812C3B41E600783D58 /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */,
 				B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */,
 				B9AFB6622C3CF58C009B89C5 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				B97A80792C3E544800DB523B /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -811,6 +844,7 @@
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
+				B97A80802C3E5B6E00DB523B /* SideabrWithSpaceParameter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1058,14 +1092,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B92098812C3B41E600783D58 /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/doorhinge-apps/WebViewSwiftUI-Aura";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ZeeZide/CodeEditor";
@@ -1096,6 +1122,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.1;
+			};
+		};
+		B97A80792C3E544800DB523B /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/doorhinge-apps/WebViewSwiftUI-Aura";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 		B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
@@ -1133,11 +1167,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B92098822C3B41E600783D58 /* WebViewSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B92098812C3B41E600783D58 /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */;
-			productName = WebViewSwiftUI;
-		};
 		B92652E52C3C9E3700DA2241 /* CodeEditor */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */;
@@ -1152,6 +1181,19 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
 			productName = YouTubePlayerKit;
+		};
+		B97A80742C3E51AA00DB523B /* WebViewSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WebViewSwiftUI;
+		};
+		B97A80772C3E542800DB523B /* WebViewSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WebViewSwiftUI;
+		};
+		B97A807A2C3E544800DB523B /* WebViewSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B97A80792C3E544800DB523B /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */;
+			productName = WebViewSwiftUI;
 		};
 		B98A32FA2BD05CF000555AB9 /* FaviconFinder */ = {
 			isa = XCSwiftPackageProductDependency;
