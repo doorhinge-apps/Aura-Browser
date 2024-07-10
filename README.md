@@ -12,4 +12,6 @@ The browser is still currently missing a lot of basic features and has quite a f
 ### Contributing
 If you want to give suggestions on features or have feedback on something, send an email to aura@doorhingeapps.com or create a post with the Feedback flair on the subreddit.
 
+[Buy me a Coffee](https://buymeacoffee.com/reynam)
+
 Alternatively, you could fork this repository and make changes yourself and then create a pull request on this main branch.  
