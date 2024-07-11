@@ -19,7 +19,7 @@ struct SidebarSpaceParameter: View {
     
     @EnvironmentObject var variables: ObservableVariables
     @EnvironmentObject var manager: WebsiteManager
-    @StateObject var settings = SettingsVariables()
+    @EnvironmentObject var settings: SettingsVariables
     
     @Binding var selectedTabLocation: String
     
@@ -230,11 +230,13 @@ struct SidebarSpaceParameter: View {
                                 
                             }
                             .contextMenu {
-                                Button {
-                                    variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
-                                    variables.isBrowseForMe = true
-                                } label: {
-                                    Label("Browse for Me", systemImage: "globe.desk")
+                                if !settings.hideBrowseForMe {
+                                    Button {
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
+                                        variables.isBrowseForMe = true
+                                    } label: {
+                                        Label("Browse for Me", systemImage: "globe.desk")
+                                    }
                                 }
 #if !os(macOS)
                                 Button {
@@ -447,11 +449,13 @@ struct SidebarSpaceParameter: View {
                                 }
                             }
                             .contextMenu {
-                                Button {
-                                    variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
-                                    variables.isBrowseForMe = true
-                                } label: {
-                                    Label("Browse for Me", systemImage: "globe.desk")
+                                if !settings.hideBrowseForMe {
+                                    Button {
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
+                                        variables.isBrowseForMe = true
+                                    } label: {
+                                        Label("Browse for Me", systemImage: "globe.desk")
+                                    }
                                 }
 #if !os(macOS)
                                 Button {
@@ -589,7 +593,7 @@ struct SidebarSpaceParameter: View {
                                         
                                         Task {
                                             do {
-                                                try await modelContext.save()
+                                                try modelContext.save()
                                             }
                                             catch {
                                                 print(error.localizedDescription)
@@ -638,7 +642,7 @@ struct SidebarSpaceParameter: View {
                                 .font(.system(.caption, design: .rounded, weight: .medium))
                                 .onTapGesture {
                                     temporaryRenameSpace = spaces[currentSelectedSpaceIndex].spaceName
-                                    temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
+                                    temporaryRenameSpace = String(temporaryRenameSpace)
                                     renameIsFocused = true
                                 }
 #if !os(visionOS) && !os(macOS)
@@ -684,7 +688,7 @@ struct SidebarSpaceParameter: View {
                                     
                                     Button(action: {
                                         temporaryRenameSpace = spaces[currentSelectedSpaceIndex].spaceName
-                                        temporaryRenameSpace = String(temporaryRenameSpace/*.dropLast(5)*/)
+                                        temporaryRenameSpace = String(temporaryRenameSpace)
                                         renameIsFocused = true
                                     }, label: {
                                         Label("Rename Space", systemImage: "rectangle.and.pencil.and.ellipsis.rtl")
@@ -737,9 +741,7 @@ struct SidebarSpaceParameter: View {
                             
                             VStack {
                                 ColorPicker("Start Color", selection: $startColor)
-                                    .onChange(of: startColor) { newValue in
-                                        //saveColor(color: newValue, key: "startColorHex")
-                                        
+                                    .onChange(of: startColor) { oldValue, newValue in
                                         let uiColor1 = UIColor(newValue)
                                         let hexString1 = uiColor1.toHex()
                                         
@@ -747,9 +749,7 @@ struct SidebarSpaceParameter: View {
                                     }
                                 
                                 ColorPicker("End Color", selection: $endColor)
-                                    .onChange(of: endColor) { newValue in
-                                        //saveColor(color: newValue, key: "endColorHex")
-                                        
+                                    .onChange(of: endColor) { oldValue, newValue in
                                         let uiColor2 = UIColor(newValue)
                                         let hexString2 = uiColor2.toHex()
                                         
@@ -757,7 +757,7 @@ struct SidebarSpaceParameter: View {
                                     }
                                 
                                 ColorPicker("Text Color", selection: $textColor)
-                                    .onChange(of: textColor) { newValue in
+                                    .onChange(of: textColor) { oldValue, newValue in
                                         saveColor(color: newValue, key: "textColorHex")
                                     }
                             }
@@ -961,11 +961,13 @@ struct SidebarSpaceParameter: View {
                                 }
                             }
                             .contextMenu {
-                                Button {
-                                    variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
-                                    variables.isBrowseForMe = true
-                                } label: {
-                                    Label("Browse for Me", systemImage: "globe.desk")
+                                if !settings.hideBrowseForMe {
+                                    Button {
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
+                                        variables.isBrowseForMe = true
+                                    } label: {
+                                        Label("Browse for Me", systemImage: "globe.desk")
+                                    }
                                 }
 #if !os(macOS)
                                 Button {
@@ -1193,46 +1195,5 @@ struct SidebarSpaceParameter: View {
         }
         
         print("Done")
-        
-        //saveSpaceData()
     }
-    
-    func saveSpaceData() {
-        let savingTodayTabs = variables.navigationState.webViews.compactMap { $0.url?.absoluteString }
-        let savingPinnedTabs = variables.pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
-        let savingFavoriteTabs = variables.favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
-        
-        if !spaces.isEmpty {
-            spaces[currentSelectedSpaceIndex].tabUrls = savingTodayTabs
-        }
-        else {
-            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
-        }
-        
-        do {
-            try modelContext.save()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    /*func saveToLocalStorage2(spaceName: String) {
-        let urlStringArray = navigationState.webViews.compactMap { $0.url?.absoluteString }
-        if let urlsData = try? JSONEncoder().encode(urlStringArray){
-            UserDefaults.standard.set(urlsData, forKey: "\(spaceName)userTabs")
-            
-        }
-        
-        let urlStringArray2 = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
-        if let urlsData = try? JSONEncoder().encode(urlStringArray2){
-            UserDefaults.standard.set(urlsData, forKey: "\(spaceName)pinnedTabs")
-            
-        }
-        
-        let urlStringArray3 = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
-        if let urlsData = try? JSONEncoder().encode(urlStringArray3){
-            UserDefaults.standard.set(urlsData, forKey: "\(spaceName)favoriteTabs")
-            
-        }
-    }*/
 }

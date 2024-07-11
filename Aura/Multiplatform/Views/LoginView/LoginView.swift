@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import Network
 
 
 struct OnboardingView: View {
     @State private var startColor: Color = Color.purple
     @State private var endColor: Color = Color.pink
+    
+    @State private var networkMonitor = NetworkMonitor()
     
     @State var email = ""
     @State var password = ""
@@ -30,10 +33,17 @@ struct OnboardingView: View {
     
     @FocusState var focusedShortcuts: Bool
     
+    @State var ignoreNoWifi = false
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
+                if networkMonitor.isConnected {
                     ContentView()
+                }
+                else {
+                    NoWifi(ignore: $ignoreNoWifi)
+                }
                     //SwiftUITabBar()
 //                        .environmentObject(variables)
                 

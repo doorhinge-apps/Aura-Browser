@@ -10,6 +10,8 @@ import SwiftUI
 struct CommandBar: View {
     @Environment(\.colorScheme) var colorScheme
     
+    @EnvironmentObject var settings: SettingsVariables
+    
     @AppStorage("startColorHex") var startHex = "8A3CEF"
     @AppStorage("endColorHex") var endHex = "84F5FE"
     @AppStorage("textColorHex") var textHex = "ffffff"
@@ -89,24 +91,26 @@ struct CommandBar: View {
                                                     
                                                     Spacer()
                                                     
-                                                    Button {
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                                            withAnimation(.linear, {
-                                                                isBrowseForMe = true
+                                                    if !settings.hideBrowseForMe {
+                                                        Button {
+                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                                                withAnimation(.linear, {
+                                                                    isBrowseForMe = true
+                                                                })
                                                             })
-                                                        })
-                                                        searchSubmitted = true
-                                                    } label: {
-                                                        Text("Browse for me")
+                                                            searchSubmitted = true
+                                                        } label: {
+                                                            Text("Browse for me")
 #if !os(visionOS)
-                                                            .foregroundStyle(selectedSuggestion == -1 ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
-                                                        #else
-                                                            .foregroundStyle(Color.white)
+                                                                .foregroundStyle(selectedSuggestion == -1 ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
+#else
+                                                                .foregroundStyle(Color.white)
 #endif
-                                                        
+                                                            
+                                                        }
+                                                        .buttonStyle(.plain)
+                                                        .animation(.linear)
                                                     }
-                                                    .buttonStyle(.plain)
-                                                    .animation(.linear)
                                                     
                                                     Image(systemName: "arrow.right")
                                                         .foregroundStyle(Color(hex: selectedSuggestion == -1 ? textHex: "000000"))
@@ -174,26 +178,26 @@ struct CommandBar: View {
                                                 
                                                 Spacer()
                                                 
-                                                
-                                                Button {
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                                        withAnimation(.linear, {
-                                                            isBrowseForMe = true
+                                                if !settings.hideBrowseForMe {
+                                                    Button {
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                                            withAnimation(.linear, {
+                                                                isBrowseForMe = true
+                                                            })
                                                         })
-                                                    })
-                                                    commandBarText = suggestion
-                                                    searchSubmitted = true
-                                                } label: {
-                                                    Text("Browse for me")
+                                                        commandBarText = suggestion
+                                                        searchSubmitted = true
+                                                    } label: {
+                                                        Text("Browse for me")
 #if !os(visionOS)
-                                                        .foregroundStyle(selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing)): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
-                                                    #else
-                                                        .foregroundStyle(Color.white)
-                                                    #endif
+                                                            .foregroundStyle(selectedSuggestion != -1 ? (suggestions[selectedSuggestion] == suggestion ? LinearGradient(colors: [Color.white], startPoint: .leading, endPoint: .trailing): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing)): LinearGradient(colors: [Color(hex: "EA96FF"), Color(hex: "7E7DD5"), Color(hex: "5957E5")], startPoint: .leading, endPoint: .trailing))
+#else
+                                                            .foregroundStyle(Color.white)
+#endif
+                                                    }
+                                                    .buttonStyle(.plain)
+                                                    .animation(.linear)
                                                 }
-                                                .buttonStyle(.plain)
-                                                .animation(.linear)
-
                                                 
                                                 
                                                 Image(systemName: "arrow.right")
@@ -210,11 +214,6 @@ struct CommandBar: View {
                                                     .animation(.default)
                                                 
                                             }
-                                            
-                                            /*Text(suggestion)
-                                             .padding(10)
-                                             .padding(.vertical, 12)
-                                             .frame(width: 500)*/
                                         }.id(suggestion)
                                             .onHover(perform: { hovering in
                                                 if hovering {

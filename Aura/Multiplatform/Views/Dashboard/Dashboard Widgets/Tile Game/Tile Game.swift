@@ -302,22 +302,6 @@ struct TileGame: View {
             indexes.append(index + 1)
         }
         
-        
-        
-        /*
-        if row > 0 {
-            indexes.append(index - 4) // Tile above
-        }
-        if row < 3 {
-            indexes.append(index + 4) // Tile below
-        }
-        if column > 0 {
-            indexes.append(index - 1) // Tile to the left
-        }
-        if column < 3 {
-            indexes.append(index + 1) // Tile to the right
-        }
-        */
         return indexes
     }
 
@@ -329,25 +313,13 @@ struct TileGame: View {
     }
     
     private func moveRandomAdjacentTile(currentIndex: Int) {
-//        let adjacent = adjacentIndexes(to: emptyIndex).compactMap { index in
-//            tiles.firstIndex(of: index)
-//        }
         var adjacent = adjacentIndexes(to: currentIndex)
         
         adjacentTilesDisplay = adjacent
         if let randomIndex = adjacent.randomElement() {
             moveTile(at: randomIndex)
             
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-//                for i in [0, 5, 15, 2, 12, 8, 6, 13, 7, 3, 14, 4, 10] {
-//                    moveTile(at: i)
-//                }
-//            }
         } else {
-            // Retry after 0.2 seconds if no valid adjacent tile is found
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-//                moveRandomAdjacentTile()
-//            }
             for i in 0..<16 {
                 moveTile(at: i)
             }

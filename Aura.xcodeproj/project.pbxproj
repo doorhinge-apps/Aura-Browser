@@ -10,7 +10,13 @@
 		B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90213722AAFDEE200AB708D /* Button Styles.swift */; };
 		B90213752AB0174F00AB708D /* SizedSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90213742AB0174F00AB708D /* SizedSpacer.swift */; };
 		B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90294502C325C07005DB4CA /* Browse for Me Mobile.swift */; };
-		B918673C2BCB0AFD00C159AB /* Old Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B918673B2BCB0AFD00C159AB /* Old Settings.swift */; };
+		B91BCF412C3F1AED0031581D /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF402C3F1AED0031581D /* SearchEngine.swift */; };
+		B91BCF442C3F1B740031581D /* someKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF432C3F1B740031581D /* someKey.swift */; };
+		B91BCF462C3F1FDE0031581D /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */; };
+		B91BCF622C3F36420031581D /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF612C3F36420031581D /* NetworkMonitor.swift */; };
+		B91BCF642C3F367A0031581D /* NoWifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF632C3F367A0031581D /* NoWifi.swift */; };
+		B91BCF692C3F54940031581D /* ShortcutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF682C3F54940031581D /* ShortcutSettings.swift */; };
+		B91BCF6B2C3F5ECF0031581D /* AISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF6A2C3F5ECF0031581D /* AISettings.swift */; };
 		B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91FBF942BC8EB0C001C317C /* Tab Bar.swift */; };
 		B9230FFA2BBD36740032C950 /* TopDomains.json in Resources */ = {isa = PBXBuildFile; fileRef = B9230FF92BBD36740032C950 /* TopDomains.json */; };
 		B9230FFC2BBD36FC0032C950 /* public_suffix_list.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */; };
@@ -88,11 +94,11 @@
 		B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */; };
 		B9C0ED882C0C07BF00AF6E31 /* PagedTabbedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */; };
 		B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */; };
-		B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */; };
+		B9C537FC2BEF37C700C7DB2B /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C537FB2BEF37C700C7DB2B /* CustomSwitch.swift */; };
 		B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */; };
-		B9D47D072C27772C0059BE46 /* New Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D062C27772C0059BE46 /* New Settings.swift */; };
+		B9D47D072C27772C0059BE46 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D062C27772C0059BE46 /* Settings.swift */; };
 		B9D47D0A2C27806C0059BE46 /* Favicons.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D092C27806C0059BE46 /* Favicons.swift */; };
-		B9D47D0C2C282A150059BE46 /* UISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D0B2C282A150059BE46 /* UISettings.swift */; };
+		B9D47D0C2C282A150059BE46 /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D47D0B2C282A150059BE46 /* Appearance.swift */; };
 		B9DDD2672C3C2AD900BC0CA4 /* WebsiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD2662C3C2AD900BC0CA4 /* WebsiteManager.swift */; };
 		B9DDD2692C3C2AF300BC0CA4 /* ObservableVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD2682C3C2AF300BC0CA4 /* ObservableVariables.swift */; };
 		B9DDD26B2C3C2B0D00BC0CA4 /* LinkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD26A2C3C2B0D00BC0CA4 /* LinkViewModel.swift */; };
@@ -103,7 +109,6 @@
 		B9FA63BD2C3C2E1D00D492E6 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */; };
 		B9FA63BF2C3C2E2400D492E6 /* BoostDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA63BE2C3C2E2400D492E6 /* BoostDataStorage.swift */; };
 		B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */; };
-		B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */; };
 		B9FE53FD2BC8DFAC008E0434 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */; platformFilters = (ios, maccatalyst, xros, ); };
 		B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32ED2BCDA09C00555AB9 /* CircleAnimation.swift */; };
 		C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BD7D1A2BDDF6A30078D7B3 /* SpaceStorage.swift */; };
@@ -118,7 +123,13 @@
 		B90213722AAFDEE200AB708D /* Button Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button Styles.swift"; sourceTree = "<group>"; };
 		B90213742AB0174F00AB708D /* SizedSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizedSpacer.swift; sourceTree = "<group>"; };
 		B90294502C325C07005DB4CA /* Browse for Me Mobile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Browse for Me Mobile.swift"; sourceTree = "<group>"; };
-		B918673B2BCB0AFD00C159AB /* Old Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Old Settings.swift"; sourceTree = "<group>"; };
+		B91BCF402C3F1AED0031581D /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
+		B91BCF432C3F1B740031581D /* someKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = someKey.swift; sourceTree = "<group>"; };
+		B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
+		B91BCF612C3F36420031581D /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		B91BCF632C3F367A0031581D /* NoWifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoWifi.swift; sourceTree = "<group>"; };
+		B91BCF682C3F54940031581D /* ShortcutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSettings.swift; sourceTree = "<group>"; };
+		B91BCF6A2C3F5ECF0031581D /* AISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettings.swift; sourceTree = "<group>"; };
 		B91FBF942BC8EB0C001C317C /* Tab Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tab Bar.swift"; sourceTree = "<group>"; };
 		B9230FF92BBD36740032C950 /* TopDomains.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TopDomains.json; sourceTree = "<group>"; };
 		B9230FFB2BBD36FC0032C950 /* public_suffix_list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.txt; sourceTree = "<group>"; };
@@ -192,11 +203,11 @@
 		B9C0ED832C0A60AF00AF6E31 /* AnalogClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClock.swift; sourceTree = "<group>"; };
 		B9C0ED872C0C07BF00AF6E31 /* PagedTabbedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedTabbedSidebar.swift; sourceTree = "<group>"; };
 		B9C537F92BED522200C7DB2B /* IconsArrayStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayStorage.swift; sourceTree = "<group>"; };
-		B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		B9C537FB2BEF37C700C7DB2B /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		B9C6D0A02BF5E10E001DE904 /* DashboardWidgetStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWidgetStorage.swift; sourceTree = "<group>"; };
-		B9D47D062C27772C0059BE46 /* New Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New Settings.swift"; sourceTree = "<group>"; };
+		B9D47D062C27772C0059BE46 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B9D47D092C27806C0059BE46 /* Favicons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favicons.swift; sourceTree = "<group>"; };
-		B9D47D0B2C282A150059BE46 /* UISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettings.swift; sourceTree = "<group>"; };
+		B9D47D0B2C282A150059BE46 /* Appearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		B9DDD2662C3C2AD900BC0CA4 /* WebsiteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteManager.swift; sourceTree = "<group>"; };
 		B9DDD2682C3C2AF300BC0CA4 /* ObservableVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableVariables.swift; sourceTree = "<group>"; };
 		B9DDD26A2C3C2B0D00BC0CA4 /* LinkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkViewModel.swift; sourceTree = "<group>"; };
@@ -207,7 +218,6 @@
 		B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
 		B9FA63BE2C3C2E2400D492E6 /* BoostDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostDataStorage.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
-		B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B9FE53FC2BC8DFAC008E0434 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C1BD7D1A2BDDF6A30078D7B3 /* SpaceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceStorage.swift; sourceTree = "<group>"; };
 		C1BD7D222BDDF9C80078D7B3 /* ContentViewColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewColor.swift; sourceTree = "<group>"; };
@@ -278,6 +288,24 @@
 			path = "Sidebar Adaptable Test";
 			sourceTree = "<group>";
 		};
+		B91BCF422C3F1B660031581D /* Random Functions */ = {
+			isa = PBXGroup;
+			children = (
+				B91BCF432C3F1B740031581D /* someKey.swift */,
+				B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */,
+			);
+			path = "Random Functions";
+			sourceTree = "<group>";
+		};
+		B91BCF672C3F43AF0031581D /* No Internet */ = {
+			isa = PBXGroup;
+			children = (
+				B91BCF612C3F36420031581D /* NetworkMonitor.swift */,
+				B91BCF632C3F367A0031581D /* NoWifi.swift */,
+			);
+			path = "No Internet";
+			sourceTree = "<group>";
+		};
 		B9230FFD2BBDC06A0032C950 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +355,8 @@
 			isa = PBXGroup;
 			children = (
 				B943038C2C2D32F400D787A4 /* UI Components */,
+				B94ADB222C3EE0630054899D /* Button Styles */,
+				B9FE8D162BDD87FA00BBF221 /* Animations */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -336,6 +366,7 @@
 			children = (
 				B94303932C2D34B900D787A4 /* LoadingIndicators.swift */,
 				B9272D462C26A52300B014D8 /* VGrid.swift */,
+				B94CA9262C28EB7500AD3921 /* SkewIcon.swift */,
 			);
 			path = "UI Components";
 			sourceTree = "<group>";
@@ -363,8 +394,8 @@
 		B94ADB192C3EDEFC0054899D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
 				B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */,
 				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
@@ -390,7 +421,6 @@
 				B9DDD2652C3C2AC600BC0CA4 /* Observable Objects */,
 				B9D47D052C276C8E0059BE46 /* Settings */,
 				C1BD7D1C2BDDF8DF0078D7B3 /* Helpers */,
-				B9FE8D162BDD87FA00BBF221 /* Animations */,
 				B98256CA2BD2E2F800F997F5 /* Extensions */,
 				B94ADB182C3EDE5E0054899D /* Old Files */,
 				B95B19E82AABBEE10013AC79 /* Assets.xcassets */,
@@ -568,7 +598,6 @@
 			isa = PBXGroup;
 			children = (
 				B93AE92E2C2A3EA5003D0E88 /* Launch Screen */,
-				B94ADB222C3EE0630054899D /* Button Styles */,
 				B94ADB1F2C3EDFC40054899D /* Color */,
 				C1BD7D222BDDF9C80078D7B3 /* ContentViewColor.swift */,
 			);
@@ -588,10 +617,9 @@
 		B9D47D052C276C8E0059BE46 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				B918673B2BCB0AFD00C159AB /* Old Settings.swift */,
-				B9D47D062C27772C0059BE46 /* New Settings.swift */,
-				B94CA9222C28E29700AD3921 /* Settings Images.xcassets */,
+				B9D47D062C27772C0059BE46 /* Settings.swift */,
 				B9D47D082C2780580059BE46 /* Settings Subpages */,
+				B94CA9222C28E29700AD3921 /* Settings Images.xcassets */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -599,11 +627,12 @@
 		B9D47D082C2780580059BE46 /* Settings Subpages */ = {
 			isa = PBXGroup;
 			children = (
-				B9D47D092C27806C0059BE46 /* Favicons.swift */,
-				B94CA9262C28EB7500AD3921 /* SkewIcon.swift */,
-				B94CA9282C28EB9A00AD3921 /* MotionManager.swift */,
-				B9D47D0B2C282A150059BE46 /* UISettings.swift */,
 				B94CA92A2C290E7F00AD3921 /* General.swift */,
+				B9D47D0B2C282A150059BE46 /* Appearance.swift */,
+				B91BCF402C3F1AED0031581D /* SearchEngine.swift */,
+				B9D47D092C27806C0059BE46 /* Favicons.swift */,
+				B91BCF682C3F54940031581D /* ShortcutSettings.swift */,
+				B91BCF6A2C3F5ECF0031581D /* AISettings.swift */,
 			);
 			path = "Settings Subpages";
 			sourceTree = "<group>";
@@ -653,11 +682,14 @@
 				B94ADB1C2C3EDF470054899D /* URL Handling */,
 				B943038A2C2D32E400D787A4 /* Components */,
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
+				B91BCF672C3F43AF0031581D /* No Internet */,
 				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
 				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
 				B943038D2C2D330000D787A4 /* Haptics.swift */,
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
-				B9C537FB2BEF37C700C7DB2B /* CustomSlider.swift */,
+				B9C537FB2BEF37C700C7DB2B /* CustomSwitch.swift */,
+				B94CA9282C28EB9A00AD3921 /* MotionManager.swift */,
+				B91BCF422C3F1B660031581D /* Random Functions */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -666,7 +698,6 @@
 			isa = PBXGroup;
 			children = (
 				B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */,
-				B9FD6CE32BE533C500A7D0B1 /* Removing Duplicates.swift */,
 				B93D9D302BDF36130002D01B /* SuggestionsURLs.swift */,
 			);
 			path = Suggestions;
@@ -823,15 +854,15 @@
 				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */,
 				C1BD7D232BDDF9C80078D7B3 /* ContentViewColor.swift in Sources */,
-				B9D47D0C2C282A150059BE46 /* UISettings.swift in Sources */,
+				B9D47D0C2C282A150059BE46 /* Appearance.swift in Sources */,
 				B9798BFF2BF0B9460012D98E /* Tile Game.swift in Sources */,
-				B9D47D072C27772C0059BE46 /* New Settings.swift in Sources */,
+				B9D47D072C27772C0059BE46 /* Settings.swift in Sources */,
 				B9272D472C26A52300B014D8 /* VGrid.swift in Sources */,
 				B961B7B32C2BD9A800F43EBF /* MobileHomepage.swift in Sources */,
 				B9C537FA2BED522200C7DB2B /* IconsArrayStorage.swift in Sources */,
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
+				B91BCF692C3F54940031581D /* ShortcutSettings.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
-				B918673C2BCB0AFD00C159AB /* Old Settings.swift in Sources */,
 				B9272D342C240DDD00B014D8 /* Browse for Me.swift in Sources */,
 				B9DDD26D2C3C2B2600BC0CA4 /* SettingsVariables.swift in Sources */,
 				B94CA91C2C28C33100AD3921 /* SwiftUISidebarWebView.swift in Sources */,
@@ -839,15 +870,17 @@
 				B9272D352C240DDD00B014D8 /* MarkdownParser.swift in Sources */,
 				B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */,
 				B961B7AD2C2BA38600F43EBF /* TabOverview.swift in Sources */,
-				B9FD6CE42BE533C500A7D0B1 /* Removing Duplicates.swift in Sources */,
-				B9C537FC2BEF37C700C7DB2B /* CustomSlider.swift in Sources */,
+				B9C537FC2BEF37C700C7DB2B /* CustomSwitch.swift in Sources */,
+				B91BCF622C3F36420031581D /* NetworkMonitor.swift in Sources */,
 				B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */,
 				B97724FE2C0094BB00A39E3A /* ScrollViewOffset.swift in Sources */,
 				B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */,
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
 				B90213752AB0174F00AB708D /* SizedSpacer.swift in Sources */,
+				B91BCF412C3F1AED0031581D /* SearchEngine.swift in Sources */,
 				B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */,
+				B91BCF442C3F1B740031581D /* someKey.swift in Sources */,
 				B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */,
 				B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
@@ -855,6 +888,8 @@
 				C1BD7D292BDDFDF70078D7B3 /* Sidebar.swift in Sources */,
 				B9FA63BD2C3C2E1D00D492E6 /* KeyboardShortcuts.swift in Sources */,
 				B98256D42BD2E78100F997F5 /* Themes.swift in Sources */,
+				B91BCF462C3F1FDE0031581D /* Removing Duplicates.swift in Sources */,
+				B91BCF6B2C3F5ECF0031581D /* AISettings.swift in Sources */,
 				B943038E2C2D330000D787A4 /* Haptics.swift in Sources */,
 				B96DEFD62BDA908A00DB5C32 /* LoadingAnimations.swift in Sources */,
 				B9DDD26B2C3C2B0D00BC0CA4 /* LinkViewModel.swift in Sources */,
@@ -877,6 +912,7 @@
 				B94CA91F2C28C73E00AD3921 /* BoostStorage.swift in Sources */,
 				C1BD7D2E2BDE05160078D7B3 /* navigationState.swift in Sources */,
 				C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */,
+				B91BCF642C3F367A0031581D /* NoWifi.swift in Sources */,
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,

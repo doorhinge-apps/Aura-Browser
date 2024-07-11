@@ -119,18 +119,9 @@ struct NewSettings: View {
                             }).padding([.leading, .trailing, .bottom], 10)
                             
                             
-                            Menu {
-                                ForEach(searchEngineOptions, id:\.self) { option in
-                                    Button(action: {
-                                        withAnimation {
-                                            settings.searchEngine = searchEngines[option] ?? "https://www.google.com/search?q="
-                                        }
-                                    }, label: {
-                                        Text(option)
-                                    })
-                                }
-                                
-                            } label: {
+                            NavigationLink(destination: {
+                                SearchSettings(settings: settings, startHex: startHex, endHex: endHex)
+                            }, label: {
                                 ZStack {
 #if !os(visionOS)
                                     RoundedRectangle(cornerRadius: 10)
@@ -151,15 +142,55 @@ struct NewSettings: View {
                                                 }.cornerRadius(5)
                                             })
                                         
-                                        Text("Search Engine: \(searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped)")
+                                        Text("Search Engine")
                                         
                                         Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .padding(.trailing, 10)
                                         
                                     }.foregroundStyle(settingsButtonTextColor)
                                         .padding(10)
                                 }.frame(height: 50)
-                            }.padding([.leading, .trailing, .bottom], 10)
+                            }).padding([.leading, .trailing, .bottom], 10)
                             
+                            
+                            /*
+                            NavigationLink(destination: {
+                                
+                            }, label: {
+                                ZStack {
+#if !os(visionOS)
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.white)
+                                    #endif
+                                    
+                                    HStack {
+                                        Image("Keyboard Icon")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .padding(2)
+                                            .background(content: {
+                                                ZStack {
+                                                    LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                    
+                                                    Color.black.opacity(0.3)
+                                                        .ignoresSafeArea()
+                                                }.cornerRadius(5)
+                                            })
+                                        
+                                        Text("Keyboard Shortcuts")
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .padding(.trailing, 10)
+                                        
+                                    }.foregroundStyle(settingsButtonTextColor)
+                                        .padding(10)
+                                }.frame(height: 50)
+                            }).padding([.leading, .trailing, .bottom], 10)
+                            */
                             
                             NavigationLink(destination: {
                                 Favicons(settings: settings, startHex: startHex, endHex: endHex)
@@ -185,6 +216,42 @@ struct NewSettings: View {
                                             })
                                         
                                         Text("Favicons")
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .padding(.trailing, 10)
+                                        
+                                    }.foregroundStyle(settingsButtonTextColor)
+                                        .padding(10)
+                                }.frame(height: 50)
+                            }).padding([.leading, .trailing, .bottom], 10)
+                            
+                            
+                            NavigationLink(destination: {
+                                AISettings(settings: settings, startHex: startHex, endHex: endHex)
+                            }, label: {
+                                ZStack {
+#if !os(visionOS)
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.white)
+                                    #endif
+                                    
+                                    HStack {
+                                        Image("Keyboard Icon")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .padding(2)
+                                            .background(content: {
+                                                ZStack {
+                                                    LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                    
+                                                    Color.black.opacity(0.3)
+                                                        .ignoresSafeArea()
+                                                }.cornerRadius(5)
+                                            })
+                                        
+                                        Text("AI Features")
                                         
                                         Spacer()
                                         

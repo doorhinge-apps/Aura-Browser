@@ -30,8 +30,6 @@ struct CustomToggleSlider: View {
                     .frame(width: hoveringToggle ? 50: 40, height: 40)
                     .cornerRadius(100)
                     .offset(x: (toggle ? 12.5: -12.5) + (hoveringToggle ? 5: 0) * (toggle ? -1: 1))
-                    //.hoverEffect(.lift)
-                
             }
         }
         .animation(.default)

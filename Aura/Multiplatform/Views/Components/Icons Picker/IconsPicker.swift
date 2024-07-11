@@ -58,11 +58,6 @@ struct IconsPicker: View {
                         .onAppear() {
                             searchFocused = true
                         }
-                    /*.onChange(of: searchFocused, {
-                     if !searchFocused {
-                     searchFocused = true
-                     }
-                     })*/
 #if !os(macOS)
                         .textInputAutocapitalization(.never)
                     #endif
@@ -250,24 +245,5 @@ struct IconsPicker: View {
             }
         }
     }
-    
-    func saveSpaceData() {
-            let savingTodayTabs = navigationState.webViews.compactMap { $0.url?.absoluteString }
-            let savingPinnedTabs = pinnedNavigationState.webViews.compactMap { $0.url?.absoluteString }
-            let savingFavoriteTabs = favoritesNavigationState.webViews.compactMap { $0.url?.absoluteString }
-            
-            if !spaces.isEmpty {
-                spaces[selectedSpaceIndex].tabUrls = savingTodayTabs
-            }
-            else {
-                modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: savingTodayTabs))
-            }
-            
-            do {
-                try modelContext.save()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
 }
 

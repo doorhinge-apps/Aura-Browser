@@ -46,5 +46,7 @@ class SettingsVariables: ObservableObject {
     
     @AppStorage("preloadingWebsites") var preloadingWebsites = 15.0
     
+    @AppStorage("hideBrowseForMe") var hideBrowseForMe = false
+    
     @StateObject var shortcuts = KeyboardShortcuts()
 }

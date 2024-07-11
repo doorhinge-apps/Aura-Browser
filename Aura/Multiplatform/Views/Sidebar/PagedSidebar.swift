@@ -85,6 +85,8 @@ struct PagedSidebar: View {
     @State var scrollLimiter = false
     @State var scrollPositionOffset = 0.0
     
+    @State var appearOffset = 0.0
+    
     @State private var scrollPosition: CGPoint = .zero
     @State private var horizontalScrollPosition: CGPoint = .zero
     
@@ -120,6 +122,8 @@ struct PagedSidebar: View {
                             }
                         }.scrollTargetLayout()
                             .onAppear() {
+                                appearOffset = scrollPositionOffset
+                                
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                     proxy.scrollTo(selectedSpaceIndex.description)
                                 }
@@ -155,45 +159,6 @@ struct PagedSidebar: View {
                                     currentSpace = String(spaces[Int(abs(horizontalScrollPosition.x) / 300)].spaceName)
                                     
                                     selectedSpaceIndex = Int((abs(horizontalScrollPosition.x)/100).rounded(.toNearestOrAwayFromZero) * 100 / 300)
-                                    
-                                    /*Task {
-                                        await navigationState.webViews.removeAll()
-                                        await pinnedNavigationState.webViews.removeAll()
-                                        await favoritesNavigationState.webViews.removeAll()
-                                    }
-                                    
-                                    Task {
-                                        await navigationState.selectedWebView = nil
-                                        await navigationState.currentURL = nil
-                                        
-                                        await pinnedNavigationState.selectedWebView = nil
-                                        await pinnedNavigationState.currentURL = nil
-                                        
-                                        await favoritesNavigationState.selectedWebView = nil
-                                        await favoritesNavigationState.currentURL = nil
-                                    }
-                                    
-                                    Task {
-                                        for addSpace in spaces {
-                                            if addSpace.spaceName == currentSpace {
-                                                for tab in addSpace.tabUrls {
-                                                    await navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
-                                                }
-                                                for tab in addSpace.pinnedUrls {
-                                                    await pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
-                                                }
-                                                for tab in addSpace.favoritesUrls {
-                                                    await favoritesNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                    Task {
-                                        await navigationState.selectedWebView = nil
-                                        await pinnedNavigationState.selectedWebView = nil
-                                        await favoritesNavigationState.selectedWebView = nil
-                                    }*/
                                     
                                     scrollLimiter = true
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

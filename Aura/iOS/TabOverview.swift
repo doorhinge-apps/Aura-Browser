@@ -132,16 +132,18 @@ struct TabOverview: View {
                                                     Label("Copy URL", systemImage: "link")
                                                 })
                                                 
-                                                Button(action: {
-                                                    if browseForMeTabs.contains(tab.id.description) {
-                                                        browseForMeTabs.removeAll { $0 == tab.id.description }
-                                                    }
-                                                    else {
-                                                        browseForMeTabs.append(tab.id.description)
-                                                    }
-                                                }, label: {
-                                                    Label(browseForMeTabs.contains(tab.id.description) ? "Disable Browse for Me": "Browse for Me", systemImage: "face.smiling")
-                                                })
+                                                if !settings.hideBrowseForMe {
+                                                    Button(action: {
+                                                        if browseForMeTabs.contains(tab.id.description) {
+                                                            browseForMeTabs.removeAll { $0 == tab.id.description }
+                                                        }
+                                                        else {
+                                                            browseForMeTabs.append(tab.id.description)
+                                                        }
+                                                    }, label: {
+                                                        Label(browseForMeTabs.contains(tab.id.description) ? "Disable Browse for Me": "Browse for Me", systemImage: "face.smiling")
+                                                    })
+                                                }
                                             })
                                             .onDrag {
                                                 self.draggedTab = tab

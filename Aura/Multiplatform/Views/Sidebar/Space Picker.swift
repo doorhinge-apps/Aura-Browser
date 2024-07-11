@@ -97,7 +97,7 @@ struct SpacePicker: View {
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
                         #endif
-                            .help(spaces[space].spaceName/*.dropLast(5)*/)
+                            .help(spaces[space].spaceName)
                             .onHover(perform: { hovering in
                                 if hovering {
                                     if space <= spaces.count - 1 {

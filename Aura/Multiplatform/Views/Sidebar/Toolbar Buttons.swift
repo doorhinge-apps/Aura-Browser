@@ -138,113 +138,7 @@ struct ToolbarButtonsView: View {
                             })
                     }).buttonStyle(.plain)
                 
-                    
-                
-                
-                /*
-                Button(action: {
-                    changeColorSheet.toggle()
-                }, label: {
-                    ZStack {
-                        Color(.white)
-                            .opacity(hoverPaintbrush ? 0.5: 0.0)
-                        
-                        Image(systemName: hoverPaintbrush ? "paintbrush.pointed.fill": "paintbrush.pointed")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                            .foregroundStyle(textColor)
-                            .opacity(hoverPaintbrush ? 1.0: 0.5)
-                        
-                    }.frame(width: 40, height: 40).cornerRadius(7)
-                        .hoverEffect(.lift)
-                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
-                        .onHover(perform: { hovering in
-                            if hovering {
-                                hoverPaintbrush = true
-                            }
-                            else {
-                                hoverPaintbrush = false
-                            }
-                        })
-                }).keyboardShortcut("e", modifiers: .command)
-                    .popover(isPresented: $changeColorSheet, content: {
-                        VStack(spacing: 20) {
-                            LinearGradient(gradient: Gradient(colors: [startColor, endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                                .frame(width: 200, height: 200)
-                                .cornerRadius(10)
-                                .ignoresSafeArea()
-                                .offset(y: -10)
-                            
-                            VStack {
-                                ColorPicker("Start Color", selection: $startColor)
-                                    .onChange(of: startColor) { newValue in
-                                        //saveColor(color: newValue, key: "startColorHex")
-                                        
-                                        let uiColor1 = UIColor(newValue)
-                                        let hexString1 = uiColor1.toHex()
-                                        
-                                        spaces[selectedSpaceIndex].startHex = hexString1 ?? "858585"
-                                    }
-                                
-                                ColorPicker("End Color", selection: $endColor)
-                                    .onChange(of: endColor) { newValue in
-                                        //saveColor(color: newValue, key: "endColorHex")
-                                        
-                                        let uiColor2 = UIColor(newValue)
-                                        let hexString2 = uiColor2.toHex()
-                                        
-                                        spaces[selectedSpaceIndex].endHex = hexString2 ?? "ADADAD"
-                                    }
-                                
-                                ColorPicker("Text Color", selection: $textColor)
-                                    .onChange(of: textColor) { newValue in
-                                        saveColor(color: newValue, key: "textColorHex")
-                                    }
-                            }
-                            .padding()
-                            
-                            Spacer()
-                        }
-                        
-                    })
-                
-                
-                
-                Button(action: {
-                    //navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https://www.google.com")!))
-                    tabBarShown.toggle()
-                    commandBarShown = false
-                }, label: {
-                    ZStack {
-                        Color(.white)
-                            .opacity(hoverNewTab ? 0.5: 0.0)
-                        
-                        Image(systemName: "plus")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20)
-                            .foregroundStyle(textColor)
-                            .opacity(hoverNewTab ? 1.0: 0.5)
-                        
-                    }.frame(width: 40, height: 40).cornerRadius(7)
-                        .hoverEffect(.lift)
-                        .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
-                        .onHover(perform: { hovering in
-                            if hovering {
-                                hoverNewTab = true
-                            }
-                            else {
-                                hoverNewTab = false
-                            }
-                        })
-                }).keyboardShortcut("t", modifiers: .command)
-                */
-                //if UIDevice.current.userInterfaceIdiom != .mac {
-                //if ProcessInfo.processInfo.isMacCatalystApp {
                     Spacer()
-                //}
-                
                 
                 
                 Button(action: {
@@ -370,14 +264,7 @@ struct ToolbarButtonsView: View {
                 }
                 #endif
                 }
-        }/*.onAppear {
-            if let savedStartColor = getColor(forKey: "startColorHex") {
-                startColor = savedStartColor
-            }
-            if let savedEndColor = getColor(forKey: "endColorHex") {
-                endColor = savedEndColor
-            }
-        }*/
+        }
         .onAppear() {
             let spaceForColor = spaces[selectedSpaceIndex]
             startColor = Color(hex: spaceForColor.startHex)

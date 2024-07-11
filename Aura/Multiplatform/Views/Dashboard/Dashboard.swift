@@ -114,17 +114,6 @@ struct Dashboard: View {
                                             Label("Remove", systemImage: "trash")
                                                 .tint(.red)
                                         })
-                                        /*Menu {
-                                            Button(action: {
-                                                dashboardWidgets.remove(at: index)
-                                            }, label: {
-                                                Label("Remove", systemImage: "trash")
-                                                    .tint(.red)
-                                            })
-                                        } label: {
-                                            Text("Remove")
-                                        }*/
-
                                     }, preview: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 10)
