@@ -94,6 +94,8 @@ struct SidebarSpaceParameter: View {
     @State private var currentHoverIndex: Int?
     @State var reorderingTabs: [String] = []
     
+    @State var pdfData: Data? = nil
+    
     var body: some View {
             VStack {
                 // Sidebar Searchbar
@@ -117,18 +119,28 @@ struct SidebarSpaceParameter: View {
                         HStack(spacing: 0) {
                             if manager.selectedWebView != nil {
                                 if manager.selectedWebView?.webView.hasOnlySecureContent ?? false {
-                                    Image(systemName: "lock.fill")
-                                        .foregroundStyle(Color.white)
-                                        .font(.system(.body, design: .rounded, weight: .semibold))
-                                        .padding(.horizontal, 5)
-                                        .padding(.leading, 5)
+                                    Menu(content: {
+                                        Label("Secure", systemImage: "lock.fill")
+                                    }, label: {
+                                        Image(systemName: "lock.fill")
+                                            .foregroundStyle(Color.white)
+                                            .font(.system(.body, design: .rounded, weight: .semibold))
+                                            .hoverEffect(.highlight)
+                                            .padding(.horizontal, 5)
+                                            .padding(.leading, 5)
+                                    })
                                 }
                                 else {
-                                    Image(systemName: "lock.open.fill")
-                                        .foregroundStyle(Color.red)
-                                        .font(.system(.body, design: .rounded, weight: .semibold))
-                                        .padding(.horizontal, 5)
-                                        .padding(.leading, 5)
+                                    Menu(content: {
+                                        Label("Not Secure", systemImage: "lock.open.fill")
+                                    }, label: {
+                                        Image(systemName: "lock.open.fill")
+                                            .foregroundStyle(Color.red)
+                                            .font(.system(.body, design: .rounded, weight: .semibold))
+                                            .hoverEffect(.highlight)
+                                            .padding(.horizontal, 5)
+                                            .padding(.leading, 5)
+                                    })
                                 }
                             }
                             
@@ -141,6 +153,18 @@ struct SidebarSpaceParameter: View {
                             
                             if manager.selectedWebView != nil {
                                 Menu(content: {
+                                    ControlGroup {
+                                        Button(action: {
+                                            UIPasteboard.general.string = manager.selectedWebView?.webView.url?.absoluteString ?? ""
+                                        }, label: {
+                                            Label("Copy Url", systemImage: "link")
+                                        })
+                                        
+                                        ShareLink(item: manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, label: {
+                                            Label("Share", systemImage: "square.and.arrow.up")
+                                        })
+                                    }
+                                    
                                     Button(action: {
                                         withAnimation {
                                             variables.boostEditor.toggle()
@@ -149,11 +173,46 @@ struct SidebarSpaceParameter: View {
                                         Label("Boost Editor", systemImage: "paintbrush")
                                     })
                                     
-                                    Button(action: {
-                                        UIPasteboard.general.string = manager.selectedWebView?.webView.url?.absoluteString ?? ""
+                                    /*Button(action: {
+                                        
                                     }, label: {
-                                        Label("Copy Url", systemImage: "link")
+                                        Label("Save as PDF", systemImage: "arrow.down.document")
                                     })
+                                    
+                                    ShareLink(items: pdfData!, label: {
+                                        Label("Save as PDF", systemImage: "arrow.down.document")
+                                    })
+                                    .onAppear() {
+                                        let pdfConfiguration = WKPDFConfiguration()
+                                        
+                                                pdfConfiguration.rect = CGRect(x: 0, y: 0, width: manager.selectedWebView?.webView.scrollView.contentSize.width, height: manager.selectedWebView?.webView.scrollView.contentSize.height)
+
+                                        manager.selectedWebView?.webView.createPDF(configuration: pdfConfiguration) { result in
+                                                    switch result {
+                                                    case .success(let data):
+                                                        guard let downloadsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
+                                                            return
+                                                        }
+
+                                                        pdfData = data
+                                                        
+                                                        do {
+                                                            let savePath = downloadsDirectory.appendingPathComponent(manager.selectedWebView?.webView?.url?.absoluteString ?? "PDF").appendingPathExtension("pdf")
+                                                            
+                                                            try data.write(to: savePath)
+
+                                                            print("Successfully created and saved PDF at \(savePath)")
+                                                        } catch let error {
+                                                            print("Could not save pdf due to \(error.localizedDescription)")
+                                                        }
+
+                                                    case .failure(let failure):
+                                                        print(failure.localizedDescription)
+                                                    }
+                                                }
+                                    }*/
+                                    
+                                    
                                 }, label: {
                                     Image(systemName: "switch.2")
                                         .foregroundStyle(Color.white)
