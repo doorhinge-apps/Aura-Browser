@@ -160,9 +160,11 @@ struct SidebarSpaceParameter: View {
                                             Label("Copy Url", systemImage: "link")
                                         })
                                         
+                                        #if !os(visionOS)
                                         ShareLink(item: manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, label: {
                                             Label("Share", systemImage: "square.and.arrow.up")
                                         })
+                                        #endif
                                     }
                                     
                                     Button(action: {
