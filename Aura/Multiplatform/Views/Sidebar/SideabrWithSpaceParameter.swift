@@ -139,17 +139,30 @@ struct SidebarSpaceParameter: View {
                             
                             Spacer()
                             
-                            Button(action: {
-                                
-                            }, label: {
-                                Image(systemName: "switch.2")
-                                    .foregroundStyle(Color.white)
-                                    .font(.system(.body, design: .rounded, weight: .bold))
-                                    .hoverEffect(.highlight)
-                                    .padding(.horizontal, 5)
-                                    .padding(.trailing, 5)
-                                
-                            })
+                            if manager.selectedWebView != nil {
+                                Menu(content: {
+                                    Button(action: {
+                                        withAnimation {
+                                            variables.boostEditor.toggle()
+                                        }
+                                    }, label: {
+                                        Label("Boost Editor", systemImage: "paintbrush")
+                                    })
+                                    
+                                    Button(action: {
+                                        UIPasteboard.general.string = manager.selectedWebView?.webView.url?.absoluteString ?? ""
+                                    }, label: {
+                                        Label("Copy Url", systemImage: "link")
+                                    })
+                                }, label: {
+                                    Image(systemName: "switch.2")
+                                        .foregroundStyle(Color.white)
+                                        .font(.system(.body, design: .rounded, weight: .bold))
+                                        .hoverEffect(.highlight)
+                                        .padding(.horizontal, 5)
+                                        .padding(.trailing, 5)
+                                })
+                            }
                         }
                     }
                     .frame(height: 50)
@@ -676,14 +689,6 @@ struct SidebarSpaceParameter: View {
                                         changeColorSheet.toggle()
                                     }, label: {
                                         Label("Edit Theme", systemImage: "paintpalette")
-                                    })
-                                    
-                                    Button(action: {
-                                        withAnimation {
-                                            variables.boostEditor.toggle()
-                                        }
-                                    }, label: {
-                                        Label("Boost Editor", systemImage: "paintbrush")
                                     })
                                     
                                     Button(action: {
