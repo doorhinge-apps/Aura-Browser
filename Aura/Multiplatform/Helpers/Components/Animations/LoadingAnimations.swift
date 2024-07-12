@@ -2,7 +2,7 @@
 //  LoadingAnimations.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 25/4/24.
+//  Created by Reyna Myers on 25/4/24.
 //
 
 import SwiftUI

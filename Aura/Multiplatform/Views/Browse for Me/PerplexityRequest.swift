@@ -2,7 +2,7 @@
 //  PerplexityRequest.swift
 //  Perplexity API
 //
-//  Created by Caedmon Myers on 20/6/24.
+//  Created by Reyna Myers on 20/6/24.
 //
 
 import SwiftUI

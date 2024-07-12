@@ -2,7 +2,7 @@
 //  LoginView.swift
 //  iPad browser
 //
-//  Created by Caedmon Myers on 9/9/23.
+//  Created by Reyna Myers on 9/9/23.
 //
 
 import SwiftUI

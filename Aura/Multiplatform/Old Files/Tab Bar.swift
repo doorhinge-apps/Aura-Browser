@@ -2,7 +2,7 @@
 //  Tab Bar.swift
 //  iPad browser
 //
-//  Created by Caedmon Myers on 11/4/24.
+//  Created by Reyna Myers on 11/4/24.
 //
 
 import SwiftUI

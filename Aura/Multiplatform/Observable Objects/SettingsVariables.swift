@@ -2,7 +2,7 @@
 //  SettingsVariables.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 8/7/24.
+//  Created by Reyna Myers on 8/7/24.
 //
 
 import SwiftUI

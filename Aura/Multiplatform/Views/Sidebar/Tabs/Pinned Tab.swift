@@ -2,7 +2,7 @@
 //  Pinned Tab.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 28/4/24.
+//  Created by Reyna Myers on 28/4/24.
 //
 
 import SwiftUI

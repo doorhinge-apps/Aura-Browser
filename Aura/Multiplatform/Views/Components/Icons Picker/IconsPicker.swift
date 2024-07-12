@@ -2,7 +2,7 @@
 //  IconsPicker.swift
 //  iPad browser
 //
-//  Created by Caedmon Myers on 17/4/24.
+//  Created by Reyna Myers on 17/4/24.
 //
 
 import SwiftUI

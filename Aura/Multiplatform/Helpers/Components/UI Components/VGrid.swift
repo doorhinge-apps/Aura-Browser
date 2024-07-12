@@ -2,7 +2,7 @@
 //  VGrid.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 22/6/24.
+//  Created by Reyna Myers on 22/6/24.
 //
 
 
@@ -10,7 +10,7 @@
 //  VGrid.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 21/6/24.
+//  Created by Reyna Myers on 21/6/24.
 //
 
 import SwiftUI

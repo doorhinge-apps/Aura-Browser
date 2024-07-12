@@ -2,7 +2,7 @@
 //  TestingView.swift
 //  iPad browser
 //
-//  Created by Caedmon Myers on 8/9/23.
+//  Created by Reyna Myers on 8/9/23.
 //
 
 import SwiftUI

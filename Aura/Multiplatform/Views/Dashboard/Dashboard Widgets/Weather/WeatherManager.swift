@@ -2,7 +2,7 @@
 //  WeatherManager.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 13/5/24.
+//  Created by Reyna Myers on 13/5/24.
 //
 
 import Foundation

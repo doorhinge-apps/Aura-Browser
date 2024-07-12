@@ -2,7 +2,7 @@
 //  ThreeDots.swift
 //  iPad browser
 //
-//  Created by Caedmon Myers on 19/4/24.
+//  Created by Reyna Myers on 19/4/24.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  Dashboard.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 12/5/24.
+//  Created by Reyna Myers on 12/5/24.
 //
 import SwiftUI
 

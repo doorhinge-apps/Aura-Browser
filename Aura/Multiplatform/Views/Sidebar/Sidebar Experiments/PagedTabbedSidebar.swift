@@ -2,13 +2,13 @@
 //  PagedSidebar.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 24/5/24.
+//  Created by Reyna Myers on 24/5/24.
 //
 
 import SwiftUI
 import SwiftData
 import WebKit
-
+/*
 struct PagedTabbedSidebar: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
@@ -109,4 +109,4 @@ struct PagedTabbedSidebar: View {
         .offset(x: hideSidebar ? -320: 0)
         
     }
-}
+}*/

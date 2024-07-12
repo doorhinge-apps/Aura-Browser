@@ -2,7 +2,7 @@
 //  InnerShadow.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 10/7/24.
+//  Created by Reyna Myers on 10/7/24.
 //
 
 import SwiftUI

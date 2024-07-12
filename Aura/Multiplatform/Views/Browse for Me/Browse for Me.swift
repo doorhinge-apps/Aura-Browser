@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Perplexity API
 //
-//  Created by Caedmon Myers on 19/6/24.
+//  Created by Reyna Myers on 19/6/24.
 //
 
 import SwiftUI

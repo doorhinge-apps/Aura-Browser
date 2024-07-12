@@ -2,7 +2,7 @@
 //  WaveTextEffect.swift
 //  Aura
 //
-//  Created by Caedmon Myers on 22/6/24.
+//  Created by Reyna Myers on 22/6/24.
 //
 
 import SwiftUI
