@@ -11,10 +11,14 @@ import WebViewSwiftUI
 
 
 class SettingsVariables: ObservableObject {
+    @StateObject var shortcuts = KeyboardShortcuts()
+    
     @AppStorage("email") var email = ""
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = false
+    
     @AppStorage("favoritesStyle") var favoritesStyle = false
+    
     @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = true
     
     @AppStorage("showBorder") var showBorder = true
@@ -42,11 +46,14 @@ class SettingsVariables: ObservableObject {
     @AppStorage("launchAnimation") var launchAnimation = true
     
     @AppStorage("apiKey") var apiKey = ""
+    
     @AppStorage("openAPIKey") var openAPIKey = ""
     
     @AppStorage("preloadingWebsites") var preloadingWebsites = 15.0
     
     @AppStorage("hideBrowseForMe") var hideBrowseForMe = false
     
-    @StateObject var shortcuts = KeyboardShortcuts()
+    @AppStorage("historyEnabled") var historyEnabled = false
+    
+    @AppStorage("hideMagnifyingGlassSearch") var hideMagnifyingGlassSearch = false
 }

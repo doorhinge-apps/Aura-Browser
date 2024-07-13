@@ -20,6 +20,8 @@ class ObservableVariables: ObservableObject {
     
     @StateObject var settings = SettingsVariables()
     
+    @StateObject var history = HistoryObservable()
+    
     @Published var navigationStateArray = [] as [NavigationState]
     @Published var pinnedNavigationStateArray = [] as [NavigationState]
     @Published var favoritesNavigationStateArray = [] as [NavigationState]

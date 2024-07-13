@@ -107,6 +107,26 @@ struct SearchSettings: View {
                         
                         Spacer()
                     }
+                    
+                    
+                    HStack {
+                        Text("Hide Search Emoji")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                        
+                        CustomToggleSlider(toggle: $settings.hideMagnifyingGlassSearch, startHex: startHex, endHex: endHex)
+                            .scaleEffect(0.75)
+                    }.padding(20)
+                    
+                    HStack {
+                        Text("Hide the magnifying glass emoji that appears in Google Search tab names for some reason. (this setting will be applied to new tabs now and existing tabs when the app is closed and reopened)")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
                 }
             }
             .onAppear {

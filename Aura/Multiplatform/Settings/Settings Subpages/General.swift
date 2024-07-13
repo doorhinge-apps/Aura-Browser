@@ -324,6 +324,29 @@ struct General: View {
                         Spacer()
                     }
                     
+                    Divider()
+                    
+                    
+                    HStack {
+                        Text("Save History")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                        
+                        CustomToggleSlider(toggle: $settings.historyEnabled, startHex: startHex, endHex: endHex)
+                            .scaleEffect(0.75)
+                    }.padding(20)
+                    
+                    
+                    HStack {
+                        Text("Disable to prevent saving search history.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
                     Spacer()
                         .frame(height: 20)
                 }

@@ -419,8 +419,8 @@
 			isa = PBXGroup;
 			children = (
 				C1BD7D2A2BDE04AB0078D7B3 /* Views */,
-				C1BD7D172BDDF65F0078D7B3 /* Data Models */,
 				B9DDD2652C3C2AC600BC0CA4 /* Observable Objects */,
+				C1BD7D172BDDF65F0078D7B3 /* Data Models */,
 				B9D47D052C276C8E0059BE46 /* Settings */,
 				C1BD7D1C2BDDF8DF0078D7B3 /* Helpers */,
 				B98256CA2BD2E2F800F997F5 /* Extensions */,
@@ -684,6 +684,7 @@
 				B943038A2C2D32E400D787A4 /* Components */,
 				C1BD7D1D2BDDF8F10078D7B3 /* Suggestions */,
 				B91BCF672C3F43AF0031581D /* No Internet */,
+				B91BCF422C3F1B660031581D /* Random Functions */,
 				B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */,
 				B97724FD2C0094BB00A39E3A /* ScrollViewOffset.swift */,
 				B943038D2C2D330000D787A4 /* Haptics.swift */,
@@ -692,7 +693,6 @@
 				B98256D32BD2E78100F997F5 /* Themes.swift */,
 				B9C537FB2BEF37C700C7DB2B /* CustomSwitch.swift */,
 				B94CA9282C28EB9A00AD3921 /* MotionManager.swift */,
-				B91BCF422C3F1B660031581D /* Random Functions */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -710,12 +710,12 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
-				B94ADB252C3EFBE80054899D /* Components */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
 				B90294522C3337A5005DB4CA /* WebViews */,
 				B9272D302C240D5800B014D8 /* Browse for Me */,
-				B9798BFC2BF0B92A0012D98E /* Dashboard */,
 				C1BD7D312BDE05550078D7B3 /* LoginView */,
+				B9798BFC2BF0B92A0012D98E /* Dashboard */,
+				B94ADB252C3EFBE80054899D /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";

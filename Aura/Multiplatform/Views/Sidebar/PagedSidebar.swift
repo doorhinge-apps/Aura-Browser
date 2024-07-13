@@ -108,7 +108,7 @@ struct PagedSidebar: View {
                         HStack(spacing: 0) {
                             ForEach(0..<spaces.count, id:\.self) { space in
                                 VStack {
-                                    SidebarSpaceParameter(currentSelectedSpaceIndex: space, selectedTabLocation: $selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
+                                    SidebarSpaceParameter(currentSelectedSpaceIndex: space, geo: geo)
                                         .environmentObject(variables)
                                         .id(space.description)
                                         .padding(.horizontal, 10)

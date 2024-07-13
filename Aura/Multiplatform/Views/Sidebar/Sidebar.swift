@@ -22,20 +22,6 @@ struct SidebarSpaceParameter: View {
     @EnvironmentObject var manager: WebsiteManager
     @EnvironmentObject var settings: SettingsVariables
     
-    @Binding var selectedTabLocation: String
-    
-    //@ObservedObject var navigationState: NavigationState
-    //@ObservedObject var pinnedNavigationState: NavigationState
-    //@ObservedObject var favoritesNavigationState: NavigationState
-    @Binding var hideSidebar: Bool
-    @Binding var searchInSidebar: String
-    @Binding var commandBarShown: Bool
-    @Binding var tabBarShown: Bool
-    @Binding var startColor: Color
-    @Binding var endColor: Color
-    @Binding var textColor: Color
-    @Binding var hoverSpace: String
-    @Binding var showSettings: Bool
     var geo: GeometryProxy
     
     @State var temporaryRenamingString = ""
@@ -102,12 +88,12 @@ struct SidebarSpaceParameter: View {
                 // Sidebar Searchbar
                 Button {
                     if manager.selectedWebView != nil {
-                        tabBarShown = false
-                        commandBarShown.toggle()
+                        variables.tabBarShown = false
+                        variables.commandBarShown.toggle()
                     }
                     else {
-                        commandBarShown.toggle()
-                        tabBarShown = false
+                        variables.commandBarShown.toggle()
+                        variables.tabBarShown = false
                     }
                 } label: {
                     ZStack {
@@ -145,7 +131,7 @@ struct SidebarSpaceParameter: View {
                                 }
                             }
                             
-                            Text(unformatURL(url: searchInSidebar))
+                            Text(unformatURL(url: variables.searchInSidebar))
                                 .padding(.leading, 5)
                                 .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                                 .lineLimit(1)
@@ -381,7 +367,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])
                                 
-                                searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])
+                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])
                             }
                             .onDrag {
                                 draggedItem = spaces[selectedSpaceIndex].favoritesUrls[tabIndex]
@@ -600,7 +586,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])
                                 
-                                searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])
+                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])
                             }
                             .onDrag {
                                 draggedItem = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
@@ -658,7 +644,7 @@ struct SidebarSpaceParameter: View {
                             ZStack {
                                 TextField("", text: $temporaryRenameSpace)
                                     .textFieldStyle(.plain)
-                                    .foregroundStyle(textColor)
+                                    .foregroundStyle(variables.textColor)
                                     .opacity(renameIsFocused ? 0.75: 0)
                                     .tint(Color.white)
                                     .font(.system(.caption, design: .rounded, weight: .medium))
@@ -693,7 +679,7 @@ struct SidebarSpaceParameter: View {
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 20, height: 20)
-                                        .foregroundStyle(textColor)
+                                        .foregroundStyle(variables.textColor)
                                         .opacity(spaceIconHover ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
@@ -712,7 +698,7 @@ struct SidebarSpaceParameter: View {
                             }.buttonStyle(.plain)
                             
                             Text(!renameIsFocused ? spaces[currentSelectedSpaceIndex].spaceName: temporaryRenameSpace)
-                                .foregroundStyle(textColor)
+                                .foregroundStyle(variables.textColor)
                                 .opacity(!renameIsFocused ? 1.0: 0)
                                 .font(.system(.caption, design: .rounded, weight: .medium))
                                 .onTapGesture {
@@ -739,7 +725,7 @@ struct SidebarSpaceParameter: View {
                                 #endif
                             }
                             
-                            textColor
+                            variables.textColor
                                 .opacity(0.5)
                                 .frame(height: 1)
                                 .cornerRadius(10)
@@ -775,7 +761,7 @@ struct SidebarSpaceParameter: View {
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 15, height: 25)
-                                        .foregroundStyle(textColor)
+                                        .foregroundStyle(variables.textColor)
                                         .opacity(hoverPaintbrush ? 1.0: 0.5)
                                     
                                 }.frame(width: 40, height: 40).cornerRadius(7)
@@ -800,31 +786,31 @@ struct SidebarSpaceParameter: View {
                     .popover(isPresented: $changeColorSheet, attachmentAnchor: .point(.trailing), arrowEdge: .leading, content: {
                         VStack(spacing: 20) {
                             ZStack {
-                                LinearGradient(gradient: Gradient(colors: [startColor, endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
+                                LinearGradient(gradient: Gradient(colors: [variables.startColor, variables.endColor]), startPoint: .bottomLeading, endPoint: .topTrailing)
                                     .frame(width: 250, height: 200)
                                     .ignoresSafeArea()
                                     .offset(x: -10)
                             }.frame(width: 200, height: 200)
                             
                             VStack {
-                                ColorPicker("Start Color", selection: $startColor)
-                                    .onChange(of: startColor) { oldValue, newValue in
+                                ColorPicker("Start Color", selection: $variables.startColor)
+                                    .onChange(of: variables.startColor) { oldValue, newValue in
                                         let uiColor1 = UIColor(newValue)
                                         let hexString1 = uiColor1.toHex()
                                         
                                         spaces[selectedSpaceIndex].startHex = hexString1 ?? "858585"
                                     }
                                 
-                                ColorPicker("End Color", selection: $endColor)
-                                    .onChange(of: endColor) { oldValue, newValue in
+                                ColorPicker("End Color", selection: $variables.endColor)
+                                    .onChange(of: variables.endColor) { oldValue, newValue in
                                         let uiColor2 = UIColor(newValue)
                                         let hexString2 = uiColor2.toHex()
                                         
                                         spaces[selectedSpaceIndex].endHex = hexString2 ?? "ADADAD"
                                     }
                                 
-                                ColorPicker("Text Color", selection: $textColor)
-                                    .onChange(of: textColor) { oldValue, newValue in
+                                ColorPicker("Text Color", selection: $variables.textColor)
+                                    .onChange(of: variables.textColor) { oldValue, newValue in
                                         saveColor(color: newValue, key: "textColorHex")
                                     }
                             }
@@ -837,7 +823,7 @@ struct SidebarSpaceParameter: View {
                     .popover(isPresented: $presentIcons, attachmentAnchor: .point(.trailing), arrowEdge: .leading) {
                         ZStack {
 #if !os(visionOS)
-                            LinearGradient(colors: [startColor, endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                            LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                 .opacity(1.0)
                             
                             if currentSelectedSpaceIndex < spaces.count {
@@ -865,7 +851,7 @@ struct SidebarSpaceParameter: View {
                     }
                     
                     Button {
-                        tabBarShown.toggle()
+                        variables.tabBarShown.toggle()
                     } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
@@ -873,7 +859,7 @@ struct SidebarSpaceParameter: View {
                                 .frame(height: 50)
                             HStack {
                                 Label("New Tab", systemImage: "plus")
-                                    .foregroundStyle(textColor)
+                                    .foregroundStyle(variables.textColor)
                                     .font(.system(.headline, design: .rounded, weight: .bold))
                                     .padding(.leading, 10)
                                 
@@ -891,13 +877,13 @@ struct SidebarSpaceParameter: View {
                     }.buttonStyle(.plain)
                     .onAppear() {
                         if settings.commandBarOnLaunch {
-                            tabBarShown = true
+                            variables.tabBarShown = true
                         }
                     }
                     .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
                             let newUrl = manager.selectedWebView?.webView.url?.absoluteString ?? ""
-                            searchInSidebar = newUrl
+                            variables.searchInSidebar = newUrl
                             
                             if manager.selectedWebView != nil {
                                 if manager.selectedTabLocation == .pinned {
@@ -1118,7 +1104,7 @@ struct SidebarSpaceParameter: View {
                                 //                            }
                                 manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
                                 
-                                searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
+                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
                             }
                             .onDrag {
                                 draggedItem = spaces[selectedSpaceIndex].tabUrls[tabIndex]

@@ -85,7 +85,7 @@ class WebsiteManager: ObservableObject {
                     return
                 }
                 DispatchQueue.main.async {
-                    self.linksWithTitles[urlString] = title
+                    self.linksWithTitles[urlString] = title.replacingOccurrences(of: UserDefaults.standard.bool(forKey: "hideMagnifyingGlassSearch") ? "🔎": "", with: "")
                 }
             }
         }
@@ -103,7 +103,7 @@ class WebsiteManager: ObservableObject {
                         return
                     }
                     DispatchQueue.main.async {
-                        self.linksWithTitles[urlString] = title
+                        self.linksWithTitles[urlString] = title.replacingOccurrences(of: UserDefaults.standard.bool(forKey: "hideMagnifyingGlassSearch") ? "🔎": "", with: "")
                     }
                 }
             }
@@ -151,4 +151,6 @@ class WebsiteManager: ObservableObject {
     @Published var selectedTabLocation: TabLocations = .tabs
     @Published var hoverTabLocation: TabLocations = .tabs
     @Published var dragTabLocation: TabLocations = .tabs
+    
+    @StateObject var history = HistoryObservable()
 }

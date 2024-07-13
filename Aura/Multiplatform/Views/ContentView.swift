@@ -143,8 +143,15 @@ struct ContentView: View {
                                                     }
                                                 }
                                                 
-                                                if variables.auraTab == "dashboard" && variables.selectedTabLocation == "" {
+                                                if variables.auraTab == "dashboard" && manager.selectedWebView == nil {
                                                     Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
+                                                        .cornerRadius(10)
+                                                        .clipped()
+                                                }
+                                                
+                                                if variables.auraTab == "history" && manager.selectedWebView == nil {
+                                                    HistoryView()
+                                                        .environmentObject(variables.history)
                                                         .cornerRadius(10)
                                                         .clipped()
                                                 }
@@ -602,7 +609,8 @@ struct ContentView: View {
                                                             .padding([.top, .horizontal], 5)
                                                         
                                                         //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                                        SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                        
+                                                        SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, geo: geo)
                                                         
                                                         HStack {
                                                             Button {
@@ -727,7 +735,7 @@ struct ContentView: View {
                                                                     ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
                                                                         .padding([.top, .horizontal], 5)
                                                                     
-                                                                    SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, selectedTabLocation: $variables.selectedTabLocation, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, geo: geo)
+                                                                    SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, geo: geo)
                                                                     
                                                                     HStack {
                                                                         Button {
@@ -885,11 +893,15 @@ struct ContentView: View {
                                         }
                                         else {
                                             if variables.newTabSearch.contains("dashboard") {
-                                                variables.navigationState.selectedWebView = nil
-                                                variables.pinnedNavigationState.selectedWebView = nil
-                                                variables.favoritesNavigationState.selectedWebView = nil
+                                                manager.selectedWebView = nil
                                                 
                                                 variables.auraTab = "dashboard"
+                                                variables.selectedTabLocation = ""
+                                            }
+                                            if variables.newTabSearch.contains("history") {
+                                                manager.selectedWebView = nil
+                                                
+                                                variables.auraTab = "history"
                                                 variables.selectedTabLocation = ""
                                             }
                                             if variables.newTabSearch.contains("settings") {
@@ -897,13 +909,13 @@ struct ContentView: View {
                                             }
                                         }
                                         
+                                        manager.fetchTitlesIfNeeded(for: [formatURL(from: variables.newTabSearch)])
+                                        
+                                        variables.history.addItem(HistoryItem(title: manager.linksWithTitles[formatURL(from: variables.newTabSearch)], websiteURL: formatURL(from: variables.newTabSearch), date: Date.now))
+                                        
                                         variables.tabBarShown = false
                                         variables.commandBarSearchSubmitted = false
                                         variables.newTabSearch = ""
-                                        
-                                        print("Saving Tabs")
-                                        
-                                        //saveSpaceData()
                                     }
                                 //}
                             }

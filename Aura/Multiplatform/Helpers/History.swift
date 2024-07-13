@@ -9,7 +9,9 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct HistoryView: View {
-    @ObservedObject var historyObservable = HistoryObservable()
+    //@ObservedObject var historyObservable = HistoryObservable()
+    
+    @EnvironmentObject var historyObservable: HistoryObservable
     
     @AppStorage("faviconShape") var faviconShape = "circle"
     
@@ -67,5 +69,7 @@ struct HistoryView: View {
 }
 
 #Preview {
+    let envObject = HistoryObservable()
     HistoryView()
+    .environmentObject(envObject)
 }
