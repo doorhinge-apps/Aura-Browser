@@ -845,7 +845,10 @@ struct ContentView: View {
                                 else {
                                     //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
                                     
-                                    spaces[selectedSpaceIndex].tabUrls.append(url.absoluteString)
+                                    //spaces[selectedSpaceIndex].tabUrls.append(url.absoluteString)
+                                    manager.selectOrAddWebView(urlString: url.absoluteString)
+                                    manager.selectedTabLocation = .tabs
+                                    manager.selectedTabIndex = 0
                                 }
                                 print("Url:")
                                 print(url)
@@ -890,6 +893,16 @@ struct ContentView: View {
                                                 print(error.localizedDescription)
                                             }
                                             print(spaces[selectedSpaceIndex].tabUrls)
+                                            
+                                            let tabIndex = 0
+                                            
+                                            manager.selectedTabIndex = tabIndex
+                                            
+                                            manager.selectedTabLocation = .tabs
+                                            
+                                            manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                            
+                                            variables.searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].tabUrls[tabIndex])
                                         }
                                         else {
                                             if variables.newTabSearch.contains("dashboard") {
@@ -911,7 +924,10 @@ struct ContentView: View {
                                         
                                         manager.fetchTitlesIfNeeded(for: [formatURL(from: variables.newTabSearch)])
                                         
-                                        variables.history.addItem(HistoryItem(title: manager.linksWithTitles[formatURL(from: variables.newTabSearch)], websiteURL: formatURL(from: variables.newTabSearch), date: Date.now))
+                                        let temporaryNewTabSearch = variables.newTabSearch
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            variables.history.addItem(HistoryItem(title: manager.linksWithTitles[formatURL(from: temporaryNewTabSearch)], websiteURL: formatURL(from: temporaryNewTabSearch), date: Date.now))
+                                        }
                                         
                                         variables.tabBarShown = false
                                         variables.commandBarSearchSubmitted = false

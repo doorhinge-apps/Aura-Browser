@@ -12,6 +12,7 @@ struct HistoryView: View {
     //@ObservedObject var historyObservable = HistoryObservable()
     
     @EnvironmentObject var historyObservable: HistoryObservable
+    @EnvironmentObject var manager: WebsiteManager
     
     @AppStorage("faviconShape") var faviconShape = "circle"
     
@@ -43,9 +44,24 @@ struct HistoryView: View {
                                 Text(title)
                                     .font(.headline)
                             }
+                            
                             Text(item.websiteURL)
                                 .font(.subheadline)
+                                .onAppear() {
+                                    manager.fetchTitle(for: item.websiteURL) { result in
+                                        if let index = historyObservable.items.firstIndex(where: { $0.id == item.id }) {
+                                            historyObservable.items[index].title = result
+                                        }
+                                    }
+
+                                }
                         }
+                        .onTapGesture {
+                            manager.selectOrAddWebView(urlString: item.websiteURL)
+                            manager.selectedTabLocation = .tabs
+                            manager.selectedTabIndex = 0
+                        }
+                        
                         Spacer()
                         Text(item.date.formatted())
                             .font(.caption)

@@ -110,6 +110,29 @@ class WebsiteManager: ObservableObject {
         }
     }
     
+    func fetchTitle(for urlString: String, completion: @escaping (String?) -> Void) {
+        // Check if the URL is valid
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+        
+        let metadataProvider = LPMetadataProvider() // Create a new instance for each URL
+        metadataProvider.startFetchingMetadata(for: url) { (metadata, error) in
+            guard error == nil, let title = metadata?.title else {
+                print("Failed to fetch metadata for url: \(urlString)")
+                completion(nil)
+                return
+            }
+            
+            let formattedTitle = title.replacingOccurrences(of: UserDefaults.standard.bool(forKey: "hideMagnifyingGlassSearch") ? "🔎": "", with: "")
+            DispatchQueue.main.async {
+                completion(formattedTitle)
+            }
+        }
+    }
+
+    
     private func loadContentBlockingRules(_ webView: WKWebView) {
         //guard let filePath = Bundle.main.path(forResource: "Adaway", ofType: "json") else {
         guard let filePath = Bundle.main.path(forResource: "adblock", ofType: "json") else {

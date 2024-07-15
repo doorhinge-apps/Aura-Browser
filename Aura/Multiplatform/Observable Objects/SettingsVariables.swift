@@ -56,4 +56,7 @@ class SettingsVariables: ObservableObject {
     @AppStorage("historyEnabled") var historyEnabled = false
     
     @AppStorage("hideMagnifyingGlassSearch") var hideMagnifyingGlassSearch = false
+    
+    @AppStorage("pinnedTabCornerRadius") var favoriteTabCornerRadius = 20.0
+    @AppStorage("pinnedTabBorderWidth") var favoriteTabBorderWidth = 2.0
 }

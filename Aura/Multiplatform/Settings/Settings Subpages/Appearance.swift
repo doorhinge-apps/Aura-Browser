@@ -143,7 +143,7 @@ struct UISettings: View {
                     Spacer()
                         .frame(height: 30)
                     
-                    Picker("Favicon Shape", selection: $selectedAppearance) {
+                    Picker("", selection: $selectedAppearance) {
                         Text("Automatic").tag("automatic")
                         Text("Light").tag("light")
                         Text("Dark").tag("dark")
@@ -189,6 +189,60 @@ struct UISettings: View {
                     
                     HStack {
                         Text("Show the border around the screen.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text("Favorite Tab Corner Radius")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                    }.padding(20)
+                    
+                    HStack {
+                        Text(Int(settings.favoriteTabCornerRadius).description)
+                            .foregroundStyle(Color.white)
+                        
+                        Slider(value: $settings.favoriteTabCornerRadius, in: 0...50, step: 1)
+                    }
+                    .padding(.horizontal, 10)
+                    
+                    HStack {
+                        Text("Change the corner radius of the favorite tab capsules in the sidebar.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Divider()
+                    
+                    
+                    HStack {
+                        Text("Favorite Tab Border Width")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                    }.padding(20)
+                    
+                    HStack {
+                        Text(Int(settings.favoriteTabBorderWidth).description)
+                            .foregroundStyle(Color.white)
+                        
+                        Slider(value: $settings.favoriteTabBorderWidth, in: 0...10, step: 1)
+                        
+                    }
+                    .padding(.horizontal, 10)
+                    
+                    HStack {
+                        Text("Change the width of the favorite tabs borders.")
                             .foregroundStyle(Color.white)
                             .padding(.leading, 20)
                         

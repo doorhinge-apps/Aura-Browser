@@ -236,8 +236,8 @@ struct SidebarSpaceParameter: View {
                                     Color.white.opacity(0.0)
                                 }
                                 
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color.white.opacity(0.5), lineWidth: 2)
+                                RoundedRectangle(cornerRadius: settings.favoriteTabCornerRadius)
+                                    .stroke(Color.white.opacity(0.5), lineWidth: settings.favoriteTabBorderWidth)
                                     .fill(Color(.white).opacity((tabIndex == manager.selectedTabIndex && manager.selectedTabLocation == .favorites) ? 0.5 : (manager.hoverTabIndex == tabIndex && manager.hoverTabLocation == .favorites) ? 0.2: 0.0001))
                                     .frame(height: 75)
                                 
