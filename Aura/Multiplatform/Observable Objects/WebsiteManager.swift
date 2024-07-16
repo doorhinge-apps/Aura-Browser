@@ -38,16 +38,6 @@ class WebsiteManager: ObservableObject {
             newWebViewStore.loadIfNeeded(url: URL(string: urlString) ?? URL(string: "https://example.com")!)
             webViewStores[urlString] = newWebViewStore
             
-            //selectedWebView?.webView.uiDelegate?.webView(<#T##WKWebView#>, contextMenuConfigurationForElement: <#T##WKContextMenuElementInfo#>, completionHandler: <#T##(UIContextMenuConfiguration?) -> Void#>)
-            
-//            var menuBuilder = UIMenuBuilder.self
-            
-//            selectedWebView?.webView.buildMenu { builder in
-//                
-//            }
-            
-            //var menuBuilder = UIMenuBuilder
-            
             let customMenu = UIMenu(title: "Custom Actions", image: nil, identifier: UIMenu.Identifier("com.yourapp.customMenu"), options: .displayInline, children: [
                 UIAction(title: "Custom Action 1", image: UIImage(systemName: "star"), handler: { _ in
                     // Handle custom action 1
@@ -58,6 +48,9 @@ class WebsiteManager: ObservableObject {
                     print("Custom action 2 tapped")
                 })
             ])
+            
+            // Add the refresh control
+            addRefreshControl(to: newWebViewStore.webView.scrollView)
             
             selectedWebView = newWebViewStore
             
@@ -70,6 +63,19 @@ class WebsiteManager: ObservableObject {
             webViewStores = Dictionary(webViewStores.keys.prefix(Int(UserDefaults.standard.double(forKey: "preloadingWebsites"))).map { ($0, webViewStores[$0]!) }, uniquingKeysWith: { first, _ in first })
         }
     }
+
+    func addRefreshControl(to scrollView: UIScrollView) {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(reloadWebView(_:)), for: .valueChanged)
+        //refreshControl.tintColor = UIColor.white
+        scrollView.addSubview(refreshControl)
+    }
+
+    @objc func reloadWebView(_ sender: UIRefreshControl) {
+        selectedWebView?.webView.reload()
+        sender.endRefreshing()
+    }
+
     
     
     @Published var linksWithTitles: [String: String] = [:]

@@ -17,17 +17,17 @@ struct CurrentWebView: View {
     
     var body: some View {
         if manager.selectedWebView != nil {
-            ScrollView(showsIndicators: false) {
+            //ScrollView(showsIndicators: false) {
                 BrowserView(webViewStore: manager.selectedWebView ?? WebViewStore())
                     .frame(width: webGeo.size.width, height: webGeo.size.height)
-            }
-            .refreshable {
-                withAnimation(.bouncy, {
-                    variables.reloadRotation += 360
-                })
-                
-                manager.selectedWebView?.reload()
-            }
+            //}
+//            .refreshable {
+//                withAnimation(.bouncy, {
+//                    variables.reloadRotation += 360
+//                })
+//                
+//                manager.selectedWebView?.reload()
+//            }
         }
     }
 }
