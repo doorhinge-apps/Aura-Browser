@@ -32,6 +32,7 @@
 		B9272D4A2C26AA7A00B014D8 /* WaveTextEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */; };
 		B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */; };
 		B92FDE1B2C2E642900B07703 /* TabLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92FDE1A2C2E642900B07703 /* TabLocations.swift */; };
+		B93440E62C486A8100D6BA35 /* HorizontalSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93440E52C486A8100D6BA35 /* HorizontalSidebar.swift */; };
 		B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */; };
 		B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
@@ -143,6 +144,7 @@
 		B9272D462C26A52300B014D8 /* VGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGrid.swift; sourceTree = "<group>"; };
 		B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveTextEffect.swift; sourceTree = "<group>"; };
 		B92FDE1A2C2E642900B07703 /* TabLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLocations.swift; sourceTree = "<group>"; };
+		B93440E52C486A8100D6BA35 /* HorizontalSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSidebar.swift; sourceTree = "<group>"; };
 		B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Launch Animation.swift"; sourceTree = "<group>"; };
 		B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButtonDisabled.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
@@ -333,6 +335,14 @@
 				B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */,
 			);
 			path = Animations;
+			sourceTree = "<group>";
+		};
+		B93440E42C486A6800D6BA35 /* Horizontal Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				B93440E52C486A8100D6BA35 /* HorizontalSidebar.swift */,
+			);
+			path = "Horizontal Sidebar";
 			sourceTree = "<group>";
 		};
 		B93AE92E2C2A3EA5003D0E88 /* Launch Screen */ = {
@@ -538,6 +548,7 @@
 			children = (
 				B97A807F2C3E5B6E00DB523B /* Sidebar.swift */,
 				B97725022C01292400A39E3A /* PagedSidebar.swift */,
+				B93440E42C486A6800D6BA35 /* Horizontal Sidebar */,
 				B93D9D2F2BDF35DA0002D01B /* Tabs */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B97725002C0116BA00A39E3A /* Space Picker.swift */,
@@ -840,6 +851,7 @@
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B961B7AF2C2BA59200F43EBF /* iOS Webview.swift in Sources */,
+				B93440E62C486A8100D6BA35 /* HorizontalSidebar.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
 				C1BD7D332BDE05690078D7B3 /* DefaultsStorage.swift in Sources */,
 				B94ADB242C3EE0780054899D /* InnerShadow.swift in Sources */,

@@ -59,4 +59,6 @@ class SettingsVariables: ObservableObject {
     
     @AppStorage("pinnedTabCornerRadius") var favoriteTabCornerRadius = 20.0
     @AppStorage("pinnedTabBorderWidth") var favoriteTabBorderWidth = 2.0
+    
+    @AppStorage("horizontalTabBar") var horizontalTabBar = false
 }

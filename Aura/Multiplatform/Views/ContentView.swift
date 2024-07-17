@@ -96,422 +96,471 @@ struct ContentView: View {
                                     Color.black.opacity(0.5)
                                 }
                                 
-                                
-                                HStack(spacing: 0) {
-                                    //if UIDevice.current.userInterfaceIdiom != .phone {
-                                        if settings.sidebarLeft {
+                                VStack(spacing: 0) {
+                                    if settings.horizontalTabBar {
+                                        HorizontalSidebar(currentSelectedSpaceIndex: manager.selectedSpaceIndex, geo: geo)
+                                            .frame(height: 100)
+                                    }
+                                    
+                                    HStack(spacing: 0) {
+                                        //if UIDevice.current.userInterfaceIdiom != .phone {
+                                        if settings.sidebarLeft && !settings.horizontalTabBar {
                                             if settings.showBorder {
                                                 ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
                                                     .disabled(true)
                                             }
                                             
-                                                PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
+                                            PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
                                         }
-                                    HStack {
-                                        GeometryReader { webGeo in
-                                            ZStack {
-                                                Color.white
-                                                    .opacity(0.4)
-                                                    .cornerRadius(10)
-                                                
-                                                
-                                                //MARK: - WebView
-                                                CurrentWebView(webGeo: webGeo)
-                                                    .overlay(content: {
-                                                        loadingIndicators(for: manager.selectedWebView?.webView.isLoading ?? false)
-                                                    })
-                                                
-                                                if !settings.swipeNavigationDisabled {
-                                                    if manager.selectedWebView != nil {
-                                                        HStack(alignment: .center, spacing: 0) {
-                                                            navigationButton(imageName: "arrow.left", action: {
-                                                                manager.selectedWebView?.webView.goBack()
-                                                            })
-                                                            .padding(.trailing, 30)
-                                                            
-                                                            Spacer()
-                                                                .frame(width: webGeo.size.width)
-                                                            
-                                                            navigationButton(imageName: "arrow.right", action: {
-                                                                manager.selectedWebView?.webView.goForward()
-                                                            })
-                                                            .padding(.leading, 30)
-                                                            
-                                                        }
-                                                        .frame(width: webGeo.size.width)
-                                                        .offset(x: variables.navigationOffset)
-                                                    }
-                                                }
-                                                
-                                                if variables.auraTab == "dashboard" && manager.selectedWebView == nil {
-                                                    Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
+                                        HStack {
+                                            GeometryReader { webGeo in
+                                                ZStack {
+                                                    Color.white
+                                                        .opacity(0.4)
                                                         .cornerRadius(10)
-                                                        .clipped()
-                                                }
-                                                
-                                                if variables.auraTab == "history" && manager.selectedWebView == nil {
-                                                    HistoryView()
-                                                        .environmentObject(variables.history)
-                                                        .cornerRadius(10)
-                                                        .clipped()
-                                                }
-                                                
-                                                Spacer()
-                                                    .frame(width: 20)
-                                                
-                                                HStack {
-                                                    Button {
-                                                        Task {
-                                                            hideSidebar.toggle()
-                                                        }
-                                                    } label: {
-                                                        
-                                                    }
-                                                    .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.toggleSidebar))
-                                                    .buttonStyle(.plain)
-                                                    
-                                                    Button {
-                                                        if manager.selectedWebView?.webView.canGoBack ?? true {
-                                                            withAnimation(.bouncy, {
-                                                                variables.backArrowPulse = true
-                                                            })
-                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                                                                withAnimation(.bouncy, {
-                                                                    variables.backArrowPulse = false
-                                                                })
-                                                            })
-                                                            
-                                                            manager.selectedWebView?.webView.goBack()
-                                                        }
-                                                    } label: {
-                                                        
-                                                    }
-                                                    .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.goBack))
-                                                    .buttonStyle(.plain)
-                                                    
-                                                    Button {
-                                                        if manager.selectedWebView?.webView.canGoForward ?? true {
-                                                            withAnimation(.bouncy, {
-                                                                variables.forwardArrowPulse = true
-                                                            })
-                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                                                                withAnimation(.bouncy, {
-                                                                    variables.forwardArrowPulse = false
-                                                                })
-                                                            })
-                                                            manager.selectedWebView?.webView.goForward()
-                                                        }
-                                                    } label: {
-                                                        
-                                                    }
-                                                    .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.goForward))
-                                                    .buttonStyle(.plain)
                                                     
                                                     
-                                                    Button {
-                                                        withAnimation(.bouncy, {
-                                                            variables.reloadRotation += 360
+                                                    //MARK: - WebView
+                                                    CurrentWebView(webGeo: webGeo)
+                                                        .overlay(content: {
+                                                            loadingIndicators(for: manager.selectedWebView?.webView.isLoading ?? false)
                                                         })
+                                                    
+                                                    if !settings.swipeNavigationDisabled {
+                                                        if manager.selectedWebView != nil {
+                                                            HStack(alignment: .center, spacing: 0) {
+                                                                navigationButton(imageName: "arrow.left", action: {
+                                                                    manager.selectedWebView?.webView.goBack()
+                                                                })
+                                                                .padding(.trailing, 30)
+                                                                
+                                                                Spacer()
+                                                                    .frame(width: webGeo.size.width)
+                                                                
+                                                                navigationButton(imageName: "arrow.right", action: {
+                                                                    manager.selectedWebView?.webView.goForward()
+                                                                })
+                                                                .padding(.leading, 30)
+                                                                
+                                                            }
+                                                            .frame(width: webGeo.size.width)
+                                                            .offset(x: variables.navigationOffset)
+                                                        }
+                                                    }
+                                                    
+                                                    if variables.auraTab == "dashboard" && manager.selectedWebView == nil {
+                                                        Dashboard(startHexSpace: spaces[selectedSpaceIndex].startHex, endHexSpace: spaces[selectedSpaceIndex].endHex)
+                                                            .cornerRadius(10)
+                                                            .clipped()
+                                                    }
+                                                    
+                                                    if variables.auraTab == "history" && manager.selectedWebView == nil {
+                                                        HistoryView()
+                                                            .environmentObject(variables.history)
+                                                            .cornerRadius(10)
+                                                            .clipped()
+                                                    }
+                                                    
+                                                    Spacer()
+                                                        .frame(width: 20)
+                                                    
+                                                    HStack {
+                                                        Button {
+                                                            Task {
+                                                                hideSidebar.toggle()
+                                                            }
+                                                        } label: {
+                                                            
+                                                        }
+                                                        .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.toggleSidebar))
+                                                        .buttonStyle(.plain)
                                                         
-                                                        variables.searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? variables.searchInSidebar
-                                                        manager.selectedWebView?.reload()
+                                                        Button {
+                                                            if manager.selectedWebView?.webView.canGoBack ?? true {
+                                                                withAnimation(.bouncy, {
+                                                                    variables.backArrowPulse = true
+                                                                })
+                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                                                    withAnimation(.bouncy, {
+                                                                        variables.backArrowPulse = false
+                                                                    })
+                                                                })
+                                                                
+                                                                manager.selectedWebView?.webView.goBack()
+                                                            }
+                                                        } label: {
+                                                            
+                                                        }
+                                                        .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.goBack))
+                                                        .buttonStyle(.plain)
                                                         
-                                                        if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
-                                                           let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
+                                                        Button {
+                                                            if manager.selectedWebView?.webView.canGoForward ?? true {
+                                                                withAnimation(.bouncy, {
+                                                                    variables.forwardArrowPulse = true
+                                                                })
+                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                                                                    withAnimation(.bouncy, {
+                                                                        variables.forwardArrowPulse = false
+                                                                    })
+                                                                })
+                                                                manager.selectedWebView?.webView.goForward()
+                                                            }
+                                                        } label: {
                                                             
-                                                            print("Text Changed:")
-                                                            print("Key: \(key)")
-                                                            print("Updated Text: \(currentBoostText)")
+                                                        }
+                                                        .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.goForward))
+                                                        .buttonStyle(.plain)
+                                                        
+                                                        Button {
+                                                            variables.showSettings = true
+                                                        } label: {
                                                             
-                                                            variables.boosts.keyValuePairs[key] = currentBoostText
+                                                        }
+                                                        .keyboardShortcut(",", modifiers: [.command])
+                                                        .buttonStyle(.plain)
+                                                        
+                                                        
+                                                        Button {
+                                                            withAnimation(.bouncy, {
+                                                                variables.reloadRotation += 360
+                                                            })
                                                             
-                                                            let jsToInjectCSS = """
+                                                            variables.searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? variables.searchInSidebar
+                                                            manager.selectedWebView?.reload()
+                                                            
+                                                            if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
+                                                               let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
+                                                                
+                                                                print("Text Changed:")
+                                                                print("Key: \(key)")
+                                                                print("Updated Text: \(currentBoostText)")
+                                                                
+                                                                variables.boosts.keyValuePairs[key] = currentBoostText
+                                                                
+                                                                let jsToInjectCSS = """
                                                     (function() {
                                                       var style = document.createElement('style');
                                                       style.textContent = `\(currentBoostText)`;
                                                       document.head.appendChild(style);
                                                     })();
                                                     """
-                                                            if !variables.boosts.disabledBoosts.contains(key) {
-                                                                manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
-                                                            }
-                                                        }
-                                                    } label: {
-                                                        
-                                                    }
-                                                    .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.reload))
-                                                    .buttonStyle(.plain)
-                                                    
-                                                    
-                                                    Button {
-                                                        if manager.selectedWebView != nil {
-                                                            variables.tabBarShown = false
-                                                            variables.commandBarShown.toggle()
-                                                        }
-                                                        else {
-                                                            variables.commandBarShown.toggle()
-                                                            variables.tabBarShown = false
-                                                        }
-                                                    } label: {
-                                                        
-                                                    }
-                                                    .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.commandBar))
-                                                    .buttonStyle(.plain)
-                                                    
-                                                    
-                                                    Button {
-                                                        if manager.selectedWebView != nil {
-                                                            switch manager.selectedTabLocation {
-                                                            case .pinned:
-                                                                pinnedRemoveTab(at: manager.selectedTabIndex)
-                                                            case .favorites:
-                                                                favoriteRemoveTab(at: manager.selectedTabIndex)
-                                                            case .tabs:
-                                                                removeTab(at: manager.selectedTabIndex)
-                                                            }
-                                                        }
-                                                    } label: {
-                                                        
-                                                    }.keyboardShortcut("w", modifiers: .command)
-                                                        .buttonStyle(.plain)
-                                                    
-                                                    
-                                                    Button {
-                                                        variables.tabBarShown.toggle()
-                                                        variables.commandBarShown = false
-                                                    } label: {
-                                                        
-                                                    }
-                                                    .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.newTab))
-                                                    .buttonStyle(.plain)
-                                                    
-                                                    
-                                                }
-                                            }
-                                            .gesture(
-                                                DragGesture()
-                                                    .onChanged { value in
-                                                        if !settings.swipeNavigationDisabled {
-                                                            let startLocation = value.startLocation.x
-                                                            let width = webGeo.size.width
-                                                            
-                                                            if startLocation < 100 || startLocation > (width - 100) {
-                                                                let newOffset = value.translation.width
-                                                                if abs(newOffset) <= 150 {
-                                                                    variables.navigationOffset = newOffset
-                                                                } else {
-                                                                    variables.navigationOffset = newOffset > 0 ? 150 : -150
+                                                                if !variables.boosts.disabledBoosts.contains(key) {
+                                                                    manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
                                                                 }
-                                                                if abs(newOffset) > 100 {
-                                                                    if !variables.arrowImpactOnce {
-                                                                        heavyHaptics()
+                                                            }
+                                                        } label: {
+                                                            
+                                                        }
+                                                        .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.reload))
+                                                        .buttonStyle(.plain)
+                                                        
+                                                        
+                                                        Button {
+                                                            if manager.selectedWebView != nil {
+                                                                variables.tabBarShown = false
+                                                                variables.commandBarShown.toggle()
+                                                            }
+                                                            else {
+                                                                variables.commandBarShown.toggle()
+                                                                variables.tabBarShown = false
+                                                            }
+                                                        } label: {
+                                                            
+                                                        }
+                                                        .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.commandBar))
+                                                        .buttonStyle(.plain)
+                                                        
+                                                        
+                                                        Button {
+                                                            if manager.selectedWebView != nil {
+                                                                switch manager.selectedTabLocation {
+                                                                case .pinned:
+                                                                    pinnedRemoveTab(at: manager.selectedTabIndex)
+                                                                case .favorites:
+                                                                    favoriteRemoveTab(at: manager.selectedTabIndex)
+                                                                case .tabs:
+                                                                    removeTab(at: manager.selectedTabIndex)
+                                                                }
+                                                            }
+                                                        } label: {
+                                                            
+                                                        }.keyboardShortcut("w", modifiers: .command)
+                                                            .buttonStyle(.plain)
+                                                        
+                                                        
+                                                        Button {
+                                                            variables.tabBarShown.toggle()
+                                                            variables.commandBarShown = false
+                                                        } label: {
+                                                            
+                                                        }
+                                                        .keyboardShortcut(variables.shortcuts.parseShortcut(shortcut: variables.shortcuts.newTab))
+                                                        .buttonStyle(.plain)
+                                                        
+                                                        
+                                                    }
+                                                }
+                                                .gesture(
+                                                    DragGesture()
+                                                        .onChanged { value in
+                                                            if !settings.swipeNavigationDisabled {
+                                                                let startLocation = value.startLocation.x
+                                                                let width = webGeo.size.width
+                                                                
+                                                                if startLocation < 100 || startLocation > (width - 100) {
+                                                                    let newOffset = value.translation.width
+                                                                    if abs(newOffset) <= 150 {
+                                                                        variables.navigationOffset = newOffset
+                                                                    } else {
+                                                                        variables.navigationOffset = newOffset > 0 ? 150 : -150
+                                                                    }
+                                                                    if abs(newOffset) > 100 {
+                                                                        if !variables.arrowImpactOnce {
+                                                                            heavyHaptics()
+                                                                            
+                                                                            variables.arrowImpactOnce = true
+                                                                        }
                                                                         
-                                                                        variables.arrowImpactOnce = true
+                                                                        withAnimation(.linear(duration: 0.3)) {
+                                                                            variables.navigationArrowColor = true
+                                                                        }
+                                                                    } else {
+                                                                        if variables.arrowImpactOnce {
+                                                                            heavyHaptics()
+                                                                            
+                                                                            variables.arrowImpactOnce = false
+                                                                        }
+                                                                        withAnimation(.linear(duration: 0.3)) {
+                                                                            variables.navigationArrowColor = false
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        .onEnded { value in
+                                                            if !settings.swipeNavigationDisabled {
+                                                                variables.arrowImpactOnce = false
+                                                                let startLocation = value.startLocation.x
+                                                                let width = webGeo.size.width
+                                                                
+                                                                if startLocation < 150 || startLocation > (width - 150) {
+                                                                    if variables.navigationOffset >= 100 {
+                                                                        goBack()
+                                                                    } else if variables.navigationOffset < -100 {
+                                                                        goForward()
                                                                     }
                                                                     
-                                                                    withAnimation(.linear(duration: 0.3)) {
-                                                                        variables.navigationArrowColor = true
-                                                                    }
-                                                                } else {
-                                                                    if variables.arrowImpactOnce {
-                                                                        heavyHaptics()
-                                                                        
-                                                                        variables.arrowImpactOnce = false
-                                                                    }
-                                                                    withAnimation(.linear(duration: 0.3)) {
+                                                                    withAnimation(.linear(duration: 0.25)) {
+                                                                        variables.navigationOffset = 0
                                                                         variables.navigationArrowColor = false
                                                                     }
                                                                 }
                                                             }
                                                         }
-                                                    }
-                                                    .onEnded { value in
-                                                        if !settings.swipeNavigationDisabled {
-                                                            variables.arrowImpactOnce = false
-                                                            let startLocation = value.startLocation.x
-                                                            let width = webGeo.size.width
-                                                            
-                                                            if startLocation < 150 || startLocation > (width - 150) {
-                                                                if variables.navigationOffset >= 100 {
-                                                                    goBack()
-                                                                } else if variables.navigationOffset < -100 {
-                                                                    goForward()
-                                                                }
-                                                                
-                                                                withAnimation(.linear(duration: 0.25)) {
-                                                                    variables.navigationOffset = 0
-                                                                    variables.navigationArrowColor = false
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                            )
-                                            .onChange(of: webGeo.size) {
-                                                variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
-                                                
-                                                variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
-                                                
-                                                variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                                )
+                                                .onChange(of: webGeo.size) {
+                                                    variables.navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                                    
+                                                    variables.pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                                    
+                                                    variables.favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: webGeo.size.width, height: webGeo.size.height))
+                                                }
                                             }
-                                        }
-                                        .cornerRadius(10)
-                                        .clipped()
-                                        .padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
-                                        
-                                        if variables.delayedBrowseForMe {
-                                            BrowseForMe(searchText: variables.browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
-                                                .frame(width: variables.isBrowseForMe ? 400: 0)
-                                                .cornerRadius(10)
-                                                .clipped()
-                                        }
-                                    }.onChange(of: variables.isBrowseForMe, {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                                            withAnimation(.linear, {
-                                                variables.delayedBrowseForMe = variables.isBrowseForMe
+                                            .cornerRadius(10)
+                                            .clipped()
+                                            .padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
+                                            
+                                            if variables.delayedBrowseForMe {
+                                                BrowseForMe(searchText: variables.browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
+                                                    .frame(width: variables.isBrowseForMe ? 400: 0)
+                                                    .cornerRadius(10)
+                                                    .clipped()
+                                            }
+                                        }.onChange(of: variables.isBrowseForMe, {
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                                                withAnimation(.linear, {
+                                                    variables.delayedBrowseForMe = variables.isBrowseForMe
+                                                })
                                             })
                                         })
-                                    })
-                                    
-                                    ZStack {
-                                        if variables.boostEditor {
-                                            HStack(spacing: 0) {
-                                                VStack {
-                                                    Color.black
-                                                        .opacity(0.0001)
-                                                    
-                                                    Color.gray
-                                                        .opacity(0.8)
-                                                        .cornerRadius(50)
-                                                        .frame(height: 30)
-                                                    
-                                                    Color.black
-                                                        .opacity(0.0001)
-                                                    
-                                                }.frame(width: 10)
-                                                    .padding(.trailing, 10)
-                                                    .gesture(
-                                                        DragGesture()
-                                                            .onChanged { value in
-                                                                let changedWidth = boostWindowWidth - value.translation.width
-                                                                
-                                                                boostWindowWidth = max(200, changedWidth)
-                                                            }
-                                                    )
-                                                
-                                                
-                                                VStack {
-                                                    ZStack {
-                                                        AIBoostGenerator(customInstructions: $customAIBoostInstructions, passedClasses: $currentPassedClassesString, text: $currentBoostText, generate: $generateAICSS)
-                                                            .opacity(0.0)
-                                                        
-                                                        CodeEditor(source: $currentBoostText, language: .css, theme: .agate, fontSize: .constant(15), flags: [.selectable, .editable, .smartIndent], indentStyle: .softTab(width: 4), autoPairs: ["{":"}", "'":"'", "(":")"], allowsUndo: true)
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        VStack {
-                                                            HStack {
-                                                                Spacer()
-                                                                
-                                                                Button {
-                                                                    aiGenerationPopover = true
-                                                                } label: {
-                                                                    Text("AI")
-                                                                }
-                                    #if !os(visionOS)
-                                                                .buttonStyle(PlusButtonStyle())
-                                                                #endif
-                                                                    .padding(15)
-                                                                
-                                                            }.popover(isPresented: $aiGenerationPopover, content: {
-                                                                ZStack {
-#if !os(visionOS)
-                                if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
-                                    LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                }
-                                else {
-                                    LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                }
-#endif
-                                
-                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
-                                    Color.black.opacity(0.5)
-                                }
-                                                                    
-                                                                    VStack {
-                                                                        Text("Options")
-                                                                        
-                                                                        TextField("Custom Instructions", text: $customAIBoostInstructions)
-                                                                        
-                                                                        Button(action: {
-                                                                            print("Style the boost like this \(customAIBoostInstructions). These are your items to style: \(parseHTMLAI(from: removeHeadContent(from: inspectCodeString)).joined(separator: "\n"))")
-                                                                            
-                                                                            currentPassedClassesString = parseHTMLAI(from: removeHeadContent(from: inspectCodeString)).joined(separator: "\n")
-                                                                            
-                                                                            print("currentPassedClassesString:")
-                                                                            print(currentPassedClassesString)
-                                                                            
-                                                                            generateAICSS.toggle()
-                                                                        }, label: {
-                                                                            Text("Generate CSS")
-                                                                        })
-#if !os(visionOS)
-                                                                        .buttonStyle(PlusButtonStyle())
-#endif
-                                                                    }
-                                                                }
-                                                            })
-                                                            
-                                                            Spacer()
-                                                        }
-                                                    }
-                                                    
-                                                    
-                                                    HStack {
+                                        
+                                        ZStack {
+                                            if variables.boostEditor {
+                                                HStack(spacing: 0) {
+                                                    VStack {
                                                         Color.black
                                                             .opacity(0.0001)
                                                         
                                                         Color.gray
                                                             .opacity(0.8)
                                                             .cornerRadius(50)
-                                                            .frame(width: 30)
+                                                            .frame(height: 30)
                                                         
                                                         Color.black
                                                             .opacity(0.0001)
                                                         
-                                                    }.frame(height: 10)
+                                                    }.frame(width: 10)
+                                                        .padding(.trailing, 10)
                                                         .gesture(
                                                             DragGesture()
                                                                 .onChanged { value in
-                                                                    let changedHeight = webInspectorHeight - value.translation.height
+                                                                    let changedWidth = boostWindowWidth - value.translation.width
                                                                     
-                                                                    webInspectorHeight = max(100, changedHeight)
+                                                                    boostWindowWidth = max(200, changedWidth)
                                                                 }
                                                         )
                                                     
-                                                    Picker("", selection: $inspectorTab) {
-                                                        Text("Inspector").tag(0)
-                                                        Text("Classes").tag(1)
-                                                    }
-                                                    .pickerStyle(.segmented)
                                                     
-                                                    if inspectorTab == 0 {
-                                                        CodeEditor(source: inspectCodeString, language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
-                                                            .frame(height: webInspectorHeight)
+                                                    VStack {
+                                                        ZStack {
+                                                            AIBoostGenerator(customInstructions: $customAIBoostInstructions, passedClasses: $currentPassedClassesString, text: $currentBoostText, generate: $generateAICSS)
+                                                                .opacity(0.0)
+                                                            
+                                                            CodeEditor(source: $currentBoostText, language: .css, theme: .agate, fontSize: .constant(15), flags: [.selectable, .editable, .smartIndent], indentStyle: .softTab(width: 4), autoPairs: ["{":"}", "'":"'", "(":")"], allowsUndo: true)
+                                                            
+                                                            
+                                                            
+                                                            
+                                                            VStack {
+                                                                HStack {
+                                                                    Spacer()
+                                                                    
+                                                                    Button {
+                                                                        aiGenerationPopover = true
+                                                                    } label: {
+                                                                        Text("AI")
+                                                                    }
+#if !os(visionOS)
+                                                                    .buttonStyle(PlusButtonStyle())
+#endif
+                                                                    .padding(15)
+                                                                    
+                                                                }.popover(isPresented: $aiGenerationPopover, content: {
+                                                                    ZStack {
+#if !os(visionOS)
+                                                                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                                                                            LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                                        }
+                                                                        else {
+                                                                            LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                                        }
+#endif
+                                                                        
+                                                                        if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                                                                            Color.black.opacity(0.5)
+                                                                        }
+                                                                        
+                                                                        VStack {
+                                                                            Text("Options")
+                                                                            
+                                                                            TextField("Custom Instructions", text: $customAIBoostInstructions)
+                                                                            
+                                                                            Button(action: {
+                                                                                print("Style the boost like this \(customAIBoostInstructions). These are your items to style: \(parseHTMLAI(from: removeHeadContent(from: inspectCodeString)).joined(separator: "\n"))")
+                                                                                
+                                                                                currentPassedClassesString = parseHTMLAI(from: removeHeadContent(from: inspectCodeString)).joined(separator: "\n")
+                                                                                
+                                                                                print("currentPassedClassesString:")
+                                                                                print(currentPassedClassesString)
+                                                                                
+                                                                                generateAICSS.toggle()
+                                                                            }, label: {
+                                                                                Text("Generate CSS")
+                                                                            })
+#if !os(visionOS)
+                                                                            .buttonStyle(PlusButtonStyle())
+#endif
+                                                                        }
+                                                                    }
+                                                                })
+                                                                
+                                                                Spacer()
+                                                            }
+                                                        }
+                                                        
+                                                        
+                                                        HStack {
+                                                            Color.black
+                                                                .opacity(0.0001)
+                                                            
+                                                            Color.gray
+                                                                .opacity(0.8)
+                                                                .cornerRadius(50)
+                                                                .frame(width: 30)
+                                                            
+                                                            Color.black
+                                                                .opacity(0.0001)
+                                                            
+                                                        }.frame(height: 10)
+                                                            .gesture(
+                                                                DragGesture()
+                                                                    .onChanged { value in
+                                                                        let changedHeight = webInspectorHeight - value.translation.height
+                                                                        
+                                                                        webInspectorHeight = max(100, changedHeight)
+                                                                    }
+                                                            )
+                                                        
+                                                        Picker("", selection: $inspectorTab) {
+                                                            Text("Inspector").tag(0)
+                                                            Text("Classes").tag(1)
+                                                        }
+                                                        .pickerStyle(.segmented)
+                                                        
+                                                        if inspectorTab == 0 {
+                                                            CodeEditor(source: inspectCodeString, language: .xml, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                                .frame(height: webInspectorHeight)
+                                                        }
+                                                        else if inspectorTab == 1 {
+                                                            CodeEditor(source: currentPassedClassesString, language: .markdown, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
+                                                                .frame(height: webInspectorHeight)
+                                                        }
                                                     }
-                                                    else if inspectorTab == 1 {
-                                                        CodeEditor(source: currentPassedClassesString, language: .markdown, theme: .agate, fontSize: .constant(15), flags: [.selectable, .smartIndent], indentStyle: .softTab(width: 4), allowsUndo: true)
-                                                            .frame(height: webInspectorHeight)
-                                                    }
+                                                    .scrollContentBackground(.hidden)
+                                                    .tint(.white)
+                                                    .frame(width: boostWindowWidth)
                                                 }
-                                                .scrollContentBackground(.hidden)
-                                                .tint(.white)
-                                                .frame(width: boostWindowWidth)
                                             }
                                         }
-                                    }
-                                    .onChange(of: currentBoostText) {
-                                        if !cssTimeout {
+                                        .onChange(of: currentBoostText) {
+                                            if !cssTimeout {
+                                                if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
+                                                   let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
+                                                    
+                                                    print("Text Changed:")
+                                                    print("Key: \(key)")
+                                                    print("Updated Text: \(currentBoostText)")
+                                                    
+                                                    variables.boosts.keyValuePairs[key] = currentBoostText
+                                                    
+                                                    let jsToInjectCSS = """
+                                        (function() {
+                                          var style = document.createElement('style');
+                                          style.textContent = `\(currentBoostText)`;
+                                          document.head.appendChild(style);
+                                        })();
+                                        """
+                                                    if !variables.boosts.disabledBoosts.contains(key) {
+                                                        manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                    }
+                                                }
+                                                
+                                                cssTimeout = true
+                                            }
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                                                cssTimeout = false
+                                            })
+                                        }
+                                        .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
+                                            
+                                            manager.selectedWebView?.getHTML { thing in
+                                                validateHTMLResult(thing: thing ?? "Error")
+                                            }
+                                            
+                                            currentBoostText = ""
+                                            
+                                            
                                             if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
                                                let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
                                                 
@@ -533,69 +582,32 @@ struct ContentView: View {
                                                 }
                                             }
                                             
-                                            cssTimeout = true
-                                        }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                                            cssTimeout = false
-                                        })
-                                    }
-                                    .onChange(of: manager.selectedWebView?.webView.url?.absoluteString ?? "") {
-                                        
-                                        manager.selectedWebView?.getHTML { thing in
-                                            validateHTMLResult(thing: thing ?? "Error")
                                         }
                                         
-                                        currentBoostText = ""
-                                        
-                                        
-                                            if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
-                                               let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
-                                                
-                                                print("Text Changed:")
-                                                print("Key: \(key)")
-                                                print("Updated Text: \(currentBoostText)")
-                                                
-                                                variables.boosts.keyValuePairs[key] = currentBoostText
-                                                
-                                                let jsToInjectCSS = """
-                                        (function() {
-                                          var style = document.createElement('style');
-                                          style.textContent = `\(currentBoostText)`;
-                                          document.head.appendChild(style);
-                                        })();
-                                        """
-                                                if !variables.boosts.disabledBoosts.contains(key) {
-                                                    manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
-                                                }
-                                            }
-                                        
-                                    }
-                                    
-                                    if true {
-                                        if !settings.sidebarLeft {
+                                        if !settings.sidebarLeft && !settings.horizontalTabBar {
                                             if settings.showBorder {
                                                 ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
                                                     .disabled(true)
                                             }
                                             
-                                                PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
+                                            PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
                                         }
                                     }
-                                }
-                                .padding(.trailing, settings.showBorder ? 10: 0)
-                                .padding(.vertical, settings.showBorder ? 25: 0)
-                                .onAppear {
-                                    if let savedStartColor = getColor(forKey: "startColorHex") {
-                                        variables.startColor = savedStartColor
+                                    .padding(.trailing, settings.showBorder ? 10: 0)
+                                    .padding(.vertical, settings.showBorder ? 25: 0)
+                                    .onAppear {
+                                        if let savedStartColor = getColor(forKey: "startColorHex") {
+                                            variables.startColor = savedStartColor
+                                        }
+                                        if let savedEndColor = getColor(forKey: "endColorHex") {
+                                            variables.endColor = savedEndColor
+                                        }
+                                        if let savedTextColor = getColor(forKey: "textColorHex") {
+                                            variables.textColor = savedTextColor
+                                        }
+                                        
+                                        variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
                                     }
-                                    if let savedEndColor = getColor(forKey: "endColorHex") {
-                                        variables.endColor = savedEndColor
-                                    }
-                                    if let savedTextColor = getColor(forKey: "textColorHex") {
-                                        variables.textColor = savedTextColor
-                                    }
-                                    
-                                    variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
                                 }
                                 
                                 if variables.tabBarShown || variables.commandBarShown || variables.tapSidebarShown {
