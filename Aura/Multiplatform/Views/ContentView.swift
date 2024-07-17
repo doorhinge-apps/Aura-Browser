@@ -215,6 +215,27 @@ struct ContentView: View {
                                                         
                                                         variables.searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? variables.searchInSidebar
                                                         manager.selectedWebView?.reload()
+                                                        
+                                                        if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
+                                                           let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
+                                                            
+                                                            print("Text Changed:")
+                                                            print("Key: \(key)")
+                                                            print("Updated Text: \(currentBoostText)")
+                                                            
+                                                            variables.boosts.keyValuePairs[key] = currentBoostText
+                                                            
+                                                            let jsToInjectCSS = """
+                                                    (function() {
+                                                      var style = document.createElement('style');
+                                                      style.textContent = `\(currentBoostText)`;
+                                                      document.head.appendChild(style);
+                                                    })();
+                                                    """
+                                                            if !variables.boosts.disabledBoosts.contains(key) {
+                                                                manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                            }
+                                                        }
                                                     } label: {
                                                         
                                                     }
@@ -507,7 +528,9 @@ struct ContentView: View {
                                           document.head.appendChild(style);
                                         })();
                                         """
-                                                manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                if !variables.boosts.disabledBoosts.contains(key) {
+                                                    manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                }
                                             }
                                             
                                             cssTimeout = true
@@ -524,25 +547,28 @@ struct ContentView: View {
                                         
                                         currentBoostText = ""
                                         
-                                        if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
-                                           let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first,
-                                           let savedCSS = variables.boosts.getValue(forKey: key) {
-                                            
-                                            print("URL Changed:")
-                                            print("Key: \(key)")
-                                            
-                                            currentBoostText = savedCSS
-                                            
-                                            // Inject saved CSS when the URL changes
-                                            let jsToInjectCSS = """
-                                            (function() {
-                                              var style = document.createElement('style');
-                                              style.textContent = `\(savedCSS)`;
-                                              document.head.appendChild(style);
-                                            })();
-                                            """
-                                            manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
-                                        }
+                                        
+                                            if let urlString = manager.selectedWebView?.webView.url?.absoluteString,
+                                               let key = unformatPlainURL(url: urlString).components(separatedBy: "/").first {
+                                                
+                                                print("Text Changed:")
+                                                print("Key: \(key)")
+                                                print("Updated Text: \(currentBoostText)")
+                                                
+                                                variables.boosts.keyValuePairs[key] = currentBoostText
+                                                
+                                                let jsToInjectCSS = """
+                                        (function() {
+                                          var style = document.createElement('style');
+                                          style.textContent = `\(currentBoostText)`;
+                                          document.head.appendChild(style);
+                                        })();
+                                        """
+                                                if !variables.boosts.disabledBoosts.contains(key) {
+                                                    manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                }
+                                            }
+                                        
                                     }
                                     
                                     if true {

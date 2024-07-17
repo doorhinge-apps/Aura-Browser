@@ -131,10 +131,19 @@ struct SidebarSpaceParameter: View {
                                 }
                             }
                             
-                            Text(unformatURL(url: variables.searchInSidebar))
-                                .padding(.leading, 5)
-                                .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
-                                .lineLimit(1)
+                            if unformatURL(url: variables.searchInSidebar).isEmpty {
+                                Text("Search or Enter URL")
+                                    .padding(.leading, 5)
+                                    .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                    .opacity(0.8)
+                                    .lineLimit(1)
+                            }
+                            else {
+                                Text(unformatURL(url: variables.searchInSidebar))
+                                    .padding(.leading, 5)
+                                    .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
+                                    .lineLimit(1)
+                            }
                             
                             Spacer()
                             
@@ -160,6 +169,23 @@ struct SidebarSpaceParameter: View {
                                         }
                                     }, label: {
                                         Label("Boost Editor", systemImage: "paintbrush")
+                                    })
+                                    
+                                    
+                                    Button(action: {
+                                        if variables.boosts.disabledBoosts.contains(unformatPlainURL(url: manager.selectedWebView?.webView.url?.absoluteString ?? "")) {
+                                            variables.boosts.enableBoost(unformatPlainURL(url: manager.selectedWebView?.webView.url?.absoluteString ?? ""))
+                                        }
+                                        else {
+                                            variables.boosts.disableBoost(unformatPlainURL(url: manager.selectedWebView?.webView.url?.absoluteString ?? ""))
+                                        }
+                                    }, label: {
+                                        if variables.boosts.disabledBoosts.contains(unformatPlainURL(url: manager.selectedWebView?.webView.url?.absoluteString ?? "")) {
+                                            Label("Enable Boost", systemImage: "paintbrush.pointed.fill")
+                                        }
+                                        else {
+                                            Label("Disable Boost", systemImage: "paintbrush.pointed")
+                                        }
                                     })
                                     
                                     /*Button(action: {

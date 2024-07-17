@@ -63,7 +63,7 @@ class WebsiteManager: ObservableObject {
             webViewStores = Dictionary(webViewStores.keys.prefix(Int(UserDefaults.standard.double(forKey: "preloadingWebsites"))).map { ($0, webViewStores[$0]!) }, uniquingKeysWith: { first, _ in first })
         }
     }
-
+    
     func addRefreshControl(to scrollView: UIScrollView) {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(reloadWebView(_:)), for: .valueChanged)

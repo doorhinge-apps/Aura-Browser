@@ -14,6 +14,12 @@ class BoostDataStorage: ObservableObject {
         }
     }
     
+    @Published var disabledBoosts: [String] {
+        didSet {
+            UserDefaults.standard.setValue(disabledBoosts, forKey: "disabledBoosts")
+        }
+    }
+    
     private let userDefaultsKey = "boostDataStorage"
     
     init() {
@@ -22,10 +28,20 @@ class BoostDataStorage: ObservableObject {
         } else {
             self.keyValuePairs = [:]
         }
+        
+        self.disabledBoosts = UserDefaults.standard.stringArray(forKey: "disabledBoosts") ?? []
     }
     
     private func saveToUserDefaults() {
         UserDefaults.standard.set(keyValuePairs, forKey: userDefaultsKey)
+    }
+    
+    func disableBoost(_ boost: String) {
+        disabledBoosts.append(boost)
+    }
+    
+    func enableBoost(_ boost: String) {
+        disabledBoosts = disabledBoosts.filter { $0 != boost }
     }
     
     func getValue(forKey key: String) -> String? {

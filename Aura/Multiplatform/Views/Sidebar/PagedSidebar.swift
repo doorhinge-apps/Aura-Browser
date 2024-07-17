@@ -129,7 +129,7 @@ struct PagedSidebar: View {
                                 }
                             }
                             .onChange(of: selectedSpaceIndex, {
-                                withAnimation {
+                                withAnimation(.linear(duration: 10.0)) {
                                     proxy.scrollTo(selectedSpaceIndex.description)
                                 }
                             })
@@ -206,20 +206,17 @@ struct PagedSidebar: View {
                         } else {
                             NewSettings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
                         }
-//#if !os(macOS)
-//                            .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: fullGeo.size.width - 200,
-//                                   height: UIDevice.current.userInterfaceIdiom == .phone ? .infinity: fullGeo.size.height - 100)
-//                        #else
-//                            .frame(width: fullGeo.size.width - 200,
-//                                   height: fullGeo.size.height - 100)
-//                        #endif
                     }
                     Spacer()
                     
                     SpacePicker(navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
                     
-                    Button(action: {
-                        modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                    Menu(content: {
+                        Button(action: {
+                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                        }, label: {
+                            Label("Add Space", systemImage: "square.badge.plus")
+                        })
                     }, label: {
                         ZStack {
 #if !os(visionOS)
@@ -238,7 +235,7 @@ struct PagedSidebar: View {
 #if !os(visionOS) && !os(macOS)
                             .hoverEffect(.lift)
                             .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-                        #endif
+#endif
                             .onHover(perform: { hovering in
                                 if hovering {
                                     variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
@@ -251,9 +248,6 @@ struct PagedSidebar: View {
                 }
             }
         }.ignoresSafeArea()
-            //.padding(.trailing, hideSidebar ? 0: 10)
-            //.padding(showBorder ? 0: 15)
-            //.padding(.top, showBorder ? 0: 10)
             .frame(width: hideSidebar ? 0: 300)
             .offset(x: hideSidebar ? 320 * (sidebarLeft ? -1: 1): 0)
             .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
