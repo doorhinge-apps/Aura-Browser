@@ -3,6 +3,17 @@ Aura browser is essentially a version of [Arc](https://arc.net) made for iPad. I
 
 Join the Aura browser subreddit for feedback, support, and other discussions about Aura: [reddit.com/r/aurabrowser](https://www.reddit.com/r/aurabrowser/)
 
+![IMG_268F6D6EE18B-1](https://github.com/user-attachments/assets/c2b137d1-e9e5-4f80-841c-5d794142f61c)
+Aura on iPadOS
+
+
+![Screenshot 2024-06-25 at 3 59 24 AM](https://github.com/user-attachments/assets/8027e5bf-0e1e-452d-9394-7bc8cec3c271)
+Aura on visionOS
+
+
+![IMG_0101](https://github.com/user-attachments/assets/ed15f742-ed57-4c20-a1bf-59d913bca5ac)
+Aura on iOS
+
 ### We are not affiliated with Arc or The Browser Company in any way.
 Aura is not an official iPad version of Arc. This means it does not support features like syncing with Arc.
 
