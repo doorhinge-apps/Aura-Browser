@@ -33,6 +33,7 @@
 		B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */; };
 		B92FDE1B2C2E642900B07703 /* TabLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92FDE1A2C2E642900B07703 /* TabLocations.swift */; };
 		B93440E62C486A8100D6BA35 /* HorizontalSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93440E52C486A8100D6BA35 /* HorizontalSidebar.swift */; };
+		B93440E82C48C7E300D6BA35 /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93440E72C48C7E300D6BA35 /* Sharing.swift */; };
 		B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */; };
 		B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
@@ -145,6 +146,7 @@
 		B9272D492C26AA7A00B014D8 /* WaveTextEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveTextEffect.swift; sourceTree = "<group>"; };
 		B92FDE1A2C2E642900B07703 /* TabLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLocations.swift; sourceTree = "<group>"; };
 		B93440E52C486A8100D6BA35 /* HorizontalSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSidebar.swift; sourceTree = "<group>"; };
+		B93440E72C48C7E300D6BA35 /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
 		B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Launch Animation.swift"; sourceTree = "<group>"; };
 		B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButtonDisabled.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				B97A807F2C3E5B6E00DB523B /* Sidebar.swift */,
+				B93440E72C48C7E300D6BA35 /* Sharing.swift */,
 				B97725022C01292400A39E3A /* PagedSidebar.swift */,
 				B93440E42C486A6800D6BA35 /* Horizontal Sidebar */,
 				B93D9D2F2BDF35DA0002D01B /* Tabs */,
@@ -860,6 +863,7 @@
 				B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */,
 				B94ADB1E2C3EDFB60054899D /* averageHex.swift in Sources */,
 				B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */,
+				B93440E82C48C7E300D6BA35 /* Sharing.swift in Sources */,
 				B9FA63BF2C3C2E2400D492E6 /* BoostDataStorage.swift in Sources */,
 				B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */,
 				B94303922C2D347C00D787A4 /* CurrentWebView.swift in Sources */,
@@ -1071,7 +1075,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1118,7 +1122,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 50;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

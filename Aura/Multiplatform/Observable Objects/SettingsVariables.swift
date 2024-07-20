@@ -61,4 +61,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("pinnedTabBorderWidth") var favoriteTabBorderWidth = 2.0
     
     @AppStorage("horizontalTabBar") var horizontalTabBar = false
+    
+    @AppStorage("shareButtonInTabBar") var shareButtonInTabBar = true
 }

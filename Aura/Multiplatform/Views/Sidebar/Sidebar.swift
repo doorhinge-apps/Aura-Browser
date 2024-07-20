@@ -83,6 +83,10 @@ struct SidebarSpaceParameter: View {
     
     @State var pdfData: Data? = nil
     
+    @State private var isShowingShareSheet = false
+    
+    @State var activityController: UIActivityViewController!
+    
     var body: some View {
             VStack {
                 // Sidebar Searchbar
@@ -147,7 +151,32 @@ struct SidebarSpaceParameter: View {
                             
                             Spacer()
                             
+                            
                             if manager.selectedWebView != nil {
+                                if settings.shareButtonInTabBar {
+                                    Button(action: {
+                                        let activityController = UIActivityViewController(activityItems: [manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, manager.selectedWebView?.webView ?? WKWebView()], applicationActivities: nil)
+                                        
+                                        if let popoverController = activityController.popoverPresentationController {
+                                            popoverController.sourceView = UIApplication.shared.windows.first?.rootViewController?.view
+                                            
+                                            popoverController.permittedArrowDirections = [.up]
+                                            popoverController.permittedArrowDirections = []
+                                        }
+                                        
+                                        UIApplication.shared.windows.first?.rootViewController!.present(activityController, animated: true, completion: nil)
+                                    }) {
+                                        Image(systemName: "square.and.arrow.up")
+                                            .foregroundStyle(Color.white)
+                                            .font(.system(.body, design: .rounded, weight: .bold))
+                                            .hoverEffect(.highlight)
+                                            //.padding(.horizontal, 5)
+                                            //.padding(.trailing, 5)
+                                            .padding(10)
+                                    }
+                                }
+                                
+                                
                                 Menu(content: {
                                     ControlGroup {
                                         Button(action: {
@@ -157,10 +186,37 @@ struct SidebarSpaceParameter: View {
                                         })
                                         
                                         #if !os(visionOS)
-                                        ShareLink(item: manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, label: {
+                                        Button(action: {
+                                            let activityController = UIActivityViewController(activityItems: [manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, manager.selectedWebView?.webView ?? WKWebView()], applicationActivities: nil)
+                                            
+                                            if let popoverController = activityController.popoverPresentationController {
+                                                popoverController.sourceView = UIApplication.shared.windows.first?.rootViewController?.view
+                                                
+                                                popoverController.permittedArrowDirections = [.up]
+                                                popoverController.permittedArrowDirections = []
+                                            }
+                                            
+                                            UIApplication.shared.windows.first?.rootViewController!.present(activityController, animated: true, completion: nil)
+                                        }) {
                                             Label("Share", systemImage: "square.and.arrow.up")
-                                        })
-                                        #endif
+                                        }
+#endif
+                                    }
+                                    
+                                    Button(action: {
+                                        let activityController = UIActivityViewController(activityItems: [manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, manager.selectedWebView?.webView ?? WKWebView()], applicationActivities: nil)
+                                        
+                                        if let popoverController = activityController.popoverPresentationController {
+                                            popoverController.sourceView = UIApplication.shared.windows.first?.rootViewController?.view
+                                            popoverController.sourceRect = CGRect(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY, width: 0, height: 0)
+                                            
+                                            popoverController.permittedArrowDirections = [.up]
+                                            popoverController.permittedArrowDirections = []
+                                        }
+                                        
+                                        UIApplication.shared.windows.first?.rootViewController!.present(activityController, animated: true, completion: nil)
+                                    }) {
+                                        Label("Add to Home Screen", systemImage: "plus.square")
                                     }
                                     
                                     Button(action: {
