@@ -34,6 +34,13 @@
 		B92FDE1B2C2E642900B07703 /* TabLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92FDE1A2C2E642900B07703 /* TabLocations.swift */; };
 		B93440E62C486A8100D6BA35 /* HorizontalSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93440E52C486A8100D6BA35 /* HorizontalSidebar.swift */; };
 		B93440E82C48C7E300D6BA35 /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93440E72C48C7E300D6BA35 /* Sharing.swift */; };
+		B934410A2C4C7FA300D6BA35 /* WebViewStore+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441082C4C7FA300D6BA35 /* WebViewStore+JS.swift */; };
+		B934410B2C4C7FA300D6BA35 /* WebViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441072C4C7FA300D6BA35 /* WebViewStore.swift */; };
+		B934410C2C4C7FA300D6BA35 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441062C4C7FA300D6BA35 /* Utils.swift */; };
+		B934410D2C4C7FA300D6BA35 /* WebViewStore+Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441092C4C7FA300D6BA35 /* WebViewStore+Links.swift */; };
+		B934410E2C4C7FA300D6BA35 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441052C4C7FA300D6BA35 /* BrowserView.swift */; };
+		B934410F2C4C7FA300D6BA35 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441042C4C7FA300D6BA35 /* ActivityIndicator.swift */; };
+		B93441112C4CD90700D6BA35 /* Menu Space Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441102C4CD90700D6BA35 /* Menu Space Picker.swift */; };
 		B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */; };
 		B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
@@ -72,9 +79,6 @@
 		B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C402BF28EEB0012D98E /* WeatherManager.swift */; };
 		B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C422BF28F100012D98E /* WeatherWidgetView.swift */; };
 		B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9798C442BF2908B0012D98E /* LocationManager.swift */; };
-		B97A80752C3E51AA00DB523B /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B97A80742C3E51AA00DB523B /* WebViewSwiftUI */; };
-		B97A80782C3E542800DB523B /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B97A80772C3E542800DB523B /* WebViewSwiftUI */; };
-		B97A807B2C3E544800DB523B /* WebViewSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B97A807A2C3E544800DB523B /* WebViewSwiftUI */; };
 		B97A80802C3E5B6E00DB523B /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97A807F2C3E5B6E00DB523B /* Sidebar.swift */; };
 		B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CB2BD2E33200F997F5 /* DropViewDelegate.swift */; };
 		B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98256CD2BD2E38D00F997F5 /* ThreeDots.swift */; };
@@ -147,6 +151,13 @@
 		B92FDE1A2C2E642900B07703 /* TabLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabLocations.swift; sourceTree = "<group>"; };
 		B93440E52C486A8100D6BA35 /* HorizontalSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSidebar.swift; sourceTree = "<group>"; };
 		B93440E72C48C7E300D6BA35 /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
+		B93441042C4C7FA300D6BA35 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		B93441052C4C7FA300D6BA35 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
+		B93441062C4C7FA300D6BA35 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		B93441072C4C7FA300D6BA35 /* WebViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewStore.swift; sourceTree = "<group>"; };
+		B93441082C4C7FA300D6BA35 /* WebViewStore+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewStore+JS.swift"; sourceTree = "<group>"; };
+		B93441092C4C7FA300D6BA35 /* WebViewStore+Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewStore+Links.swift"; sourceTree = "<group>"; };
+		B93441102C4CD90700D6BA35 /* Menu Space Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Menu Space Picker.swift"; sourceTree = "<group>"; };
 		B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Launch Animation.swift"; sourceTree = "<group>"; };
 		B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButtonDisabled.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
@@ -239,12 +250,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */,
-				B97A80752C3E51AA00DB523B /* WebViewSwiftUI in Frameworks */,
-				B97A80782C3E542800DB523B /* WebViewSwiftUI in Frameworks */,
 				B9272D4D2C26B59C00B014D8 /* YouTubePlayerKit in Frameworks */,
 				B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */,
 				B9AFB6642C3CF58C009B89C5 /* OpenAI in Frameworks */,
-				B97A807B2C3E544800DB523B /* WebViewSwiftUI in Frameworks */,
 				B92652E62C3C9E3700DA2241 /* CodeEditor in Frameworks */,
 				B9272D3B2C250A9D00B014D8 /* MarkdownUI in Frameworks */,
 			);
@@ -347,6 +355,19 @@
 			path = "Horizontal Sidebar";
 			sourceTree = "<group>";
 		};
+		B93441032C4C7F1300D6BA35 /* WebView SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				B93441042C4C7FA300D6BA35 /* ActivityIndicator.swift */,
+				B93441052C4C7FA300D6BA35 /* BrowserView.swift */,
+				B93441062C4C7FA300D6BA35 /* Utils.swift */,
+				B93441072C4C7FA300D6BA35 /* WebViewStore.swift */,
+				B93441082C4C7FA300D6BA35 /* WebViewStore+JS.swift */,
+				B93441092C4C7FA300D6BA35 /* WebViewStore+Links.swift */,
+			);
+			path = "WebView SwiftUI";
+			sourceTree = "<group>";
+		};
 		B93AE92E2C2A3EA5003D0E88 /* Launch Screen */ = {
 			isa = PBXGroup;
 			children = (
@@ -430,6 +451,7 @@
 		B94ADB1B2C3EDF0A0054899D /* Multiplatform */ = {
 			isa = PBXGroup;
 			children = (
+				B93441032C4C7F1300D6BA35 /* WebView SwiftUI */,
 				C1BD7D2A2BDE04AB0078D7B3 /* Views */,
 				B9DDD2652C3C2AC600BC0CA4 /* Observable Objects */,
 				C1BD7D172BDDF65F0078D7B3 /* Data Models */,
@@ -555,6 +577,7 @@
 				B93D9D2F2BDF35DA0002D01B /* Tabs */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
 				B97725002C0116BA00A39E3A /* Space Picker.swift */,
+				B93441102C4CD90700D6BA35 /* Menu Space Picker.swift */,
 				B97A807E2C3E5AA700DB523B /* Sidebar Experiments */,
 			);
 			path = Sidebar;
@@ -766,9 +789,6 @@
 				B9272D4C2C26B59C00B014D8 /* YouTubePlayerKit */,
 				B92652E52C3C9E3700DA2241 /* CodeEditor */,
 				B9AFB6632C3CF58C009B89C5 /* OpenAI */,
-				B97A80742C3E51AA00DB523B /* WebViewSwiftUI */,
-				B97A80772C3E542800DB523B /* WebViewSwiftUI */,
-				B97A807A2C3E544800DB523B /* WebViewSwiftUI */,
 			);
 			productName = "iPad browser";
 			productReference = B95B19E12AABBEE00013AC79 /* Aura.app */;
@@ -807,7 +827,6 @@
 				B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */,
 				B9AFB6622C3CF58C009B89C5 /* XCRemoteSwiftPackageReference "OpenAI" */,
-				B97A80792C3E544800DB523B /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -852,6 +871,12 @@
 				B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */,
 				B94ADB212C3EE0060054899D /* hexString.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
+				B934410A2C4C7FA300D6BA35 /* WebViewStore+JS.swift in Sources */,
+				B934410B2C4C7FA300D6BA35 /* WebViewStore.swift in Sources */,
+				B934410C2C4C7FA300D6BA35 /* Utils.swift in Sources */,
+				B934410D2C4C7FA300D6BA35 /* WebViewStore+Links.swift in Sources */,
+				B934410E2C4C7FA300D6BA35 /* BrowserView.swift in Sources */,
+				B934410F2C4C7FA300D6BA35 /* ActivityIndicator.swift in Sources */,
 				B91FBF952BC8EB0C001C317C /* Tab Bar.swift in Sources */,
 				B961B7AF2C2BA59200F43EBF /* iOS Webview.swift in Sources */,
 				B93440E62C486A8100D6BA35 /* HorizontalSidebar.swift in Sources */,
@@ -891,6 +916,7 @@
 				B9272D362C240DDD00B014D8 /* PerplexityRequest.swift in Sources */,
 				B961B7AD2C2BA38600F43EBF /* TabOverview.swift in Sources */,
 				B9C537FC2BEF37C700C7DB2B /* CustomSwitch.swift in Sources */,
+				B93441112C4CD90700D6BA35 /* Menu Space Picker.swift in Sources */,
 				B91BCF622C3F36420031581D /* NetworkMonitor.swift in Sources */,
 				B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */,
 				B97724FE2C0094BB00A39E3A /* ScrollViewOffset.swift in Sources */,
@@ -1214,14 +1240,6 @@
 				minimumVersion = 1.0.1;
 			};
 		};
-		B97A80792C3E544800DB523B /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/doorhinge-apps/WebViewSwiftUI-Aura";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		B98A32F92BD05CF000555AB9 /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/will-lumley/FaviconFinder/";
@@ -1271,19 +1289,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
 			productName = YouTubePlayerKit;
-		};
-		B97A80742C3E51AA00DB523B /* WebViewSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = WebViewSwiftUI;
-		};
-		B97A80772C3E542800DB523B /* WebViewSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = WebViewSwiftUI;
-		};
-		B97A807A2C3E544800DB523B /* WebViewSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B97A80792C3E544800DB523B /* XCRemoteSwiftPackageReference "WebViewSwiftUI-Aura" */;
-			productName = WebViewSwiftUI;
 		};
 		B98A32FA2BD05CF000555AB9 /* FaviconFinder */ = {
 			isa = XCSwiftPackageProductDependency;

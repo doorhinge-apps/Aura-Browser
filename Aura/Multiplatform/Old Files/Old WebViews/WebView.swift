@@ -8,7 +8,7 @@
 import SwiftUI
 import WebKit
 
-
+/*
 #if !os(macOS)
 struct WebView: UIViewRepresentable {
     
@@ -156,3 +156,4 @@ struct WebView: NSViewRepresentable {
 }
 
 #endif
+*/

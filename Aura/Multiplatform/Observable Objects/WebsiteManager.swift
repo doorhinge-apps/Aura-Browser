@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 import WebKit
-import WebViewSwiftUI
+//import WebViewSwiftUI
 import LinkPresentation
 
 class WebsiteManager: ObservableObject {

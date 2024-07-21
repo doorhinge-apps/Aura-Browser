@@ -29,7 +29,7 @@ struct SidebarSpaceParameter: View {
     
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-    //@State private var spaces = ["Home", "Space 2"]
+    
     @State private var spaceIcons: [String: String]? = [:]
     
     @State private var reloadTitles = false

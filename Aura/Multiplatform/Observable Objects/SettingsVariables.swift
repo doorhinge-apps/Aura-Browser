@@ -7,7 +7,7 @@
 
 import SwiftUI
 import WebKit
-import WebViewSwiftUI
+//import WebViewSwiftUI
 
 
 class SettingsVariables: ObservableObject {

@@ -34,45 +34,6 @@ struct SpacePicker: View {
                         
                         selectedSpaceIndex = space
                         
-                        Task {
-                            await navigationState.webViews.removeAll()
-                            await pinnedNavigationState.webViews.removeAll()
-                            await favoritesNavigationState.webViews.removeAll()
-                        }
-                        
-                        Task {
-                            await navigationState.selectedWebView = nil
-                            await navigationState.currentURL = nil
-                            
-                            await pinnedNavigationState.selectedWebView = nil
-                            await pinnedNavigationState.currentURL = nil
-                            
-                            await favoritesNavigationState.selectedWebView = nil
-                            await favoritesNavigationState.currentURL = nil
-                        }
-                        
-                        Task {
-                            for addSpace in spaces {
-                                if addSpace.spaceName == currentSpace {
-                                    for tab in addSpace.tabUrls {
-                                        await navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://figma.com")!))
-                                    }
-                                    for tab in addSpace.pinnedUrls {
-                                        await pinnedNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://thebrowser.company")!))
-                                    }
-                                    for tab in addSpace.favoritesUrls {
-                                        await favoritesNavigationState.createNewWebView(withRequest: URLRequest(url: URL(string: tab) ?? URL(string: "https://arc.net")!))
-                                    }
-                                }
-                            }
-                        }
-                        
-                        Task {
-                            await navigationState.selectedWebView = nil
-                            await pinnedNavigationState.selectedWebView = nil
-                            await favoritesNavigationState.selectedWebView = nil
-                        }
-                        
                     } label: {
                         ZStack {
 #if !os(visionOS)

@@ -23,15 +23,13 @@ class CustomAppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        // Handle the incoming URL
         NotificationCenter.default.post(name: .handleIncomingURL, object: url)
         return true
     }
     
     override func buildMenu(with builder: UIMenuBuilder) {
         super.buildMenu(with: builder)
-
-        // Remove unwanted menus
+        
         builder.remove(menu: .services)
         builder.remove(menu: .format)
         builder.remove(menu: .toolbar)

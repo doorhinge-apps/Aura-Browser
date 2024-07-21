@@ -78,24 +78,24 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
+#if !os(visionOS)
+            if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            }
+            else {
+                LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+            }
+#endif
+            
+            if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
+                Color.black.opacity(0.5)
+            }
+            
             if UIDevice.current.userInterfaceIdiom != .phone {
                 GeometryReader { geo in
                     if spaces.count > 0 {
                         ZStack {
                             ZStack {
-#if !os(visionOS)
-                                if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
-                                    LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                }
-                                else {
-                                    LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                }
-#endif
-                                
-                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
-                                    Color.black.opacity(0.5)
-                                }
-                                
                                 VStack(spacing: 0) {
                                     if settings.horizontalTabBar {
                                         HorizontalSidebar(currentSelectedSpaceIndex: manager.selectedSpaceIndex, geo: geo)
@@ -103,14 +103,10 @@ struct ContentView: View {
                                     }
                                     
                                     HStack(spacing: 0) {
-                                        //if UIDevice.current.userInterfaceIdiom != .phone {
                                         if settings.sidebarLeft && !settings.horizontalTabBar {
-                                            if settings.showBorder {
-                                                ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
-                                                    .disabled(true)
-                                            }
-                                            
                                             PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
+                                                .padding(5)
+                                                .padding(.leading, 5)
                                         }
                                         HStack {
                                             GeometryReader { webGeo in
@@ -369,7 +365,7 @@ struct ContentView: View {
                                             }
                                             .cornerRadius(10)
                                             .clipped()
-                                            .padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
+                                            //.padding(settings.sidebarLeft ? .trailing: .leading, settings.showBorder ? 12: 0)
                                             
                                             if variables.delayedBrowseForMe {
                                                 BrowseForMe(searchText: variables.browseForMeSearch, searchResponse: "", closeSheet: $variables.isBrowseForMe)
@@ -585,16 +581,9 @@ struct ContentView: View {
                                         }
                                         
                                         if !settings.sidebarLeft && !settings.horizontalTabBar {
-                                            if settings.showBorder {
-                                                ThreeDots(hoverTinySpace: $variables.hoverTinySpace, hideSidebar: $hideSidebar)
-                                                    .disabled(true)
-                                            }
-                                            
                                             PagedSidebar(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, hoverSpace: $variables.hoverSpace, showSettings: $variables.showSettings, fullGeo: geo)
                                         }
                                     }
-                                    .padding(.trailing, settings.showBorder ? 10: 0)
-                                    .padding(.vertical, settings.showBorder ? 25: 0)
                                     .onAppear {
                                         if let savedStartColor = getColor(forKey: "startColorHex") {
                                             variables.startColor = savedStartColor
@@ -608,7 +597,7 @@ struct ContentView: View {
                                         
                                         variables.spaceIcons = UserDefaults.standard.dictionary(forKey: "spaceIcons") as? [String: String]
                                     }
-                                }
+                                }//.padding(settings.horizontalTabBar ? [.leading, .trailing, .bottom]: settings.sidebarLeft ? [.trailing, .bottom, .top]: [.leading, .bottom, .top], settings.showBorder ? 20: 0)
                                 
                                 if variables.tabBarShown || variables.commandBarShown || variables.tapSidebarShown {
                                     Button(action: {
@@ -638,15 +627,9 @@ struct ContentView: View {
                                                 }
                                             
                                             HStack {
-                                                //                                        PagedSidebar(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
-                                                
-                                                //if UIDevice.current.userInterfaceIdiom != .phone {
-                                                if true {
                                                     VStack {
                                                         ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
                                                             .padding([.top, .horizontal], 5)
-                                                        
-                                                        //Sidebar(selectedTabLocation: $selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, hoverSpace: $hoverSpace, showSettings: $showSettings, geo: geo)
                                                         
                                                         SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, geo: geo)
                                                         
@@ -751,108 +734,6 @@ struct ContentView: View {
                                                     })
                                                     .cornerRadius(10)
                                                     .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
-                                                }
-                                                else {
-                                                    Color.clear
-                                                        .sheet(isPresented: $variables.tapSidebarShown) {
-                                                            ZStack {
-#if !os(visionOS)
-                                                                if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
-                                                                    LinearGradient(colors: [Color(hex: spaces[selectedSpaceIndex].startHex), Color(hex: spaces[selectedSpaceIndex].endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                                                }
-                                                                else {
-                                                                    LinearGradient(colors: [variables.startColor, variables.endColor], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
-                                                                }
-#endif
-                                                                
-                                                                if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
-                                                                    Color.black.opacity(0.5)
-                                                                }
-                                                                
-                                                                VStack {
-                                                                    ToolbarButtonsView(selectedTabLocation: $variables.selectedTabLocation, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $variables.searchInSidebar, commandBarShown: $variables.commandBarShown, tabBarShown: $variables.tabBarShown, startColor: $variables.startColor, endColor: $variables.endColor, textColor: $variables.textColor, geo: geo).frame(height: 40)
-                                                                        .padding([.top, .horizontal], 5)
-                                                                    
-                                                                    SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, geo: geo)
-                                                                    
-                                                                    HStack {
-                                                                        Button {
-                                                                            variables.showSettings.toggle()
-                                                                        } label: {
-                                                                            ZStack {
-                                                                                HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
-                                                                                
-                                                                                Image(systemName: "gearshape")
-                                                                                    .resizable()
-                                                                                    .scaledToFit()
-                                                                                    .frame(width: 20, height: 20)
-                                                                                    .foregroundStyle(variables.textColor)
-                                                                                    .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-                                                                                
-                                                                            }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS) && !os(macOS)
-                                                                                .hoverEffect(.lift)
-                                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-#endif
-                                                                                .onHover(perform: { hovering in
-                                                                                    if hovering {
-                                                                                        variables.settingsButtonHover = true
-                                                                                    }
-                                                                                    else {
-                                                                                        variables.settingsButtonHover = false
-                                                                                    }
-                                                                                })
-                                                                        }
-                                                                        .sheet(isPresented: $variables.showSettings) {
-                                                                            if #available(iOS 18.0, visionOS 2.0, *) {
-                                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                                                                                    .presentationSizing(.form)
-                                                                            } else {
-                                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                                                                            }
-                                                                        }
-                                                                        Spacer()
-                                                                        
-                                                                        SpacePicker(navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
-                                                                        
-                                                                        Button(action: {
-                                                                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                                                                        }, label: {
-                                                                            ZStack {
-#if !os(visionOS)
-                                                                                Color(.white)
-                                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-#endif
-                                                                                
-                                                                                Image(systemName: "plus")
-                                                                                    .resizable()
-                                                                                    .scaledToFit()
-                                                                                    .frame(width: 20, height: 20)
-                                                                                    .foregroundStyle(variables.textColor)
-                                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-                                                                                
-                                                                            }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS) && !os(macOS)
-                                                                                .hoverEffect(.lift)
-                                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-#endif
-                                                                                .onHover(perform: { hovering in
-                                                                                    if hovering {
-                                                                                        variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                                                                    }
-                                                                                    else {
-                                                                                        variables.hoverSpace = ""
-                                                                                    }
-                                                                                })
-                                                                        })
-                                                                    }
-                                                                }
-                                                                .padding(15)
-                                                                .frame(width: 300)
-                                                                .cornerRadius(10)
-                                                            }
-                                                        }
-                                                }
                                                 
                                                 Spacer()
                                             }.padding(40)
@@ -1034,6 +915,7 @@ struct ContentView: View {
                                 Launch_Animation()
                             }
                         }
+                        .padding(settings.horizontalTabBar ? [.leading, .trailing, .bottom]: settings.sidebarLeft ? [.trailing, .bottom, .top]: [.leading, .bottom, .top], settings.showBorder ? 20: 0)
                         /*.sheet(isPresented: $isBrowseForMe, content: {
                          VStack {
                          if UIDevice.current.userInterfaceIdiom != .phone {

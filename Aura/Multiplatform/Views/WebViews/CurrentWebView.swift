@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WebViewSwiftUI
+//import WebViewSwiftUI
 
 struct CurrentWebView: View {
     @EnvironmentObject var variables: ObservableVariables

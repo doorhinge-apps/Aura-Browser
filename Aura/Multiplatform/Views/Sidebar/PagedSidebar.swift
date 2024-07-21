@@ -129,9 +129,7 @@ struct PagedSidebar: View {
                                 }
                             }
                             .onChange(of: selectedSpaceIndex, {
-                                withAnimation(.linear(duration: 10.0)) {
-                                    proxy.scrollTo(selectedSpaceIndex.description)
-                                }
+                                proxy.scrollTo(selectedSpaceIndex.description)
                             })
                             .background(GeometryReader { geometry in
                                 Color.clear
@@ -207,6 +205,7 @@ struct PagedSidebar: View {
                             NewSettings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
                         }
                     }
+                    
                     Spacer()
                     
                     SpacePicker(navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)

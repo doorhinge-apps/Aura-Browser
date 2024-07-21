@@ -1,5 +1,5 @@
 {
-  "originHash" : "4f098154bd3bdce3b0ad67cf89bbd4477c3ecfaefcec7731c4c50a12b5e68a09",
+  "originHash" : "0aaeb044550b4065bca91c88fbcd6e3b103e7f58c8fa59276813b911fd9db4bc",
   "pins" : [
     {
       "identity" : "codeeditor",
@@ -89,15 +89,6 @@
       "state" : {
         "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
         "version" : "2.7.2"
-      }
-    },
-    {
-      "identity" : "webviewswiftui-aura",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/doorhinge-apps/WebViewSwiftUI-Aura",
-      "state" : {
-        "branch" : "main",
-        "revision" : "89fa920eee8e6ae163b065de57f2466139186a05"
       }
     },
     {
