@@ -48,6 +48,9 @@ struct ContentView: View {
     @State var currentPassedClassesString = ""
     @State var generateAICSS = false
     
+    
+    @State var dragSidebarOffset: CGFloat = 0.0
+    
     @AppStorage("hideSidebar") var hideSidebar = false
     
     
@@ -620,11 +623,50 @@ struct ContentView: View {
                                         
                                         ZStack {
                                             Color.white.opacity(0.00001)
-                                                .frame(width: 35)
+                                            //Color(.systemBlue)
+                                                .opacity(0.8)
+                                                .frame(width: 45)
+                                                .offset(x: dragSidebarOffset)
+                                                .gesture(
+                                                    DragGesture()
+                                                        .onChanged { gesture in
+                                                            let horizontalTranslation = gesture.translation.width
+                                                            let currentOffset = dragSidebarOffset + horizontalTranslation
+
+                                                            if settings.sidebarLeft {
+                                                                if currentOffset >= 0 && currentOffset <= 300 {
+                                                                    dragSidebarOffset = currentOffset
+                                                                }
+                                                            } else {
+                                                                if currentOffset <= 0 && currentOffset >= -300 {
+                                                                    dragSidebarOffset = currentOffset
+                                                                }
+                                                            }
+                                                        }
+                                                        .onEnded { _ in
+                                                            if settings.sidebarLeft {
+                                                                dragSidebarOffset = (dragSidebarOffset > 150) ? 300 : 0
+                                                                
+                                                                if abs(dragSidebarOffset) >= 150 {
+                                                                    variables.tapSidebarShown = true
+                                                                    
+                                                                    dragSidebarOffset = 0
+                                                                }
+                                                            } else {
+                                                                dragSidebarOffset = (dragSidebarOffset < -150) ? -300 : 0
+                                                                
+                                                                if abs(dragSidebarOffset) >= 150 {
+                                                                    variables.tapSidebarShown = true
+                                                                    
+                                                                    dragSidebarOffset = 0
+                                                                }
+                                                            }
+                                                        }
+                                                )
                                                 .onTapGesture {
                                                     variables.tapSidebarShown = true
-                                                    
                                                 }
+
                                             
                                             HStack {
                                                     VStack {

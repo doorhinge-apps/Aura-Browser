@@ -1182,24 +1182,10 @@ struct HorizontalSidebar: View {
                                 }
                             })
                             .onTapGesture {
-                                //variables.navigationState.selectedWebView = nil
-                                //variables.navigationState.currentURL = nil
-                                
-                                //variables.favoritesNavigationState.selectedWebView = nil
-                                //variables.favoritesNavigationState.currentURL = nil
-                                
                                 manager.selectedTabIndex = tabIndex
                                 
                                 manager.selectedTabLocation = .tabs
                                 
-                                //                            Task {
-                                //                                await pinnedNavigationState.selectedWebView = tab
-                                //                                await pinnedNavigationState.currentURL = tab.url
-                                //                            }
-                                
-                                //                            if let unwrappedURL = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex] {
-                                //                                searchInSidebar = unwrappedURL.absoluteString
-                                //                            }
                                 manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
                                 
                                 variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
