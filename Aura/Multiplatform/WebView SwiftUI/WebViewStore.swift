@@ -10,6 +10,7 @@ import Combine
 import SwiftUI
 import UIKit
 import WebKit
+import SwiftData
 
 public class WebViewStore: NSObject, ObservableObject,WKNavigationDelegate {
     public enum LinkReaction{
@@ -80,14 +81,20 @@ public struct WebView: UIViewRepresentable {
     public func makeUIView(context: Context) -> UIViewContainerView<WKWebView> {
         let uiView = UIViewContainerView<WKWebView>()
         uiView.contentView = webView
+        // Set the delegate when the view is initially created
         webView.uiDelegate = context.coordinator
+        webView.navigationDelegate = context.coordinator
         return uiView
     }
 
     public func updateUIView(_ uiView: UIViewContainerView<WKWebView>, context: Context) {
-        // If it's the same content view we don't need to update.
+        // Ensure the contentView is correctly set and the delegate is updated
         if uiView.contentView !== webView {
             uiView.contentView = webView
+
+            // Re-assign the delegate every time the view is updated
+            webView.uiDelegate = context.coordinator
+            webView.navigationDelegate = context.coordinator
 
             webView.backgroundColor = .clear
             uiView.backgroundColor = .clear
@@ -98,34 +105,103 @@ public struct WebView: UIViewRepresentable {
         Coordinator(self)
     }
 
-    public class Coordinator: NSObject, WKUIDelegate {
+    public class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate {
         var parent: WebView
+
+        @StateObject var variables = ObservableVariables()
+        @StateObject var manager = WebsiteManager()
+
+        var spaces = [SpaceStorage]()
+
+        var container: ModelContainer = {
+            let schema = Schema([
+                SpaceStorage.self,
+            ])
+            let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+            do {
+                return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            } catch {
+                fatalError("Could not create ModelContainer: \(error)")
+            }
+        }()
+
+        var context: ModelContext
 
         init(_ parent: WebView) {
             self.parent = parent
-        }
-        
-        public func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
             
+            context = ModelContext(container)
+            
+            do {
+                let descriptor = FetchDescriptor<SpaceStorage>()
+                spaces = try container.mainContext.fetch(descriptor)
+            } catch {
+                print("Failed to fetch spaces: \(error)")
+            }
+        }
+
+        public func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
             let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
                 guard let url = elementInfo.linkURL else { return }
-                let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-                if let topVC = UIApplication.shared.windows.first?.rootViewController {
-                    topVC.present(activityVC, animated: true, completion: nil)
+                
+                let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                
+                if let popoverController = activityController.popoverPresentationController {
+                    popoverController.sourceView = UIApplication.shared.windows.first?.rootViewController?.view
+                    
+                    popoverController.permittedArrowDirections = [.up]
+                    popoverController.permittedArrowDirections = []
                 }
                 
-                guard let data = elementInfo.linkURL else { return }
-                let av = UIActivityViewController(activityItems: [data], applicationActivities: nil)
-                UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+                UIApplication.shared.windows.first?.rootViewController!.present(activityController, animated: true, completion: nil)
+            }
+
+            var openIn: [UIMenuElement] = []
+            for space in spaces {
+                let moveAction = UIAction(title: space.spaceName, image: UIImage(systemName: space.spaceIcon)) { _ in
+                    guard let url = elementInfo.linkURL else { return }
+                    space.tabUrls.append(url.absoluteString)
+                    
+                    do {
+                        try self.container.mainContext.save()
+                    } catch {
+                        print("Failed to save space updates: \(error)")
+                    }
+                }
+                openIn.append(moveAction)
             }
             
-            let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-                UIMenu(children: [shareAction])
+            let openInMenu = UIMenu(title: "Open In", image: UIImage(systemName: "arrow.up.forward.app"), children: openIn)
+            
+            let previewProvider: () -> UIViewController? = {
+                guard let url = elementInfo.linkURL else { return nil }
+                let previewVC = UIViewController()
+                let previewWebView = WKWebView(frame: previewVC.view.bounds)
+                previewWebView.load(URLRequest(url: url))
+                previewWebView.navigationDelegate = self
+
+                previewVC.view.addSubview(previewWebView)
+                previewWebView.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    previewWebView.topAnchor.constraint(equalTo: previewVC.view.topAnchor),
+                    previewWebView.bottomAnchor.constraint(equalTo: previewVC.view.bottomAnchor),
+                    previewWebView.leadingAnchor.constraint(equalTo: previewVC.view.leadingAnchor),
+                    previewWebView.trailingAnchor.constraint(equalTo: previewVC.view.trailingAnchor)
+                ])
+                return previewVC
+            }
+
+            let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: previewProvider) { _ in
+                UIMenu(children: [shareAction, openInMenu])
             }
             completionHandler(configuration)
         }
     }
+
+
 }
+
 
 /// A UIView which simply adds some view to its view hierarchy
 public class UIViewContainerView<ContentView: UIView>: UIView {

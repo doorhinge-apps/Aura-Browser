@@ -92,6 +92,7 @@ struct ContentView: View {
             
             if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                 Color.black.opacity(0.5)
+                    .ignoresSafeArea()
             }
             
             if UIDevice.current.userInterfaceIdiom != .phone {
