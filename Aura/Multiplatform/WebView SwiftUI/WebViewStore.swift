@@ -156,6 +156,12 @@ public struct WebView: UIViewRepresentable {
                 
                 UIApplication.shared.windows.first?.rootViewController!.present(activityController, animated: true, completion: nil)
             }
+            
+            let copyAction = UIAction(title: "Copy", image: UIImage(systemName: "document.on.clipboard")) { _ in
+                guard let url = elementInfo.linkURL else { return }
+                
+                UIPasteboard.general.string = url.absoluteString
+            }
 
             var openIn: [UIMenuElement] = []
             for space in spaces {
@@ -193,7 +199,7 @@ public struct WebView: UIViewRepresentable {
             }
 
             let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: previewProvider) { _ in
-                UIMenu(children: [shareAction, openInMenu])
+                UIMenu(children: [shareAction, copyAction, openInMenu])
             }
             completionHandler(configuration)
         }
