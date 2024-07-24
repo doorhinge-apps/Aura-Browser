@@ -952,11 +952,6 @@ struct ContentView: View {
                                         variables.newTabSearch = ""
                                     }
                             }
-                            
-                            
-                            if launchingAnimation && settings.launchAnimation {
-                                Launch_Animation()
-                            }
                         }
                         .padding(settings.horizontalTabBar ? [.leading, .trailing, .bottom]: settings.sidebarLeft ? [.trailing, .bottom, .top]: [.leading, .bottom, .top], settings.showBorder ? 20: 0)
                         /*.sheet(isPresented: $isBrowseForMe, content: {
@@ -1062,7 +1057,11 @@ struct ContentView: View {
                     TabOverview(selectedSpaceIndex: $selectedSpaceIndex)
                 }
             }
-
+            
+            if launchingAnimation && settings.launchAnimation {
+                Launch_Animation()
+                    .ignoresSafeArea()
+            }
             
         }.environmentObject(variables)
             .environmentObject(manager)
