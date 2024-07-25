@@ -533,7 +533,7 @@ struct HorizontalSidebar: View {
 #endif
                             
                             //IconsPicker(currentIcon: $changingIcon)
-                            IconsPicker(currentIcon: $changingIcon, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, selectedSpaceIndex: $currentSelectedSpaceIndex)
+                            IconsPicker(currentIcon: $changingIcon, selectedSpaceIndex: $currentSelectedSpaceIndex)
                                 .onChange(of: changingIcon) {
                                     spaces[selectedSpaceIndex].spaceIcon = changingIcon
                                     do {

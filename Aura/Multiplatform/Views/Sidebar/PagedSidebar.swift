@@ -14,73 +14,18 @@ struct PagedSidebar: View {
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
     @EnvironmentObject var variables: ObservableVariables
-    @StateObject var settings = SettingsVariables()
+    @EnvironmentObject var settings: SettingsVariables
     
-    @Binding var selectedTabLocation: String
-    
-    @ObservedObject var navigationState: NavigationState
-    @ObservedObject var pinnedNavigationState: NavigationState
-    @ObservedObject var favoritesNavigationState: NavigationState
-    @Binding var hideSidebar: Bool
-    @Binding var searchInSidebar: String
-    @Binding var commandBarShown: Bool
-    @Binding var tabBarShown: Bool
-    @Binding var startColor: Color
-    @Binding var endColor: Color
-    @Binding var textColor: Color
-    @Binding var hoverSpace: String
-    @Binding var showSettings: Bool
-    //var geo: GeometryProxy
-    
-    @State var temporaryRenamingString = ""
-    @State var isRenaming = false
-    
-    // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-    //@State private var spaces = ["Home", "Space 2"]
-    @State private var spaceIcons: [String: String]? = [:]
-    
-    @State private var reloadTitles = false
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    // Settings and Sheets
-    @State private var hoverTab = WKWebView()
-    
-    //@State private var showSettings = false
-    @State private var changeColorSheet = false
     
     @State private var startHex = "ffffff"
     @State private var endHex = "000000"
     
-    @State private var presentIcons = false
-    
-    // Hover Effects
-    @State private var hoverSidebarSearchField = false
-    
-    @State private var hoverCloseTab = WKWebView()
-    
-    @State private var spaceIconHover = false
-    
     @State private var settingsButtonHover = false
-    @State private var hoverNewTabSection = false
-    
-    @State var temporaryRenameSpace = ""
-    
-    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
-    @AppStorage("favoritesStyle") var favoritesStyle = false
-    @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
-    @AppStorage("sidebarLeft") var sidebarLeft = true
     
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
-    
-    @State var hoverPaintbrush = false
-    
-    // Selection States
-    @State private var changingIcon = ""
-    @State private var draggedTab: WKWebView?
-    
-    @State var showPaintbrush = false
     
     @State var scrollLimiter = false
     @State var scrollPositionOffset = 0.0
@@ -90,8 +35,6 @@ struct PagedSidebar: View {
     @State private var scrollPosition: CGPoint = .zero
     @State private var horizontalScrollPosition: CGPoint = .zero
     
-    @AppStorage("showBorder") var showBorder = true
-    
     @State var hasSetThing = false
     
     var fullGeo: GeometryProxy
@@ -99,9 +42,9 @@ struct PagedSidebar: View {
     var body: some View {
         GeometryReader { geo in
             VStack {
-                ToolbarButtonsView(selectedTabLocation: $selectedTabLocation, navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, hideSidebar: $hideSidebar, searchInSidebar: $searchInSidebar, commandBarShown: $commandBarShown, tabBarShown: $tabBarShown, startColor: $startColor, endColor: $endColor, textColor: $textColor, geo: geo).frame(height: 40)
+                ToolbarButtonsView(geo: geo)
+                    .frame(height: 40)
                     .padding([.top, .horizontal], 5)
-                
                 
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal) {
@@ -118,7 +61,7 @@ struct PagedSidebar: View {
                                 }
                                 .containerRelativeFrame(.horizontal)
                                 .animation(.easeOut)
-                                .frame(width: hideSidebar ? 0: 300)
+                                .frame(width: variables.hideSidebar ? 0: 300)
                             }
                         }.scrollTargetLayout()
                             .onAppear() {
@@ -171,7 +114,7 @@ struct PagedSidebar: View {
                 
                 HStack {
                     Button {
-                        showSettings.toggle()
+                        variables.showSettings.toggle()
                     } label: {
                         ZStack {
                             HoverButtonDisabledVision(hoverInteraction: $settingsButtonHover)
@@ -180,13 +123,13 @@ struct PagedSidebar: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
-                                .foregroundStyle(textColor)
+                                .foregroundStyle(variables.textColor)
                                 .opacity(settingsButtonHover ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
 #if !os(visionOS) && !os(macOS)
                             .hoverEffect(.lift)
-                            .hoverEffectDisabled(!hoverEffectsAbsorbCursor)
+                            .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
                         #endif
                             .onHover(perform: { hovering in
                                 if hovering {
@@ -197,18 +140,18 @@ struct PagedSidebar: View {
                                 }
                             })
                     }.buttonStyle(.plain)
-                    .sheet(isPresented: $showSettings) {
+                        .sheet(isPresented: $variables.showSettings) {
                         if #available(iOS 18.0, visionOS 2.0, *) {
-                            NewSettings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
                                 .presentationSizing(.form)
                         } else {
-                            NewSettings(presentSheet: $showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+                            NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
                         }
                     }
                     
                     Spacer()
                     
-                    SpacePicker(navigationState: navigationState, pinnedNavigationState: pinnedNavigationState, favoritesNavigationState: favoritesNavigationState, currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+                    SpacePicker(currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
                     
                     Menu(content: {
                         Button(action: {
@@ -247,8 +190,8 @@ struct PagedSidebar: View {
                 }
             }
         }.ignoresSafeArea()
-            .frame(width: hideSidebar ? 0: 300)
-            .offset(x: hideSidebar ? 320 * (sidebarLeft ? -1: 1): 0)
+            .frame(width: variables.hideSidebar ? 0: 300)
+            .offset(x: variables.hideSidebar ? 320 * (settings.sidebarLeft ? -1: 1): 0)
             .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
             .scrollIndicators(.hidden)
     }

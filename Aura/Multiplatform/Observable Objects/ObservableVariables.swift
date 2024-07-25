@@ -13,22 +13,13 @@ import WebKit
 class ObservableVariables: ObservableObject {
     @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
     
-    // Webview handling
-    @ObservedObject var navigationState = NavigationState()
-    @ObservedObject var pinnedNavigationState = NavigationState()
-    @ObservedObject var favoritesNavigationState = NavigationState()
-    
     @StateObject var settings = SettingsVariables()
     
     @StateObject var history = HistoryObservable()
     
-    @Published var navigationStateArray = [] as [NavigationState]
-    @Published var pinnedNavigationStateArray = [] as [NavigationState]
-    @Published var favoritesNavigationStateArray = [] as [NavigationState]
-    
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
-    //@Published var spaces = ["Home", "Space 2"]
+    
     @Published var spaceIcons: [String: String]? = [:]
     
     @Published var reloadTitles = false
@@ -119,10 +110,6 @@ class ObservableVariables: ObservableObject {
     @Published var selectedTabLocation = "tabs"
     
     // Other Stuff
-//#if !os(visionOS)
-//    @Published var screenWidth = UIScreen.main.bounds.width
-//    #endif
-    
     @Published var hoveringSidebar = false
     @Published var tapSidebarShown = false
     

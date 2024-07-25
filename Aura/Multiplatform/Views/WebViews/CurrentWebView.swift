@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-//import WebViewSwiftUI
 
 struct CurrentWebView: View {
     @EnvironmentObject var variables: ObservableVariables
@@ -15,19 +14,12 @@ struct CurrentWebView: View {
     
     var webGeo: GeometryProxy
     
+    @State var readerView = false
+    
     var body: some View {
         if manager.selectedWebView != nil {
-            //ScrollView(showsIndicators: false) {
                 BrowserView(webViewStore: manager.selectedWebView ?? WebViewStore())
                     .frame(width: webGeo.size.width, height: webGeo.size.height)
-            //}
-//            .refreshable {
-//                withAnimation(.bouncy, {
-//                    variables.reloadRotation += 360
-//                })
-//                
-//                manager.selectedWebView?.reload()
-//            }
         }
     }
 }

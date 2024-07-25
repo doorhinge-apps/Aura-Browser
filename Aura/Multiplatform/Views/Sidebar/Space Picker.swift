@@ -12,10 +12,6 @@ struct SpacePicker: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
-    @ObservedObject var navigationState: NavigationState
-    @ObservedObject var pinnedNavigationState: NavigationState
-    @ObservedObject var favoritesNavigationState: NavigationState
-    
     @Binding var currentSpace: String
     @Binding var selectedSpaceIndex: Int
     
@@ -83,7 +79,6 @@ struct SpacePicker: View {
                                 }
                             }
                             
-                            //spaces.remove(at: space)
                             if spaces.count > 1 {
                                 modelContext.delete(spaces[space])
                             }

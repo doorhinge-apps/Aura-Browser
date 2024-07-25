@@ -14,15 +14,8 @@ struct ToolbarButtonsView: View {
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
     @EnvironmentObject var variables: ObservableVariables
-    
     @EnvironmentObject var manager: WebsiteManager
-    
-    @Binding var selectedTabLocation: String
-    @ObservedObject var navigationState: NavigationState
-    @ObservedObject var pinnedNavigationState: NavigationState
-    @ObservedObject var favoritesNavigationState: NavigationState
-    @Binding var hideSidebar: Bool
-    @Binding var searchInSidebar: String
+    @EnvironmentObject var settings: SettingsVariables
     
     @State var hoverSidebarButton = false
     @State var hoverPaintbrush = false
@@ -41,14 +34,14 @@ struct ToolbarButtonsView: View {
     
     @State var changeColorSheet = false
     
-    @Binding var commandBarShown: Bool
-    @Binding var tabBarShown: Bool
+//    @Binding var commandBarShown: Bool
+//    @Binding var tabBarShown: Bool
     
     @State var showColorSheet = false
     
-    @Binding var startColor: Color
-    @Binding var endColor: Color
-    @Binding var textColor: Color
+//    @Binding var startColor: Color
+//    @Binding var endColor: Color
+//    @Binding var textColor: Color
     
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
     @AppStorage("sidebarLeft") var sidebarLeft = true
@@ -59,7 +52,7 @@ struct ToolbarButtonsView: View {
     var body: some View {
         GeometryReader { geo2 in
             HStack {
-                if ProcessInfo.processInfo.isMacCatalystApp && !hideSidebar && sidebarLeft {
+                if ProcessInfo.processInfo.isMacCatalystApp && !variables.hideSidebar && settings.sidebarLeft {
                     Spacer()
                         .frame(width: 65)
                 }
@@ -74,43 +67,7 @@ struct ToolbarButtonsView: View {
 
                     Button(action: {
                         Task {
-                            await hideSidebar.toggle()
-                        }
-                        
-                        withAnimation {
-                            if !hideSidebar {
-                                if selectedTabLocation == "tabs" {
-                                    Task {
-                                        await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                    }
-                                }
-                                else if selectedTabLocation == "pinnedTabs" {
-                                    Task {
-                                        await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                    }
-                                }
-                                else if selectedTabLocation == "favoriteTabs" {
-                                    Task {
-                                        await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-40, height: geo.size.height))
-                                    }
-                                }
-                            } else {
-                                if selectedTabLocation == "tabs" {
-                                    Task {
-                                        await navigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
-                                    }
-                                }
-                                else if selectedTabLocation == "pinnedTabs" {
-                                    Task {
-                                        await pinnedNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
-                                    }
-                                }
-                                else if selectedTabLocation == "favoriteTabs" {
-                                    Task {
-                                        await favoritesNavigationState.selectedWebView?.frame = CGRect(origin: .zero, size: CGSize(width: geo.size.width-340, height: geo.size.height))
-                                    }
-                                }
-                            }
+                            variables.hideSidebar.toggle()
                         }
                     }, label: {
                         ZStack {
@@ -120,7 +77,7 @@ struct ToolbarButtonsView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 25, height: 25)
-                                .foregroundStyle(textColor)
+                                .foregroundStyle(variables.textColor)
                                 .opacity(hoverSidebarButton ? 1.0: 0.5)
                             
                         }.frame(width: 40, height: 40).cornerRadius(7)
@@ -162,7 +119,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(textColor)
+                            .foregroundStyle(variables.textColor)
                             .opacity(hoverBackwardButton ? 1.0: 0.5)
                             .offset(x: variables.backArrowPulse ? -8: 0)
                         
@@ -203,7 +160,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(textColor)
+                            .foregroundStyle(variables.textColor)
                             .opacity(hoverForwardButton ? 1.0: 0.5)
                             .offset(x: variables.forwardArrowPulse ? 8: 0)
                         
@@ -228,7 +185,7 @@ struct ToolbarButtonsView: View {
                         variables.reloadRotation += 360
                     })
                     
-                    searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? searchInSidebar
+                    variables.searchInSidebar = manager.selectedWebView?.webView.url?.absoluteString ?? variables.searchInSidebar
                     manager.selectedWebView?.reload()
                 }, label: {
                     ZStack {
@@ -238,7 +195,7 @@ struct ToolbarButtonsView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                            .foregroundStyle(textColor)
+                            .foregroundStyle(variables.textColor)
                             .opacity(hoverReloadButton ? 1.0: 0.5)
                             .rotationEffect(Angle(degrees: Double(variables.reloadRotation)))
                         
@@ -260,15 +217,15 @@ struct ToolbarButtonsView: View {
             .onAppear() {
 #if os(iOS)
                 if UIDevice.current.userInterfaceIdiom == .phone {
-                    hideSidebar = true
+                    variables.hideSidebar = true
                 }
                 #endif
                 }
         }
         .onAppear() {
             let spaceForColor = spaces[selectedSpaceIndex]
-            startColor = Color(hex: spaceForColor.startHex)
-            endColor = Color(hex: spaceForColor.endHex)
+            variables.startColor = Color(hex: spaceForColor.startHex)
+            variables.endColor = Color(hex: spaceForColor.endHex)
         }
     }
 }

@@ -146,6 +146,10 @@ struct Dashboard: View {
                                                 Clock()
                                                     .cornerRadius(10)
                                             }
+                                            else if dashboardWidgets[index].title == "ChatGPT" {
+                                                ChatGPT()
+                                                    .cornerRadius(10)
+                                            }
                                         }.frame(width: CGFloat(dashboardWidgets[index].width), height: CGFloat(dashboardWidgets[index].height))
                                     })
                             }
@@ -223,6 +227,14 @@ struct Dashboard: View {
                             saveDashboardWidgets(widgets: dashboardWidgets)
                         }, label: {
                             Text("Clock")
+                        })
+                        
+                        Button(action: {
+                            let newWidget = DashboardWidget(title: "ChatGPT", xPosition: 0.0, yPosition: 0.0, width: 150.0, height: 150.0)
+                            dashboardWidgets.append(newWidget)
+                            saveDashboardWidgets(widgets: dashboardWidgets)
+                        }, label: {
+                            Text("ChatGPT")
                         })
                     } label: {
                         ZStack {

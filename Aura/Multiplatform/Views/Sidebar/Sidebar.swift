@@ -916,7 +916,7 @@ struct SidebarSpaceParameter: View {
                             #endif
                             
                             //IconsPicker(currentIcon: $changingIcon)
-                            IconsPicker(currentIcon: $changingIcon, navigationState: variables.navigationState, pinnedNavigationState: variables.pinnedNavigationState, favoritesNavigationState: variables.favoritesNavigationState, selectedSpaceIndex: $currentSelectedSpaceIndex)
+                            IconsPicker(currentIcon: $changingIcon, selectedSpaceIndex: $currentSelectedSpaceIndex)
                                 .onChange(of: changingIcon) {
                                     spaces[selectedSpaceIndex].spaceIcon = changingIcon
                                     do {
@@ -1166,24 +1166,10 @@ struct SidebarSpaceParameter: View {
                                 }
                             })
                             .onTapGesture {
-                                //variables.navigationState.selectedWebView = nil
-                                //variables.navigationState.currentURL = nil
-                                
-                                //variables.favoritesNavigationState.selectedWebView = nil
-                                //variables.favoritesNavigationState.currentURL = nil
-                                
                                 manager.selectedTabIndex = tabIndex
                                 
                                 manager.selectedTabLocation = .tabs
                                 
-                                //                            Task {
-                                //                                await pinnedNavigationState.selectedWebView = tab
-                                //                                await pinnedNavigationState.currentURL = tab.url
-                                //                            }
-                                
-                                //                            if let unwrappedURL = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex] {
-                                //                                searchInSidebar = unwrappedURL.absoluteString
-                                //                            }
                                 manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
                                 
                                 variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])

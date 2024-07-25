@@ -176,7 +176,7 @@ struct TabOverview: View {
                         })
                         .onOpenURL { url in
                             if url.absoluteString.starts(with: "aura://") {
-                                variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
+                                //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
                             }
                             else {
                                 createTab(url: url.absoluteString, isBrowseForMeTab: false)

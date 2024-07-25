@@ -9,7 +9,7 @@ import SwiftUI
 import WebKit
 
 
-
+/*
 struct TabBar: View {
     @Binding var navigationState: NavigationState
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -135,4 +135,4 @@ struct TabBar: View {
         navigationState.webViews.remove(at: index)
     }
 }
-
+*/

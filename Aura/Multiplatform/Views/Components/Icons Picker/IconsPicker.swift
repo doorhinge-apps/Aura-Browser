@@ -18,10 +18,6 @@ struct IconsPicker: View {
     
     @FocusState private var searchFocused: Bool
     
-    @ObservedObject var navigationState: NavigationState
-    @ObservedObject var pinnedNavigationState: NavigationState
-    @ObservedObject var favoritesNavigationState: NavigationState
-    
     @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
     
     @Environment(\.colorScheme) var colorScheme

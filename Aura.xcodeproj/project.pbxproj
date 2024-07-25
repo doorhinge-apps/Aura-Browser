@@ -41,6 +41,8 @@
 		B934410E2C4C7FA300D6BA35 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441052C4C7FA300D6BA35 /* BrowserView.swift */; };
 		B934410F2C4C7FA300D6BA35 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441042C4C7FA300D6BA35 /* ActivityIndicator.swift */; };
 		B93441112C4CD90700D6BA35 /* Menu Space Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93441102C4CD90700D6BA35 /* Menu Space Picker.swift */; };
+		B934413B2C51EC4000D6BA35 /* ChatGPT.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934413A2C51EC4000D6BA35 /* ChatGPT.swift */; };
+		B934413E2C51F88A00D6BA35 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934413D2C51F88A00D6BA35 /* Reader.swift */; };
 		B93AE9302C2A3EBF003D0E88 /* Launch Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */; };
 		B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */; };
 		B93D9D2C2BDF31A80002D01B /* Today Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D9D2B2BDF31A80002D01B /* Today Tab.swift */; };
@@ -158,6 +160,8 @@
 		B93441082C4C7FA300D6BA35 /* WebViewStore+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewStore+JS.swift"; sourceTree = "<group>"; };
 		B93441092C4C7FA300D6BA35 /* WebViewStore+Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewStore+Links.swift"; sourceTree = "<group>"; };
 		B93441102C4CD90700D6BA35 /* Menu Space Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Menu Space Picker.swift"; sourceTree = "<group>"; };
+		B934413A2C51EC4000D6BA35 /* ChatGPT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPT.swift; sourceTree = "<group>"; };
+		B934413D2C51F88A00D6BA35 /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
 		B93AE92F2C2A3EBF003D0E88 /* Launch Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Launch Animation.swift"; sourceTree = "<group>"; };
 		B93AE9322C2AA10A003D0E88 /* HoverButtonDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverButtonDisabled.swift; sourceTree = "<group>"; };
 		B93D9D2B2BDF31A80002D01B /* Today Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Today Tab.swift"; sourceTree = "<group>"; };
@@ -267,6 +271,7 @@
 				B94303912C2D347C00D787A4 /* CurrentWebView.swift */,
 				B94303952C2D37FC00D787A4 /* AdBlock */,
 				B94CA91D2C28C72E00AD3921 /* Boosts */,
+				B93441032C4C7F1300D6BA35 /* WebView SwiftUI */,
 			);
 			path = WebViews;
 			sourceTree = "<group>";
@@ -289,6 +294,7 @@
 		B90294552C333839005DB4CA /* Chat-GPT */ = {
 			isa = PBXGroup;
 			children = (
+				B934413A2C51EC4000D6BA35 /* ChatGPT.swift */,
 			);
 			path = "Chat-GPT";
 			sourceTree = "<group>";
@@ -366,6 +372,14 @@
 				B93441092C4C7FA300D6BA35 /* WebViewStore+Links.swift */,
 			);
 			path = "WebView SwiftUI";
+			sourceTree = "<group>";
+		};
+		B934413C2C51F88300D6BA35 /* Reader */ = {
+			isa = PBXGroup;
+			children = (
+				B934413D2C51F88A00D6BA35 /* Reader.swift */,
+			);
+			path = Reader;
 			sourceTree = "<group>";
 		};
 		B93AE92E2C2A3EA5003D0E88 /* Launch Screen */ = {
@@ -451,7 +465,6 @@
 		B94ADB1B2C3EDF0A0054899D /* Multiplatform */ = {
 			isa = PBXGroup;
 			children = (
-				B93441032C4C7F1300D6BA35 /* WebView SwiftUI */,
 				C1BD7D2A2BDE04AB0078D7B3 /* Views */,
 				B9DDD2652C3C2AC600BC0CA4 /* Observable Objects */,
 				C1BD7D172BDDF65F0078D7B3 /* Data Models */,
@@ -747,6 +760,7 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B934413C2C51F88300D6BA35 /* Reader */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
 				B90294522C3337A5005DB4CA /* WebViews */,
 				B9272D302C240D5800B014D8 /* Browse for Me */,
@@ -869,6 +883,7 @@
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
 				B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */,
+				B934413E2C51F88A00D6BA35 /* Reader.swift in Sources */,
 				B94ADB212C3EE0060054899D /* hexString.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
 				B934410A2C4C7FA300D6BA35 /* WebViewStore+JS.swift in Sources */,
@@ -962,6 +977,7 @@
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
+				B934413B2C51EC4000D6BA35 /* ChatGPT.swift in Sources */,
 				B97A80802C3E5B6E00DB523B /* Sidebar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
