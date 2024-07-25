@@ -11,11 +11,10 @@ import WebKit
 
 
 class ObservableVariables: ObservableObject {
-    @AppStorage("prefferedColorScheme") var prefferedColorScheme = "automatic"
-    
     @StateObject var settings = SettingsVariables()
-    
     @StateObject var history = HistoryObservable()
+    @StateObject var shortcuts = KeyboardShortcuts()
+    @StateObject var boosts = BoostDataStorage()
     
     // Storage and Website Loading
     @AppStorage("currentSpace") var currentSpace = "Untitled"
@@ -39,8 +38,6 @@ class ObservableVariables: ObservableObject {
     @AppStorage("startColorHex") var startHex = "8A3CEF"
     @AppStorage("endColorHex") var endHex = "84F5FE"
     @AppStorage("textColorHex") var textHex = "ffffff"
-    
-    @AppStorage("swipingSpaces") var swipingSpaces = true
     
     @Published var presentIcons = false
     
@@ -73,7 +70,7 @@ class ObservableVariables: ObservableObject {
     @Published var commandBarShown = false
     
     @Published var changingIcon = ""
-    //@Published var hideSidebar = false
+    
     @AppStorage("hideSidebar") var hideSidebar = false
     
     @Published var searchInSidebar = ""
@@ -87,20 +84,10 @@ class ObservableVariables: ObservableObject {
     @FocusState var focusedField: FocusedField?
     
     @AppStorage("selectedSpaceIndex") var selectedSpaceIndex = 0
-    //@Published var selectedSpaceIndex = 0
     
     @Published var loadingAnimationToggle = false
     @Published var offset = 0.0
     @Published var loadingRotation = 0
-    
-    
-    @AppStorage("hoverEffectsAbsorbCursor") var hoverEffectsAbsorbCursor = true
-    @AppStorage("favoritesStyle") var favoritesStyle = false
-    @AppStorage("faviconLoadingStyle") var faviconLoadingStyle = false
-    
-    @AppStorage("sidebarLeft") var sidebarLeft = true
-    
-    @AppStorage("showBorder") var showBorder = true
     
     @Published var inspectCode = ""
     
@@ -136,9 +123,6 @@ class ObservableVariables: ObservableObject {
     @Published var arrowImpactOnce = false
     
     @Published var boostEditor = false
-    
-    @StateObject var shortcuts = KeyboardShortcuts()
-    @StateObject var boosts = BoostDataStorage()
     
     @Published var forwardArrowPulse = false
     @Published var backArrowPulse = false

@@ -373,14 +373,7 @@ struct SidebarSpaceParameter: View {
                                 
                             }
                             .contextMenu {
-                                if !settings.hideBrowseForMe {
-                                    Button {
-                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
-                                        variables.isBrowseForMe = true
-                                    } label: {
-                                        Label("Browse for Me", systemImage: "globe.desk")
-                                    }
-                                }
+                                ControlGroup {
 #if !os(macOS)
                                 Button {
                                     UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
@@ -388,13 +381,21 @@ struct SidebarSpaceParameter: View {
                                     Label("Copy URL", systemImage: "link")
                                 }
 #endif
-                                Button {
-                                    var temporaryUrls = spaces[currentSelectedSpaceIndex].favoritesUrls
-                                    temporaryUrls.insert(spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex], at: tabIndex + 1)
+                                    Button {
+                                        var temporaryUrls = spaces[currentSelectedSpaceIndex].favoritesUrls
+                                        temporaryUrls.insert(spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex], at: tabIndex + 1)
+                                        
+                                        spaces[currentSelectedSpaceIndex].favoritesUrls = temporaryUrls
+                                    } label: {
+                                        Label("Duplicate", systemImage: "plus.square.on.square")
+                                    }
                                     
-                                    spaces[currentSelectedSpaceIndex].favoritesUrls = temporaryUrls
-                                } label: {
-                                    Label("Duplicate", systemImage: "plus.square.on.square")
+                                    Button {
+                                        favoriteRemoveTab(at: tabIndex)
+                                    } label: {
+                                        Label("Close Tab", systemImage: "xmark")
+                                    }
+                                    
                                 }
                                 
                                 Button {
@@ -406,7 +407,7 @@ struct SidebarSpaceParameter: View {
                                     favoriteRemoveTab(at: tabIndex)
                                     
                                 } label: {
-                                    Label("Pin", systemImage: "pin.fill")
+                                    Label("Pin", systemImage: "pin")
                                 }
                                 
                                 Button {
@@ -418,15 +419,17 @@ struct SidebarSpaceParameter: View {
                                     favoriteRemoveTab(at: tabIndex)
                                     
                                 } label: {
-                                    Label("Unfavorite", systemImage: "star")
+                                    Label("Unfavorite", systemImage: "star.fill")
                                 }
                                 
-                                Button {
-                                    favoriteRemoveTab(at: tabIndex)
-                                } label: {
-                                    Label("Close Tab", systemImage: "xmark")
+                                if !settings.hideBrowseForMe {
+                                    Button {
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
+                                        variables.isBrowseForMe = true
+                                    } label: {
+                                        Label("Browse for Me", systemImage: "globe.desk")
+                                    }
                                 }
-                                
                             }
                             .onAppear() {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -592,14 +595,7 @@ struct SidebarSpaceParameter: View {
                                 }
                             }
                             .contextMenu {
-                                if !settings.hideBrowseForMe {
-                                    Button {
-                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
-                                        variables.isBrowseForMe = true
-                                    } label: {
-                                        Label("Browse for Me", systemImage: "globe.desk")
-                                    }
-                                }
+                                ControlGroup {
 #if !os(macOS)
                                 Button {
                                     UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
@@ -607,13 +603,21 @@ struct SidebarSpaceParameter: View {
                                     Label("Copy URL", systemImage: "link")
                                 }
 #endif
-                                Button {
-                                    var temporaryUrls = spaces[currentSelectedSpaceIndex].pinnedUrls
-                                    temporaryUrls.insert(spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex], at: tabIndex + 1)
                                     
-                                    spaces[currentSelectedSpaceIndex].pinnedUrls = temporaryUrls
-                                } label: {
-                                    Label("Duplicate", systemImage: "plus.square.on.square")
+                                    Button {
+                                        var temporaryUrls = spaces[currentSelectedSpaceIndex].pinnedUrls
+                                        temporaryUrls.insert(spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex], at: tabIndex + 1)
+                                        
+                                        spaces[currentSelectedSpaceIndex].pinnedUrls = temporaryUrls
+                                    } label: {
+                                        Label("Duplicate", systemImage: "plus.square.on.square")
+                                    }
+                                    
+                                    Button {
+                                        pinnedRemoveTab(at: tabIndex)
+                                    } label: {
+                                        Label("Close Tab", systemImage: "xmark")
+                                    }
                                 }
                                 
                                 Button {
@@ -640,12 +644,14 @@ struct SidebarSpaceParameter: View {
                                     Label("Favorite", systemImage: "star")
                                 }
                                 
-                                Button {
-                                    pinnedRemoveTab(at: tabIndex)
-                                } label: {
-                                    Label("Close Tab", systemImage: "xmark")
+                                if !settings.hideBrowseForMe {
+                                    Button {
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
+                                        variables.isBrowseForMe = true
+                                    } label: {
+                                        Label("Browse for Me", systemImage: "globe.desk")
+                                    }
                                 }
-                                
                             }
                             .onAppear() {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
@@ -1096,14 +1102,7 @@ struct SidebarSpaceParameter: View {
                                 }
                             }
                             .contextMenu {
-                                if !settings.hideBrowseForMe {
-                                    Button {
-                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
-                                        variables.isBrowseForMe = true
-                                    } label: {
-                                        Label("Browse for Me", systemImage: "globe.desk")
-                                    }
-                                }
+                                ControlGroup {
 #if !os(macOS)
                                 Button {
                                     UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
@@ -1111,13 +1110,20 @@ struct SidebarSpaceParameter: View {
                                     Label("Copy URL", systemImage: "link")
                                 }
 #endif
-                                Button {
-                                    var temporaryUrls = spaces[currentSelectedSpaceIndex].tabUrls
-                                    temporaryUrls.insert(spaces[currentSelectedSpaceIndex].tabUrls[tabIndex], at: tabIndex + 1)
+                                    Button {
+                                        var temporaryUrls = spaces[currentSelectedSpaceIndex].tabUrls
+                                        temporaryUrls.insert(spaces[currentSelectedSpaceIndex].tabUrls[tabIndex], at: tabIndex + 1)
+                                        
+                                        spaces[currentSelectedSpaceIndex].tabUrls = temporaryUrls
+                                    } label: {
+                                        Label("Duplicate", systemImage: "plus.square.on.square")
+                                    }
                                     
-                                    spaces[currentSelectedSpaceIndex].tabUrls = temporaryUrls
-                                } label: {
-                                    Label("Duplicate", systemImage: "plus.square.on.square")
+                                    Button {
+                                        removeTab(at: tabIndex)
+                                    } label: {
+                                        Label("Close Tab", systemImage: "xmark")
+                                    }
                                 }
                                 
                                 Button {
@@ -1129,7 +1135,7 @@ struct SidebarSpaceParameter: View {
                                     removeTab(at: tabIndex)
                                     
                                 } label: {
-                                    Label("Pin", systemImage: "pin.fill")
+                                    Label("Pin", systemImage: "pin")
                                 }
                                 
                                 Button {
@@ -1144,12 +1150,14 @@ struct SidebarSpaceParameter: View {
                                     Label("Favorite", systemImage: "star")
                                 }
                                 
-                                Button {
-                                    removeTab(at: tabIndex)
-                                } label: {
-                                    Label("Close Tab", systemImage: "xmark")
+                                if !settings.hideBrowseForMe {
+                                    Button {
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
+                                        variables.isBrowseForMe = true
+                                    } label: {
+                                        Label("Browse for Me", systemImage: "globe.desk")
+                                    }
                                 }
-                                
                             }
                             .onAppear() {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
