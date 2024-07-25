@@ -16,6 +16,10 @@ Download on TestFlight: [testflight.apple.com/join/d6qMDVDH](https://testflight.
 ### Aura on iOS
 ![IMG_0101](https://github.com/user-attachments/assets/ed15f742-ed57-4c20-a1bf-59d913bca5ac)
 
+### Aura on macOS (Catalyst)
+![Screenshot 2024-07-25 at 12 18 14 AM](https://github.com/user-attachments/assets/40adabdd-4b3a-40e2-adad-bf3def11f3a1)
+
+
 
 ### We are not affiliated with Arc or The Browser Company in any way.
 Aura is not an official iPad version of Arc. This means it does not support features like syncing with Arc.
