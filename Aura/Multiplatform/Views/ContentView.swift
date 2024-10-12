@@ -806,7 +806,8 @@ struct ContentView: View {
                                     //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
                                     
                                     //spaces[selectedSpaceIndex].tabUrls.append(url.absoluteString)
-                                    manager.selectOrAddWebView(urlString: url.absoluteString)
+                                    //manager.selectOrAddWebView(urlString: url.absoluteString)
+                                    manager.selectOrAddWebView2(identifier: randomString(length: 10), urlString: url.absoluteString)
                                     manager.selectedTabLocation = .tabs
                                     manager.selectedTabIndex = 0
                                 }
@@ -838,7 +839,7 @@ struct ContentView: View {
                                             print("formattedUrl:")
                                             print(formattedUrl)
                                             
-                                            temporaryUrls.append(formattedUrl)
+                                            temporaryUrls.append(UrlInfo(urlString: formattedUrl))
                                             
                                             print("temporaryUrls - changed:")
                                             print(temporaryUrls)
@@ -856,13 +857,13 @@ struct ContentView: View {
                                             
                                             let tabIndex = 0
                                             
-                                            manager.selectedTabIndex = tabIndex
+                                            manager.selectedTabIndex = spaces[selectedSpaceIndex].tabUrls.count - 1//tabIndex
                                             
                                             manager.selectedTabLocation = .tabs
                                             
-                                            manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                            manager.selectOrAddWebView(urlString: spaces[selectedSpaceIndex].tabUrls.last?.urlString ?? spaces[selectedSpaceIndex].tabUrls[tabIndex].urlString)
                                             
-                                            variables.searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].tabUrls[tabIndex])
+                                            variables.searchInSidebar = unformatURL(url: spaces[selectedSpaceIndex].tabUrls.last?.urlString ?? spaces[selectedSpaceIndex].tabUrls[tabIndex].urlString)
                                         }
                                         else {
                                             if variables.newTabSearch.contains("dashboard") {
@@ -1146,10 +1147,10 @@ struct ContentView: View {
     }
     
     func favoriteRemoveTab(at index: Int) {
-        var temporaryUrls = spaces[manager.selectedSpaceIndex].favoritesUrls
+        let currentSpace = spaces[manager.selectedSpaceIndex]
         
         if index == manager.selectedTabIndex && manager.selectedTabLocation == .favorites {
-            if temporaryUrls.count > 1 { // Check if there's more than one tab
+            if currentSpace.favoritesUrls.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
                     manager.selectedTabIndex = 1
                 } else { // Otherwise, select the previous one
@@ -1161,26 +1162,23 @@ struct ContentView: View {
             }
         }
         
-        temporaryUrls.remove(at: index)
-        
-        spaces[manager.selectedSpaceIndex].favoritesUrls = temporaryUrls
+        // Remove the UrlInfo object at the specified index
+        currentSpace.favoritesUrls.remove(at: index)
         
         do {
             try modelContext.save()
         } catch {
-            print(error.localizedDescription)
+            print("Failed to save after removing favorite: \(error.localizedDescription)")
         }
     }
     
     func pinnedRemoveTab(at index: Int) {
-        var temporaryUrls = spaces[manager.selectedSpaceIndex].pinnedUrls
+        let currentSpace = spaces[manager.selectedSpaceIndex]
         
-        temporaryUrls.remove(at: index)
-        
-        spaces[manager.selectedSpaceIndex].pinnedUrls = temporaryUrls
+        currentSpace.pinnedUrls.remove(at: index)
         
         if index == manager.selectedTabIndex && manager.selectedTabLocation == .pinned {
-            if temporaryUrls.count > 1 { // Check if there's more than one tab
+            if currentSpace.pinnedUrls.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
                     manager.selectedTabIndex = 1
                 } else { // Otherwise, select the previous one
@@ -1195,33 +1193,28 @@ struct ContentView: View {
         do {
             try modelContext.save()
         } catch {
-            print(error.localizedDescription)
+            print("Failed to save after removing pinned tab: \(error.localizedDescription)")
         }
     }
-    
+
     func removeTab(at index: Int) {
-        var temporaryUrls = spaces[manager.selectedSpaceIndex].tabUrls
+        let currentSpace = spaces[manager.selectedSpaceIndex]
         
         print("Removing Tab:")
-        print(temporaryUrls)
+        print(currentSpace.tabUrls.map { $0.urlString })
         
-        temporaryUrls.remove(at: index)
+        currentSpace.tabUrls.remove(at: index)
         
-        print(temporaryUrls)
-        
-        spaces[manager.selectedSpaceIndex].tabUrls = temporaryUrls
-        
-        print(spaces[manager.selectedSpaceIndex].tabUrls)
+        print(currentSpace.tabUrls.map { $0.urlString })
         
         if index == manager.selectedTabIndex && manager.selectedTabLocation == .tabs {
-            if temporaryUrls.count > 1 { // Check if there's more than one tab
+            if currentSpace.tabUrls.count > 1 { // Check if there's more than one tab
                 if index == 0 { // If the first tab is being deleted, select the next one
                     manager.selectedTabIndex = 1
                 } else { // Otherwise, select the previous one
                     manager.selectedTabIndex = index - 1
                 }
             } else { // If it's the only tab, set the selectedWebView to nil
-                
                 manager.selectedWebView = nil
             }
         }
@@ -1229,11 +1222,9 @@ struct ContentView: View {
         do {
             try modelContext.save()
         } catch {
-            print(error.localizedDescription)
+            print("Failed to save after removing tab: \(error.localizedDescription)")
         }
         
         print("Done")
-        
-        //saveSpaceData()
     }
 }

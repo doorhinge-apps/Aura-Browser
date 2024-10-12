@@ -19,15 +19,15 @@ struct TabOverview: View {
     
     @State var browseForMeTabs = [] as [String]
     
-    @State private var tabs: [(id: UUID, url: String)]
-    @State private var pinnedTabs: [(id: UUID, url: String)]
-    @State private var favoriteTabs: [(id: UUID, url: String)]
+    @State private var tabs: [(id: UUID, url: UrlInfo)]
+    @State private var pinnedTabs: [(id: UUID, url: UrlInfo)]
+    @State private var favoriteTabs: [(id: UUID, url: UrlInfo)]
     @State private var offsets: [UUID: CGSize] = [:]
     @State private var tilts: [UUID: Double] = [:]
     @State private var zIndexes: [UUID: Double] = [:]
     
-    @State var selectedTab: (id: UUID, url: String)?
-    @State var draggedTab: (id: UUID, url: String)?
+    @State var selectedTab: (id: UUID, url: UrlInfo)?
+    @State var draggedTab: (id: UUID, url: UrlInfo)?
     
     @EnvironmentObject var variables: ObservableVariables
     @StateObject var settings = SettingsVariables()
@@ -58,7 +58,8 @@ struct TabOverview: View {
     @State var closeTabScrollDisabled = false
     @State var closeTabScrollDisabledCounter = 0
     
-    @State var webURL = ""
+    //@State var webURL = ""
+    @State var webURL = UrlInfo(urlString: "")
     @State var displayWebURL = ""
     
     init(selectedSpaceIndex: Binding<Int>) {
@@ -85,7 +86,7 @@ struct TabOverview: View {
                                 LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
                                     ForEach(selectedTabsSection == .tabs ? tabs: selectedTabsSection == .pinned ? pinnedTabs: favoriteTabs, id: \.id) { tab in
                                         let offset = offsets[tab.id, default: .zero]
-                                        WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab, browseForMeTabs: $browseForMeTabs)
+                                        WebPreview(namespace: namespace, url: tab.url.urlString, geo: geo, tab: tab, browseForMeTabs: $browseForMeTabs)
                                             .rotationEffect(Angle(degrees: tilts[tab.id, default: 0.0]))
                                             .offset(x: offset.width)
                                             .overlay(content: {
@@ -127,7 +128,7 @@ struct TabOverview: View {
                                             )
                                             .contextMenu(menuItems: {
                                                 Button(action: {
-                                                    UIPasteboard.general.string = tab.url
+                                                    UIPasteboard.general.string = tab.url.urlString
                                                 }, label: {
                                                     Label("Copy URL", systemImage: "link")
                                                 })
@@ -147,7 +148,7 @@ struct TabOverview: View {
                                             })
                                             .onDrag {
                                                 self.draggedTab = tab
-                                                return NSItemProvider(object: tab.url as NSString)
+                                                return NSItemProvider(object: tab.url.urlString as NSString)
                                             }
                                             .onDrop(of: [.text], delegate: AlternateDropViewDelegate(destinationItem: tab, allTabs: selectedTabsSection == .tabs ? $tabs: selectedTabsSection == .pinned ? $pinnedTabs: $favoriteTabs, draggedItem: $draggedTab))
                                             .onChange(of: tabs.map { $0.url }, {
@@ -376,11 +377,11 @@ struct TabOverview: View {
                                 Rectangle()
                                     .fill(.thinMaterial)
                                     .frame(height: newTabFocus ? 75: 150)
-                                    .onChange(of: webURL, {
+                                    .onChange(of: webURL) { oldValue, newValue in
                                         if fullScreenWebView, let selectedTab = selectedTab {
-                                            updateTabURL(for: selectedTab.id, with: webURL)
+                                            updateTabURL(for: selectedTab.id, with: newValue)
                                         }
-                                    })
+                                    }
                                 
                                 VStack {
                                     
@@ -711,7 +712,7 @@ struct TabOverview: View {
         
         Task {
             if spaces.count <= 0 {
-                await modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                await modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled", spaceIcon: "circle.fill"))
             }
         }
         
@@ -771,7 +772,7 @@ struct TabOverview: View {
         }
     }
     
-    private func updateTabURL(for id: UUID, with newURL: String) {
+    private func updateTabURL(for id: UUID, with newURL: UrlInfo) {
         switch selectedTabsSection {
         case .tabs:
             if let index = tabs.firstIndex(where: { $0.id == id }) {
@@ -791,20 +792,20 @@ struct TabOverview: View {
         }
     }
 
-    
     private func createTab(url: String, isBrowseForMeTab: Bool) {
-        let newTab = (id: UUID(), url: url)
+        let newUrlInfo = UrlInfo(urlString: url)
+        let newTab = (id: UUID(), url: newUrlInfo)
         
         switch selectedTabsSection {
         case .tabs:
             tabs.append(newTab)
-            spaces[selectedSpaceIndex].tabUrls.append(url)
+            spaces[selectedSpaceIndex].tabUrls.append(newUrlInfo)
         case .pinned:
             pinnedTabs.append(newTab)
-            spaces[selectedSpaceIndex].pinnedUrls.append(url)
+            spaces[selectedSpaceIndex].pinnedUrls.append(newUrlInfo)
         case .favorites:
             favoriteTabs.append(newTab)
-            spaces[selectedSpaceIndex].favoritesUrls.append(url)
+            spaces[selectedSpaceIndex].favoritesUrls.append(newUrlInfo)
         }
         
         if isBrowseForMeTab {
@@ -814,7 +815,7 @@ struct TabOverview: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
             withAnimation {
                 selectedTab = newTab
-                webURL = newTab.url
+                webURL = newUrlInfo
                 fullScreenWebView = true
             }
         })
@@ -868,7 +869,7 @@ struct TabOverview: View {
 
 struct WebPreview: View {
     let namespace: Namespace.ID
-    @State var url: String
+    @State var url: UrlInfo
     @State private var webTitle: String = ""
     @State var webURL = ""
     
@@ -920,7 +921,7 @@ struct WebPreview: View {
                             Text("Browse for Me:")
                                 .lineLimit(2)
                             
-                            Text(unformatURL(url: url))
+                            Text(unformatURL(url: url.urlString))
                                 .lineLimit(1)
                         }
                         .scaleEffect(2.0)
@@ -929,7 +930,7 @@ struct WebPreview: View {
                     }.frame(width: geo.size.width - 50, height: 400)
                 }
                 else {
-                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+                    WebViewMobile(urlString: url.urlString, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
                         .frame(width: geo.size.width - 50, height: 400)
                         .disabled(true)
                 }
@@ -941,7 +942,7 @@ struct WebPreview: View {
             .cornerRadius(15)
             
             if browseForMeTabs.contains(tab.id.description) {
-                Text(unformatURL(url: url))
+                Text(unformatURL(url: url.urlString))
                     .foregroundStyle(Color.black)
                     .font(.system(.body, design: .rounded, weight: .regular))
                     .lineLimit(1)
@@ -949,7 +950,7 @@ struct WebPreview: View {
             else {
                 HStack {
                     if settings.faviconLoadingStyle {
-                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url.urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                             image
                                 .resizable()
                                 .scaledToFit()
@@ -969,7 +970,7 @@ struct WebPreview: View {
                         .scaledToFit()
                         
                     } else {
-                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url.urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                             image
                                 .resizable()
                                 .scaledToFit()

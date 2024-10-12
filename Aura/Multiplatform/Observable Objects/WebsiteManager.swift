@@ -64,6 +64,48 @@ class WebsiteManager: ObservableObject {
         }
     }
     
+    func selectOrAddWebView2(identifier: String, urlString: String) {
+        if let existingStore = webViewStores[identifier] {
+            // Set the found WebViewStore as the selected WebView
+            selectedWebView = existingStore
+            selectedWebView?.webView.allowsBackForwardNavigationGestures = true
+        } else {
+            // Create a new WebViewStore if not found and add it to the dictionary
+            let newWebViewStore = WebViewStore()
+            newWebViewStore.webView.allowsBackForwardNavigationGestures = true
+            newWebViewStore.webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15"
+            
+            newWebViewStore.loadIfNeeded(url: URL(string: urlString) ?? URL(string: "https://example.com")!)
+            webViewStores[identifier] = newWebViewStore
+            
+            let customMenu = UIMenu(title: "Custom Actions", image: nil, identifier: UIMenu.Identifier("com.yourapp.customMenu"), options: .displayInline, children: [
+                UIAction(title: "Custom Action 1", image: UIImage(systemName: "star"), handler: { _ in
+                    // Handle custom action 1
+                    print("Custom action 1 tapped")
+                }),
+                UIAction(title: "Custom Action 2", image: UIImage(systemName: "heart"), handler: { _ in
+                    // Handle custom action 2
+                    print("Custom action 2 tapped")
+                })
+            ])
+            
+            // Add the refresh control
+            addRefreshControl(to: newWebViewStore.webView.scrollView)
+            
+            selectedWebView = newWebViewStore
+            
+            if UserDefaults.standard.bool(forKey: "adBlockEnabled") {
+                loadContentBlockingRules(selectedWebView?.webView ?? WKWebView())
+            }
+        }
+        
+        if webViewStores.count > Int(UserDefaults.standard.double(forKey: "preloadingWebsites")) {
+            let sortedKeys = webViewStores.keys.sorted()
+            let keysToKeep = Array(sortedKeys.prefix(Int(UserDefaults.standard.double(forKey: "preloadingWebsites"))))
+            webViewStores = webViewStores.filter { keysToKeep.contains($0.key) }
+        }
+    }
+    
     func addRefreshControl(to scrollView: UIScrollView) {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(reloadWebView(_:)), for: .valueChanged)

@@ -86,7 +86,8 @@ struct HorizontalSidebar: View {
     @State var pdfData: Data? = nil
     
     var body: some View {
-        HStack {
+        EmptyView()
+        /*HStack {
             // Sidebar Searchbar
             Button {
                 if manager.selectedWebView != nil {
@@ -342,18 +343,24 @@ struct HorizontalSidebar: View {
                         
                         if manager.selectedWebView != nil {
                             if manager.selectedTabLocation == .pinned {
-                                spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
+                                spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = UrlInfo(urlString: newUrl)
                             }
                             else if manager.selectedTabLocation == .tabs {
-                                spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
+                                spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = UrlInfo(urlString: newUrl)
                             }
                             else if manager.selectedTabLocation == .favorites {
-                                spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = newUrl
+                                spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = UrlInfo(urlString: newUrl)
                             }
                         }
                         
-                        let fetchTitlesArrays = spaces[selectedSpaceIndex].tabUrls + spaces[selectedSpaceIndex].pinnedUrls + spaces[selectedSpaceIndex].favoritesUrls
-                        
+                        let currentSpace = spaces[selectedSpaceIndex]
+
+                        let tabUrlStrings = currentSpace.tabUrls.map { $0.urlString }
+                        let pinnedUrlStrings = currentSpace.pinnedUrls.map { $0.urlString }
+                        let favoriteUrlStrings = currentSpace.favoritesUrls.map { $0.urlString }
+
+                        let fetchTitlesArrays = tabUrlStrings + pinnedUrlStrings + favoriteUrlStrings
+
                         manager.fetchTitlesIfNeeded(for: fetchTitlesArrays)
                     })
                 }
@@ -1280,10 +1287,10 @@ struct HorizontalSidebar: View {
                 }
             }
         }
-        .padding(.horizontal, 7)
+        .padding(.horizontal, 7)*/
     }
     
-    func favoriteRemoveTab(at index: Int) {
+    /*func favoriteRemoveTab(at index: Int) {
         var temporaryUrls = spaces[currentSelectedSpaceIndex].favoritesUrls
         
         if index == manager.selectedTabIndex && manager.selectedTabLocation == .favorites {
@@ -1371,5 +1378,5 @@ struct HorizontalSidebar: View {
         }
         
         print("Done")
-    }
+    }*/
 }

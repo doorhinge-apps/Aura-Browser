@@ -155,7 +155,7 @@ struct PagedSidebar: View {
                     
                     Menu(content: {
                         Button(action: {
-                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable"))
                         }, label: {
                             Label("Add Space", systemImage: "square.badge.plus")
                         })

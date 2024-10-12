@@ -117,6 +117,43 @@ struct IndexDropViewDelegate: DropDelegate {
     }
 }
 
+struct IndexDropViewDelegate2: DropDelegate {
+    let destinationIndex: Int
+    @Binding var allItems: [UrlInfo]
+    @Binding var draggedItem: UrlInfo?
+    @Binding var draggedItemIndex: Int?
+    @Binding var currentHoverIndex: Int?
+    var onDropAction: () -> Void
+    
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        // Update current hover index
+        currentHoverIndex = destinationIndex
+        return DropProposal(operation: .move)
+    }
+    
+    func performDrop(info: DropInfo) -> Bool {
+        currentHoverIndex = nil
+        draggedItem = nil
+        draggedItemIndex = nil
+        
+        onDropAction()
+        
+        return true
+    }
+    
+    func dropEntered(info: DropInfo) {
+        // Swap Items
+        if let draggedItem, let draggedItemIndex {
+            if draggedItemIndex != destinationIndex {
+                withAnimation {
+                    self.allItems.move(fromOffsets: IndexSet(integer: draggedItemIndex), toOffset: (destinationIndex > draggedItemIndex ? (destinationIndex + 1) : destinationIndex))
+                    softHaptics()
+                }
+            }
+        }
+    }
+}
+
 
 
     extension Array {

@@ -167,7 +167,7 @@ public struct WebView: UIViewRepresentable {
             for space in spaces {
                 let moveAction = UIAction(title: space.spaceName, image: UIImage(systemName: space.spaceIcon)) { _ in
                     guard let url = elementInfo.linkURL else { return }
-                    space.tabUrls.append(url.absoluteString)
+                    space.tabUrls.append(UrlInfo(urlString: url.absoluteString))
                     
                     do {
                         try self.container.mainContext.save()

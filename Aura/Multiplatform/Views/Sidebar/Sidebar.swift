@@ -76,10 +76,10 @@ struct SidebarSpaceParameter: View {
     
     @State private var textRect = CGRect()
     
-    @State private var draggedItem: String?
+    @State private var draggedItem: UrlInfo?
     @State private var draggedItemIndex: Int?
     @State private var currentHoverIndex: Int?
-    @State var reorderingTabs: [String] = []
+    @State var reorderingTabs: [UrlInfo] = []
     
     @State var pdfData: Data? = nil
     
@@ -325,7 +325,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 if !favoritesStyle {
                                     if faviconLoadingStyle {
-                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                                             image
                                                 .resizable()
                                                 .scaledToFit()
@@ -345,7 +345,7 @@ struct SidebarSpaceParameter: View {
                                         .scaledToFit()
                                         
                                     } else {
-                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                                             image
                                                 .resizable()
                                                 .scaledToFit()
@@ -361,7 +361,7 @@ struct SidebarSpaceParameter: View {
                                 }
                                 else {
                                     if spaces[currentSelectedSpaceIndex].favoritesUrls.count > tabIndex {
-                                        Text(manager.linksWithTitles[spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]] ?? spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])
+                                        Text(manager.linksWithTitles[spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString] ?? spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString)
                                             .lineLimit(1)
                                             .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                                             .padding(.leading, 5)
@@ -376,7 +376,7 @@ struct SidebarSpaceParameter: View {
                                 ControlGroup {
 #if !os(macOS)
                                 Button {
-                                    UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
+                                    UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString
                                 } label: {
                                     Label("Copy URL", systemImage: "link")
                                 }
@@ -424,7 +424,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 if !settings.hideBrowseForMe {
                                     Button {
-                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex]
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString
                                         variables.isBrowseForMe = true
                                     } label: {
                                         Label("Browse for Me", systemImage: "globe.desk")
@@ -450,9 +450,9 @@ struct SidebarSpaceParameter: View {
                                 
                                 manager.selectedTabLocation = .favorites
                                 
-                                manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])
+                                manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString)
                                 
-                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex])
+                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].favoritesUrls[tabIndex].urlString)
                             }
                             .onDrag {
                                 draggedItem = spaces[selectedSpaceIndex].favoritesUrls[tabIndex]
@@ -461,13 +461,13 @@ struct SidebarSpaceParameter: View {
                                 
                                 manager.dragTabLocation = .favorites
                                 
-                                return NSItemProvider(object: spaces[selectedSpaceIndex].favoritesUrls[tabIndex] as NSString)
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].favoritesUrls[tabIndex].urlString as NSString)
                             }
                         }
                         .background(
                             Color.white.opacity(0.0001)
                         )
-                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+                        .onDrop(of: [.text], delegate: IndexDropViewDelegate2(
                             destinationIndex: tabIndex,
                             allItems: $reorderingTabs,
                             draggedItem: $draggedItem,
@@ -513,7 +513,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 HStack {
                                     if faviconLoadingStyle {
-                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                                             image
                                                 .resizable()
                                                 .scaledToFit()
@@ -533,7 +533,7 @@ struct SidebarSpaceParameter: View {
                                         .scaledToFit()
                                         
                                     } else {
-                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                                             image
                                                 .resizable()
                                                 .scaledToFit()
@@ -548,7 +548,7 @@ struct SidebarSpaceParameter: View {
                                     }
                                     
                                     
-                                    Text(manager.linksWithTitles[spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]] ?? spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])
+                                    Text(manager.linksWithTitles[spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString] ?? spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString)
                                         .lineLimit(1)
                                         .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                                         .padding(.leading, 5)
@@ -598,7 +598,7 @@ struct SidebarSpaceParameter: View {
                                 ControlGroup {
 #if !os(macOS)
                                 Button {
-                                    UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
+                                    UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString
                                 } label: {
                                     Label("Copy URL", systemImage: "link")
                                 }
@@ -646,7 +646,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 if !settings.hideBrowseForMe {
                                     Button {
-                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex]
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString
                                         variables.isBrowseForMe = true
                                     } label: {
                                         Label("Browse for Me", systemImage: "globe.desk")
@@ -672,9 +672,9 @@ struct SidebarSpaceParameter: View {
                                 
                                 manager.selectedTabLocation = .pinned
                                 
-                                manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])
+                                manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString)
                                 
-                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex])
+                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].pinnedUrls[tabIndex].urlString)
                             }
                             .onDrag {
                                 draggedItem = spaces[selectedSpaceIndex].pinnedUrls[tabIndex]
@@ -685,7 +685,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 //currentHoverIndex = -1
                                 
-                                return NSItemProvider(object: spaces[selectedSpaceIndex].pinnedUrls[tabIndex] as NSString)
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].pinnedUrls[tabIndex].urlString as NSString)
                             }
                             
                             if tabIndex > draggedItemIndex ?? 0 {
@@ -707,7 +707,7 @@ struct SidebarSpaceParameter: View {
                         .background(
                             Color.white.opacity(0.0001)
                         )
-                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+                        .onDrop(of: [.text], delegate: IndexDropViewDelegate2(
                             destinationIndex: tabIndex,
                             allItems: $reorderingTabs,
                             draggedItem: $draggedItem,
@@ -721,7 +721,7 @@ struct SidebarSpaceParameter: View {
                             }
                         ))                    }
                     .onAppear() {
-                        manager.fetchTitles(for: spaces[currentSelectedSpaceIndex].pinnedUrls)
+                        //manager.fetchTitles(for: spaces[currentSelectedSpaceIndex].pinnedUrls)
                     }
                     
                     ZStack {
@@ -975,19 +975,19 @@ struct SidebarSpaceParameter: View {
                             
                             if manager.selectedWebView != nil {
                                 if manager.selectedTabLocation == .pinned {
-                                    spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = newUrl
+                                    spaces[selectedSpaceIndex].pinnedUrls[manager.selectedTabIndex] = UrlInfo(urlString: newUrl)
                                 }
                                 else if manager.selectedTabLocation == .tabs {
-                                    spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = newUrl
+                                    spaces[selectedSpaceIndex].tabUrls[manager.selectedTabIndex] = UrlInfo(urlString: newUrl)
                                 }
                                 else if manager.selectedTabLocation == .favorites {
-                                    spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = newUrl
+                                    spaces[selectedSpaceIndex].favoritesUrls[manager.selectedTabIndex] = UrlInfo(urlString: newUrl)
                                 }
                             }
                             
-                            let fetchTitlesArrays = spaces[selectedSpaceIndex].tabUrls + spaces[selectedSpaceIndex].pinnedUrls + spaces[selectedSpaceIndex].favoritesUrls
+                            //let fetchTitlesArrays = spaces[selectedSpaceIndex].tabUrls + spaces[selectedSpaceIndex].pinnedUrls + spaces[selectedSpaceIndex].favoritesUrls
                             
-                            manager.fetchTitlesIfNeeded(for: fetchTitlesArrays)
+                            //manager.fetchTitlesIfNeeded(for: fetchTitlesArrays)
                         })
                     }
                     
@@ -1020,7 +1020,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 HStack {
                                     if faviconLoadingStyle {
-                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                                             image
                                                 .resizable()
                                                 .scaledToFit()
@@ -1040,7 +1040,7 @@ struct SidebarSpaceParameter: View {
                                         .scaledToFit()
                                         
                                     } else {
-                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
+                                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
                                             image
                                                 .resizable()
                                                 .scaledToFit()
@@ -1055,7 +1055,7 @@ struct SidebarSpaceParameter: View {
                                     }
                                     
                                     
-                                    Text(manager.linksWithTitles[spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]] ?? spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
+                                    Text(manager.linksWithTitles[spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString] ?? spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString)
                                         .lineLimit(1)
                                         .foregroundColor(Color.foregroundColor(forHex: UserDefaults.standard.string(forKey: "startColorHex") ?? "ffffff"))
                                         .padding(.leading, 5)
@@ -1105,7 +1105,7 @@ struct SidebarSpaceParameter: View {
                                 ControlGroup {
 #if !os(macOS)
                                 Button {
-                                    UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
+                                    UIPasteboard.general.string = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString
                                 } label: {
                                     Label("Copy URL", systemImage: "link")
                                 }
@@ -1152,7 +1152,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 if !settings.hideBrowseForMe {
                                     Button {
-                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex]
+                                        variables.browseForMeSearch = spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString
                                         variables.isBrowseForMe = true
                                     } label: {
                                         Label("Browse for Me", systemImage: "globe.desk")
@@ -1178,9 +1178,9 @@ struct SidebarSpaceParameter: View {
                                 
                                 manager.selectedTabLocation = .tabs
                                 
-                                manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
+                                manager.selectOrAddWebView(urlString: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString)
                                 
-                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex])
+                                variables.searchInSidebar = unformatURL(url: spaces[currentSelectedSpaceIndex].tabUrls[tabIndex].urlString)
                             }
                             .onDrag {
                                 draggedItem = spaces[selectedSpaceIndex].tabUrls[tabIndex]
@@ -1191,7 +1191,7 @@ struct SidebarSpaceParameter: View {
                                 
                                 //currentHoverIndex = -1
                                 
-                                return NSItemProvider(object: spaces[selectedSpaceIndex].tabUrls[tabIndex] as NSString)
+                                return NSItemProvider(object: spaces[selectedSpaceIndex].tabUrls[tabIndex].urlString as NSString)
                             }
                             
                             if tabIndex < draggedItemIndex ?? 0 {
@@ -1213,7 +1213,7 @@ struct SidebarSpaceParameter: View {
                         .background(
                             Color.white.opacity(0.0001)
                         )
-                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+                        .onDrop(of: [.text], delegate: IndexDropViewDelegate2(
                             destinationIndex: tabIndex,
                             allItems: $reorderingTabs,
                             draggedItem: $draggedItem,
@@ -1228,7 +1228,7 @@ struct SidebarSpaceParameter: View {
                         ))
                     }
                     .onAppear() {
-                        manager.fetchTitles(for: spaces[currentSelectedSpaceIndex].tabUrls)
+                        //manager.fetchTitles(for: spaces[currentSelectedSpaceIndex].tabUrls)
                     }
                 }
                 
