@@ -22,6 +22,8 @@ struct SidebarSpaceParameter: View {
     @EnvironmentObject var manager: WebsiteManager
     @EnvironmentObject var settings: SettingsVariables
     
+    @StateObject var sidebarObservable = SidebarObservable()
+    
     var geo: GeometryProxy
     
     @State var temporaryRenamingString = ""

@@ -27,6 +27,8 @@ public class WebViewStore: NSObject, ObservableObject,WKNavigationDelegate {
         self.webView = WKWebView()
         super.init()
         setupObservers()
+        webView.isFindInteractionEnabled = true
+        webView.findInteraction?.presentFindNavigator(showingReplace: false)
     }
     deinit {
         invalidateObservers()
@@ -84,6 +86,8 @@ public struct WebView: UIViewRepresentable {
         // Set the delegate when the view is initially created
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
+//        webView.isFindInteractionEnabled = true
+//        webView.findInteraction?.presentFindNavigator(showingReplace: false)
         return uiView
     }
 
@@ -162,6 +166,11 @@ public struct WebView: UIViewRepresentable {
                 
                 UIPasteboard.general.string = url.absoluteString
             }
+            
+            let findAction = UIAction(title: "Find", image: UIImage(systemName: "magnifyingglass")) { _ in
+                webView.findInteraction?.presentFindNavigator(showingReplace: false)
+            }
+            
 
             var openIn: [UIMenuElement] = []
             for space in spaces {
@@ -199,13 +208,11 @@ public struct WebView: UIViewRepresentable {
             }
 
             let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: previewProvider) { _ in
-                UIMenu(children: [shareAction, copyAction, openInMenu])
+                UIMenu(children: [shareAction, copyAction, findAction, openInMenu])
             }
             completionHandler(configuration)
         }
     }
-
-
 }
 
 

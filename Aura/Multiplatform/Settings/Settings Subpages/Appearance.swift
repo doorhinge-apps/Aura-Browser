@@ -16,6 +16,8 @@ struct UISettings: View {
     @State var endHex: String
     
     @State private var selectedAppearance: String = "light"
+    @State private var forceDarkModeSelection: String = "advanced"
+    @State private var forceDarkModeTimeSelection: String = "system"
     
     @State private var blackOverlayOpacity: Double = 0.0
     @State private var gradientStartPoint: UnitPoint = .bottomLeading
@@ -159,6 +161,56 @@ struct UISettings: View {
                     .background(Color.white.opacity(0.5).cornerRadius(7))
                     #endif
                     .padding([.leading, .trailing, .bottom])
+                    
+                    VStack {
+                        HStack {
+                            Text("Force Dark Mode On Websites (beta)")
+                                .font(.system(.title3, design: .rounded, weight: .bold))
+                                .foregroundStyle(Color.white)
+                        }
+                        
+                        Picker("", selection: $forceDarkModeSelection) {
+                            Text("None").tag("none")
+                            Text("Basic").tag("basic")
+                            Text("Advanced").tag("advanced")
+                        }
+                        .pickerStyle(.segmented)
+                        .onChange(of: forceDarkModeSelection) { newValue in
+                            withAnimation {
+                                settings.forceDarkMode = newValue
+                            }
+                        }
+#if !os(visionOS)
+                        .background(Color.white.opacity(0.5).cornerRadius(7))
+#endif
+                        .padding([.leading, .trailing, .bottom])
+                        
+                        Picker("", selection: $forceDarkModeTimeSelection) {
+                            Text("System").tag("system")
+                            Text("Light").tag("light")
+                            Text("Dark").tag("dark")
+                        }
+                        .pickerStyle(.segmented)
+                        .onChange(of: forceDarkModeTimeSelection) { newValue in
+                            withAnimation {
+                                settings.forceDarkModeTime = newValue
+                            }
+                        }
+#if !os(visionOS)
+                        .background(Color.white.opacity(0.5).cornerRadius(7))
+#endif
+                        .padding([.leading, .trailing, .bottom])
+                        
+                        
+                        HStack {
+                            Text("This will attempt to force dark mode on websites that don't support it. Selecting 'basic' will invert some colors that are very close to black and white. Selecting 'advanced' will apply a more advanced effect that will work on more websites, but may cause readability issues sometime (please report these as a bug and say what website had the issues). You can also decide if this is never enabled, always enabled, or matches system appearance.")
+                                .foregroundStyle(Color.white)
+                                .padding(.leading, 20)
+                            
+                            Spacer()
+                        }
+                    }
+                    
 #if os(iOS)
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         HStack {
@@ -353,6 +405,8 @@ struct UISettings: View {
             }
             .onAppear {
                 selectedAppearance = settings.prefferedColorScheme
+                forceDarkModeSelection = settings.forceDarkMode
+                forceDarkModeTimeSelection = settings.forceDarkModeTime
                 updateAppearance()
             }
         }

@@ -126,6 +126,40 @@ struct ContentView: View {
                                                         .overlay(content: {
                                                             loadingIndicators(for: manager.selectedWebView?.webView.isLoading ?? false)
                                                         })
+                                                        .onChange(of: manager.selectedWebView?.webView.url) { oldValue, newValue in
+                                                            if settings.forceDarkMode == "basic" {
+                                                                if settings.forceDarkModeTime != "light" {
+                                                                    if settings.forceDarkModeTime == "system" && colorScheme == .dark {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
+                                                                        }
+                                                                    }
+                                                                    if settings.forceDarkModeTime == "dark" {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            else if settings.forceDarkMode == "advanced" {
+                                                                if settings.forceDarkModeTime != "light" {
+                                                                    if settings.forceDarkModeTime == "system" && colorScheme == .dark {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
+                                                                        }
+                                                                    }
+                                                                    if settings.forceDarkModeTime == "dark" {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
                                                     
                                                     if !settings.swipeNavigationDisabled {
                                                         if manager.selectedWebView != nil {
@@ -248,6 +282,39 @@ struct ContentView: View {
                                                     """
                                                                 if !variables.boosts.disabledBoosts.contains(key) {
                                                                     manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                                }
+                                                            }
+                                                            
+                                                            if settings.forceDarkMode == "basic" {
+                                                                if settings.forceDarkModeTime != "light" {
+                                                                    if settings.forceDarkModeTime == "system" && colorScheme == .dark {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
+                                                                        }
+                                                                    }
+                                                                    if settings.forceDarkModeTime == "dark" {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            else if settings.forceDarkMode == "advanced" {
+                                                                if settings.forceDarkModeTime != "light" {
+                                                                    if settings.forceDarkModeTime == "system" && colorScheme == .dark {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
+                                                                        }
+                                                                    }
+                                                                    if settings.forceDarkModeTime == "dark" {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                            manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
+                                                                            manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         } label: {
@@ -929,34 +996,6 @@ struct ContentView: View {
                             }
                         }
                         .padding(settings.horizontalTabBar ? [.leading, .trailing, .bottom]: settings.sidebarLeft ? [.trailing, .bottom, .top]: [.leading, .bottom, .top], settings.showBorder ? 20: 0)
-                        /*.sheet(isPresented: $isBrowseForMe, content: {
-                         VStack {
-                         if UIDevice.current.userInterfaceIdiom != .phone {
-                         BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
-                         .frame(width: geo.size.width * 0.7, height: geo.size.height * 0.9)
-                         .onDisappear() {
-                         isBrowseForMe = false
-                         newTabSearch = ""
-                         commandBarShown = false
-                         tabBarShown = false
-                         commandBarSearchSubmitted = false
-                         commandBarSearchSubmitted2 = false
-                         }
-                         }
-                         else {
-                         BrowseForMe(searchText: newTabSearch, searchResponse: "", closeSheet: $isBrowseForMe)
-                         .onDisappear() {
-                         isBrowseForMe = false
-                         newTabSearch = ""
-                         commandBarShown = false
-                         tabBarShown = false
-                         commandBarSearchSubmitted = false
-                         commandBarSearchSubmitted2 = false
-                         }
-                         }
-                         }
-                         .interactiveDismissDisabled(true)
-                         })*/
                         .onAppear() {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 4.6, execute: {
                                 

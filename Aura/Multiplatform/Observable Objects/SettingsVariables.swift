@@ -37,6 +37,9 @@ class SettingsVariables: ObservableObject {
     
     @AppStorage("faviconShape") var faviconShape = "circle"
     
+    @AppStorage("forceDarkMode") var forceDarkMode = "advanced"
+    @AppStorage("forceDarkModeTime") var forceDarkModeTime = "system"
+    
     @AppStorage("commandBarOnLaunch") var commandBarOnLaunch = true
     
     @AppStorage("adBlockEnabled") var adBlockEnabled = true

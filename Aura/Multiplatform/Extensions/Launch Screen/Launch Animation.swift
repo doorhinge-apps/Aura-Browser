@@ -11,8 +11,6 @@ let launchCircleSizeFactor = 0.5859375
 
 
 struct Launch_Animation: View {
-    //@State var startHex: String
-    //@State var endHex: String
     @State var startHex = "8A3CEF"
     @State var endHex = "84F5FE"
     
@@ -37,12 +35,6 @@ struct Launch_Animation: View {
                     .scaledToFill()
                     .opacity(1.0)
                 
-//                Image("Aura circle")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .opacity(0.0)
-//                    .frame(width: geo.size.width - 200, height: geo.size.height - 200)
-                
                 ZStack {
                     Image("Aura Middle")
                         .resizable()
@@ -64,23 +56,25 @@ struct Launch_Animation: View {
             .ignoresSafeArea()
             .frame(width: geo.size.width, height: geo.size.height)
             .onAppear() {
+                let durationFactor = 2.0
+                
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    withAnimation(.bouncy(duration: 1, extraBounce: 0.2)) {
+                    withAnimation(.bouncy(duration: 1 * durationFactor, extraBounce: 0.2)) {
                         circleFillScale = 2
                         circleFillRotation = -180
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            withAnimation(.linear(duration: 1)) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1 * durationFactor) {
+                            withAnimation(.linear(duration: 1 * durationFactor)) {
                                 circleFillOpacity = 0.0
                             }
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            withAnimation(.bouncy(duration: 0.5, extraBounce: 0.4)) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 * durationFactor) {
+                            withAnimation(.bouncy(duration: 0.5 * durationFactor, extraBounce: 0.4)) {
                                 circleStrokeScale = 1.2
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                                withAnimation(.linear(duration: 1)) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25 * durationFactor) {
+                                withAnimation(.linear(duration: 1 * durationFactor)) {
                                     circleStrokeScale = 5
                                     allOpacity = 0
                                 }

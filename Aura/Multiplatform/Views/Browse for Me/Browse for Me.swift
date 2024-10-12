@@ -156,8 +156,12 @@ struct BrowseForMe: View {
 
                     }
                     if apiKey.isEmpty {
-                        Text("Please enter your API key in settings to use Browse for Me")
-                            .font(.system(.title2, design: .rounded, weight: .bold))
+                        VStack {
+                            Text("Please enter your API key in settings to use Browse for Me")
+                            
+                            Text(.init("Generate an API key at [https://www.perplexity.ai/settings/api](https://www.perplexity.ai/settings/api)"))
+                            
+                        }.font(.system(.title2, design: .rounded, weight: .bold))
                     }
                     else {
                         if searching {
