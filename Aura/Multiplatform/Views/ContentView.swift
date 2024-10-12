@@ -854,7 +854,8 @@ struct ContentView: View {
                                             }
                                             print(spaces[selectedSpaceIndex].tabUrls)
                                             
-                                            let tabIndex = 0
+                                            //let tabIndex = 0
+                                            let tabIndex = spaces[selectedSpaceIndex].tabUrls.count - 1
                                             
                                             manager.selectedTabIndex = tabIndex
                                             
