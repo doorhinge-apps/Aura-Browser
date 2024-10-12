@@ -104,7 +104,6 @@ struct BrowseForMe: View {
                                 Task {
                                     do {
                                         var buttonSendText = unformatURL(url: manager.selectedWebView?.webView.url?.absoluteString ?? "")
-//                                        var buttonSendText = unformatURL(url: variables.selectedTabLocation == "tabs" ? variables.navigationState.selectedWebView?.url?.absoluteString ?? searchText: variables.selectedTabLocation == "pinnedTabs" ? variables.pinnedNavigationState.selectedWebView?.url?.absoluteString ?? searchText: variables.favoritesNavigationState.selectedWebView?.url?.absoluteString ?? searchText)
                                         
                                         searchText = buttonSendText
                                         

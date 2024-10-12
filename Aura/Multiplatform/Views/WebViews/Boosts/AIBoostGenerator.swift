@@ -76,25 +76,6 @@ struct AIBoostGenerator: View {
                 }
             }
         }
-        
-        /*openAI?.chatsStream(query: query) { partialResult in
-            
-            switch partialResult {
-            case .success(let result):
-                print(result.choices)
-                //text = result.choices.description
-                text += result.choices.first?.delta.content ?? ""
-                text = text.replacingOccurrences(of: "`css", with: "`").replacingOccurrences(of: "```", with: "")
-            case .failure(let error):
-                print("Failed to produce chunk: \(error)")
-            }
-        } completion: { error in
-            print("Error streaming chat")
-        }*/
     }
 }
 
-
-//#Preview {
-//    AIBoostGenerator()
-//}

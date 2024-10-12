@@ -13,7 +13,7 @@ func getChatCompletion(prompt: String) async -> String {
     
     // Define the parameters for the request
     let parameters: [String: Any] = [
-        "model": "llama-3-sonar-small-32k-online",
+        "model": "llama-3.1-sonar-small-128k-online",
         "messages": [
             ["role": "system", "content": "Be precise. Answer in several paragraphs. Format your response using markdown. Include bullet points for key information."],
             ["role": "user", "content": prompt]
@@ -55,6 +55,10 @@ func getChatCompletion(prompt: String) async -> String {
     
     if httpResponse.statusCode == 401 {
         return "Error: Unauthorized. Check your API key."
+    }
+    
+    if httpResponse.statusCode == 400 {
+        return "Error: Bad request. Contact us for support. This is likely a bug in the app caused by a change in the Perplexity API."
     }
     
     // Decode the JSON response
