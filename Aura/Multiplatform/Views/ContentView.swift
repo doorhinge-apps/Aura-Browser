@@ -108,7 +108,8 @@ struct ContentView: View {
                                     
                                     HStack(spacing: 0) {
                                         if settings.sidebarLeft && !settings.horizontalTabBar {
-                                            PagedSidebar(fullGeo: geo)
+                                            //PagedSidebar(fullGeo: geo)
+                                            TabbedPagedSidebar(fullGeo: geo, isHovering: false)
                                                 .padding(5)
                                                 .padding(.leading, 5)
                                         }
@@ -582,7 +583,8 @@ struct ContentView: View {
                                         }
                                         
                                         if !settings.sidebarLeft && !settings.horizontalTabBar {
-                                            PagedSidebar(fullGeo: geo)
+                                            //PagedSidebar(fullGeo: geo)
+                                            TabbedPagedSidebar(fullGeo: geo, isHovering: false)
                                         }
                                     }
                                     .onAppear {
@@ -668,83 +670,84 @@ struct ContentView: View {
                                             
                                             HStack {
                                                 VStack {
-                                                    ToolbarButtonsView(geo: geo)
-                                                        .frame(height: 40)
-                                                        .padding([.top, .horizontal], 5)
+//                                                    ToolbarButtonsView(geo: geo)
+//                                                        .frame(height: 40)
+//                                                        .padding([.top, .horizontal], 5)
                                                     
-                                                    SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, geo: geo)
+                                                    TabbedPagedSidebar(fullGeo: geo, isHovering: true)
+                                                    //SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, geo: geo)
                                                     
-                                                    HStack {
-                                                        Button {
-                                                            variables.showSettings.toggle()
-                                                        } label: {
-                                                            ZStack {
-                                                                HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
-                                                                
-                                                                Image(systemName: "gearshape")
-                                                                    .resizable()
-                                                                    .scaledToFit()
-                                                                    .frame(width: 20, height: 20)
-                                                                    .foregroundStyle(variables.textColor)
-                                                                    .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-                                                                
-                                                            }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS) && !os(macOS)
-                                                                .hoverEffect(.lift)
-                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-#endif
-                                                                .onHover(perform: { hovering in
-                                                                    if hovering {
-                                                                        variables.settingsButtonHover = true
-                                                                    }
-                                                                    else {
-                                                                        variables.settingsButtonHover = false
-                                                                    }
-                                                                })
-                                                        }
-                                                        .sheet(isPresented: $variables.showSettings) {
-                                                            if #available(iOS 18.0, visionOS 2.0, *) {
-                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                                                                    .presentationSizing(.form)
-                                                            } else {
-                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-                                                            }
-                                                        }
-                                                        Spacer()
-                                                        
-                                                        SpacePicker(currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
-                                                        
-                                                        Button(action: {
-                                                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-                                                        }, label: {
-                                                            ZStack {
-#if !os(visionOS)
-                                                                Color(.white)
-                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-#endif
-                                                                
-                                                                Image(systemName: "plus")
-                                                                    .resizable()
-                                                                    .scaledToFit()
-                                                                    .frame(width: 20, height: 20)
-                                                                    .foregroundStyle(variables.textColor)
-                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-                                                                
-                                                            }.frame(width: 40, height: 40).cornerRadius(7)
-#if !os(visionOS) && !os(macOS)
-                                                                .hoverEffect(.lift)
-                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-#endif
-                                                                .onHover(perform: { hovering in
-                                                                    if hovering {
-                                                                        variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-                                                                    }
-                                                                    else {
-                                                                        variables.hoverSpace = ""
-                                                                    }
-                                                                })
-                                                        })
-                                                    }
+//                                                    HStack {
+//                                                        Button {
+//                                                            variables.showSettings.toggle()
+//                                                        } label: {
+//                                                            ZStack {
+//                                                                HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
+//                                                                
+//                                                                Image(systemName: "gearshape")
+//                                                                    .resizable()
+//                                                                    .scaledToFit()
+//                                                                    .frame(width: 20, height: 20)
+//                                                                    .foregroundStyle(variables.textColor)
+//                                                                    .opacity(variables.settingsButtonHover ? 1.0: 0.5)
+//                                                                
+//                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+//#if !os(visionOS) && !os(macOS)
+//                                                                .hoverEffect(.lift)
+//                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+//#endif
+//                                                                .onHover(perform: { hovering in
+//                                                                    if hovering {
+//                                                                        variables.settingsButtonHover = true
+//                                                                    }
+//                                                                    else {
+//                                                                        variables.settingsButtonHover = false
+//                                                                    }
+//                                                                })
+//                                                        }
+//                                                        .sheet(isPresented: $variables.showSettings) {
+//                                                            if #available(iOS 18.0, visionOS 2.0, *) {
+//                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+//                                                                    .presentationSizing(.form)
+//                                                            } else {
+//                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
+//                                                            }
+//                                                        }
+//                                                        Spacer()
+//                                                        
+//                                                        SpacePicker(currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
+//                                                        
+//                                                        Button(action: {
+//                                                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
+//                                                        }, label: {
+//                                                            ZStack {
+//#if !os(visionOS)
+//                                                                Color(.white)
+//                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
+//#endif
+//                                                                
+//                                                                Image(systemName: "plus")
+//                                                                    .resizable()
+//                                                                    .scaledToFit()
+//                                                                    .frame(width: 20, height: 20)
+//                                                                    .foregroundStyle(variables.textColor)
+//                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
+//                                                                
+//                                                            }.frame(width: 40, height: 40).cornerRadius(7)
+//#if !os(visionOS) && !os(macOS)
+//                                                                .hoverEffect(.lift)
+//                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
+//#endif
+//                                                                .onHover(perform: { hovering in
+//                                                                    if hovering {
+//                                                                        variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
+//                                                                    }
+//                                                                    else {
+//                                                                        variables.hoverSpace = ""
+//                                                                    }
+//                                                                })
+//                                                        })
+//                                                    }
                                                 }
                                                 .padding(15)
                                                 .frame(width: 300)
@@ -771,13 +774,14 @@ struct ContentView: View {
                                                     
                                                     if settings.prefferedColorScheme == "dark" || (settings.prefferedColorScheme == "automatic" && colorScheme == .dark) {
                                                         Color.black.opacity(0.5)
+                                                            .ignoresSafeArea()
                                                     }
                                                 })
                                                 .cornerRadius(10)
                                                 .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
                                                 
                                                 Spacer()
-                                            }.padding(40)
+                                            }.padding(20)
                                                 .padding(.leading, 30)
                                                 .frame(width: variables.hoveringSidebar || variables.tapSidebarShown ? 350: 0)
                                                 .offset(x: variables.hoveringSidebar || variables.tapSidebarShown ? 0: settings.sidebarLeft ? -350: 300)

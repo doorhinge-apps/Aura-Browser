@@ -64,6 +64,7 @@
 		B94CA9292C28EB9A00AD3921 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9282C28EB9A00AD3921 /* MotionManager.swift */; };
 		B94CA92B2C290E7F00AD3921 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA92A2C290E7F00AD3921 /* General.swift */; };
 		B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */; };
+		B95A4F462CBA609A00A376BF /* TabbedPagedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A4F452CBA609A00A376BF /* TabbedPagedSidebar.swift */; };
 		B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* Aura_App.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
@@ -183,6 +184,7 @@
 		B94CA9282C28EB9A00AD3921 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		B94CA92A2C290E7F00AD3921 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
 		B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSnapshot.swift; sourceTree = "<group>"; };
+		B95A4F452CBA609A00A376BF /* TabbedPagedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedPagedSidebar.swift; sourceTree = "<group>"; };
 		B95B19E12AABBEE00013AC79 /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95B19E42AABBEE00013AC79 /* Aura_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_App.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -586,6 +588,7 @@
 				B97A807F2C3E5B6E00DB523B /* Sidebar.swift */,
 				B93440E72C48C7E300D6BA35 /* Sharing.swift */,
 				B97725022C01292400A39E3A /* PagedSidebar.swift */,
+				B95A4F452CBA609A00A376BF /* TabbedPagedSidebar.swift */,
 				B93440E42C486A6800D6BA35 /* Horizontal Sidebar */,
 				B93D9D2F2BDF35DA0002D01B /* Tabs */,
 				B98256D12BD2E40C00F997F5 /* Toolbar Buttons.swift */,
@@ -978,6 +981,7 @@
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,
 				B934413B2C51EC4000D6BA35 /* ChatGPT.swift in Sources */,
+				B95A4F462CBA609A00A376BF /* TabbedPagedSidebar.swift in Sources */,
 				B97A80802C3E5B6E00DB523B /* Sidebar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
