@@ -144,10 +144,12 @@ struct OnboardingView: View {
                 
                 SizedSpacer(height: 100)
                 
-                Text("It looks like you're on mobile. Onboarding isn't ready for mobile yet. You can proceed anyway or skip.")
-                    .foregroundColor(Color(.white))
-                    .font(.system(.body, design: .rounded, weight: .bold))
-                    .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    Text("It looks like you're on mobile. Onboarding isn't ready for mobile yet. You can proceed anyway or skip.")
+                        .foregroundColor(Color(.white))
+                        .font(.system(.body, design: .rounded, weight: .bold))
+                        .shadow(color: Color(hex: "fff").opacity(0.75), radius: 7, x: 0, y: 0)
+                }
                 
                 
                 HStack {
@@ -185,12 +187,12 @@ struct OnboardingView: View {
     
     @State var onboardingInfo = [
         OnboardingInfo(index: 0, title: "Meet Aura", description: "Aura is a new browser built for iPad first with additional support for iOS, macOS, and visionOS. The design is based on Arc browser.", rectangle1Size: [0, 0], rectangle2Size: [0, 0], rectangle3Size: [0, 554], rectangleOutlineSize: [780, 554]),
-        OnboardingInfo(index: 1, title: "Meet Aura - Sidebar", description: "Aura organizes tabs into a sidebar which can be either on the left or right. There are three types of tabs: favorite, pinned, and today tabs.", rectangle1Size: [126, 0], rectangle2Size: [126, 0], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 554]),
-        OnboardingInfo(index: 2, title: "Meet Aura - Favorite Tabs", description: "Favorite tabs are shown at the top of the sidebar under the url bar. These tabs are displayed in capsules as either the website icon or name.", rectangle1Size: [126, 80], rectangle2Size: [126, 400], rectangle3Size: [674, 554], rectangleOutlineSize: [126, 74]),
-        OnboardingInfo(index: 3, title: "Meet Aura - Pinned Tabs", description: "Pinned tabs are beneath favorite tabs. They show the website icon and name.", rectangle1Size: [217, 145], rectangle2Size: [217, 325], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 84]),
-        OnboardingInfo(index: 4, title: "Meet Aura - Today Tabs", description: "Today tabs are at the bottom and are where new tabs are created. We will be adding support to automatically close these tabs after a set amount of time.", rectangle1Size: [217, 264], rectangle2Size: [217, 195], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 95]),
-        OnboardingInfo(index: 5, title: "Meet Aura - Spaces", description: "Spaces scroll horizontally at the bottom. You can switch between spaces by tapping on the space you want to use or swiping in the sidebar. \n \nSpaces can be added with the plus icon. The name, icon, and theme can be customized for each space.", rectangle1Size: [217, 504], rectangle2Size: [217, 10], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 40]),
-        OnboardingInfo(index: 6, title: "Meet Aura - Feedback", description: "Thanks for trying out our browser. If you have any feedback, we’d love to hear it. Email us at support@doorhingeapps.com. Click the button below to get started using the browser.", rectangle1Size: [0, 0], rectangle2Size: [0, 0], rectangle3Size: [0, 0], rectangleOutlineSize: [0, 0])
+        OnboardingInfo(index: 1, title: "The Sidebar", description: "Aura organizes tabs into a sidebar which can be on the left, right, or top. There are three types of tabs: favorite, pinned, and today tabs.", rectangle1Size: [126, 0], rectangle2Size: [126, 0], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 554]),
+        OnboardingInfo(index: 2, title: "Favorite Tabs", description: "Favorite tabs are shown at the top of the sidebar under the url bar. These tabs are displayed in capsules as either the website icon or name.", rectangle1Size: [126, 80], rectangle2Size: [126, 400], rectangle3Size: [674, 554], rectangleOutlineSize: [126, 74]),
+        OnboardingInfo(index: 3, title: "Pinned Tabs", description: "Pinned tabs are beneath favorite tabs. They show the website icon and name.", rectangle1Size: [217, 145], rectangle2Size: [217, 325], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 84]),
+        OnboardingInfo(index: 4, title: "Today Tabs", description: "Today tabs are at the bottom and are where new tabs are created. We will be adding support to automatically close these tabs after a set amount of time.", rectangle1Size: [217, 264], rectangle2Size: [217, 195], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 95]),
+        OnboardingInfo(index: 5, title: "Spaces", description: "Spaces scroll horizontally at the bottom. You can switch between spaces by tapping on the space you want to use or swiping in the sidebar. Spaces can be added with the plus icon. The name, icon, and theme can be customized for each space.", rectangle1Size: [217, 504], rectangle2Size: [217, 10], rectangle3Size: [582, 554], rectangleOutlineSize: [217, 40]),
+        OnboardingInfo(index: 6, title: "Sharing Feedback", description: "Thanks for trying out our browser. If you have any feedback, we’d love to hear it. Email us at support@doorhingeapps.com. Click the button below to get started using the browser.", rectangle1Size: [0, 0], rectangle2Size: [0, 0], rectangle3Size: [0, 0], rectangleOutlineSize: [0, 0])
     ]
     
     @State var rectangle1Size = [0, 0] as [CGFloat]

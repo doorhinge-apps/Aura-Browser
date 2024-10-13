@@ -13,11 +13,11 @@ func averageHexColor(hex1: String, hex2: String) -> String {
     guard let color1 = UIColor(hexString: hex1), let color2 = UIColor(hexString: hex2) else {
         return "Invalid Hex Values"
     }
-    #else
+#else
     guard let color1 = NSColor(hexString: hex1), let color2 = NSColor(hexString: hex2) else {
         return "Invalid Hex Values"
     }
-    #endif
+#endif
     
     // Get the RGB components of both colors
     var red1: CGFloat = 0, green1: CGFloat = 0, blue1: CGFloat = 0, alpha1: CGFloat = 0
@@ -34,9 +34,17 @@ func averageHexColor(hex1: String, hex2: String) -> String {
     // Create a new UIColor with the average RGB components
 #if !os(macOS)
     let averageColor = UIColor(red: averageRed, green: averageGreen, blue: averageBlue, alpha: 1.0)
-    #else
+    
+    if #available(iOS 18.0, *) {
+        let mixedColor = Color(hex: hex1).mix(with: Color(hex: hex2), by: 0.5)
+        let mixedUIColor = UIColor(mixedColor)
+        
+        return mixedUIColor.toHex() ?? averageColor.hexString
+        //return "000000"
+    }
+#else
     let averageColor = NSColor(red: averageRed, green: averageGreen, blue: averageBlue, alpha: 1.0)
-    #endif
+#endif
     
     // Convert the average UIColor to hex string
     return averageColor.hexString

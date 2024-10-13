@@ -66,6 +66,7 @@
 		B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */; };
 		B95A4F462CBA609A00A376BF /* TabbedPagedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A4F452CBA609A00A376BF /* TabbedPagedSidebar.swift */; };
 		B95A4F482CBA6C8500A376BF /* SidebarObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A4F472CBA6C8500A376BF /* SidebarObservable.swift */; };
+		B95A4F4A2CBB796B00A376BF /* BoostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A4F492CBB796B00A376BF /* BoostSettings.swift */; };
 		B95B19E52AABBEE00013AC79 /* Aura_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B19E42AABBEE00013AC79 /* Aura_App.swift */; };
 		B95B19E92AABBEE10013AC79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19E82AABBEE10013AC79 /* Assets.xcassets */; };
 		B95B19EC2AABBEE10013AC79 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95B19EB2AABBEE10013AC79 /* Preview Assets.xcassets */; };
@@ -187,6 +188,7 @@
 		B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSnapshot.swift; sourceTree = "<group>"; };
 		B95A4F452CBA609A00A376BF /* TabbedPagedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedPagedSidebar.swift; sourceTree = "<group>"; };
 		B95A4F472CBA6C8500A376BF /* SidebarObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarObservable.swift; sourceTree = "<group>"; };
+		B95A4F492CBB796B00A376BF /* BoostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostSettings.swift; sourceTree = "<group>"; };
 		B95B19E12AABBEE00013AC79 /* Aura.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aura.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B95B19E42AABBEE00013AC79 /* Aura_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_App.swift; sourceTree = "<group>"; };
 		B95B19E82AABBEE10013AC79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -686,6 +688,7 @@
 			children = (
 				B94CA92A2C290E7F00AD3921 /* General.swift */,
 				B9D47D0B2C282A150059BE46 /* Appearance.swift */,
+				B95A4F492CBB796B00A376BF /* BoostSettings.swift */,
 				B91BCF402C3F1AED0031581D /* SearchEngine.swift */,
 				B9D47D092C27806C0059BE46 /* Favicons.swift */,
 				B91BCF682C3F54940031581D /* ShortcutSettings.swift */,
@@ -903,6 +906,7 @@
 				B93440E62C486A8100D6BA35 /* HorizontalSidebar.swift in Sources */,
 				B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */,
 				C1BD7D332BDE05690078D7B3 /* DefaultsStorage.swift in Sources */,
+				B95A4F4A2CBB796B00A376BF /* BoostSettings.swift in Sources */,
 				B94ADB242C3EE0780054899D /* InnerShadow.swift in Sources */,
 				B94CA9272C28EB7500AD3921 /* SkewIcon.swift in Sources */,
 				B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */,

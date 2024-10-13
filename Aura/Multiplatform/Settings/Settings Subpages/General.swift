@@ -228,7 +228,7 @@ struct General: View {
                     
                     Divider()
                     
-                    HStack {
+                    /*HStack {
                         Text("Swipe Between Spaces")
                             .font(.system(.title3, design: .rounded, weight: .bold))
                             .foregroundStyle(Color.white)
@@ -247,7 +247,7 @@ struct General: View {
                             .padding(.leading, 20)
                         
                         Spacer()
-                    }
+                    }*/
                     
                     HStack {
                         Text("Background Loading")
@@ -328,7 +328,7 @@ struct General: View {
                     
                     
                     HStack {
-                        Text("Save History")
+                        Text("Save History (beta)")
                             .font(.system(.title3, design: .rounded, weight: .bold))
                             .foregroundStyle(Color.white)
                         

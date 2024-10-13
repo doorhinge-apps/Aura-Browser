@@ -63,6 +63,10 @@ class SettingsVariables: ObservableObject {
     @AppStorage("pinnedTabCornerRadius") var favoriteTabCornerRadius = 20.0
     @AppStorage("pinnedTabBorderWidth") var favoriteTabBorderWidth = 2.0
     
+    @AppStorage("jsInjectionDelay") var jsInjectionDelay = 3.0
+    
+    @AppStorage("jsInjectionDelayBoosts") var jsInjectionDelayBoosts = 3.0
+    
     @AppStorage("horizontalTabBar") var horizontalTabBar = false
     
     @AppStorage("shareButtonInTabBar") var shareButtonInTabBar = true

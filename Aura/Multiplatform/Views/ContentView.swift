@@ -130,12 +130,12 @@ struct ContentView: View {
                                                             if settings.forceDarkMode == "basic" {
                                                                 if settings.forceDarkModeTime != "light" {
                                                                     if settings.forceDarkModeTime == "system" && colorScheme == .dark {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
                                                                         }
                                                                     }
                                                                     if settings.forceDarkModeTime == "dark" {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
                                                                         }
                                                                     }
@@ -144,14 +144,14 @@ struct ContentView: View {
                                                             else if settings.forceDarkMode == "advanced" {
                                                                 if settings.forceDarkModeTime != "light" {
                                                                     if settings.forceDarkModeTime == "system" && colorScheme == .dark {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
                                                                         }
                                                                     }
                                                                     if settings.forceDarkModeTime == "dark" {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
@@ -281,19 +281,21 @@ struct ContentView: View {
                                                     })();
                                                     """
                                                                 if !variables.boosts.disabledBoosts.contains(key) {
-                                                                    manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                                    DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelayBoosts) {
+                                                                        manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                                    }
                                                                 }
                                                             }
                                                             
                                                             if settings.forceDarkMode == "basic" {
                                                                 if settings.forceDarkModeTime != "light" {
                                                                     if settings.forceDarkModeTime == "system" && colorScheme == .dark {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
                                                                         }
                                                                     }
                                                                     if settings.forceDarkModeTime == "dark" {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeBasic)
                                                                         }
                                                                     }
@@ -302,14 +304,14 @@ struct ContentView: View {
                                                             else if settings.forceDarkMode == "advanced" {
                                                                 if settings.forceDarkModeTime != "light" {
                                                                     if settings.forceDarkModeTime == "system" && colorScheme == .dark {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
                                                                         }
                                                                     }
                                                                     if settings.forceDarkModeTime == "dark" {
-                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelay) {
                                                                             manager.selectedWebView?.JSperformScript(script: forceDarkModeAdvanced)
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.toggleDarkMode(true);")
                                                                             manager.selectedWebView?.webView.evaluateJavaScript("window.setBrightness(75);")
@@ -607,7 +609,9 @@ struct ContentView: View {
                                         })();
                                         """
                                                     if !variables.boosts.disabledBoosts.contains(key) {
-                                                        manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelayBoosts) {
+                                                            manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                        }
                                                     }
                                                 }
                                                 
@@ -643,7 +647,9 @@ struct ContentView: View {
                                         })();
                                         """
                                                 if !variables.boosts.disabledBoosts.contains(key) {
-                                                    manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + settings.jsInjectionDelayBoosts) {
+                                                        manager.selectedWebView?.JSperformScript(script: jsToInjectCSS)
+                                                    }
                                                 }
                                             }
                                             
@@ -737,90 +743,14 @@ struct ContentView: View {
                                             
                                             HStack {
                                                 VStack {
-//                                                    ToolbarButtonsView(geo: geo)
-//                                                        .frame(height: 40)
-//                                                        .padding([.top, .horizontal], 5)
-                                                    
                                                     TabbedPagedSidebar(fullGeo: geo, isHovering: true)
-                                                    //SidebarSpaceParameter(currentSelectedSpaceIndex: variables.selectedSpaceIndex, geo: geo)
-                                                    
-//                                                    HStack {
-//                                                        Button {
-//                                                            variables.showSettings.toggle()
-//                                                        } label: {
-//                                                            ZStack {
-//                                                                HoverButtonDisabledVision(hoverInteraction: $variables.settingsButtonHover)
-//                                                                
-//                                                                Image(systemName: "gearshape")
-//                                                                    .resizable()
-//                                                                    .scaledToFit()
-//                                                                    .frame(width: 20, height: 20)
-//                                                                    .foregroundStyle(variables.textColor)
-//                                                                    .opacity(variables.settingsButtonHover ? 1.0: 0.5)
-//                                                                
-//                                                            }.frame(width: 40, height: 40).cornerRadius(7)
-//#if !os(visionOS) && !os(macOS)
-//                                                                .hoverEffect(.lift)
-//                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-//#endif
-//                                                                .onHover(perform: { hovering in
-//                                                                    if hovering {
-//                                                                        variables.settingsButtonHover = true
-//                                                                    }
-//                                                                    else {
-//                                                                        variables.settingsButtonHover = false
-//                                                                    }
-//                                                                })
-//                                                        }
-//                                                        .sheet(isPresented: $variables.showSettings) {
-//                                                            if #available(iOS 18.0, visionOS 2.0, *) {
-//                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-//                                                                    .presentationSizing(.form)
-//                                                            } else {
-//                                                                NewSettings(presentSheet: $variables.showSettings, startHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].startHex: startHex, endHex: (!spaces[selectedSpaceIndex].startHex.isEmpty) ? spaces[selectedSpaceIndex].endHex: endHex)
-//                                                            }
-//                                                        }
-//                                                        Spacer()
-//                                                        
-//                                                        SpacePicker(currentSpace: $currentSpace, selectedSpaceIndex: $selectedSpaceIndex)
-//                                                        
-//                                                        Button(action: {
-//                                                            modelContext.insert(SpaceStorage(spaceIndex: spaces.count, spaceName: "Untitled \(spaces.count)", spaceIcon: "scribble.variable", favoritesUrls: [], pinnedUrls: [], tabUrls: []))
-//                                                        }, label: {
-//                                                            ZStack {
-//#if !os(visionOS)
-//                                                                Color(.white)
-//                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 0.5: 0.0)
-//#endif
-//                                                                
-//                                                                Image(systemName: "plus")
-//                                                                    .resizable()
-//                                                                    .scaledToFit()
-//                                                                    .frame(width: 20, height: 20)
-//                                                                    .foregroundStyle(variables.textColor)
-//                                                                    .opacity(variables.hoverSpace == "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable" ? 1.0: 0.5)
-//                                                                
-//                                                            }.frame(width: 40, height: 40).cornerRadius(7)
-//#if !os(visionOS) && !os(macOS)
-//                                                                .hoverEffect(.lift)
-//                                                                .hoverEffectDisabled(!settings.hoverEffectsAbsorbCursor)
-//#endif
-//                                                                .onHover(perform: { hovering in
-//                                                                    if hovering {
-//                                                                        variables.hoverSpace = "veryLongTextForHoveringOnPlusSignSoIDontHaveToUseAnotherVariable"
-//                                                                    }
-//                                                                    else {
-//                                                                        variables.hoverSpace = ""
-//                                                                    }
-//                                                                })
-//                                                        })
-//                                                    }
                                                 }
                                                 .padding(15)
                                                 .frame(width: 300)
                                                 .background(content: {
 #if !os(visionOS)
                                                     if settings.sidebarLeft {
+                                                        
                                                         LinearGradient(colors: [variables.startColor, Color(hex: averageHexColor(hex1: variables.startHex, hex2: variables.endHex))], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
                                                             .opacity(1.0)
                                                         if selectedSpaceIndex < spaces.count {

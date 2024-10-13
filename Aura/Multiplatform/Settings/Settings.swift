@@ -118,6 +118,41 @@ struct NewSettings: View {
                                 }.frame(height: 50)
                             }).padding([.leading, .trailing, .bottom], 10)
                             
+                            NavigationLink(destination: {
+                                BoostSettings(settings: settings, startHex: startHex, endHex: endHex)
+                            }, label: {
+                                ZStack {
+#if !os(visionOS)
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.white)
+                                    #endif
+                                    
+                                    HStack {
+                                        Image("Appearance Icon")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .padding(2)
+                                            .background(content: {
+                                                ZStack {
+                                                    LinearGradient(colors: [Color(hex: startHex), Color(hex: endHex)], startPoint: .bottomLeading, endPoint: .topTrailing).ignoresSafeArea()
+                                                    
+                                                    Color.black.opacity(0.3)
+                                                        .ignoresSafeArea()
+                                                }.cornerRadius(5)
+                                            })
+                                        
+                                        Text("Boost and JavaScript Injection Settings")
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .padding(.trailing, 10)
+                                        
+                                    }.foregroundStyle(settingsButtonTextColor)
+                                        .padding(10)
+                                }.frame(height: 50)
+                            }).padding([.leading, .trailing, .bottom], 10)
+                            
                             
                             NavigationLink(destination: {
                                 SearchSettings(settings: settings, startHex: startHex, endHex: endHex)
