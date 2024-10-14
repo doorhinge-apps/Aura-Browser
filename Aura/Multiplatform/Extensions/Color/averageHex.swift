@@ -35,7 +35,7 @@ func averageHexColor(hex1: String, hex2: String) -> String {
 #if !os(macOS)
     let averageColor = UIColor(red: averageRed, green: averageGreen, blue: averageBlue, alpha: 1.0)
     
-    if #available(iOS 18.0, *) {
+    if #available(iOS 18.0, visionOS 2.0, *) {
         let mixedColor = Color(hex: hex1).mix(with: Color(hex: hex2), by: 0.5)
         let mixedUIColor = UIColor(mixedColor)
         

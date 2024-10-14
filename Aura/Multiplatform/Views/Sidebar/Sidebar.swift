@@ -155,6 +155,7 @@ struct SidebarSpaceParameter: View {
                             
                             
                             if manager.selectedWebView != nil {
+#if !os(visionOS)
                                 if settings.shareButtonInTabBar {
                                     Button(action: {
                                         let activityController = UIActivityViewController(activityItems: [manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, manager.selectedWebView?.webView ?? WKWebView()], applicationActivities: nil)
@@ -177,7 +178,7 @@ struct SidebarSpaceParameter: View {
                                             .padding(10)
                                     }
                                 }
-                                
+                                #endif
                                 
                                 Menu(content: {
                                     ControlGroup {
@@ -202,9 +203,10 @@ struct SidebarSpaceParameter: View {
                                         }) {
                                             Label("Share", systemImage: "square.and.arrow.up")
                                         }
-#endif
+                                        #endif
                                     }
                                     
+#if !os(visionOS)
                                     Button(action: {
                                         let activityController = UIActivityViewController(activityItems: [manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, manager.selectedWebView?.webView ?? WKWebView()], applicationActivities: nil)
                                         
@@ -220,6 +222,7 @@ struct SidebarSpaceParameter: View {
                                     }) {
                                         Label("Add to Home Screen", systemImage: "plus.square")
                                     }
+                                    #endif
                                     
                                     Button(action: {
                                         withAnimation {

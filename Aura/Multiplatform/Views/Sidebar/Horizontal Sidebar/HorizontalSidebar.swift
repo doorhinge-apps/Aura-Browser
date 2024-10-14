@@ -151,6 +151,7 @@ struct HorizontalSidebar: View {
                         
                         
                         if manager.selectedWebView != nil {
+#if !os(visionOS)
                             if settings.shareButtonInTabBar {
                                 Button(action: {
                                     let activityController = UIActivityViewController(activityItems: [manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, manager.selectedWebView?.webView ?? WKWebView()], applicationActivities: nil)
@@ -173,6 +174,7 @@ struct HorizontalSidebar: View {
                                         .padding(10)
                                 }
                             }
+                            #endif
                             
                             
                             Menu(content: {
@@ -201,6 +203,7 @@ struct HorizontalSidebar: View {
 #endif
                                 }
                                 
+                                #if !os(visionOS)
                                 Button(action: {
                                     let activityController = UIActivityViewController(activityItems: [manager.selectedWebView?.webView.url?.absoluteURL ?? URL("")!, manager.selectedWebView?.webView ?? WKWebView()], applicationActivities: nil)
                                     
@@ -216,6 +219,7 @@ struct HorizontalSidebar: View {
                                 }) {
                                     Label("Add to Home Screen", systemImage: "plus.square")
                                 }
+#endif
                                 
                                 Button(action: {
                                     withAnimation {
