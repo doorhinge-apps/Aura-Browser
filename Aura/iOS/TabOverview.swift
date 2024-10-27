@@ -82,6 +82,9 @@ struct TabOverview: View {
                         
                         ScrollView {
                             VStack {
+                                Spacer()
+                                    .frame(height: 60)
+                                
                                 LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
                                     ForEach(selectedTabsSection == .tabs ? tabs: selectedTabsSection == .pinned ? pinnedTabs: favoriteTabs, id: \.id) { tab in
                                         let offset = offsets[tab.id, default: .zero]
@@ -106,8 +109,8 @@ struct TabOverview: View {
                                                         }
                                                     }
                                             })
-                                            .simultaneousGesture(
-                                                DragGesture(minimumDistance: 20)
+                                            .gesture(
+                                                DragGesture(minimumDistance: 50)
                                                     .onChanged { gesture in
                                                         if newTabFocus {
                                                             newTabFocus = false
@@ -292,10 +295,29 @@ struct TabOverview: View {
                         }
                         
                         VStack {
+                            if !fullScreenWebView {
+                                HStack {
+                                    Button(action: {
+                                        variables.showSettings = true
+                                    }, label: {
+                                        Image(systemName: "gearshape")
+                                        
+                                    }).buttonStyle(ToolbarButtonStyle())
+                                        .sheet(isPresented: $variables.showSettings, content: {
+                                            if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
+                                                NewSettings(presentSheet: $variables.showSettings, startHex: spaces[selectedSpaceIndex].startHex, endHex: spaces[selectedSpaceIndex].endHex)
+                                            }
+                                            else {
+                                                NewSettings(presentSheet: $variables.showSettings, startHex: variables.startHex, endHex: variables.endHex)
+                                            }
+                                        })
+                                    
+                                    Spacer()
+                                }.padding(.top, 50)
+                                    .padding(.leading, 20)
+                            }
+                            
                             Spacer()
-//                                .frame(height: geo.size.height - (newTabFocus ? 75: 150))
-//                                .offset(x: tabOffset.width, y: tabOffset.height)
-//                                .scaleEffect(tabScale)
                             
                             ScrollView(showsIndicators: false) {
                                 VStack {
@@ -311,7 +333,7 @@ struct TabOverview: View {
                                                 }, label: {
                                                     ZStack {
                                                         ZStack {
-                                                            Capsule()
+                                                            RoundedRectangle(cornerRadius: 15)
                                                                 .fill(
                                                                     .white.gradient.shadow(.inner(color: .black.opacity(0.2), radius: 10, x: 0, y: -3))
                                                                 )
@@ -319,7 +341,7 @@ struct TabOverview: View {
                                                         }
                                                         
                                                         HStack {
-                                                            Text(suggestion)
+                                                            Text(.init(suggestion))
                                                                 .animation(.default)
                                                                 .foregroundColor(Color(hex: "4D4D4D"))
                                                                 .font(.system(.headline, design: .rounded, weight: .bold))
@@ -338,11 +360,11 @@ struct TabOverview: View {
                                                             }).buttonStyle(BrowseForMeButtonStyle())
                                                         }
                                                         
-                                                    }.frame(height: 50)
+                                                    }.frame(minHeight: 50)
                                                         .padding(.horizontal, 10)
                                                 })
                                             }
-                                        }
+                                        }.animation(.easeInOut)
                                     }
                                 }.rotationEffect(Angle(degrees: 180))
                                 .onChange(of: newTabSearch, perform: { value in
@@ -383,7 +405,6 @@ struct TabOverview: View {
                                     })
                                 
                                 VStack {
-                                    
                                     if !fullScreenWebView || newTabFromTab {
                                         HStack {
                                             ZStack {
@@ -404,10 +425,10 @@ struct TabOverview: View {
                                                     .autocorrectionDisabled(true)
                                                     .submitLabel(.search)
                                                 #if !os(visionOS) && !os(macOS)
-                                                    .scrollDismissesKeyboard(.interactively)
+                                                    .scrollDismissesKeyboard(.immediately)
                                                 #endif
                                                     .tint(Color(.systemBlue))
-                                                    .animation(.default, value: newTabFocus)
+                                                    //.animation(.default, value: newTabFocus)
                                                     .foregroundColor(Color(hex: "4D4D4D"))
                                                     .font(.system(.headline, design: .rounded, weight: .bold))
                                                     .padding(.horizontal, newTabFocus ? 10: 0)
@@ -421,28 +442,7 @@ struct TabOverview: View {
                                                         }
                                                     })
                                                 
-                                            }.frame(width: newTabFocus ? .infinity: 0, height: 50)
-                                            
-                                            
-                                            if !newTabFocus {
-                                                Button(action: {
-                                                    variables.showSettings = true
-                                                }, label: {
-                                                    Image(systemName: "gearshape")
-                                                    
-                                                }).buttonStyle(PlusButtonStyle())
-                                                    .sheet(isPresented: $variables.showSettings, content: {
-                                                        if selectedSpaceIndex < spaces.count && (!spaces[selectedSpaceIndex].startHex.isEmpty && !spaces[selectedSpaceIndex].endHex.isEmpty) {
-                                                            NewSettings(presentSheet: $variables.showSettings, startHex: spaces[selectedSpaceIndex].startHex, endHex: spaces[selectedSpaceIndex].endHex)
-                                                        }
-                                                        else {
-                                                            NewSettings(presentSheet: $variables.showSettings, startHex: variables.startHex, endHex: variables.endHex)
-                                                        }
-                                                    })
-                                                
-                                                Spacer()
-                                                    .frame(width: 100)
-                                            }
+                                            }.frame(width: newTabFocus ? .infinity: 150, height: 50)
                                             
                                             
                                             Button(action: {
@@ -841,6 +841,9 @@ struct TabOverview: View {
             }
         }.resume()
     }
+    // More APIs for Search suggestions. Implement in the future
+    // https://duckduckgo.com/ac/?q=YOUR_QUERY_HERE&type=list
+    // https://api.bing.com/osjson.aspx?query=YOUR_QUERY_HERE
     
     func formatXML(from input: String) -> [String] {
         var results = [String]()
@@ -866,133 +869,4 @@ struct TabOverview: View {
     }
 }
 
-struct WebPreview: View {
-    let namespace: Namespace.ID
-    @State var url: String
-    @State private var webTitle: String = ""
-    @State var webURL = ""
-    
-    @StateObject var settings = SettingsVariables()
-    //@StateObject private var webViewModel = WebViewModel()
-    
-    @StateObject private var webViewManager = WebViewManager()
-    
-    var geo: GeometryProxy
-    
-    @State var faviconSize = CGFloat(20)
-    
-    @State var tab: (id: UUID, url: String)
-    
-    @Binding var browseForMeTabs: [String]
-    
-    @State var colors1 = [
-        Color(hex: "EA96FF"), .purple, .indigo,
-        Color(hex: "FAE8FF"), Color(hex: "F1C0FD"), Color(hex: "A6A6D6"),
-        .indigo, .purple, Color(hex: "EA96FF")
-    ]
-    
-#if !os(macOS)
-    @State var webViewBackgroundColor: UIColor? = UIColor.white
-    #else
-    @State var webViewBackgroundColor: NSColor? = NSColor.white
-    #endif
-    
-    var body: some View {
-        VStack {
-#if !os(macOS)
-            ZStack {
-                Color.white.opacity(0.0001)
-                
-                if browseForMeTabs.contains(tab.id.description) {
-                    ZStack {
-                        if #available(iOS 18.0, visionOS 2.0, *) {
-                            MeshGradient(width: 3, height: 3, points: [
-                                .init(0, 0), .init(0.5, 0), .init(1, 0),
-                                .init(0, 0.5), .init(0.5, 0.5), .init(1, 0.5),
-                                .init(0, 1), .init(0.5, 1), .init(1, 1)
-                            ], colors: colors1)
-                        }
-                        else {
-                            LinearGradient(colors: Array(colors1.prefix(4)), startPoint: .top, endPoint: .bottom)
-                        }
-                        
-                        VStack {
-                            Text("Browse for Me:")
-                                .lineLimit(2)
-                            
-                            Text(unformatURL(url: url))
-                                .lineLimit(1)
-                        }
-                        .scaleEffect(2.0)
-                        .foregroundStyle(Color.white)
-                            .font(.system(.body, design: .rounded, weight: .bold))
-                    }.frame(width: geo.size.width - 50, height: 400)
-                }
-                else {
-                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
-                        .frame(width: geo.size.width - 50, height: 400)
-                        .disabled(true)
-                }
-                
-            }
-            .scaleEffect(0.5)
-            .frame(width: geo.size.width / 2 - 25, height: 200) // Small size for tappable area
-            .clipped()
-            .cornerRadius(15)
-            
-            if browseForMeTabs.contains(tab.id.description) {
-                Text(unformatURL(url: url))
-                    .foregroundStyle(Color.black)
-                    .font(.system(.body, design: .rounded, weight: .regular))
-                    .lineLimit(1)
-            }
-            else {
-                HStack {
-                    if settings.faviconLoadingStyle {
-                        WebImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: faviconSize, height: faviconSize)
-                                .cornerRadius(settings.faviconShape == "square" ? 0: settings.faviconShape == "squircle" ? 5: 100)
-                                .padding(.leading, 5)
-                            
-                        } placeholder: {
-                            LoadingAnimations(size: Int(faviconSize), borderWidth: 5.0)
-                                .padding(.leading, 5)
-                        }
-                        .onSuccess { image, data, cacheType in
-                            
-                        }
-                        .indicator(.activity)
-                        .transition(.fade(duration: 0.5))
-                        .scaledToFit()
-                        
-                    } else {
-                        AsyncImage(url: URL(string: "https://www.google.com/s2/favicons?domain=\(url)&sz=\(128)".replacingOccurrences(of: "https://www.google.com/s2/favicons?domain=Optional(", with: "https://www.google.com/s2/favicons?domain=").replacingOccurrences(of: ")&sz=", with: "&sz=").replacingOccurrences(of: "\"", with: ""))) { image in
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: faviconSize, height: faviconSize)
-                                .cornerRadius(settings.faviconShape == "square" ? 0: settings.faviconShape == "squircle" ? 5: 100)
-                                .padding(.leading, 5)
-                            
-                        } placeholder: {
-                            LoadingAnimations(size: Int(faviconSize), borderWidth: 5.0)
-                                .padding(.leading, 5)
-                        }
-                        
-                    }
-                    
-                    Text(webTitle)
-                        .foregroundStyle(Color.black)
-                        .font(.system(.body, design: .rounded, weight: .regular))
-                        .lineLimit(1)
-                    
-                    Spacer()
-                }
-            }
-#endif
-        }.matchedGeometryEffect(id: tab.id, in: namespace)
-    }
-}
+

@@ -12,6 +12,8 @@
 		B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90294502C325C07005DB4CA /* Browse for Me Mobile.swift */; };
 		B90644122C40F3B00056C5D3 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90644112C40F3AF0056C5D3 /* History.swift */; };
 		B90644142C40F3B50056C5D3 /* HistoryObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90644132C40F3B50056C5D3 /* HistoryObservable.swift */; };
+		B90670CA2CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670C92CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift */; };
+		B90670E62CCDD95500DE3B76 /* WebPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670E52CCDD95500DE3B76 /* WebPreview.swift */; };
 		B91BCF412C3F1AED0031581D /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF402C3F1AED0031581D /* SearchEngine.swift */; };
 		B91BCF442C3F1B740031581D /* someKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF432C3F1B740031581D /* someKey.swift */; };
 		B91BCF462C3F1FDE0031581D /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */; };
@@ -137,6 +139,8 @@
 		B90294502C325C07005DB4CA /* Browse for Me Mobile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Browse for Me Mobile.swift"; sourceTree = "<group>"; };
 		B90644112C40F3AF0056C5D3 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		B90644132C40F3B50056C5D3 /* HistoryObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryObservable.swift; sourceTree = "<group>"; };
+		B90670C92CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButtonStyle.swift; sourceTree = "<group>"; };
+		B90670E52CCDD95500DE3B76 /* WebPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPreview.swift; sourceTree = "<group>"; };
 		B91BCF402C3F1AED0031581D /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
 		B91BCF432C3F1B740031581D /* someKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = someKey.swift; sourceTree = "<group>"; };
 		B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
@@ -450,8 +454,10 @@
 			isa = PBXGroup;
 			children = (
 				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B90670E52CCDD95500DE3B76 /* WebPreview.swift */,
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
+				B90670C92CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift */,
 				B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */,
 				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
 				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
@@ -892,6 +898,7 @@
 				B98A32F42BCDC59B00555AB9 /* urlFormatter.swift in Sources */,
 				B98953A62AABE3CB00EE3B42 /* Hex.swift in Sources */,
 				B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */,
+				B90670E62CCDD95500DE3B76 /* WebPreview.swift in Sources */,
 				B934413E2C51F88A00D6BA35 /* Reader.swift in Sources */,
 				B94ADB212C3EE0060054899D /* hexString.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
@@ -909,6 +916,7 @@
 				B95A4F4A2CBB796B00A376BF /* BoostSettings.swift in Sources */,
 				B94ADB242C3EE0780054899D /* InnerShadow.swift in Sources */,
 				B94CA9272C28EB7500AD3921 /* SkewIcon.swift in Sources */,
+				B90670CA2CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift in Sources */,
 				B9C0ED842C0A60AF00AF6E31 /* AnalogClock.swift in Sources */,
 				B9798C412BF28EEB0012D98E /* WeatherManager.swift in Sources */,
 				B94ADB1E2C3EDFB60054899D /* averageHex.swift in Sources */,
