@@ -10,6 +10,9 @@
 
 import SwiftUI
 import WebKit
+import SDWebImage
+import SDWebImageSwiftUI
+import SwiftData
 
 struct WebPreview: View {
     let namespace: Namespace.ID

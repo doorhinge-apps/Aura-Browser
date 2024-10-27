@@ -14,6 +14,8 @@
 		B90644142C40F3B50056C5D3 /* HistoryObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90644132C40F3B50056C5D3 /* HistoryObservable.swift */; };
 		B90670CA2CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670C92CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift */; };
 		B90670E62CCDD95500DE3B76 /* WebPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670E52CCDD95500DE3B76 /* WebPreview.swift */; };
+		B90670E92CCDD9BC00DE3B76 /* TabList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670E82CCDD9BC00DE3B76 /* TabList.swift */; };
+		B90670EB2CCDD9FD00DE3B76 /* MobileTabsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670EA2CCDD9FD00DE3B76 /* MobileTabsModel.swift */; };
 		B91BCF412C3F1AED0031581D /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF402C3F1AED0031581D /* SearchEngine.swift */; };
 		B91BCF442C3F1B740031581D /* someKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF432C3F1B740031581D /* someKey.swift */; };
 		B91BCF462C3F1FDE0031581D /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */; };
@@ -141,6 +143,8 @@
 		B90644132C40F3B50056C5D3 /* HistoryObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryObservable.swift; sourceTree = "<group>"; };
 		B90670C92CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButtonStyle.swift; sourceTree = "<group>"; };
 		B90670E52CCDD95500DE3B76 /* WebPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPreview.swift; sourceTree = "<group>"; };
+		B90670E82CCDD9BC00DE3B76 /* TabList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabList.swift; sourceTree = "<group>"; };
+		B90670EA2CCDD9FD00DE3B76 /* MobileTabsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileTabsModel.swift; sourceTree = "<group>"; };
 		B91BCF402C3F1AED0031581D /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
 		B91BCF432C3F1B740031581D /* someKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = someKey.swift; sourceTree = "<group>"; };
 		B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
@@ -318,6 +322,16 @@
 			path = "Sidebar Adaptable Test";
 			sourceTree = "<group>";
 		};
+		B90670E72CCDD98A00DE3B76 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B90670EA2CCDD9FD00DE3B76 /* MobileTabsModel.swift */,
+				B90670E82CCDD9BC00DE3B76 /* TabList.swift */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
 		B91BCF422C3F1B660031581D /* Random Functions */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,7 +467,7 @@
 		B94ADB192C3EDEFC0054899D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
+				B90670E72CCDD98A00DE3B76 /* Tabs */,
 				B90670E52CCDD95500DE3B76 /* WebPreview.swift */,
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
@@ -903,6 +917,7 @@
 				B94ADB212C3EE0060054899D /* hexString.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
 				B934410A2C4C7FA300D6BA35 /* WebViewStore+JS.swift in Sources */,
+				B90670EB2CCDD9FD00DE3B76 /* MobileTabsModel.swift in Sources */,
 				B934410B2C4C7FA300D6BA35 /* WebViewStore.swift in Sources */,
 				B934410C2C4C7FA300D6BA35 /* Utils.swift in Sources */,
 				B934410D2C4C7FA300D6BA35 /* WebViewStore+Links.swift in Sources */,
@@ -951,6 +966,7 @@
 				B9C537FC2BEF37C700C7DB2B /* CustomSwitch.swift in Sources */,
 				B93441112C4CD90700D6BA35 /* Menu Space Picker.swift in Sources */,
 				B91BCF622C3F36420031581D /* NetworkMonitor.swift in Sources */,
+				B90670E92CCDD9BC00DE3B76 /* TabList.swift in Sources */,
 				B9C0ED822C0A60A800AF6E31 /* DigitalClock.swift in Sources */,
 				B97724FE2C0094BB00A39E3A /* ScrollViewOffset.swift in Sources */,
 				B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */,
