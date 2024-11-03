@@ -28,11 +28,11 @@ struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
-    @StateObject var variables = ObservableVariables()
-    @StateObject var settings = SettingsVariables()
+    @EnvironmentObject var variables: ObservableVariables
+    @EnvironmentObject var settings: SettingsVariables
     @StateObject private var boostStore = BoostStore()
     
-    @StateObject var manager =  WebsiteManager()
+    @EnvironmentObject var manager: WebsiteManager
     
     @AppStorage("currentSpace") var currentSpace = "Untitled"
     
@@ -107,12 +107,14 @@ struct ContentView: View {
                                     }
                                     
                                     HStack(spacing: 0) {
+#if !os(visionOS)
                                         if settings.sidebarLeft && !settings.horizontalTabBar {
                                             //PagedSidebar(fullGeo: geo)
-                                            TabbedPagedSidebar(fullGeo: geo, isHovering: false)
+                                            TabbedPagedSidebar(isHovering: false)
                                                 .padding(5)
                                                 .padding(.leading, 5)
                                         }
+                                        #endif
                                         HStack {
                                             GeometryReader { webGeo in
                                                 ZStack {
@@ -657,7 +659,7 @@ struct ContentView: View {
                                         
                                         if !settings.sidebarLeft && !settings.horizontalTabBar {
                                             //PagedSidebar(fullGeo: geo)
-                                            TabbedPagedSidebar(fullGeo: geo, isHovering: false)
+                                            TabbedPagedSidebar(isHovering: false)
                                         }
                                     }
                                     .onAppear {
@@ -740,10 +742,10 @@ struct ContentView: View {
                                                     variables.tapSidebarShown = true
                                                 }
                                             
-                                            
+#if !os(visionOS)
                                             HStack {
                                                 VStack {
-                                                    TabbedPagedSidebar(fullGeo: geo, isHovering: true)
+                                                    TabbedPagedSidebar(isHovering: true)
                                                 }
                                                 .padding(15)
                                                 .frame(width: 300)
@@ -783,6 +785,7 @@ struct ContentView: View {
                                                 .frame(width: variables.hoveringSidebar || variables.tapSidebarShown ? 350: 0)
                                                 .offset(x: variables.hoveringSidebar || variables.tapSidebarShown ? 0: settings.sidebarLeft ? -350: 300)
                                                 .clipped()
+                                            #endif
                                             
                                         }.onHover(perform: { hovering in
                                             if hovering {

@@ -16,6 +16,11 @@ struct TabbedPagedSidebar: View {
     @Environment(\.modelContext) var modelContext
     @Query(sort: \SpaceStorage.spaceIndex) var spaces: [SpaceStorage]
     
+#if os(visionOS)
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+#endif
+    
     @EnvironmentObject var variables: ObservableVariables
     @EnvironmentObject var settings: SettingsVariables
     
@@ -40,7 +45,7 @@ struct TabbedPagedSidebar: View {
     
     @State var hasSetThing = false
     
-    var fullGeo: GeometryProxy
+//    var fullGeo: GeometryProxy
     
     @State var isHovering: Bool
     
@@ -148,10 +153,22 @@ struct TabbedPagedSidebar: View {
                 }
             }
         }.ignoresSafeArea()
+#if !os(visionOS)
             .frame(width: isHovering ? 300: variables.hideSidebar ? 0: 300)
             .offset(x: isHovering ? 0: variables.hideSidebar ? 320 * (settings.sidebarLeft ? -1: 1): 0)
+        #endif
             .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
             .scrollIndicators(.hidden)
+        #if os(visionOS)
+            .frame(width: 300)
+            .onAppear() {
+                if variables.isFirstWindow {
+                    openWindow(id: "mainWindow")
+                    
+                    variables.isFirstWindow = false
+                }
+            }
+        #endif
     }
 }
 

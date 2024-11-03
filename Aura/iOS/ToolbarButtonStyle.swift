@@ -26,7 +26,7 @@ struct ToolbarButtonStyle: ButtonStyle {
             .foregroundColor(Color(hex: "4D4D4D"))
             .font(.system(.body, design: .rounded, weight: .bold))
             .shadow(color: .black.opacity(configuration.isPressed ? 0.2 : 0), radius: 8, x: 0, y: 0)
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
             .animation(.spring(), value: configuration.isPressed)
     }
 }

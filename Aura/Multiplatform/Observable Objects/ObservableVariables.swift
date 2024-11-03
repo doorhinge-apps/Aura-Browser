@@ -55,6 +55,8 @@ class ObservableVariables: ObservableObject {
     @Published var hoverSpaceIndex = 1000
     @Published var hoverSpace = ""
     
+    @Published var isFirstWindow = true
+    
     @Published var hoverSidebarSearchField = false
     
     @Published var hoverCloseTab = WKWebView()

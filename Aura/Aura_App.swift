@@ -67,20 +67,49 @@ struct iPad_browserApp: App {
         }
     }()
     
+    @StateObject var variables = ObservableVariables()
+    @StateObject var settings = SettingsVariables()
+    @StateObject var manager =  WebsiteManager()
+    
     
     init() {
         UserDefaults.standard.set(0, forKey: "selectedSpaceIndex")
     }
 
     var body: some Scene {
+#if !os(visionOS)
         WindowGroup {
             OnboardingView()
                 .onAppear { hideTitleBarOnCatalyst() }
+                .environmentObject(variables)
+                .environmentObject(settings)
+                .environmentObject(manager)
         }
         .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
         #if os(macOS)
         .windowStyle(HiddenTitleBarWindowStyle())
         #endif
+#else
+        WindowGroup {
+            TabbedPagedSidebar(isHovering: false)
+                .padding(5)
+                .padding(.leading, 5)
+                .environmentObject(variables)
+                .environmentObject(settings)
+                .environmentObject(manager)
+        }
+        .defaultSize(width: 300, height: 800)
+        .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
+        
+        WindowGroup(id: "mainWindow") {
+            ContentView()
+                .onAppear { hideTitleBarOnCatalyst() }
+                .environmentObject(variables)
+                .environmentObject(settings)
+                .environmentObject(manager)
+        }
+        .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
+#endif
     }
     
     func hideTitleBarOnCatalyst() {

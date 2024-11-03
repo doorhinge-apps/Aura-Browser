@@ -21,7 +21,6 @@ struct TabOverview: View {
     @EnvironmentObject var variables: ObservableVariables
     @StateObject var mobileTabs = MobileTabsModel()
     
-    
     @FocusState var newTabFocus: Bool
     
     init(selectedSpaceIndex: Binding<Int>) {
@@ -279,7 +278,7 @@ struct TabOverview: View {
                         
                         VStack {
                             if !mobileTabs.fullScreenWebView || mobileTabs.newTabFromTab {
-                                HStack {
+                                HStack(spacing: 0) {
                                     ZStack {
                                         ZStack {
                                             Capsule()
@@ -315,8 +314,7 @@ struct TabOverview: View {
                                                 }
                                             })
                                         
-                                    }.frame(width: newTabFocus ? .infinity: 150, height: 50)
-                                    
+                                    }.frame(/*width: newTabFocus ? .infinity: 150, */height: 50)
                                     
                                     Button(action: {
                                         if mobileTabs.newTabSearch == "" && newTabFocus {
@@ -351,6 +349,8 @@ struct TabOverview: View {
                                                 }
                                             }
                                         }
+                                        .scaleEffect(!newTabFocus ? 0: 1)
+                                        .frame(width: !newTabFocus ? 0: .infinity)
                                     
                                 }.padding(.leading, newTabFocus ? 10: 0)
                                     .onChange(of: mobileTabs.newTabSearch, {
