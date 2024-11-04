@@ -31,6 +31,7 @@ class MobileTabsModel: ObservableObject {
     
     @FocusState var newTabFocus: Bool
     @Published var newTabSearch = ""
+    @Published var fromTabSearch = ""
     
     @Published var fullScreenWebView = false
     

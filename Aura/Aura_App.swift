@@ -70,6 +70,7 @@ struct iPad_browserApp: App {
     @StateObject var variables = ObservableVariables()
     @StateObject var settings = SettingsVariables()
     @StateObject var manager =  WebsiteManager()
+    @StateObject var mobileTabs = MobileTabsModel()
     
     
     init() {
@@ -84,6 +85,7 @@ struct iPad_browserApp: App {
                 .environmentObject(variables)
                 .environmentObject(settings)
                 .environmentObject(manager)
+                .environmentObject(mobileTabs)
         }
         .modelContainer(for: SpaceStorage.self, inMemory: false, isAutosaveEnabled: true, isUndoEnabled: true)
         #if os(macOS)

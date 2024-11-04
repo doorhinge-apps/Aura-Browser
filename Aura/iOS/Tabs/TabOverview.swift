@@ -19,9 +19,10 @@ struct TabOverview: View {
     @Binding var selectedSpaceIndex: Int
     
     @EnvironmentObject var variables: ObservableVariables
-    @StateObject var mobileTabs = MobileTabsModel()
+    @EnvironmentObject var mobileTabs: MobileTabsModel
     
     @FocusState var newTabFocus: Bool
+    @FocusState var inTabFocus: Bool
     
     init(selectedSpaceIndex: Binding<Int>) {
         self._selectedSpaceIndex = selectedSpaceIndex
@@ -269,7 +270,7 @@ struct TabOverview: View {
                     ZStack {
                         Rectangle()
                             .fill(.thinMaterial)
-                            .frame(height: newTabFocus ? 75: 150)
+                            .frame(height: newTabFocus || inTabFocus ? 75: 150)
                             .onChange(of: mobileTabs.webURL, {
                                 if mobileTabs.fullScreenWebView, let selectedTab = mobileTabs.selectedTab {
                                     updateTabURL(for: selectedTab.id, with: mobileTabs.webURL)
@@ -283,12 +284,26 @@ struct TabOverview: View {
                                         ZStack {
                                             Capsule()
                                                 .fill(.white)
-                                                .animation(.default, value: newTabFocus)
+                                            
+                                            if mobileTabs.newTabSearch.isEmpty {
+                                                Label("Search or enter url", systemImage: "magnifyingglass")
+                                                    .foregroundColor(Color(hex: "4D4D4D"))
+                                                    .font(.system(.headline, design: .rounded, weight: .bold))
+                                                    .padding(.horizontal, newTabFocus ? 10: 0)
+                                                    .animation(.default, value: newTabFocus)
+                                                
+                                                if newTabFocus {
+                                                    Spacer()
+                                                }
+                                            }
+                                            
+                                        }.onTapGesture {
+                                            newTabFocus = true
                                         }
                                         
-                                        TextField("Search or enter url", text: $mobileTabs.newTabSearch)
+                                        TextField("", text: $mobileTabs.newTabSearch)
                                             .focused($newTabFocus)
-                                            .opacity(newTabFocus ? 1.0: 0.0)
+                                            .padding(.horizontal, 10)
                                             .textFieldStyle(.plain)
 #if !os(macOS)
                                             .keyboardType(.webSearch)
@@ -300,7 +315,6 @@ struct TabOverview: View {
                                             .scrollDismissesKeyboard(.immediately)
 #endif
                                             .tint(Color(.systemBlue))
-                                        //.animation(.default, value: newTabFocus)
                                             .foregroundColor(Color(hex: "4D4D4D"))
                                             .font(.system(.headline, design: .rounded, weight: .bold))
                                             .padding(.horizontal, newTabFocus ? 10: 0)
@@ -310,11 +324,13 @@ struct TabOverview: View {
                                                     newTabFocus = false
                                                     createTab(url: formatURL(from: mobileTabs.newTabSearch), isBrowseForMeTab: false)
                                                     mobileTabs.newTabSearch = ""
-                                                    //fullScreenWebView = true
                                                 }
                                             })
                                         
-                                    }.frame(/*width: newTabFocus ? .infinity: 150, */height: 50)
+                                    }.frame(height: 50)
+                                    
+                                    Spacer()
+                                        .frame(width: 10)
                                     
                                     Button(action: {
                                         if mobileTabs.newTabSearch == "" && newTabFocus {
@@ -331,7 +347,6 @@ struct TabOverview: View {
                                                 newTabFocus = false
                                                 createTab(url: formatURL(from: mobileTabs.newTabSearch), isBrowseForMeTab: false)
                                                 mobileTabs.newTabSearch = ""
-                                                //fullScreenWebView = true
                                             }
                                         }
                                     }, label: {
@@ -352,7 +367,8 @@ struct TabOverview: View {
                                         .scaleEffect(!newTabFocus ? 0: 1)
                                         .frame(width: !newTabFocus ? 0: .infinity)
                                     
-                                }.padding(.leading, newTabFocus ? 10: 0)
+                                }//.padding(.leading, newTabFocus ? 10: 0)
+                                .padding(.horizontal, 15)
                                     .onChange(of: mobileTabs.newTabSearch, {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                                             if mobileTabs.newTabSearch == "" {
@@ -361,20 +377,124 @@ struct TabOverview: View {
                                         })
                                     })
                                 
-                                if !newTabFocus {
+                                if !newTabFocus && !inTabFocus {
                                     spaceSelector
                                 }
                             }
                             else {
                                 VStack {
                                     ZStack {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(.white)
-                                            .frame(height: 50)
-                                            .padding(.horizontal, 15)
+                                        HStack(spacing: 0) {
+                                            ZStack {
+                                                ZStack {
+                                                    Capsule()
+                                                        .fill(.white)
+                                                    
+                                                    if mobileTabs.fromTabSearch.isEmpty {
+                                                        Label("Search or enter url", systemImage: inTabFocus ? "": "magnifyingglass")
+                                                            .foregroundColor(Color(hex: "4D4D4D"))
+                                                            .font(.system(.headline, design: .rounded, weight: .bold))
+                                                            .padding(.horizontal, inTabFocus ? 10: 0)
+                                                            //.animation(.default, value: newTabFocus)
+                                                        
+                                                        if newTabFocus {
+                                                            Spacer()
+                                                        }
+                                                    }
+                                                    
+                                                }.onTapGesture {
+                                                    inTabFocus = true
+                                                }
+                                                
+                                                TextField("", text: $mobileTabs.fromTabSearch)
+                                                    .focused($inTabFocus)
+                                                    .multilineTextAlignment(inTabFocus ? .leading: .center)
+                                                    .padding(.horizontal, 10)
+                                                    //.opacity(newTabFocus ? 1.0: 0.0)
+                                                    .textFieldStyle(.plain)
+        #if !os(macOS)
+                                                    .keyboardType(.webSearch)
+                                                    .textInputAutocapitalization(.never)
+        #endif
+                                                    .autocorrectionDisabled(true)
+                                                    .submitLabel(.search)
+        #if !os(visionOS) && !os(macOS)
+                                                    .scrollDismissesKeyboard(.immediately)
+        #endif
+                                                    .tint(Color(.systemBlue))
+                                                    .foregroundColor(Color(hex: "4D4D4D"))
+                                                    .font(.system(.headline, design: .rounded, weight: .bold))
+                                                    .padding(.horizontal, inTabFocus ? 10: 0)
+                                                    .onSubmit({
+                                                        withAnimation {
+                                                            DispatchQueue.main.async {
+                                                                mobileTabs.webViewManager.load(urlString: formatURL(from: mobileTabs.fromTabSearch))
+                                                                print("Loading url:")
+                                                                print(formatURL(from: mobileTabs.fromTabSearch))
+                                                                
+                                                                mobileTabs.newTabFromTab = false
+                                                                inTabFocus = false
+                                                            }
+                                                        }
+                                                    })
+                                                    .onAppear() {
+                                                        mobileTabs.fromTabSearch = unformatURL(url: mobileTabs.webURL)
+                                                    }
+                                                    .onChange(of: mobileTabs.webURL) { oldValue, newValue in
+                                                        mobileTabs.fromTabSearch = unformatURL(url: mobileTabs.webURL)
+                                                    }
+                                                
+                                            }.frame(height: 50)
+                                            
+                                            
+                                            Spacer()
+                                                .frame(width: 10)
+                                            
+                                            Button(action: {
+                                                if mobileTabs.fromTabSearch == "" && inTabFocus {
+                                                    inTabFocus = false
+                                                    mobileTabs.newTabFromTab = false
+                                                }
+                                                else if !newTabFocus {
+                                                    withAnimation {
+                                                        inTabFocus = true
+                                                    }
+                                                } else {
+                                                    withAnimation {
+                                                        mobileTabs.webViewManager.load(urlString: formatURL(from: mobileTabs.fromTabSearch))
+                                                        mobileTabs.newTabFromTab = false
+                                                        inTabFocus = false
+                                                        //mobileTabs.newTabSearch = ""
+                                                    }
+                                                }
+                                            }, label: {
+                                                if mobileTabs.fromTabSearch == "" && inTabFocus {
+                                                    Image(systemName: "xmark")
+                                                }
+                                                else {
+                                                    Image(systemName: inTabFocus ? "magnifyingglass": "plus")
+                                                }
+                                            }).buttonStyle(PlusButtonStyle())
+                                                .scaleEffect(!inTabFocus ? 0: 1)
+                                                .frame(width: !inTabFocus ? 0: .infinity)
+                                            
+                                        }//.padding(.leading, newTabFocus ? 10: 0)
+                                        .padding(.horizontal, 15)
+                                            .onChange(of: mobileTabs.fromTabSearch, {
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                    if mobileTabs.fromTabSearch == "" {
+                                                        mobileTabs.suggestions.removeAll()
+                                                    }
+                                                })
+                                            })
                                         
-                                        Text(unformatURL(url: mobileTabs.webURL).prefix(30))
-                                            .lineLimit(1)
+//                                        RoundedRectangle(cornerRadius: 10)
+//                                            .fill(.white)
+//                                            .frame(height: 50)
+//                                            .padding(.horizontal, 15)
+//                                        
+//                                        Text(unformatURL(url: mobileTabs.webURL).prefix(30))
+//                                            .lineLimit(1)
                                         
                                     }.offset(x: mobileTabs.tabOffset.width, y: mobileTabs.tabOffset.height * 3)
                                         .scaleEffect(mobileTabs.tabScale)
@@ -415,75 +535,74 @@ struct TabOverview: View {
                                                 }
                                         )
                                     
-                                    
-                                    HStack {
-                                        Button(action: {
-                                            mobileTabs.webViewManager.goBack()
-                                        }, label: {
-                                            Image(systemName: "chevron.left")
-                                        })
-                                        .disabled(!mobileTabs.webViewManager.canGoBack())
-                                        .foregroundStyle(!mobileTabs.webViewManager.canGoBack() ? Color.gray: Color(.systemBlue))
-                                        .shadow(color: .white.opacity(0.5), radius: 2, x: 0, y: 0)
-                                        
-                                        Spacer()
-                                        
-                                        Button(action: {
-                                            mobileTabs.webViewManager.goForward()
-                                        }, label: {
-                                            Image(systemName: "chevron.right")
-                                        })
-                                        .disabled(!mobileTabs.webViewManager.canGoForward())
-                                        .foregroundStyle(!mobileTabs.webViewManager.canGoForward() ? Color.gray: Color(.systemBlue))
-                                        .shadow(color: .white.opacity(0.5), radius: 5, x: 0, y: 0)
-                                        
-                                        Spacer()
-                                        
-                                        Button(action: {
-                                            mobileTabs.newTabFromTab = true
+                                    if !newTabFocus && !inTabFocus {
+                                        HStack {
+                                            Button(action: {
+                                                mobileTabs.webViewManager.goBack()
+                                            }, label: {
+                                                Image(systemName: "chevron.left")
+                                            })
+                                            .disabled(!mobileTabs.webViewManager.canGoBack())
+                                            .foregroundStyle(!mobileTabs.webViewManager.canGoBack() ? Color.gray: Color(.systemBlue))
+                                            .shadow(color: .white.opacity(0.5), radius: 2, x: 0, y: 0)
                                             
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                            Spacer()
+                                            
+                                            Button(action: {
+                                                mobileTabs.webViewManager.goForward()
+                                            }, label: {
+                                                Image(systemName: "chevron.right")
+                                            })
+                                            .disabled(!mobileTabs.webViewManager.canGoForward())
+                                            .foregroundStyle(!mobileTabs.webViewManager.canGoForward() ? Color.gray: Color(.systemBlue))
+                                            .shadow(color: .white.opacity(0.5), radius: 5, x: 0, y: 0)
+                                            
+                                            Spacer()
+                                            
+                                            Button(action: {
                                                 mobileTabs.newTabFromTab = true
                                                 
-                                                if !newTabFocus {
-                                                    withAnimation {
-                                                        newTabFocus = true
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                                                    mobileTabs.newTabFromTab = true
+                                                    
+                                                    if !newTabFocus {
+                                                        withAnimation {
+                                                            newTabFocus = true
+                                                        }
+                                                    } else {
+                                                        withAnimation {
+                                                            newTabFocus = false
+                                                            createTab(url: formatURL(from: mobileTabs.newTabSearch), isBrowseForMeTab: false)
+                                                            mobileTabs.newTabSearch = ""
+                                                        }
                                                     }
-                                                } else {
-                                                    withAnimation {
-                                                        newTabFocus = false
-                                                        createTab(url: formatURL(from: mobileTabs.newTabSearch), isBrowseForMeTab: false)
-                                                        mobileTabs.newTabSearch = ""
-                                                    }
-                                                }
+                                                })
+                                            }, label: {
+                                                Image(systemName: "plus")
                                             })
-                                        }, label: {
-                                            Image(systemName: "plus")
-                                        })
-                                        
-                                        Spacer()
-                                        
-                                        Button(action: {
-                                            withAnimation {
-                                                mobileTabs.fullScreenWebView = false
-                                            }
-                                        }, label: {
-                                            Image(systemName: "square.on.square")
-                                        })
+                                            
+                                            Spacer()
+                                            
+                                            Button(action: {
+                                                withAnimation {
+                                                    mobileTabs.fullScreenWebView = false
+                                                }
+                                            }, label: {
+                                                Image(systemName: "square.on.square")
+                                            })
+                                        }
+                                        .font(.system(.title2, design: .rounded, weight: .regular))
+                                        .foregroundStyle(Color(.systemBlue))
+                                        .opacity(Double(mobileTabs.tabScale))
+                                        .padding(.horizontal, 20)
+                                        .padding(.vertical, 10)
                                     }
-                                    .font(.system(.title2, design: .rounded, weight: .regular))
-                                    .foregroundStyle(Color(.systemBlue))
-                                    .opacity(Double(mobileTabs.tabScale))
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 10)
                                 }
                             }
                         }
-                    }
-                }.ignoresSafeArea(newTabFocus ? .container: .all, edges: .all)
+                    }//.offset(y: newTabFocus || inTabFocus ? 50: 0)
+                }.ignoresSafeArea(newTabFocus || inTabFocus ? .container: .all, edges: .all)
             }
-            
-            
         }
         .environmentObject(mobileTabs)
         .onAppear {
