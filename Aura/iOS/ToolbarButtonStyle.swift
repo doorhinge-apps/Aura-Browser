@@ -28,5 +28,15 @@ struct ToolbarButtonStyle: ButtonStyle {
             .shadow(color: .black.opacity(configuration.isPressed ? 0.2 : 0), radius: 8, x: 0, y: 0)
             .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
             .animation(.spring(), value: configuration.isPressed)
+#if !os(visionOS) && !os(macOS)
+            .onChange(of: configuration.isPressed, {
+                if configuration.isPressed {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+                else {
+                    UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                }
+            })
+#endif
     }
 }

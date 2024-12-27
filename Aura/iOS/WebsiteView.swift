@@ -16,6 +16,8 @@ struct WebsiteView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @ObservedObject var webViewManager: WebViewManager
+    @EnvironmentObject var variables: ObservableVariables
+    @EnvironmentObject var mobileTabs: MobileTabsModel
     
     var parentGeo: GeometryProxy
     
@@ -40,23 +42,55 @@ struct WebsiteView: View {
     
     var body: some View {
         GeometryReader { geo in
-#if !os(macOS)
-            ZStack {
-                Color(uiColor: webViewBackgroundColor ?? UIColor(.white))
-                    .ignoresSafeArea()
-                
-                if browseForMeTabs.contains(tab.id.description) {
-                    BrowseForMeMobile(searchText: unformatURL(url: url), searchResponse: searchResponse)
-                        .matchedGeometryEffect(id: tab.id, in: namespace)
+            TabView(selection: Binding(
+                get: { mobileTabs.selectedTab?.id },
+                set: { newID in
+                    if let newID {
+                        // Find the tab with matching ID and set it as selected
+                        let currentTabs = getCurrentTabs()
+                        mobileTabs.selectedTab = currentTabs.first { $0.id == newID }
+                    } else {
+                        mobileTabs.selectedTab = nil
+                    }
                 }
-                else {
-                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+            )) {
+                ForEach(getCurrentTabs(), id: \.id) { tab in
+                    //WebViewContainer(url: tab.url)
+                    WebViewMobile(urlString: tab.url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
                         .navigationBarBackButtonHidden(true)
                         .matchedGeometryEffect(id: tab.id, in: namespace)
+                        .tag(tab.id)
                 }
             }
-            .ignoresSafeArea(.container, edges: [.leading, .trailing, .bottom])
+            .tabViewStyle(.page(indexDisplayMode: .never))
+#if !os(macOS)
+//            ZStack {
+//                Color(uiColor: webViewBackgroundColor ?? UIColor(.white))
+//                    .ignoresSafeArea()
+//                
+//                if browseForMeTabs.contains(tab.id.description) {
+                    BrowseForMeMobile(searchText: unformatURL(url: url), searchResponse: searchResponse)
+//                        .matchedGeometryEffect(id: tab.id, in: namespace)
+//                }
+//                else {
+//                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+//                        .navigationBarBackButtonHidden(true)
+//                        .matchedGeometryEffect(id: tab.id, in: namespace)
+//                }
+//            }
+//            .ignoresSafeArea(.container, edges: [.leading, .trailing, .bottom])
 #endif
+        }
+    }
+    
+    private func getCurrentTabs() -> [(id: UUID, url: String)] {
+        switch mobileTabs.selectedTabsSection {
+        case .tabs:
+            return mobileTabs.tabs
+        case .pinned:
+            return mobileTabs.pinnedTabs
+        case .favorites:
+            return mobileTabs.favoriteTabs
         }
     }
 }

@@ -17,7 +17,8 @@ public struct BrowserView: View {
     }
     public var body: some View {
         WebView(webView: self.webViewStore.webView)
-            .opacity(self.webViewStore.webView.isLoading ? 0.8 : 1.0)
+//        I have absolutely no idea why I put an opacity modifier here. It's gone for now.
+//            .opacity(self.webViewStore.webView.isLoading ? 0.8 : 1.0)
             .animation(.easeInOut,value:true)
     }
 }

@@ -14,15 +14,10 @@ struct PlusButtonStyle: ButtonStyle {
             .background(
                 ZStack {
                     Capsule()
-                        //.fill(Color.white)
                         .fill(
                             .white.gradient.shadow(.inner(color: .black.opacity(configuration.isPressed ? 0.2: 0.0), radius: 10, x: 4, y: 3))
                         )
                         .animation(.default, value: configuration.isPressed)
-                    
-//                    Capsule()
-//                        .stroke(Color(hex: "4D4D4D"), lineWidth: 1)
-//                        .opacity(0.4)
                     
                 }
             )
@@ -31,6 +26,7 @@ struct PlusButtonStyle: ButtonStyle {
             .shadow(color: .black.opacity(configuration.isPressed ? 0.2 : 0), radius: 8, x: 0, y: 0)
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
             .animation(.spring(), value: configuration.isPressed)
+            
     }
 }
 

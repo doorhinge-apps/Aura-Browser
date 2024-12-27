@@ -1,5 +1,5 @@
 {
-  "originHash" : "0aaeb044550b4065bca91c88fbcd6e3b103e7f58c8fa59276813b911fd9db4bc",
+  "originHash" : "23c530cbbf41fe08642afbf55a164f8d70a052a9fe4c1fb4e9e7039411206a80",
   "pins" : [
     {
       "identity" : "codeeditor",
@@ -15,17 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/will-lumley/FaviconFinder/",
       "state" : {
-        "revision" : "c87a6d27d472a2013506c3c173a8768f8e7521ee",
-        "version" : "5.0.2"
-      }
-    },
-    {
-      "identity" : "gravatar-sdk-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Automattic/Gravatar-SDK-iOS",
-      "state" : {
-        "revision" : "c6a115f5b44c99634d4361cff04db1e9e7ac0baa",
-        "version" : "1.0.1"
+        "revision" : "9279f4371f4877ca302ba3bf1015f3f58ae4a56c",
+        "version" : "5.1.4"
       }
     },
     {
@@ -42,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/NetworkImage",
       "state" : {
-        "revision" : "7aff8d1b31148d32c5933d75557d42f6323ee3d1",
-        "version" : "6.0.0"
+        "revision" : "2849f5323265386e200484b0d0f896e73c3411b9",
+        "version" : "6.0.1"
       }
     },
     {
@@ -51,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/MacPaw/OpenAI",
       "state" : {
-        "revision" : "35afc9a6ee127b8f22a85a31aec2036a987478af",
-        "version" : "0.2.6"
+        "revision" : "843e087929aa806adb611dbca93f9a4a7f28be04",
+        "version" : "0.3.0"
       }
     },
     {
@@ -60,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImage.git",
       "state" : {
-        "revision" : "be0bcd7823ce56629948491f2eaeaa19979514f7",
-        "version" : "5.19.4"
+        "revision" : "10d06f6a33bafae8c164fbfd1f03391f6d4692b3",
+        "version" : "5.20.0"
       }
     },
     {
@@ -69,8 +60,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI",
       "state" : {
-        "revision" : "5d462f7530677ae0c2b9510c26383aa25ba48751",
-        "version" : "3.1.1"
+        "revision" : "451c6dfd5ecec2cf626d1d9ca81c2d4a60355172",
+        "version" : "3.1.3"
+      }
+    },
+    {
+      "identity" : "swift-cmark",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-cmark",
+      "state" : {
+        "revision" : "3ccff77b2dc5b96b77db3da0d68d28068593fa53",
+        "version" : "0.5.0"
       }
     },
     {
@@ -78,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
       "state" : {
-        "revision" : "9a8119b37e09a770367eeb26e05267c75d854053",
-        "version" : "2.3.1"
+        "revision" : "5f613358148239d0292c0cef674a3c2314737f9e",
+        "version" : "2.4.1"
       }
     },
     {
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scinfu/SwiftSoup.git",
       "state" : {
-        "revision" : "028487d4a8a291b2fe1b4392b5425b6172056148",
-        "version" : "2.7.2"
+        "revision" : "0837db354faf9c9deb710dc597046edaadf5360f",
+        "version" : "2.7.6"
       }
     },
     {
@@ -105,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SvenTiigi/YouTubePlayerKit",
       "state" : {
-        "revision" : "5ade0dfbabaf7456069b4e8f604de261bf6d7c67",
-        "version" : "1.8.0"
+        "revision" : "fe1c1ec340f6d79866131432ecaa190fd6bbc4cb",
+        "version" : "1.9.0"
       }
     }
   ],
