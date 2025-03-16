@@ -226,6 +226,22 @@ struct UISettings: View {
                         
                         Divider()
                     }
+                    
+                    if UIDevice.current.userInterfaceIdiom == .phone {
+                        HStack {
+                            Text("Grid Columns")
+                                .font(.system(.title3, design: .rounded, weight: .bold))
+                                .foregroundStyle(Color.white)
+                            
+                            Spacer()
+                            
+                            Slider(value: $settings.gridColumnCount, in: 1...5, step: 1)
+                                .scaleEffect(0.75)
+                        }.padding(20)
+                        
+                        Divider()
+                    }
+                    
                     #endif
                     
                     HStack {

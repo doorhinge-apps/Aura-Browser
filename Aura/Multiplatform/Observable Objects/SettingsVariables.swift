@@ -70,4 +70,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("horizontalTabBar") var horizontalTabBar = false
     
     @AppStorage("shareButtonInTabBar") var shareButtonInTabBar = true
+    
+    @AppStorage("gridColumnCount") var gridColumnCount = 2.0
 }

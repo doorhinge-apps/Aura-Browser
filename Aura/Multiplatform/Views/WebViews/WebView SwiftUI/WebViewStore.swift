@@ -5,15 +5,14 @@
 //  Created by Mark C. Maxwell on The New Lux
 //  Copyright © 2020. All rights reserved.
 
-
 import Combine
 import SwiftUI
 import UIKit
 import WebKit
 import SwiftData
 
-public class WebViewStore: NSObject, ObservableObject,WKNavigationDelegate {
-    public enum LinkReaction{
+public class WebViewStore: NSObject, ObservableObject, WKNavigationDelegate {
+    public enum LinkReaction {
         case allow
         case openExternal
         case deny
@@ -22,8 +21,8 @@ public class WebViewStore: NSObject, ObservableObject,WKNavigationDelegate {
     internal var linkHandler: ((URL) -> LinkReaction)?
     private var observers: [NSKeyValueObservation] = []
     @Published public var webView: WKWebView
-    
-    override public init(){
+
+    override public init() {
         self.webView = WKWebView()
         super.init()
         setupObservers()
@@ -33,15 +32,14 @@ public class WebViewStore: NSObject, ObservableObject,WKNavigationDelegate {
     deinit {
         invalidateObservers()
     }
-    
+
     public func setLinkHandler(_ linkHandler:((URL) -> LinkReaction)?=nil){
         self.linkHandler = linkHandler
     }
 }
 
-
-extension WebViewStore{
-    private func invalidateObservers(){
+extension WebViewStore {
+    private func invalidateObservers() {
         observers.forEach {
             $0.invalidate()
         }
@@ -68,8 +66,6 @@ extension WebViewStore{
         
         webView.navigationDelegate = self
     }
-
-
 }
 
 /// A container for using a WKWebView in SwiftUI
@@ -83,23 +79,16 @@ public struct WebView: UIViewRepresentable {
     public func makeUIView(context: Context) -> UIViewContainerView<WKWebView> {
         let uiView = UIViewContainerView<WKWebView>()
         uiView.contentView = webView
-        // Set the delegate when the view is initially created
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
-//        webView.isFindInteractionEnabled = true
-//        webView.findInteraction?.presentFindNavigator(showingReplace: false)
         return uiView
     }
 
     public func updateUIView(_ uiView: UIViewContainerView<WKWebView>, context: Context) {
-        // Ensure the contentView is correctly set and the delegate is updated
         if uiView.contentView !== webView {
             uiView.contentView = webView
-
-            // Re-assign the delegate every time the view is updated
             webView.uiDelegate = context.coordinator
             webView.navigationDelegate = context.coordinator
-
             webView.backgroundColor = .clear
             uiView.backgroundColor = .clear
         }
@@ -109,7 +98,7 @@ public struct WebView: UIViewRepresentable {
         Coordinator(self)
     }
 
-    public class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate {
+    public class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate, WKDownloadDelegate {
         var parent: WebView
 
         @StateObject var variables = ObservableVariables()
@@ -145,6 +134,49 @@ public struct WebView: UIViewRepresentable {
             }
         }
 
+        public func webView(
+            _ webView: WKWebView,
+            decidePolicyFor navigationResponse: WKNavigationResponse,
+            decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void
+        ) {
+            if navigationResponse.canShowMIMEType {
+                decisionHandler(.allow)
+            } else {
+                decisionHandler(.download)
+            }
+        }
+
+        public func webView(_ webView: WKWebView, downloadDidStart download: WKDownload) {
+            print("Download started")
+        }
+
+        public func webView(
+            _ webView: WKWebView,
+            download _download: WKDownload,
+            decideDestinationUsing response: URLResponse,
+            suggestedFilename: String,
+            completionHandler: @escaping @MainActor @Sendable (URL?) -> Void
+        ) {
+            let fileManager = FileManager.default
+            let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let destinationURL = documentsDirectory.appendingPathComponent(suggestedFilename)
+            completionHandler(destinationURL)
+        }
+
+        public func download(_ download: WKDownload, decideDestinationUsing response: URLResponse, suggestedFilename: String) async -> URL? {
+            let fileManager = FileManager.default
+            let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            return documentsDirectory.appendingPathComponent(suggestedFilename)
+        }
+
+        public func webView(_ webView: WKWebView, download _download: WKDownload, didFailWithError error: Error, resumeData: Data?) {
+            print("Download failed with error: \(error.localizedDescription)")
+        }
+
+        public func webView(_ webView: WKWebView, downloadDidFinish download: WKDownload) {
+            print("Download finished")
+        }
+
         public func webView(_ webView: WKWebView, contextMenuConfigurationForElement elementInfo: WKContextMenuElementInfo, completionHandler: @escaping (UIContextMenuConfiguration?) -> Void) {
             let shareAction = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up")) { _ in
                 guard let url = elementInfo.linkURL else { return }
@@ -171,7 +203,6 @@ public struct WebView: UIViewRepresentable {
                 webView.findInteraction?.presentFindNavigator(showingReplace: false)
             }
             
-
             var openIn: [UIMenuElement] = []
             for space in spaces {
                 let moveAction = UIAction(title: space.spaceName, image: UIImage(systemName: space.spaceIcon)) { _ in
@@ -215,7 +246,6 @@ public struct WebView: UIViewRepresentable {
     }
 }
 
-
 /// A UIView which simply adds some view to its view hierarchy
 public class UIViewContainerView<ContentView: UIView>: UIView {
     var contentView: ContentView? {
@@ -238,7 +268,6 @@ public class UIViewContainerView<ContentView: UIView>: UIView {
 }
 
 extension WebViewStore {
-    
     @objc public func load(url: URL) {
         DispatchQueue.main.async {
             self.webView.load(URLRequest(url: url))
@@ -254,7 +283,7 @@ extension WebViewStore {
         }
     }
 
-    @objc public func loadIfNeeded(url:URL) {
+    @objc public func loadIfNeeded(url: URL) {
         guard initialLoad == true else {
             loadIfDisposed(url: url)
             return
@@ -263,8 +292,8 @@ extension WebViewStore {
         load(url: url)
     }
 
-    @objc public func loadIfDisposed(url:URL?) {
-        guard let url = url ?? webView.url else{
+    @objc public func loadIfDisposed(url: URL?) {
+        guard let url = url ?? webView.url else {
             return
         }
         
@@ -277,5 +306,3 @@ extension WebViewStore {
         }
     }
 }
-
-

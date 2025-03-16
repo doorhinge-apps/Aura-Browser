@@ -83,8 +83,8 @@ struct WebPreview: View {
                 }
                 
             }
-            .scaleEffect(0.5)
-            .frame(width: geo.size.width / 2 - 25, height: 200) // Small size for tappable area
+            .scaleEffect(1/settings.gridColumnCount)
+            .frame(width: geo.size.width / settings.gridColumnCount - 25, height: 200) // Small size for tappable area
             .clipped()
             .cornerRadius(15)
             

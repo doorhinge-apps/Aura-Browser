@@ -30,7 +30,7 @@ struct TabList: View {
             Spacer()
                 .frame(height: 60)
             
-            LazyVGrid(columns: [GridItem(spacing: 5), GridItem(spacing: 5)], content: {
+            LazyVGrid(columns: Array(repeating: GridItem(spacing: 5), count: Int(mobileTabs.gridColumnCount)), content: {
                 ForEach(mobileTabs.selectedTabsSection == .tabs ? mobileTabs.tabs: mobileTabs.selectedTabsSection == .pinned ? mobileTabs.pinnedTabs: mobileTabs.favoriteTabs, id: \.id) { tab in
                     let offset = mobileTabs.offsets[tab.id, default: .zero]
                     WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab, browseForMeTabs: $mobileTabs.browseForMeTabs)

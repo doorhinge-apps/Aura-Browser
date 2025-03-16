@@ -54,6 +54,8 @@ class MobileTabsModel: ObservableObject {
     @Published var webURL = ""
     @Published var displayWebURL = ""
     
+    @AppStorage("gridColumnCount") var gridColumnCount = 2.0
+    
     init() {
         self._tabs = Published(initialValue: [])
         self._pinnedTabs = Published(initialValue: [])

@@ -1218,19 +1218,36 @@ struct SidebarSpaceParameter: View {
                         .background(
                             Color.white.opacity(0.0001)
                         )
-                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
-                            destinationIndex: tabIndex,
-                            allItems: $reorderingTabs,
-                            draggedItem: $draggedItem,
-                            draggedItemIndex: $draggedItemIndex,
-                            currentHoverIndex: $currentHoverIndex,
-                            onDropAction: {
-                                withAnimation {
-                                    spaces[selectedSpaceIndex].tabUrls = reorderingTabs
+//                        .onDrop(of: [.text], delegate: IndexDropViewDelegate(
+//                            destinationIndex: tabIndex,
+//                            allItems: $reorderingTabs,
+//                            draggedItem: $draggedItem,
+//                            draggedItemIndex: $draggedItemIndex,
+//                            currentHoverIndex: $currentHoverIndex,
+//                            onDropAction: {
+//                                withAnimation {
+//                                    spaces[selectedSpaceIndex].tabUrls = reorderingTabs
+//                                }
+//                                currentHoverIndex = -1
+//                            }
+//                        ))
+                        .onDrop(
+                            of: [.text],
+                            delegate: IndexDropViewDelegateNew(
+                                destinationIndex: tabIndex,
+                                allItems: $reorderingTabs,
+                                draggedItem: $draggedItem,
+                                draggedItemIndex: $draggedItemIndex,
+                                currentHoverIndex: $currentHoverIndex,
+                                tabHeight: 50.0, // Adjust to your tab's height
+                                onDropAction: {
+                                    withAnimation {
+                                        spaces[selectedSpaceIndex].tabUrls = reorderingTabs
+                                    }
                                 }
-                                currentHoverIndex = -1
-                            }
-                        ))
+                            )
+                        )
+
                     }
                     .onAppear() {
                         manager.fetchTitles(for: spaces[currentSelectedSpaceIndex].tabUrls)
@@ -1329,5 +1346,60 @@ struct SidebarSpaceParameter: View {
         }
         
         print("Done")
+    }
+}
+struct PreciseIndexDropDelegate: DropDelegate {
+    let tabIndex: Int
+    @Binding var reorderingTabs: [String]
+    @Binding var draggedItem: String?
+    @Binding var draggedItemIndex: Int?
+    @Binding var currentHoverIndex: Int
+    let tabHeight: CGFloat
+    let onDropAction: () -> Void
+
+    func validateDrop(info: DropInfo) -> Bool {
+        return info.hasItemsConforming(to: [.text])
+    }
+
+    func dropEntered(info: DropInfo) {
+        // Calculate hover index based on the drop location within the current tab
+        let dropLocationY = info.location.y
+        let threshold = tabHeight / 2
+
+        if dropLocationY < threshold {
+            // Top half of the current tab: target position above this tab
+            currentHoverIndex = tabIndex
+        } else {
+            // Bottom half of the current tab: target position below this tab
+            currentHoverIndex = tabIndex + 1
+        }
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        guard let dragged = draggedItem,
+              let oldIndex = draggedItemIndex
+        else { return false }
+
+        // Remove dragged item from old location
+        reorderingTabs.remove(at: oldIndex)
+
+        // Adjust insertion index based on currentHoverIndex and array bounds
+        let insertIndex = min(max(currentHoverIndex, 0), reorderingTabs.count)
+
+        // Insert at new position
+        reorderingTabs.insert(dragged, at: insertIndex)
+
+        // Reset hover index and complete drop action
+        currentHoverIndex = -1
+        onDropAction()
+        return true
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        return DropProposal(operation: .move)
+    }
+
+    func dropExited(info: DropInfo) {
+        currentHoverIndex = -1
     }
 }

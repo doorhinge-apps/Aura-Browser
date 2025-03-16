@@ -118,6 +118,67 @@ struct IndexDropViewDelegate: DropDelegate {
 }
 
 
+struct IndexDropViewDelegateNew: DropDelegate {
+    let destinationIndex: Int
+    @Binding var allItems: [String]
+    @Binding var draggedItem: String?
+    @Binding var draggedItemIndex: Int?
+    @Binding var currentHoverIndex: Int?
+    let tabHeight: CGFloat
+    var onDropAction: () -> Void
+
+    func dropEntered(info: DropInfo) {
+        guard let draggedItem, let draggedItemIndex else { return }
+
+        // Calculate the drop location within the tab's vertical bounds
+        let dropLocationY = info.location.y
+        let threshold = tabHeight / 2
+
+        // Determine if the drop is in the top or bottom half of the tab
+        let isInTopHalf = dropLocationY < threshold
+        let targetIndex = isInTopHalf ? destinationIndex : destinationIndex + 1
+
+        // Rearrange items only if the target index is different
+        if draggedItemIndex != targetIndex {
+            withAnimation {
+                self.allItems.move(
+                    fromOffsets: IndexSet(integer: draggedItemIndex),
+                    toOffset: targetIndex > draggedItemIndex ? targetIndex + 1 : targetIndex
+                )
+                softHaptics()
+            }
+
+            // Update hover index for visual feedback
+            currentHoverIndex = targetIndex
+        }
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        // Keep the hover index updated for visual indicators
+        currentHoverIndex = destinationIndex
+        return DropProposal(operation: .move)
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        // Reset all drag/drop state variables on completion
+        currentHoverIndex = nil
+        draggedItem = nil
+        draggedItemIndex = nil
+
+        // Trigger custom on-drop action
+        onDropAction()
+
+        return true
+    }
+
+    func dropExited(info: DropInfo) {
+        // Reset hover state when drag exits
+        currentHoverIndex = nil
+    }
+}
+
+
+
 
     extension Array {
         mutating func move(fromOffsets source: IndexSet, toOffset destination: Int) {

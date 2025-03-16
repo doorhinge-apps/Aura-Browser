@@ -63,15 +63,20 @@ struct WebsiteView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+            
+            /*WebViewMobile(urlString: tab.url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+                .navigationBarBackButtonHidden(true)
+                .matchedGeometryEffect(id: tab.id, in: namespace)
+                .ignoresSafeArea()*/
 #if !os(macOS)
 //            ZStack {
 //                Color(uiColor: webViewBackgroundColor ?? UIColor(.white))
 //                    .ignoresSafeArea()
 //                
-//                if browseForMeTabs.contains(tab.id.description) {
+                if browseForMeTabs.contains(tab.id.description) {
                     BrowseForMeMobile(searchText: unformatURL(url: url), searchResponse: searchResponse)
-//                        .matchedGeometryEffect(id: tab.id, in: namespace)
-//                }
+                        .matchedGeometryEffect(id: tab.id, in: namespace)
+                }
 //                else {
 //                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
 //                        .navigationBarBackButtonHidden(true)
@@ -80,7 +85,7 @@ struct WebsiteView: View {
 //            }
 //            .ignoresSafeArea(.container, edges: [.leading, .trailing, .bottom])
 #endif
-        }
+        }.ignoresSafeArea(.container, edges: [.leading, .trailing, .bottom])
     }
     
     private func getCurrentTabs() -> [(id: UUID, url: String)] {
