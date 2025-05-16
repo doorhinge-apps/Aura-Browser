@@ -268,6 +268,18 @@ public class UIViewContainerView<ContentView: UIView>: UIView {
 }
 
 extension WebViewStore {
+    @objc public func navigate(to urlString: String) {
+        var candidate = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // prepend a scheme if the user forgot it
+        if !candidate.hasPrefix("http://") && !candidate.hasPrefix("https://") {
+            candidate = "https://" + candidate
+        }
+        
+        guard let url = URL(string: candidate) else { return }
+        load(url: url)
+    }
+    
     @objc public func load(url: URL) {
         DispatchQueue.main.async {
             self.webView.load(URLRequest(url: url))

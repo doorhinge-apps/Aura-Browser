@@ -50,16 +50,18 @@ struct Launch_Animation: View {
                     
                 }.frame(width: geo.size.width - 200, height: geo.size.height - 200)
                     .blur(radius: 25)
+                    .drawingGroup()
                 
             }
             .opacity(allOpacity)
             .ignoresSafeArea()
             .frame(width: geo.size.width, height: geo.size.height)
+            .drawingGroup()
             .onAppear() {
                 let durationFactor = 2.0
                 
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    withAnimation(.bouncy(duration: 1 * durationFactor, extraBounce: 0.2)) {
+                    withAnimation(.linear(duration: 1 * durationFactor)) {
                         circleFillScale = 2
                         circleFillRotation = -180
                         
@@ -70,7 +72,7 @@ struct Launch_Animation: View {
                         }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 * durationFactor) {
-                            withAnimation(.bouncy(duration: 0.5 * durationFactor, extraBounce: 0.4)) {
+                            withAnimation(.linear(duration: 0.5 * durationFactor)) {
                                 circleStrokeScale = 1.2
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25 * durationFactor) {

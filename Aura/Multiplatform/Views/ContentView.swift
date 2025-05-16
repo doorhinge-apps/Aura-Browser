@@ -6,11 +6,7 @@
 //
 
 import SwiftUI
-#if !os(macOS)
 import UIKit
-#else
-import AppKit
-#endif
 import WebKit
 import Combine
 import SDWebImage
@@ -804,12 +800,8 @@ struct ContentView: View {
                             }
                             .onOpenURL { url in
                                 if url.absoluteString.starts(with: "aura://") {
-                                    //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: "https\(url.absoluteString.dropFirst(4))")!))
                                 }
                                 else {
-                                    //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: url.absoluteString)!))
-                                    
-                                    //spaces[selectedSpaceIndex].tabUrls.append(url.absoluteString)
                                     manager.selectOrAddWebView(urlString: url.absoluteString)
                                     manager.selectedTabLocation = .tabs
                                     manager.selectedTabIndex = 0
@@ -828,7 +820,6 @@ struct ContentView: View {
                                         
                                         if !variables.newTabSearch.starts(with: "aura://") {
                                             variables.auraTab = ""
-                                            //variables.navigationState.createNewWebView(withRequest: URLRequest(url: URL(string: formatURL(from: variables.newTabSearch))!))
                                             
                                             print(variables.newTabSearch)
                                             
@@ -905,19 +896,17 @@ struct ContentView: View {
                             else if variables.commandBarShown {
                                 CommandBar(commandBarText: $variables.searchInSidebar, searchSubmitted: $variables.commandBarSearchSubmitted2, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
                                     .onChange(of: variables.commandBarSearchSubmitted2) { thing in
-                                        
-                                        //variables.navigationState.currentURL = URL(string: formatURL(from: newTabSearch))!
-                                        //variables.navigationState.selectedWebView?.load(URLRequest(url: URL(formatURL(from: newTabSearch))!))
                                         Task {
-                                            await variables.searchInSidebar = formatURL(from: variables.searchInSidebar)
-                                            if let url = URL(string: variables.searchInSidebar) {
-                                                // Create a URLRequest object
-                                                let request = URLRequest(url: url)
-                                                
-                                                print("Updated URL String")
-                                            } else {
-                                                print("Invalid URL string")
-                                            }
+                                            //await variables.searchInSidebar = formatURL(from: variables.searchInSidebar)
+//                                            if let url = URL(string: variables.searchInSidebar) {
+//                                                // Create a URLRequest object
+//                                                let request = URLRequest(url: url)
+//                                                
+//                                                print("Updated URL String")
+//                                            } else {
+//                                                print("Invalid URL string")
+//                                            }
+                                            manager.selectedWebView?.navigate(to: formatURL(from: variables.searchInSidebar))
                                         }
                                         
                                         
@@ -1036,7 +1025,7 @@ struct ContentView: View {
                 .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
                 .foregroundColor(selectedSpaceIndex < spaces.count ? Color(hex: spaces[selectedSpaceIndex].startHex) : .blue)
                 .opacity(isLoading ?? false ? 1.0 : 0.0)
-                .animation(.default, value: isLoading ?? false)
+                .animation(.linear, value: isLoading ?? false)
                 .blur(radius: 5)
             
             RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -1045,7 +1034,7 @@ struct ContentView: View {
                 .rotation(Angle(degrees: 180))
                 .foregroundColor(selectedSpaceIndex < spaces.count ? Color(hex: spaces[selectedSpaceIndex].startHex) : .blue)
                 .opacity(isLoading ?? false ? 1.0 : 0.0)
-                .animation(.default, value: isLoading ?? false)
+                .animation(.linear, value: isLoading ?? false)
                 .blur(radius: 5)
                 .onReceive(rotationTimer) { _ in
                     handleRotation()
@@ -1210,7 +1199,5 @@ struct ContentView: View {
         }
         
         print("Done")
-        
-        //saveSpaceData()
     }
 }

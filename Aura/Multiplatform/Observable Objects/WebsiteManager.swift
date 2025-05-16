@@ -54,10 +54,6 @@ class WebsiteManager: ObservableObject {
             
             selectedWebView = newWebViewStore
             
-            
-            
-            //selectedWebView?.JSperformScript(script: forceDarkMode)
-            
             if UserDefaults.standard.bool(forKey: "adBlockEnabled") {
                 loadContentBlockingRules(selectedWebView?.webView ?? WKWebView())
             }

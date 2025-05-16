@@ -68,7 +68,6 @@
 		B94CA9272C28EB7500AD3921 /* SkewIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9262C28EB7500AD3921 /* SkewIcon.swift */; };
 		B94CA9292C28EB9A00AD3921 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA9282C28EB9A00AD3921 /* MotionManager.swift */; };
 		B94CA92B2C290E7F00AD3921 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CA92A2C290E7F00AD3921 /* General.swift */; };
-		B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */; };
 		B95A4F462CBA609A00A376BF /* TabbedPagedSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A4F452CBA609A00A376BF /* TabbedPagedSidebar.swift */; };
 		B95A4F482CBA6C8500A376BF /* SidebarObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A4F472CBA6C8500A376BF /* SidebarObservable.swift */; };
 		B95A4F4A2CBB796B00A376BF /* BoostSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95A4F492CBB796B00A376BF /* BoostSettings.swift */; };
@@ -195,7 +194,6 @@
 		B94CA9262C28EB7500AD3921 /* SkewIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkewIcon.swift; sourceTree = "<group>"; };
 		B94CA9282C28EB9A00AD3921 /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		B94CA92A2C290E7F00AD3921 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
-		B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSnapshot.swift; sourceTree = "<group>"; };
 		B95A4F452CBA609A00A376BF /* TabbedPagedSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbedPagedSidebar.swift; sourceTree = "<group>"; };
 		B95A4F472CBA6C8500A376BF /* SidebarObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarObservable.swift; sourceTree = "<group>"; };
 		B95A4F492CBB796B00A376BF /* BoostSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostSettings.swift; sourceTree = "<group>"; };
@@ -475,7 +473,6 @@
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
 				B90670C92CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift */,
-				B94CEA5D2C2F670900A62B70 /* WebSnapshot.swift */,
 				B92FDE1A2C2E642900B07703 /* TabLocations.swift */,
 				B961B7B42C2BF1FA00F43EBF /* WebsiteView.swift */,
 				B961B7B22C2BD9A800F43EBF /* MobileHomepage.swift */,
@@ -980,7 +977,6 @@
 				B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */,
 				B91BCF442C3F1B740031581D /* someKey.swift in Sources */,
 				B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */,
-				B94CEA5E2C2F670900A62B70 /* WebSnapshot.swift in Sources */,
 				B93D9D312BDF36130002D01B /* SuggestionsURLs.swift in Sources */,
 				B961B7B52C2BF1FA00F43EBF /* WebsiteView.swift in Sources */,
 				B9FA63BD2C3C2E1D00D492E6 /* KeyboardShortcuts.swift in Sources */,
@@ -1156,7 +1152,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1203,7 +1199,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 52;
+				CURRENT_PROJECT_VERSION = 55;
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

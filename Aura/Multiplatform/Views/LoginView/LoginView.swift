@@ -44,10 +44,6 @@ struct OnboardingView: View {
                 else {
                     NoWifi(ignore: $ignoreNoWifi)
                 }
-                    //SwiftUITabBar()
-//                        .environmentObject(variables)
-                
-                //if !onboardingDone && !onboardingComplete {
                 if !onboardingDone {
                     HStack(spacing: 0) {
                         page1
