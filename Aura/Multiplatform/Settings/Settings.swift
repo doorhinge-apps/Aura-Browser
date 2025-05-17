@@ -177,7 +177,7 @@ struct NewSettings: View {
                                                 }.cornerRadius(5)
                                             })
                                         
-                                        Text("Search Engine")
+                                        Text("Search Settings")
                                         
                                         Spacer()
                                         

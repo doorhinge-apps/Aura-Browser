@@ -18,6 +18,7 @@ public struct BrowserView: View {
     public var body: some View {
         WebView(webView: self.webViewStore.webView)
             .animation(.easeInOut,value:true)
+            .preferredColorScheme(.light)
     }
 }
 

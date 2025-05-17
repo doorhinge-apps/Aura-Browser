@@ -33,7 +33,9 @@ class WebsiteManager: ObservableObject {
             // Create a new WebViewStore if not found and add it to the dictionary
             let newWebViewStore = WebViewStore()
             newWebViewStore.webView.allowsBackForwardNavigationGestures = true
-            newWebViewStore.webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15"
+            //newWebViewStore.webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15"
+            newWebViewStore.webView.customUserAgent = UserDefaults.standard.string(forKey: "userAgent") ?? "Mozilla/5.0 (iPad; CPU OS 18_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/136.0.7103.91 Mobile/15E148 Safari/604.1"
+            
             
             newWebViewStore.loadIfNeeded(url: URL(string: urlString) ?? URL(string: "https://example.com")!)
             webViewStores[urlString] = newWebViewStore

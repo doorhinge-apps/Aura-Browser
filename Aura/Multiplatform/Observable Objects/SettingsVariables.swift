@@ -72,4 +72,6 @@ class SettingsVariables: ObservableObject {
     @AppStorage("shareButtonInTabBar") var shareButtonInTabBar = true
     
     @AppStorage("gridColumnCount") var gridColumnCount = 2.0
+    
+    @AppStorage("userAgent") var userAgent = "Mozilla/5.0 (iPad; CPU OS 18_5_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/136.0.7103.91 Mobile/15E148 Safari/604.1"
 }

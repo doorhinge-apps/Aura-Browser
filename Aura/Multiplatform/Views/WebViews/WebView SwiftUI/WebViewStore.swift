@@ -23,11 +23,18 @@ public class WebViewStore: NSObject, ObservableObject, WKNavigationDelegate {
     @Published public var webView: WKWebView
 
     override public init() {
-        self.webView = WKWebView()
+        let config = WKWebViewConfiguration()
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.backgroundColor = .clear
+        webView.scrollView.bounces = false // optional: remove bounce to prevent overscroll artifacts
+        self.webView = webView
+        
         super.init()
         setupObservers()
         webView.isFindInteractionEnabled = true
-        webView.findInteraction?.presentFindNavigator(showingReplace: false)
+        //webView.findInteraction?.presentFindNavigator(showingReplace: false)
     }
     deinit {
         invalidateObservers()

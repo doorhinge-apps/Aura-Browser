@@ -897,15 +897,6 @@ struct ContentView: View {
                                 CommandBar(commandBarText: $variables.searchInSidebar, searchSubmitted: $variables.commandBarSearchSubmitted2, collapseHeightAnimation: $variables.commandBarCollapseHeightAnimation, isBrowseForMe: $variables.isBrowseForMe)
                                     .onChange(of: variables.commandBarSearchSubmitted2) { thing in
                                         Task {
-                                            //await variables.searchInSidebar = formatURL(from: variables.searchInSidebar)
-//                                            if let url = URL(string: variables.searchInSidebar) {
-//                                                // Create a URLRequest object
-//                                                let request = URLRequest(url: url)
-//                                                
-//                                                print("Updated URL String")
-//                                            } else {
-//                                                print("Invalid URL string")
-//                                            }
                                             manager.selectedWebView?.navigate(to: formatURL(from: variables.searchInSidebar))
                                         }
                                         

@@ -84,6 +84,7 @@ struct SearchSettings: View {
                         .onAppear() {
                             pickerSearchEngine = searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped
                         }
+                        .padding([.leading, .trailing, .bottom])
                     
                     
                     Divider()
@@ -127,6 +128,32 @@ struct SearchSettings: View {
                         
                         Spacer()
                     }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text("Custom User Agent")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                    }.padding(20)
+                    
+                    TextField("User Agent", text: $settings.userAgent)
+                        .textFieldStyle(.plain)
+                        .padding(.leading, 20)
+                        .foregroundStyle(Color.white)
+                    
+                    HStack {
+                        Text("You can edit the user agent of the browser to change how it appears to search engines.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Spacer()
+                        .frame(height: 20)
                 }
             }
             .onAppear {

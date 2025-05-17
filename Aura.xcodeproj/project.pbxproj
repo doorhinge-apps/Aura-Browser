@@ -16,7 +16,7 @@
 		B90670E62CCDD95500DE3B76 /* WebPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670E52CCDD95500DE3B76 /* WebPreview.swift */; };
 		B90670E92CCDD9BC00DE3B76 /* TabList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670E82CCDD9BC00DE3B76 /* TabList.swift */; };
 		B90670EB2CCDD9FD00DE3B76 /* MobileTabsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90670EA2CCDD9FD00DE3B76 /* MobileTabsModel.swift */; };
-		B91BCF412C3F1AED0031581D /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF402C3F1AED0031581D /* SearchEngine.swift */; };
+		B91BCF412C3F1AED0031581D /* SearchSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF402C3F1AED0031581D /* SearchSettings.swift */; };
 		B91BCF442C3F1B740031581D /* someKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF432C3F1B740031581D /* someKey.swift */; };
 		B91BCF462C3F1FDE0031581D /* Removing Duplicates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */; };
 		B91BCF622C3F36420031581D /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91BCF612C3F36420031581D /* NetworkMonitor.swift */; };
@@ -122,6 +122,9 @@
 		B9DDD26D2C3C2B2600BC0CA4 /* SettingsVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DDD26C2C3C2B2600BC0CA4 /* SettingsVariables.swift */; };
 		B9E474202C17EA800098C7C6 /* TestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */; };
 		B9E474382C18052C0098C7C6 /* IconsArrayIOS18.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */; };
+		B9EDFBC52DD82CEC009E9833 /* NewWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EDFBC42DD82CEC009E9833 /* NewWebView.swift */; };
+		B9EDFBC72DD83EAB009E9833 /* NewWebsiteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EDFBC62DD83EAB009E9833 /* NewWebsiteManager.swift */; };
+		B9EDFBC92DD84137009E9833 /* NewWebsiteManagerDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EDFBC82DD84137009E9833 /* NewWebsiteManagerDemo.swift */; };
 		B9F7D6272BD851CC00E186B8 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = B9F7D6262BD851CC00E186B8 /* SDWebImageSwiftUI */; };
 		B9FA63BD2C3C2E1D00D492E6 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */; };
 		B9FA63BF2C3C2E2400D492E6 /* BoostDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FA63BE2C3C2E2400D492E6 /* BoostDataStorage.swift */; };
@@ -145,7 +148,7 @@
 		B90670E52CCDD95500DE3B76 /* WebPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPreview.swift; sourceTree = "<group>"; };
 		B90670E82CCDD9BC00DE3B76 /* TabList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabList.swift; sourceTree = "<group>"; };
 		B90670EA2CCDD9FD00DE3B76 /* MobileTabsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileTabsModel.swift; sourceTree = "<group>"; };
-		B91BCF402C3F1AED0031581D /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
+		B91BCF402C3F1AED0031581D /* SearchSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSettings.swift; sourceTree = "<group>"; };
 		B91BCF432C3F1B740031581D /* someKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = someKey.swift; sourceTree = "<group>"; };
 		B91BCF452C3F1FDE0031581D /* Removing Duplicates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Removing Duplicates.swift"; sourceTree = "<group>"; };
 		B91BCF612C3F36420031581D /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
@@ -251,6 +254,9 @@
 		B9E4741F2C17EA800098C7C6 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aura_Tests.swift; sourceTree = "<group>"; };
 		B9E474372C18052C0098C7C6 /* IconsArrayIOS18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsArrayIOS18.swift; sourceTree = "<group>"; };
+		B9EDFBC42DD82CEC009E9833 /* NewWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWebView.swift; sourceTree = "<group>"; };
+		B9EDFBC62DD83EAB009E9833 /* NewWebsiteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWebsiteManager.swift; sourceTree = "<group>"; };
+		B9EDFBC82DD84137009E9833 /* NewWebsiteManagerDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWebsiteManagerDemo.swift; sourceTree = "<group>"; };
 		B9FA63BC2C3C2E1D00D492E6 /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcuts.swift; sourceTree = "<group>"; };
 		B9FA63BE2C3C2E2400D492E6 /* BoostDataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostDataStorage.swift; sourceTree = "<group>"; };
 		B9FD6CE12BE2A98000A7D0B1 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -709,7 +715,7 @@
 				B94CA92A2C290E7F00AD3921 /* General.swift */,
 				B9D47D0B2C282A150059BE46 /* Appearance.swift */,
 				B95A4F492CBB796B00A376BF /* BoostSettings.swift */,
-				B91BCF402C3F1AED0031581D /* SearchEngine.swift */,
+				B91BCF402C3F1AED0031581D /* SearchSettings.swift */,
 				B9D47D092C27806C0059BE46 /* Favicons.swift */,
 				B91BCF682C3F54940031581D /* ShortcutSettings.swift */,
 				B91BCF6A2C3F5ECF0031581D /* AISettings.swift */,
@@ -736,6 +742,16 @@
 				B9E474322C17EDE80098C7C6 /* Aura_Tests.swift */,
 			);
 			path = "Aura Tests";
+			sourceTree = "<group>";
+		};
+		B9EDFBC32DD82CC8009E9833 /* WebView Update */ = {
+			isa = PBXGroup;
+			children = (
+				B9EDFBC42DD82CEC009E9833 /* NewWebView.swift */,
+				B9EDFBC62DD83EAB009E9833 /* NewWebsiteManager.swift */,
+				B9EDFBC82DD84137009E9833 /* NewWebsiteManagerDemo.swift */,
+			);
+			path = "WebView Update";
 			sourceTree = "<group>";
 		};
 		B9FE8D162BDD87FA00BBF221 /* Animations */ = {
@@ -789,6 +805,7 @@
 			isa = PBXGroup;
 			children = (
 				B98953A72AAC1F4B00EE3B42 /* ContentView.swift */,
+				B9EDFBC32DD82CC8009E9833 /* WebView Update */,
 				B934413C2C51F88300D6BA35 /* Reader */,
 				B97724FF2C0115F600A39E3A /* Sidebar */,
 				B90294522C3337A5005DB4CA /* WebViews */,
@@ -943,6 +960,7 @@
 				B93D9D2E2BDF34C90002D01B /* Pinned Tab.swift in Sources */,
 				B94ADB282C3EFCE00054899D /* Icons Arrays.swift in Sources */,
 				B90644122C40F3B00056C5D3 /* History.swift in Sources */,
+				B9EDFBC52DD82CEC009E9833 /* NewWebView.swift in Sources */,
 				B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */,
 				B9798C432BF28F100012D98E /* WeatherWidgetView.swift in Sources */,
 				B94CA91A2C28C27500AD3921 /* SwiftUISidebar.swift in Sources */,
@@ -972,8 +990,9 @@
 				B9FE8D172BDD884000BBF221 /* CircleAnimation.swift in Sources */,
 				B98256D22BD2E40C00F997F5 /* Toolbar Buttons.swift in Sources */,
 				B9798BFB2BF0AA4D0012D98E /* Dashboard.swift in Sources */,
+				B9EDFBC72DD83EAB009E9833 /* NewWebsiteManager.swift in Sources */,
 				B90213752AB0174F00AB708D /* SizedSpacer.swift in Sources */,
-				B91BCF412C3F1AED0031581D /* SearchEngine.swift in Sources */,
+				B91BCF412C3F1AED0031581D /* SearchSettings.swift in Sources */,
 				B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */,
 				B91BCF442C3F1B740031581D /* someKey.swift in Sources */,
 				B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */,
@@ -994,6 +1013,7 @@
 				C1BD7D302BDE052F0078D7B3 /* WebView.swift in Sources */,
 				B9D47D0A2C27806C0059BE46 /* Favicons.swift in Sources */,
 				B98256CC2BD2E33200F997F5 /* DropViewDelegate.swift in Sources */,
+				B9EDFBC92DD84137009E9833 /* NewWebsiteManagerDemo.swift in Sources */,
 				B9FD6CE22BE2A98000A7D0B1 /* CommandBar.swift in Sources */,
 				B94CA9212C28C78200AD3921 /* BoostEditor.swift in Sources */,
 				B97725032C01292400A39E3A /* PagedSidebar.swift in Sources */,
