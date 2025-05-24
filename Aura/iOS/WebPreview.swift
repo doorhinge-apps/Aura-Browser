@@ -77,9 +77,13 @@ struct WebPreview: View {
                     }.frame(width: geo.size.width - 50, height: 400)
                 }
                 else {
-                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
-                        .frame(width: geo.size.width - 50, height: 400)
-                        .disabled(true)
+//                    WebViewMobile(urlString: url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+//                        .frame(width: geo.size.width - 50, height: 400)
+//                        .disabled(true)
+                    UrlSnapshotView(urlString: url)
+                        .scaledToFill()
+                        .frame(width: geo.size.width - 50, height: 400, alignment: .top)
+                        .clipped()
                 }
                 
             }

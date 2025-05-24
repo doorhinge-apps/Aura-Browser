@@ -23,15 +23,26 @@ struct TabList: View {
     
     @FocusState.Binding var newTabFocus: Bool
     
+    @StateObject private var snapshotRefresher = SnapshotRefresher()
+    
     @State var geo: GeometryProxy
+    
+    @State var topZIndexTab: (id: UUID, url: String) = (.init(), "")
     
     var body: some View {
         VStack {
             Spacer()
                 .frame(height: 60)
             
-            LazyVGrid(columns: Array(repeating: GridItem(spacing: 5), count: Int(mobileTabs.gridColumnCount)), content: {
-                ForEach(mobileTabs.selectedTabsSection == .tabs ? mobileTabs.tabs: mobileTabs.selectedTabsSection == .pinned ? mobileTabs.pinnedTabs: mobileTabs.favoriteTabs, id: \.id) { tab in
+            LazyVGrid(
+                columns: Array(repeating: GridItem(spacing: 5), count: Int(mobileTabs.gridColumnCount)), content: {
+                ForEach(
+                    mobileTabs.selectedTabsSection == .tabs ?
+                    mobileTabs.tabs: mobileTabs.selectedTabsSection == .pinned ?
+                    mobileTabs.pinnedTabs:
+                        mobileTabs.favoriteTabs,
+                    id: \.id) { tab in
+                        
                     let offset = mobileTabs.offsets[tab.id, default: .zero]
                     WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab, browseForMeTabs: $mobileTabs.browseForMeTabs)
                         .rotationEffect(Angle(degrees: mobileTabs.tilts[tab.id, default: 0.0]))
@@ -41,7 +52,7 @@ struct TabList: View {
                                 .fill(Color.white.opacity(0.0001))
                                 .onTapGesture {
                                     mobileTabs.newTabFromTab = false
-                                    
+
                                     if newTabFocus {
                                         newTabFocus = false
                                     }
@@ -54,6 +65,7 @@ struct TabList: View {
                                     }
                                 }
                         })
+                        .zIndex(topZIndexTab == tab ? 100: 1)
                         .gesture(
                             DragGesture(minimumDistance: 50)
                                 .onChanged { gesture in
@@ -63,6 +75,7 @@ struct TabList: View {
                                     else {
                                         handleDragChange(gesture, for: tab.id)
                                     }
+                                    topZIndexTab = tab
                                 }
                                 .onEnded { gesture in
                                     if newTabFocus {
@@ -70,6 +83,9 @@ struct TabList: View {
                                     }
                                     else {
                                         handleDragEnd(gesture, for: tab.id)
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                        topZIndexTab = (.init(), "")
                                     }
                                 }
                         )

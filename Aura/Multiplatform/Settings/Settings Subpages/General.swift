@@ -12,6 +12,8 @@ struct General: View {
     
     @ObservedObject var settings: SettingsVariables
     
+    @StateObject private var snapshotRefresher = SnapshotRefresher()
+    
     @State var startHex: String
     @State var endHex: String
     
@@ -349,6 +351,15 @@ struct General: View {
                     
                     Spacer()
                         .frame(height: 20)
+                    
+                    Divider()
+                    
+                    Button {
+                        snapshotRefresher.deleteAllSnapshots()
+                    } label: {
+                        Text("Delete Website Snapshots")
+                    }.buttonStyle(NewButtonStyle(startHex: "8A3CEF", endHex: "84F5FE"))
+
                 }
             }
             .onAppear {

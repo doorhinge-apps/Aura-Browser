@@ -102,6 +102,8 @@
 		B98A32F82BD01DCE00555AB9 /* IconsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */; };
 		B98A32FB2BD05CF000555AB9 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = B98A32FA2BD05CF000555AB9 /* FaviconFinder */; };
 		B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */; };
+		B99EBDF32DE1929700A6A08F /* URL Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBDF22DE1929700A6A08F /* URL Snapshot.swift */; };
+		B99EBDF52DE1971200A6A08F /* SnapshotRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBDF42DE1971100A6A08F /* SnapshotRefresher.swift */; };
 		B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */; };
 		B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */; };
 		B9AFB6612C3CF4EE009B89C5 /* AIBoostGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */; };
@@ -234,6 +236,8 @@
 		B98A32F32BCDC59B00555AB9 /* urlFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlFormatter.swift; sourceTree = "<group>"; };
 		B98A32F72BD01DCE00555AB9 /* IconsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsPicker.swift; sourceTree = "<group>"; };
 		B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonStyle.swift; sourceTree = "<group>"; };
+		B99EBDF22DE1929700A6A08F /* URL Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL Snapshot.swift"; sourceTree = "<group>"; };
+		B99EBDF42DE1971100A6A08F /* SnapshotRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotRefresher.swift; sourceTree = "<group>"; };
 		B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveHead.swift; sourceTree = "<group>"; };
 		B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHTMLforAI.swift; sourceTree = "<group>"; };
 		B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIBoostGenerator.swift; sourceTree = "<group>"; };
@@ -475,6 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				B90670E72CCDD98A00DE3B76 /* Tabs */,
+				B99EBDF12DE1927A00A6A08F /* Website Shapshots */,
 				B90670E52CCDD95500DE3B76 /* WebPreview.swift */,
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
@@ -687,6 +692,15 @@
 				C1BD7D222BDDF9C80078D7B3 /* ContentViewColor.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B99EBDF12DE1927A00A6A08F /* Website Shapshots */ = {
+			isa = PBXGroup;
+			children = (
+				B99EBDF22DE1929700A6A08F /* URL Snapshot.swift */,
+				B99EBDF42DE1971100A6A08F /* SnapshotRefresher.swift */,
+			);
+			path = "Website Shapshots";
 			sourceTree = "<group>";
 		};
 		B9C0ED7E2C0A532700AF6E31 /* Clock */ = {
@@ -974,6 +988,7 @@
 				B90213732AAFDEE200AB708D /* Button Styles.swift in Sources */,
 				B91BCF692C3F54940031581D /* ShortcutSettings.swift in Sources */,
 				B98256CE2BD2E38D00F997F5 /* ThreeDots.swift in Sources */,
+				B99EBDF52DE1971200A6A08F /* SnapshotRefresher.swift in Sources */,
 				B9272D342C240DDD00B014D8 /* Browse for Me.swift in Sources */,
 				B9DDD26D2C3C2B2600BC0CA4 /* SettingsVariables.swift in Sources */,
 				B94CA91C2C28C33100AD3921 /* SwiftUISidebarWebView.swift in Sources */,
@@ -1028,6 +1043,7 @@
 				C1BD7D1B2BDDF6A30078D7B3 /* SpaceStorage.swift in Sources */,
 				B90644142C40F3B50056C5D3 /* HistoryObservable.swift in Sources */,
 				B91BCF642C3F367A0031581D /* NoWifi.swift in Sources */,
+				B99EBDF32DE1929700A6A08F /* URL Snapshot.swift in Sources */,
 				B9798C452BF2908B0012D98E /* LocationManager.swift in Sources */,
 				B90294512C325C07005DB4CA /* Browse for Me Mobile.swift in Sources */,
 				B97725012C0116BA00A39E3A /* Space Picker.swift in Sources */,

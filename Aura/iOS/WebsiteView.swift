@@ -42,7 +42,7 @@ struct WebsiteView: View {
     
     var body: some View {
         GeometryReader { geo in
-            TabView(selection: Binding(
+            /*TabView(selection: Binding(
                 get: { mobileTabs.selectedTab?.id },
                 set: { newID in
                     if let newID {
@@ -62,12 +62,12 @@ struct WebsiteView: View {
                         .tag(tab.id)
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .tabViewStyle(.page(indexDisplayMode: .never))*/
             
-            /*WebViewMobile(urlString: tab.url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
+            WebViewMobile(urlString: tab.url, title: $webTitle, webViewBackgroundColor: $webViewBackgroundColor, currentURLString: $webURL, webViewManager: webViewManager)
                 .navigationBarBackButtonHidden(true)
                 .matchedGeometryEffect(id: tab.id, in: namespace)
-                .ignoresSafeArea()*/
+                .ignoresSafeArea()
 #if !os(macOS)
 //            ZStack {
 //                Color(uiColor: webViewBackgroundColor ?? UIColor(.white))
