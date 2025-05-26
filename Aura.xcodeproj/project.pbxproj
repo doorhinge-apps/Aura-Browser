@@ -104,6 +104,7 @@
 		B99300DF2C309965000BBFA4 /* PlusButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */; };
 		B99EBDF32DE1929700A6A08F /* URL Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBDF22DE1929700A6A08F /* URL Snapshot.swift */; };
 		B99EBDF52DE1971200A6A08F /* SnapshotRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBDF42DE1971100A6A08F /* SnapshotRefresher.swift */; };
+		B99EBE1F2DE5120900A6A08F /* FetchWebsiteTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBE1E2DE5120900A6A08F /* FetchWebsiteTitle.swift */; };
 		B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */; };
 		B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */; };
 		B9AFB6612C3CF4EE009B89C5 /* AIBoostGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */; };
@@ -238,6 +239,7 @@
 		B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButtonStyle.swift; sourceTree = "<group>"; };
 		B99EBDF22DE1929700A6A08F /* URL Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL Snapshot.swift"; sourceTree = "<group>"; };
 		B99EBDF42DE1971100A6A08F /* SnapshotRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotRefresher.swift; sourceTree = "<group>"; };
+		B99EBE1E2DE5120900A6A08F /* FetchWebsiteTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchWebsiteTitle.swift; sourceTree = "<group>"; };
 		B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveHead.swift; sourceTree = "<group>"; };
 		B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHTMLforAI.swift; sourceTree = "<group>"; };
 		B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIBoostGenerator.swift; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 				B90670E72CCDD98A00DE3B76 /* Tabs */,
 				B99EBDF12DE1927A00A6A08F /* Website Shapshots */,
 				B90670E52CCDD95500DE3B76 /* WebPreview.swift */,
+				B99EBE1E2DE5120900A6A08F /* FetchWebsiteTitle.swift */,
 				B961B7AE2C2BA59200F43EBF /* iOS Webview.swift */,
 				B99300DE2C309965000BBFA4 /* PlusButtonStyle.swift */,
 				B90670C92CCD7FAB00DE3B76 /* ToolbarButtonStyle.swift */,
@@ -900,6 +903,7 @@
 				B9272D4B2C26B59C00B014D8 /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 				B92652E42C3C9E3700DA2241 /* XCRemoteSwiftPackageReference "CodeEditor" */,
 				B9AFB6622C3CF58C009B89C5 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				B99EBE1D2DE50E4800A6A08F /* XCRemoteSwiftPackageReference "cmark-gfm" */,
 			);
 			productRefGroup = B95B19E22AABBEE00013AC79 /* Products */;
 			projectDirPath = "";
@@ -968,6 +972,7 @@
 				B94ADB1E2C3EDFB60054899D /* averageHex.swift in Sources */,
 				B9C6D0A12BF5E10E001DE904 /* DashboardWidgetStorage.swift in Sources */,
 				B93440E82C48C7E300D6BA35 /* Sharing.swift in Sources */,
+				B99EBE1F2DE5120900A6A08F /* FetchWebsiteTitle.swift in Sources */,
 				B9FA63BF2C3C2E2400D492E6 /* BoostDataStorage.swift in Sources */,
 				B93AE9332C2AA10A003D0E88 /* HoverButtonDisabled.swift in Sources */,
 				B94303922C2D347C00D787A4 /* CurrentWebView.swift in Sources */,
@@ -1188,7 +1193,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1235,7 +1240,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Aura/iPad browser.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 55;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = 47J6H2LHDD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1325,6 +1330,14 @@
 			requirement = {
 				kind = exactVersion;
 				version = 5.1.4;
+			};
+		};
+		B99EBE1D2DE50E4800A6A08F /* XCRemoteSwiftPackageReference "cmark-gfm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/github/cmark-gfm.git";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		B9AFB6622C3CF58C009B89C5 /* XCRemoteSwiftPackageReference "OpenAI" */ = {

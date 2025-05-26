@@ -142,6 +142,8 @@ struct WebPreview: View {
                         .lineLimit(1)
                     
                     Spacer()
+                }.task {
+                    webTitle = await fetchTitle(from: url)
                 }
             }
 #endif

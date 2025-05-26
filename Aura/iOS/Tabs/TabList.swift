@@ -29,107 +29,115 @@ struct TabList: View {
     
     @State var topZIndexTab: (id: UUID, url: String) = (.init(), "")
     
+    @State var delayLoading: Bool = false
+    
     var body: some View {
         VStack {
             Spacer()
                 .frame(height: 60)
             
-            LazyVGrid(
-                columns: Array(repeating: GridItem(spacing: 5), count: Int(mobileTabs.gridColumnCount)), content: {
-                ForEach(
-                    mobileTabs.selectedTabsSection == .tabs ?
-                    mobileTabs.tabs: mobileTabs.selectedTabsSection == .pinned ?
-                    mobileTabs.pinnedTabs:
-                        mobileTabs.favoriteTabs,
-                    id: \.id) { tab in
-                        
-                    let offset = mobileTabs.offsets[tab.id, default: .zero]
-                    WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab, browseForMeTabs: $mobileTabs.browseForMeTabs)
-                        .rotationEffect(Angle(degrees: mobileTabs.tilts[tab.id, default: 0.0]))
-                        .offset(x: offset.width)
-                        .overlay(content: {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color.white.opacity(0.0001))
-                                .onTapGesture {
-                                    mobileTabs.newTabFromTab = false
-
-                                    if newTabFocus {
-                                        newTabFocus = false
-                                    }
-                                    else {
-                                        withAnimation {
-                                            mobileTabs.webURL = tab.url
-                                            mobileTabs.selectedTab = tab
-                                            mobileTabs.fullScreenWebView = true
+            if delayLoading {
+                LazyVGrid(
+                    columns: Array(repeating: GridItem(spacing: 5), count: Int(mobileTabs.gridColumnCount)), content: {
+                        ForEach(
+                            mobileTabs.selectedTabsSection == .tabs ?
+                            mobileTabs.tabs: mobileTabs.selectedTabsSection == .pinned ?
+                            mobileTabs.pinnedTabs:
+                                mobileTabs.favoriteTabs,
+                            id: \.id) { tab in
+                                
+                                let offset = mobileTabs.offsets[tab.id, default: .zero]
+                                WebPreview(namespace: namespace, url: tab.url, geo: geo, tab: tab, browseForMeTabs: $mobileTabs.browseForMeTabs)
+                                    .rotationEffect(Angle(degrees: mobileTabs.tilts[tab.id, default: 0.0]))
+                                    .offset(x: offset.width)
+                                    .overlay(content: {
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .fill(Color.white.opacity(0.0001))
+                                            .onTapGesture {
+                                                mobileTabs.newTabFromTab = false
+                                                
+                                                if newTabFocus {
+                                                    newTabFocus = false
+                                                }
+                                                else {
+                                                    withAnimation {
+                                                        mobileTabs.webURL = tab.url
+                                                        mobileTabs.selectedTab = tab
+                                                        mobileTabs.fullScreenWebView = true
+                                                    }
+                                                }
+                                            }
+                                    })
+                                    .zIndex(topZIndexTab == tab ? 100: 1)
+                                    .gesture(
+                                        DragGesture(minimumDistance: 50)
+                                            .onChanged { gesture in
+                                                if newTabFocus {
+                                                    newTabFocus = false
+                                                }
+                                                else {
+                                                    handleDragChange(gesture, for: tab.id)
+                                                }
+                                                topZIndexTab = tab
+                                            }
+                                            .onEnded { gesture in
+                                                if newTabFocus {
+                                                    newTabFocus = false
+                                                }
+                                                else {
+                                                    handleDragEnd(gesture, for: tab.id)
+                                                }
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                                                    topZIndexTab = (.init(), "")
+                                                }
+                                            }
+                                    )
+                                    .contextMenu(menuItems: {
+                                        Button(action: {
+                                            UIPasteboard.general.string = tab.url
+                                        }, label: {
+                                            Label("Copy URL", systemImage: "link")
+                                        })
+                                        
+                                        if !mobileTabs.settings.hideBrowseForMe {
+                                            Button(action: {
+                                                if mobileTabs.browseForMeTabs.contains(tab.id.description) {
+                                                    mobileTabs.browseForMeTabs.removeAll { $0 == tab.id.description }
+                                                }
+                                                else {
+                                                    mobileTabs.browseForMeTabs.append(tab.id.description)
+                                                }
+                                            }, label: {
+                                                Label(mobileTabs.browseForMeTabs.contains(tab.id.description) ? "Disable Browse for Me": "Browse for Me", systemImage: "face.smiling")
+                                            })
                                         }
+                                    })
+                                    .onDrag {
+                                        self.mobileTabs.draggedTab = tab
+                                        return NSItemProvider(object: tab.url as NSString)
                                     }
-                                }
-                        })
-                        .zIndex(topZIndexTab == tab ? 100: 1)
-                        .gesture(
-                            DragGesture(minimumDistance: 50)
-                                .onChanged { gesture in
-                                    if newTabFocus {
-                                        newTabFocus = false
-                                    }
-                                    else {
-                                        handleDragChange(gesture, for: tab.id)
-                                    }
-                                    topZIndexTab = tab
-                                }
-                                .onEnded { gesture in
-                                    if newTabFocus {
-                                        newTabFocus = false
-                                    }
-                                    else {
-                                        handleDragEnd(gesture, for: tab.id)
-                                    }
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                                        topZIndexTab = (.init(), "")
-                                    }
-                                }
-                        )
-                        .contextMenu(menuItems: {
-                            Button(action: {
-                                UIPasteboard.general.string = tab.url
-                            }, label: {
-                                Label("Copy URL", systemImage: "link")
-                            })
-                            
-                            if !mobileTabs.settings.hideBrowseForMe {
-                                Button(action: {
-                                    if mobileTabs.browseForMeTabs.contains(tab.id.description) {
-                                        mobileTabs.browseForMeTabs.removeAll { $0 == tab.id.description }
-                                    }
-                                    else {
-                                        mobileTabs.browseForMeTabs.append(tab.id.description)
-                                    }
-                                }, label: {
-                                    Label(mobileTabs.browseForMeTabs.contains(tab.id.description) ? "Disable Browse for Me": "Browse for Me", systemImage: "face.smiling")
-                                })
+                                    .onDrop(of: [.text], delegate: AlternateDropViewDelegate(destinationItem: tab, allTabs: mobileTabs.selectedTabsSection == .tabs ? $mobileTabs.tabs: mobileTabs.selectedTabsSection == .pinned ? $mobileTabs.pinnedTabs: $mobileTabs.favoriteTabs, draggedItem: $mobileTabs.draggedTab))
+                                    .onChange(of: mobileTabs.tabs.map { $0.url }, {
+                                        saveTabs()
+                                    })
+                                    .onChange(of: mobileTabs.pinnedTabs.map { $0.url }, {
+                                        saveTabs()
+                                    })
+                                    .onChange(of: mobileTabs.favoriteTabs.map { $0.url }, {
+                                        saveTabs()
+                                    })
+                                
                             }
-                        })
-                        .onDrag {
-                            self.mobileTabs.draggedTab = tab
-                            return NSItemProvider(object: tab.url as NSString)
-                        }
-                        .onDrop(of: [.text], delegate: AlternateDropViewDelegate(destinationItem: tab, allTabs: mobileTabs.selectedTabsSection == .tabs ? $mobileTabs.tabs: mobileTabs.selectedTabsSection == .pinned ? $mobileTabs.pinnedTabs: $mobileTabs.favoriteTabs, draggedItem: $mobileTabs.draggedTab))
-                        .onChange(of: mobileTabs.tabs.map { $0.url }, {
-                            saveTabs()
-                        })
-                        .onChange(of: mobileTabs.pinnedTabs.map { $0.url }, {
-                            saveTabs()
-                        })
-                        .onChange(of: mobileTabs.favoriteTabs.map { $0.url }, {
-                            saveTabs()
-                        })
-                    
-                }
-            })
-            .padding(10)
+                    })
+                .padding(10)
+            }
             
             Spacer()
                 .frame(height: 120)
+        }.onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                delayLoading = true
+            }
         }
     }
     
