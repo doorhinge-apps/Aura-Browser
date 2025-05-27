@@ -10,7 +10,7 @@
 
 import SwiftUI
 
-struct TabTypeSwitcher: View {
+struct TabTypeSwitcherOld: View {
     @EnvironmentObject var mobileTabs: MobileTabsModel
     
     var body: some View {
@@ -109,6 +109,7 @@ struct TabTypeSwitcher: View {
             .background(
                 RoundedRectangle(cornerRadius: 50)
                     .fill(.regularMaterial)
+                    .shadow(color: Color.black.opacity(0.25), radius: 10, x: 0, y: 0)
             )
             .padding(.trailing, 5)
         }.padding(2)

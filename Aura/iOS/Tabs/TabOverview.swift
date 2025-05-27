@@ -43,7 +43,9 @@ struct TabOverview: View {
                 ScrollView {
                     TabList(selectedSpaceIndex: $selectedSpaceIndex, newTabFocus: $newTabFocus, geo: geo)
                         .namespace(namespace)
-                }.onTapGesture(perform: {
+                }
+                .defaultScrollAnchor(UnitPoint.bottom)
+                .onTapGesture(perform: {
                     mobileTabs.newTabFromTab = false
                     
                     if newTabFocus {
@@ -187,15 +189,16 @@ struct TabOverview: View {
                                 HStack(spacing: 0) {
                                     ZStack {
                                         ZStack {
-                                            Capsule()
+                                            //Capsule()
+                                            RoundedRectangle(cornerRadius: 15)
                                                 .fill(.white)
                                             
                                             if mobileTabs.newTabSearch.isEmpty {
                                                 Label("Search or enter url", systemImage: "magnifyingglass")
                                                     .foregroundColor(Color(hex: "4D4D4D"))
-                                                    .font(.system(.headline, design: .rounded, weight: .bold))
+                                                    .font(.system(.headline, design: .default, weight: .bold))
                                                     .padding(.horizontal, newTabFocus ? 10: 0)
-                                                    .animation(.default, value: newTabFocus)
+                                                    //.animation(.default, value: newTabFocus)
                                                 
                                                 if newTabFocus {
                                                     Spacer()

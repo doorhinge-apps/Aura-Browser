@@ -105,6 +105,7 @@
 		B99EBDF32DE1929700A6A08F /* URL Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBDF22DE1929700A6A08F /* URL Snapshot.swift */; };
 		B99EBDF52DE1971200A6A08F /* SnapshotRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBDF42DE1971100A6A08F /* SnapshotRefresher.swift */; };
 		B99EBE1F2DE5120900A6A08F /* FetchWebsiteTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBE1E2DE5120900A6A08F /* FetchWebsiteTitle.swift */; };
+		B99EBE212DE5145C00A6A08F /* TabTypeSwitcher2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99EBE202DE5145C00A6A08F /* TabTypeSwitcher2.swift */; };
 		B9AFB65B2C3CF25A009B89C5 /* RemoveHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */; };
 		B9AFB65F2C3CF4DA009B89C5 /* ParseHTMLforAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */; };
 		B9AFB6612C3CF4EE009B89C5 /* AIBoostGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */; };
@@ -240,6 +241,7 @@
 		B99EBDF22DE1929700A6A08F /* URL Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL Snapshot.swift"; sourceTree = "<group>"; };
 		B99EBDF42DE1971100A6A08F /* SnapshotRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotRefresher.swift; sourceTree = "<group>"; };
 		B99EBE1E2DE5120900A6A08F /* FetchWebsiteTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchWebsiteTitle.swift; sourceTree = "<group>"; };
+		B99EBE202DE5145C00A6A08F /* TabTypeSwitcher2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTypeSwitcher2.swift; sourceTree = "<group>"; };
 		B9AFB65A2C3CF25A009B89C5 /* RemoveHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveHead.swift; sourceTree = "<group>"; };
 		B9AFB65E2C3CF4DA009B89C5 /* ParseHTMLforAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHTMLforAI.swift; sourceTree = "<group>"; };
 		B9AFB6602C3CF4EE009B89C5 /* AIBoostGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIBoostGenerator.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			children = (
 				B961B7AC2C2BA38600F43EBF /* TabOverview.swift */,
 				B923BA612CD89FA90000C09C /* TabTypeSwitcher.swift */,
+				B99EBE202DE5145C00A6A08F /* TabTypeSwitcher2.swift */,
 				B90670EA2CCDD9FD00DE3B76 /* MobileTabsModel.swift */,
 				B90670E82CCDD9BC00DE3B76 /* TabList.swift */,
 			);
@@ -949,6 +952,7 @@
 				B923BA622CD89FA90000C09C /* TabTypeSwitcher.swift in Sources */,
 				B90670E62CCDD95500DE3B76 /* WebPreview.swift in Sources */,
 				B934413E2C51F88A00D6BA35 /* Reader.swift in Sources */,
+				B99EBE212DE5145C00A6A08F /* TabTypeSwitcher2.swift in Sources */,
 				B94ADB212C3EE0060054899D /* hexString.swift in Sources */,
 				B98953A82AAC1F4B00EE3B42 /* ContentView.swift in Sources */,
 				B934410A2C4C7FA300D6BA35 /* WebViewStore+JS.swift in Sources */,

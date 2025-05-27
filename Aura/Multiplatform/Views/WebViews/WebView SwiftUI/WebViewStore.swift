@@ -28,7 +28,6 @@ public class WebViewStore: NSObject, ObservableObject, WKNavigationDelegate {
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.scrollView.backgroundColor = .clear
-        webView.scrollView.bounces = false // optional: remove bounce to prevent overscroll artifacts
         self.webView = webView
         
         super.init()
