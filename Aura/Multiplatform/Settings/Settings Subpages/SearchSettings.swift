@@ -32,7 +32,14 @@ struct SearchSettings: View {
     private let rotationScale: Double = 0.5
     
     @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia", "Custom"]
-    @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?q=", "Yahoo!":"https://search.yahoo.com/search?q=", "Ecosia": "https://www.ecosia.org/search?q=", "Custom":"\(UserDefaults.standard.string(forKey: "searchEngine"))"]
+    @State var searchEngines: [String: String] = [
+        "Google": "https://www.google.com/search?q=",
+        "Bing": "https://www.bing.com/search?q=",
+        "DuckDuckGo": "https://duckduckgo.com/?q=",
+        "Yahoo!": "https://search.yahoo.com/search?q=",
+        "Ecosia": "https://www.ecosia.org/search?q=",
+        "Custom": UserDefaults.standard.string(forKey: "searchEngine") ?? "https://www.google.com/search?q="
+    ]
     
     @State var searchEngineIconColors = ["Google":"FFFFFF", "Bing":"B5E3FF", "DuckDuckGo":"DE5833", "Yahoo!":"8A3CEF", "Ecosia": "9AD39E"]
     
@@ -102,10 +109,12 @@ struct SearchSettings: View {
                             .padding(.leading, 20)
                             .foregroundStyle(Color.white)
                             .onAppear() {
-                                customSearchEngine = settings.searchEngine ?? "https://www.google.com/search?q="
+                                customSearchEngine = settings.searchEngine
+                                searchEngines["Custom"] = settings.searchEngine
                             }
                             .onChange(of: customSearchEngine) { oldValue, newValue in
                                 settings.searchEngine = newValue
+                                searchEngines["Custom"] = newValue
                             }
                         
                         HStack {
