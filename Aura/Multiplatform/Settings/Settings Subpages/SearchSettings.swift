@@ -23,14 +23,16 @@ struct SearchSettings: View {
     @State private var gradientEndPoint: UnitPoint = .topTrailing
     @State private var halfOverlayOpacity: Double = 0.0
     
+    @State var customSearchEngine = ""
+    
 #if !os(macOS)
     @StateObject var motionManager = MotionManager()
     #endif
     private let maxDegrees: Double = 30
     private let rotationScale: Double = 0.5
     
-    @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
-    @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?q=", "Yahoo!":"https://search.yahoo.com/search?q=", "Ecosia": "https://www.ecosia.org/search?q="]
+    @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia", "Custom"]
+    @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?q=", "Yahoo!":"https://search.yahoo.com/search?q=", "Ecosia": "https://www.ecosia.org/search?q=", "Custom":"\(UserDefaults.standard.string(forKey: "searchEngine"))"]
     
     @State var searchEngineIconColors = ["Google":"FFFFFF", "Bing":"B5E3FF", "DuckDuckGo":"DE5833", "Yahoo!":"8A3CEF", "Ecosia": "9AD39E"]
     
@@ -85,6 +87,35 @@ struct SearchSettings: View {
                             pickerSearchEngine = searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped
                         }
                         .padding([.leading, .trailing, .bottom])
+                    
+                    if pickerSearchEngine == "Custom" {
+                        HStack {
+                            Text("Custom User Agent")
+                                .font(.system(.title3, design: .rounded, weight: .bold))
+                                .foregroundStyle(Color.white)
+                            
+                            Spacer()
+                        }.padding(20)
+                        
+                        TextField("Search Engine", text: $customSearchEngine)
+                            .textFieldStyle(.plain)
+                            .padding(.leading, 20)
+                            .foregroundStyle(Color.white)
+                            .onAppear() {
+                                customSearchEngine = settings.searchEngine ?? "https://www.google.com/search?q="
+                            }
+                            .onChange(of: customSearchEngine) { oldValue, newValue in
+                                settings.searchEngine = newValue
+                            }
+                        
+                        HStack {
+                            Text("Aura supports most search engines. Put the search endpoint in the text field. For it to work, the search query must have words separated by a '+' sign.")
+                                .foregroundStyle(Color.white)
+                                .padding(.leading, 20)
+                            
+                            Spacer()
+                        }
+                    }
                     
                     
                     Divider()

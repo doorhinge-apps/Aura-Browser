@@ -14,6 +14,8 @@ import LinkPresentation
 class WebsiteManager: ObservableObject {
     @Published var webViewStores: [String: WebViewStore] = [:]
     
+    @Published var tabFrames: [Int: CGRect] = [:]
+    
     @Published var selectedWebView: WebViewStore?
     
     func addWebViewStore(id: String, webViewStore: WebViewStore) {

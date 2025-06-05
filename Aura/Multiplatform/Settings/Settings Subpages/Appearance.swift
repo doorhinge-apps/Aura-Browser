@@ -364,6 +364,28 @@ struct UISettings: View {
                     Divider()
                     
                     HStack {
+                        Text("Tab Preview on Hover")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+                        
+                        Spacer()
+                        
+                        CustomToggleSlider(toggle: $settings.previewOnHover, startHex: startHex, endHex: endHex)
+                            .scaleEffect(0.75)
+                    }.padding(20)
+                    
+                    
+                    HStack {
+                        Text("Show a preview of the tab contents when hovering over it.")
+                            .foregroundStyle(Color.white)
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
                         Text("Launch Animation")
                             .font(.system(.title3, design: .rounded, weight: .bold))
                             .foregroundStyle(Color.white)
