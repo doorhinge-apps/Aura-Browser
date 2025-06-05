@@ -29,10 +29,10 @@ struct SearchSettings: View {
     private let maxDegrees: Double = 30
     private let rotationScale: Double = 0.5
     
-    @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia"]
+    @State var searchEngineOptions = ["Google", "Bing", "DuckDuckGo", "Yahoo!", "Ecosia", "Custom"]
     @State var searchEngines = ["Google":"https://www.google.com/search?q=", "Bing":"https://www.bing.com/search?q=", "DuckDuckGo":"https://duckduckgo.com/?q=", "Yahoo!":"https://search.yahoo.com/search?q=", "Ecosia": "https://www.ecosia.org/search?q="]
-    
-    @State var searchEngineIconColors = ["Google":"FFFFFF", "Bing":"B5E3FF", "DuckDuckGo":"DE5833", "Yahoo!":"8A3CEF", "Ecosia": "9AD39E"]
+
+    @State var searchEngineIconColors = ["Google":"FFFFFF", "Bing":"B5E3FF", "DuckDuckGo":"DE5833", "Yahoo!":"8A3CEF", "Ecosia": "9AD39E", "Custom":"FFFFFF"]
     
     @State var pickerSearchEngine = ""
     var body: some View {
@@ -49,9 +49,9 @@ struct SearchSettings: View {
             ScrollView {
                 VStack {
                         ZStack {
-                            Color(hex: searchEngineIconColors[searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped] ?? "ffffff")
-                            
-                            Image("\(searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped) Icon")
+                            Color(hex: searchEngineIconColors[searchEngines.someKey(forValue: settings.searchEngine) ?? "Custom"] ?? "ffffff")
+
+                            Image("\(searchEngines.someKey(forValue: settings.searchEngine) ?? "Custom") Icon")
                                 .resizable()
                                 .scaledToFit()
                             
@@ -78,15 +78,33 @@ struct SearchSettings: View {
                     }.pickerStyle(.segmented)
                         .onChange(of: pickerSearchEngine, {
                             withAnimation {
-                                settings.searchEngine = searchEngines[pickerSearchEngine] ?? settings.searchEngine
+                                if let engine = searchEngines[pickerSearchEngine] {
+                                    settings.searchEngine = engine
+                                }
                             }
                         })
                         .onAppear() {
-                            pickerSearchEngine = searchEngines.someKey(forValue: settings.searchEngine).unsafelyUnwrapped
+                            if let key = searchEngines.someKey(forValue: settings.searchEngine) {
+                                pickerSearchEngine = key
+                            } else {
+                                pickerSearchEngine = "Custom"
+                            }
                         }
                         .padding([.leading, .trailing, .bottom])
-                    
-                    
+
+                    HStack {
+                        Text("Custom Search Engine")
+                            .font(.system(.title3, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.white)
+
+                        Spacer()
+                    }.padding(20)
+
+                    TextField("Search Engine URL", text: $settings.searchEngine)
+                        .textFieldStyle(.plain)
+                        .padding(.leading, 20)
+                        .foregroundStyle(Color.white)
+
                     Divider()
                     
                     
