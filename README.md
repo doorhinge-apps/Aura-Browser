@@ -5,8 +5,6 @@ Join the Aura browser subreddit for feedback, support, and other discussions abo
 
 Download on TestFlight: [testflight.apple.com/join/d6qMDVDH](https://testflight.apple.com/join/d6qMDVDH)
 
-[Buy me a Coffee](https://buymeacoffee.com/reynam)
-
 ### Aura on iPadOS
 ![IMG_268F6D6EE18B-1](https://github.com/user-attachments/assets/c2b137d1-e9e5-4f80-841c-5d794142f61c)
 
