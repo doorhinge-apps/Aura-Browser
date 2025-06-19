@@ -1,3 +1,8 @@
+# Hello there!
+Aura is currently being rewritten to have performance improvements and be able to support even more features in the future. This is the old repository for the browser and will recieve minor updates from now on. This version works iOS 17, 18, and 26 as of the most recent testing. The updated version is available at the link below and will require iOS 26 to use.
+
+[https://github.com/doorhinge-apps/Aura2.0](https://github.com/doorhinge-apps/Aura2.0)
+
 # About Aura Browser
 Aura browser is essentially a version of [Arc](https://arc.net) made for iPad. It is built with SwiftUI and used WebKit for displaying webpages.
 
